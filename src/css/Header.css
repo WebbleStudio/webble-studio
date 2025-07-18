@@ -1,0 +1,15 @@
+.logo-compact {
+  display: block;
+}
+.logo-extended {
+  display: none;
+}
+
+@media (min-width: 550px) {
+  .logo-compact {
+    display: none;
+  }
+  .logo-extended {
+    display: block;
+  }
+}
