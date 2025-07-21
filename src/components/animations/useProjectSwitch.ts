@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { useState, useCallback } from 'react';
 import { projectAnimationVariants } from './projectAnimations';
@@ -40,15 +40,15 @@ export const useProjectSwitch = (projects: ProjectData[]) => {
     currentProject,
     currentIndex,
     totalProjects: projects.length,
-    
+
     // State
     isTransitioning,
-    
+
     // Actions
     goToNext,
     goToPrevious,
-    
+
     // Animation variants (imported from separate file)
-    animations: projectAnimationVariants
+    animations: projectAnimationVariants,
   };
-}; 
+};

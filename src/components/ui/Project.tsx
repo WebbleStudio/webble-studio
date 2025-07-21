@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -21,7 +21,7 @@ const Project: React.FC<ProjectProps> = ({
   labels,
   currentProjectId,
   onLeftArrowClick,
-  onRightArrowClick
+  onRightArrowClick,
 }) => {
   const animations = projectAnimationVariants;
 
@@ -36,10 +36,10 @@ const Project: React.FC<ProjectProps> = ({
           {...animations.background}
         />
       </AnimatePresence>
-      
+
       {/* Content */}
       <AnimatePresence mode="wait">
-        <motion.div 
+        <motion.div
           key={currentProjectId}
           className="text-center flex flex-col relative z-10"
           variants={animations.container}
@@ -48,26 +48,23 @@ const Project: React.FC<ProjectProps> = ({
           exit="exit"
         >
           <div className="w-[275px] flex items-center justify-between mb-12">
-            <motion.img 
-              src="/icons/arrow-left.svg" 
-              alt="Arrow left" 
-              className="w-8 h-8 cursor-pointer" 
+            <motion.img
+              src="/icons/arrow-left.svg"
+              alt="Arrow left"
+              className="w-8 h-8 cursor-pointer"
               onClick={onLeftArrowClick}
               variants={animations.arrow}
               initial="initial"
               whileHover="hover"
               whileTap="tap"
             />
-            <motion.h1 
-              className="text-[32px] font-figtree font-medium"
-              variants={animations.title}
-            >
+            <motion.h1 className="text-[32px] font-figtree font-medium" variants={animations.title}>
               {title}
             </motion.h1>
-            <motion.img 
-              src="/icons/arrow-right.svg" 
-              alt="Arrow right" 
-              className="w-8 h-8 cursor-pointer" 
+            <motion.img
+              src="/icons/arrow-right.svg"
+              alt="Arrow right"
+              className="w-8 h-8 cursor-pointer"
               onClick={onRightArrowClick}
               variants={animations.arrow}
               initial="initial"
@@ -75,21 +72,18 @@ const Project: React.FC<ProjectProps> = ({
               whileTap="tap"
             />
           </div>
-          
-          <motion.div 
-            className="w-[275px] h-[175px] bg-main rounded-[17px] bg-cover bg-center bg-no-repeat mb-14" 
+
+          <motion.div
+            className="w-[275px] h-[175px] bg-main rounded-[17px] bg-cover bg-center bg-no-repeat mb-14"
             style={{ backgroundImage: `url(${image})` }}
             variants={animations.image}
           />
-          
-          <motion.div 
-            className="flex gap-2 justify-center"
-            variants={animations.labels}
-          >
+
+          <motion.div className="flex gap-2 justify-center" variants={animations.labels}>
             {labels.map((label, index) => (
-              <motion.span 
+              <motion.span
                 key={`${label}-${index}`}
-                className="px-[17px] py-[11px] bg-transparent text-main border-[1px] border-main rounded-full text-sm font-medium whitespace-nowrap" 
+                className="px-[17px] py-[11px] bg-transparent text-main border-[1px] border-main rounded-full text-sm font-medium whitespace-nowrap"
                 style={{ borderColor: 'rgba(255, 255, 255, 0.3)' }}
                 variants={animations.label}
               >
@@ -103,4 +97,4 @@ const Project: React.FC<ProjectProps> = ({
   );
 };
 
-export default Project; 
+export default Project;

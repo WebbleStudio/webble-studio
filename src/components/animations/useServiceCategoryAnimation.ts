@@ -15,7 +15,7 @@ export function useServiceCategoryAnimation() {
         const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
         const isAtStart = scrollLeft <= 0;
         const isAtEnd = scrollLeft >= scrollWidth - clientWidth - 1;
-        
+
         setShowLeftFade(!isAtStart);
         setShowRightFade(!isAtEnd);
       }
@@ -26,7 +26,7 @@ export function useServiceCategoryAnimation() {
         const { scrollLeft, scrollWidth, clientWidth } = rectanglesContainerRef.current;
         const isAtStart = scrollLeft <= 0;
         const isAtEnd = scrollLeft >= scrollWidth - clientWidth - 1;
-        
+
         setShowLeftFadeRectangles(!isAtStart);
         setShowRightFadeRectangles(!isAtEnd);
       }
@@ -36,12 +36,12 @@ export function useServiceCategoryAnimation() {
     const timer = setTimeout(() => {
       const scrollContainer = scrollContainerRef.current;
       const rectanglesContainer = rectanglesContainerRef.current;
-      
+
       if (scrollContainer && isExpanded) {
         scrollContainer.addEventListener('scroll', handleScroll);
         handleScroll(); // Check initial state
       }
-      
+
       if (rectanglesContainer && isExpanded) {
         rectanglesContainer.addEventListener('scroll', handleRectanglesScroll);
         handleRectanglesScroll(); // Check initial state
@@ -52,7 +52,7 @@ export function useServiceCategoryAnimation() {
       clearTimeout(timer);
       const scrollContainer = scrollContainerRef.current;
       const rectanglesContainer = rectanglesContainerRef.current;
-      
+
       if (scrollContainer) {
         scrollContainer.removeEventListener('scroll', handleScroll);
       }
@@ -68,82 +68,82 @@ export function useServiceCategoryAnimation() {
 
   // Animation properties for different elements
   const titleAnimationProps = {
-    animate: { 
+    animate: {
       opacity: isExpanded ? 1 : 0.3,
-      scale: isExpanded ? 1.02 : 1
+      scale: isExpanded ? 1.02 : 1,
     },
-    whileHover: { 
+    whileHover: {
       scale: isExpanded ? 1.02 : 1.03,
       opacity: isExpanded ? 1 : 0.6,
-      transition: { duration: 0.2, ease: "easeOut" as const }
+      transition: { duration: 0.2, ease: 'easeOut' as const },
     },
-    whileTap: { 
+    whileTap: {
       scale: 0.97,
-      transition: { duration: 0.1, ease: "easeInOut" as const }
+      transition: { duration: 0.1, ease: 'easeInOut' as const },
     },
-    transition: { 
-      duration: 0.3, 
-      ease: [0.25, 0.46, 0.45, 0.94] as const
-    }
+    transition: {
+      duration: 0.3,
+      ease: [0.25, 0.46, 0.45, 0.94] as const,
+    },
   };
 
   const containerAnimationProps = {
-    animate: { 
-      height: isExpanded ? "auto" : "1px", 
+    animate: {
+      height: isExpanded ? 'auto' : '1px',
       opacity: isExpanded ? 1 : 0,
       y: isExpanded ? 0 : -10,
-      marginTop: isExpanded ? "32px" : "0px"
+      marginTop: isExpanded ? '32px' : '0px',
     },
-    transition: { 
-      duration: 0.4, 
+    transition: {
+      duration: 0.4,
       ease: [0.25, 0.46, 0.45, 0.94] as const,
-      opacity: { duration: 0.3 }
+      opacity: { duration: 0.3 },
     },
-    style: { overflow: "hidden" }
+    style: { overflow: 'hidden' },
   };
 
   const labelsAnimationProps = {
-    animate: { 
-      y: isExpanded ? 0 : -15, 
-      opacity: isExpanded ? 1 : 0, 
-      filter: isExpanded ? "blur(0px)" : "blur(8px)"
+    animate: {
+      y: isExpanded ? 0 : -15,
+      opacity: isExpanded ? 1 : 0,
+      filter: isExpanded ? 'blur(0px)' : 'blur(8px)',
     },
-    transition: { 
-      delay: isExpanded ? 0.1 : 0, 
+    transition: {
+      delay: isExpanded ? 0.1 : 0,
       duration: 0.4,
-      ease: [0.25, 0.46, 0.45, 0.94] as const
-    }
+      ease: [0.25, 0.46, 0.45, 0.94] as const,
+    },
   };
 
   const paragraphAnimationProps = {
-    animate: { 
-      y: isExpanded ? 0 : -15, 
-      opacity: isExpanded ? 0.6 : 0, 
-      filter: isExpanded ? "blur(0px)" : "blur(8px)"
+    animate: {
+      y: isExpanded ? 0 : -15,
+      opacity: isExpanded ? 0.6 : 0,
+      filter: isExpanded ? 'blur(0px)' : 'blur(8px)',
     },
-    transition: { 
-      delay: isExpanded ? 0.2 : 0.1, 
+    transition: {
+      delay: isExpanded ? 0.2 : 0.1,
       duration: 0.4,
-      ease: [0.25, 0.46, 0.45, 0.94] as const
-    }
+      ease: [0.25, 0.46, 0.45, 0.94] as const,
+    },
   };
 
   const rectanglesAnimationProps = {
-    animate: { 
-      y: isExpanded ? 0 : -15, 
-      opacity: isExpanded ? 1 : 0, 
-      filter: isExpanded ? "blur(0px)" : "blur(8px)"
+    animate: {
+      y: isExpanded ? 0 : -15,
+      opacity: isExpanded ? 1 : 0,
+      filter: isExpanded ? 'blur(0px)' : 'blur(8px)',
     },
-    transition: { 
-      delay: isExpanded ? 0.3 : 0.05, 
+    transition: {
+      delay: isExpanded ? 0.3 : 0.05,
       duration: 0.4,
-      ease: [0.25, 0.46, 0.45, 0.94] as const
-    }
+      ease: [0.25, 0.46, 0.45, 0.94] as const,
+    },
   };
 
   const scrollStyles = {
     scrollbarWidth: 'none' as const,
-    msOverflowStyle: 'none' as const
+    msOverflowStyle: 'none' as const,
   };
 
   return {
@@ -153,22 +153,22 @@ export function useServiceCategoryAnimation() {
     showRightFade,
     showLeftFadeRectangles,
     showRightFadeRectangles,
-    
+
     // Refs
     scrollContainerRef,
     rectanglesContainerRef,
-    
+
     // Functions
     toggleExpansion,
-    
+
     // Animation props
     titleAnimationProps,
     containerAnimationProps,
     labelsAnimationProps,
     paragraphAnimationProps,
     rectanglesAnimationProps,
-    
+
     // Styles
-    scrollStyles
+    scrollStyles,
   };
-} 
+}

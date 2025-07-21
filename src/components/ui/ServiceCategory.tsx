@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 import { motion } from 'framer-motion';
@@ -12,12 +12,12 @@ interface ServiceCategoryProps {
   className?: string;
 }
 
-export default function ServiceCategory({ 
-  number, 
-  title, 
-  labels, 
-  paragraph, 
-  className = '' 
+export default function ServiceCategory({
+  number,
+  title,
+  labels,
+  paragraph,
+  className = '',
 }: ServiceCategoryProps) {
   const {
     isExpanded,
@@ -33,7 +33,7 @@ export default function ServiceCategory({
     labelsAnimationProps,
     paragraphAnimationProps,
     rectanglesAnimationProps,
-    scrollStyles
+    scrollStyles,
   } = useServiceCategoryAnimation();
 
   return (
@@ -41,13 +41,15 @@ export default function ServiceCategory({
       {/* Header section - always visible */}
       <div className="w-full flex flex-col gap-4">
         <div className="w-full h-[1px] bg-second"></div>
-        <h4 className="text-[100%] text-second font-poppins font-medium md:mb-[25px] xl:text-[19px]">{number}</h4>
+        <h4 className="text-[100%] text-second font-poppins font-medium md:mb-[25px] xl:text-[19px]">
+          {number}
+        </h4>
       </div>
 
       {/* Content wrapper */}
       <div className="w-full flex flex-col md:mb-[15px]">
         {/* Clickable h2 */}
-        <motion.h2 
+        <motion.h2
           className="text-second text-[53px] sm:text-[63px] md:text-[68px] xl:text-[78px] 2xl:text-[93px] cursor-pointer w-full leading-tight"
           style={{ transformOrigin: 'left' }}
           onClick={toggleExpansion}
@@ -57,7 +59,7 @@ export default function ServiceCategory({
         </motion.h2>
 
         {/* Expandable content - always in DOM */}
-        <motion.div 
+        <motion.div
           className="w-full flex flex-col gap-4 md:gap-6 mb-[45px]"
           {...containerAnimationProps}
         >
@@ -66,13 +68,10 @@ export default function ServiceCategory({
             {/* Left column - labels and paragraph */}
             <div className="flex flex-col gap-4 md:gap-6">
               {/* Labels container */}
-              <motion.div 
-                className="w-full relative"
-                {...labelsAnimationProps}
-              >
+              <motion.div className="w-full relative" {...labelsAnimationProps}>
                 {/* Extract scroll container from labels content */}
-                <div 
-                  ref={scrollContainerRef} 
+                <div
+                  ref={scrollContainerRef}
                   className="w-full overflow-x-auto"
                   style={scrollStyles}
                 >
@@ -83,7 +82,7 @@ export default function ServiceCategory({
                   `}</style>
                   <div className="flex gap-2 min-w-auto">
                     {labels.map((label, index) => (
-                      <span 
+                      <span
                         key={index}
                         className="px-[17px] py-[11px] bg-transparent text-black border border-black rounded-full text-sm xl:text-base font-medium whitespace-nowrap"
                       >
@@ -99,9 +98,9 @@ export default function ServiceCategory({
                   <div className="absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-[#fafafa] to-transparent pointer-events-none transition-opacity duration-200"></div>
                 )}
               </motion.div>
-              
+
               {/* Paragraph */}
-              <motion.p 
+              <motion.p
                 className="text-second text-[14px] sm:text-[16px] xl:text-[18px] sm:w-[430px] opacity-60"
                 {...paragraphAnimationProps}
                 dangerouslySetInnerHTML={{ __html: paragraph }}
@@ -109,13 +108,13 @@ export default function ServiceCategory({
             </div>
 
             {/* Right column - rectangles */}
-            <motion.div 
+            <motion.div
               className="w-full md:w-auto relative overflow-x-auto mt-6 md:mt-0"
               {...rectanglesAnimationProps}
             >
               {/* Extract scroll container from rectangles content */}
-              <div 
-                ref={rectanglesContainerRef} 
+              <div
+                ref={rectanglesContainerRef}
                 className="w-full overflow-x-auto"
                 style={scrollStyles}
               >
@@ -142,4 +141,4 @@ export default function ServiceCategory({
       </div>
     </div>
   );
-} 
+}

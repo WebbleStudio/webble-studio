@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 import Project from '../../ui/Project';
@@ -10,23 +10,19 @@ const projectsData: ProjectData[] = [
     title: 'Mavimatt',
     image: '/img/Mavimatt.webp',
     backgroundImage: '/img/MavimattBackground.webp',
-    labels: ['Project Management', 'Branding']
+    labels: ['Project Management', 'Branding'],
   },
   {
     id: 'legacy',
     title: 'L.O.G.',
     image: '/img/Legacy.webp',
     backgroundImage: '/img/LegacyBackground.webp',
-    labels: ['Project Management', 'Branding']
-  }
+    labels: ['Project Management', 'Branding'],
+  },
 ];
 
 export default function Projects() {
-  const { 
-    currentProject, 
-    goToNext, 
-    goToPrevious
-  } = useProjectSwitch(projectsData);
+  const { currentProject, goToNext, goToPrevious } = useProjectSwitch(projectsData);
 
   return (
     <section className="h-[800px] w-full flex items-center justify-center">
@@ -41,4 +37,4 @@ export default function Projects() {
       />
     </section>
   );
-} 
+}

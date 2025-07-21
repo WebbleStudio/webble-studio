@@ -26,7 +26,7 @@ export default function Hero() {
         <div className="block md:hidden w-full h-full min-h-[750px] pointer-events-none touch-none">
           {React.createElement('spline-viewer', {
             url: 'https://prod.spline.design/VpGusEHksTg0dW5e/scene.splinecode',
-            style: { width: '100%', height: '100%', minHeight: '750px' }
+            style: { width: '100%', height: '100%', minHeight: '750px' },
           })}
         </div>
         {/* MD+: nuovo viewer */}
@@ -34,7 +34,7 @@ export default function Hero() {
           <div className="w-full h-[80%] lg:h-[90%]">
             {React.createElement('spline-viewer', {
               url: 'https://prod.spline.design/cb0H3zl1WQgxYSZP/scene.splinecode',
-              style: { width: '100%', height: '100%', minHeight: '600px' }
+              style: { width: '100%', height: '100%', minHeight: '600px' },
             })}
           </div>
           {/* Overlay gradiente basso */}
@@ -69,9 +69,15 @@ export default function Hero() {
             </span>
           </p>
           <div className="flex flex-row gap-2 mt-2">
-            <Label className="xl:px-[32px] xl:py-3 xl:text-[18px] 2xl:px-[40px] 2xl:py-4 2xl:text-[22px]">Creatività</Label>
-            <Label className="xl:px-[32px] xl:py-3 xl:text-[18px] 2xl:px-[40px] 2xl:py-4 2xl:text-[22px]">Design</Label>
-            <Label className="xl:px-[32px] xl:py-3 xl:text-[18px] 2xl:px-[40px] 2xl:py-4 2xl:text-[22px]">Strategia</Label>
+            <Label className="xl:px-[32px] xl:py-3 xl:text-[18px] 2xl:px-[40px] 2xl:py-4 2xl:text-[22px]">
+              Creatività
+            </Label>
+            <Label className="xl:px-[32px] xl:py-3 xl:text-[18px] 2xl:px-[40px] 2xl:py-4 2xl:text-[22px]">
+              Design
+            </Label>
+            <Label className="xl:px-[32px] xl:py-3 xl:text-[18px] 2xl:px-[40px] 2xl:py-4 2xl:text-[22px]">
+              Strategia
+            </Label>
           </div>
         </div>
       </div>

@@ -26,6 +26,6 @@ export function useHeaderAnimation() {
 
   return {
     isScrolled,
-    desktopWrapperClassName
+    desktopWrapperClassName,
   };
-} 
+}

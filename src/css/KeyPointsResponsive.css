@@ -16,11 +16,11 @@
   .evolvi-image {
     background-size: 350px;
   }
-  
+
   .webble-image {
     background-size: 220px;
   }
-  
+
   .figma-image {
     background-size: 120px;
   }
@@ -33,38 +33,38 @@
 }
 
 .icon-servizi-desktop {
+  display: none;
+}
+
+@media (min-width: 547px) {
+  .icon-servizi {
     display: none;
   }
-  
-  @media (min-width: 547px) {
-    .icon-servizi {
-      display: none;
-    }
-    
-    .icon-servizi-desktop {
-      display: block;
-    }
+
+  .icon-servizi-desktop {
+    display: block;
+  }
+}
+
+@media (min-width: 768px) {
+  .icon-servizi {
+    display: block;
+    position: absolute;
+    top: 20px;
+    right: 20px;
   }
 
-  @media (min-width: 768px) {
-    .icon-servizi {
-      display: block;
-      position: absolute;
-      top: 20px;
-      right: 20px;
-    }
-    
-    .icon-servizi-desktop {
-      display: none;
-    }
+  .icon-servizi-desktop {
+    display: none;
+  }
+}
+
+@media (min-width: 1086px) {
+  .icon-servizi {
+    display: none;
   }
 
-  @media (min-width: 1086px) {
-    .icon-servizi {
-      display: none;
-    }
-    
-    .icon-servizi-desktop {
-      display: block;
-    }
-  } 
+  .icon-servizi-desktop {
+    display: block;
+  }
+}
