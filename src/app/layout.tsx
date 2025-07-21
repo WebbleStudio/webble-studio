@@ -4,6 +4,7 @@ import '@fontsource/figtree';
 import '@fontsource/figtree/500.css';
 import '@fontsource/figtree/600.css';
 import '@fontsource/poppins/400.css';
+import '@fontsource/poppins/500.css';
 import Header from '@/components/layout/Header';
 
 export const metadata: Metadata = {

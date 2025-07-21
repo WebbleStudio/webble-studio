@@ -12,6 +12,7 @@
   "dependencies": {
     "@fontsource/figtree": "^5.2.8",
     "@fontsource/poppins": "^5.2.6",
+    "framer-motion": "^12.23.6",
     "next": "15.4.1",
     "react": "19.1.0",
     "react-dom": "19.1.0"

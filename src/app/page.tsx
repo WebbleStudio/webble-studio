@@ -1,6 +1,9 @@
 import Container from '@/components/layout/Container';
 import Hero from '@/components/sections/Home/Hero';
 import Payoff from '@/components/sections/Home/Payoff';
+import KeyPoints from '@/components/sections/Home/KeyPoints';
+import Services from '@/components/sections/Home/Services';
+import Projects from '@/components/sections/Home/Projects';
 
 export default function Home() {
   return (
@@ -8,8 +11,10 @@ export default function Home() {
       <Hero />
       <Payoff />
       <Container>
-        <></>
+        <KeyPoints />
+        <Services />
       </Container>
+      <Projects />
     </main>
   );
 }
