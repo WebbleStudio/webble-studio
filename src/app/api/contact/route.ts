@@ -3,44 +3,27 @@ import { supabase } from '@/app/lib/supabaseClient';
 import { Resend } from 'resend';
 import ContactEmail from '@/components/email/ContactEmail';
 
-export const runtime = 'edge';
-export const maxDuration = 25; // Massima durata in secondi
-
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(request: NextRequest) {
   try {
-    // Log delle variabili d'ambiente (senza esporre i valori)
-    console.log('Env check:', {
-      hasSupabaseUrl: !!process.env.NEXT_PUBLIC_SUPABASE_URL,
-      hasSupabaseKey: !!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-      hasResendKey: !!process.env.RESEND_API_KEY,
-    });
-
     const body = await request.json();
-    console.log('Request body received:', { ...body, message: 'REDACTED' });
-    
     const { name, email, phone, message, privacyConsent, marketingConsent } = body;
 
-    // Validazione base
     if (!name || !email || !message || !privacyConsent) {
-      console.log('Validation failed:', { name: !!name, email: !!email, message: !!message, privacyConsent });
       return NextResponse.json(
         { error: 'Nome, email, messaggio e consenso privacy sono obbligatori' },
         { status: 400 }
       );
     }
 
-    // Validazione email
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      console.log('Invalid email format:', email);
-      return NextResponse.json({ error: 'Formato email non valido' }, { status: 400 });
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return NextResponse.json(
+        { error: 'Formato email non valido' },
+        { status: 400 }
+      );
     }
 
-    console.log('Attempting Supabase insert...');
-    
-    // Preparo i dati per l'inserimento
     const contactData = {
       name: name.trim(),
       email: email.trim().toLowerCase(),
@@ -50,53 +33,37 @@ export async function POST(request: NextRequest) {
       marketing_consent: !!marketingConsent,
     };
 
-    console.log('Contact data prepared:', { ...contactData, message: 'REDACTED' });
-
-    // Inserimento dati su Supabase
     try {
       const { data, error } = await supabase
         .from('contacts')
         .insert([contactData])
-        .select('id, email')
+        .select('id')
         .single();
 
       if (error) {
-        console.error('Errore Supabase dettagliato:', {
-          code: error.code,
-          message: error.message,
-          details: error.details,
-          hint: error.hint
-        });
         return NextResponse.json({ 
-          error: 'Errore nel salvataggio dei dati',
-          details: error.message 
+          error: 'Errore nel salvataggio dei dati' 
         }, { status: 500 });
       }
 
-      console.log('Supabase insert successful:', { id: data?.id });
-
-      // Invia email in modo asincrono
-      console.log('Starting async email send...');
-      resend.emails.send({
-        from: 'Webble Studio <onboarding@resend.dev>',
-        to: ['webblestudio.com@gmail.com'], // Email verificata per test
-        subject: `Grazie ${name}! Il tuo progetto ci interessa`,
-        react: ContactEmail({
-          name,
-          email,
-          phone: phone || 'Non fornito',
-          message,
-        }),
-      }).then(() => {
-        console.log('Async email sent successfully');
-      }).catch((emailError: any) => {
-        console.error('Async email error:', {
-          name: emailError?.name,
-          message: emailError?.message,
+      // Invio email di conferma
+      try {
+        await resend.emails.send({
+          from: 'Webble Studio <onboarding@resend.dev>',
+          to: ['webblestudio.com@gmail.com'],
+          subject: `Grazie ${name}! Il tuo progetto ci interessa`,
+          react: ContactEmail({
+            name,
+            email,
+            phone: phone || 'Non fornito',
+            message,
+          }),
         });
-      });
+      } catch (emailError) {
+        console.error('Email send error:', emailError);
+        // Non blocchiamo il processo se l'email fallisce
+      }
 
-      // Rispondi immediatamente dopo il salvataggio dei dati
       return NextResponse.json(
         {
           success: true,
@@ -105,27 +72,14 @@ export async function POST(request: NextRequest) {
         { status: 201 }
       );
 
-    } catch (dbError: any) {
-      console.error('Database error:', {
-        name: dbError?.name,
-        message: dbError?.message,
-        code: dbError?.code,
-        details: dbError?.details
-      });
+    } catch (dbError) {
       return NextResponse.json({ 
-        error: 'Errore nel database',
-        details: dbError?.message 
+        error: 'Errore nel database'
       }, { status: 500 });
     }
-  } catch (error: any) {
-    console.error('Errore API dettagliato:', {
-      name: error?.name,
-      message: error?.message,
-      stack: error?.stack,
-    });
+  } catch (generalError) {
     return NextResponse.json({ 
-      error: 'Errore interno del server',
-      details: error?.message 
+      error: 'Errore interno del server'
     }, { status: 500 });
   }
 }
