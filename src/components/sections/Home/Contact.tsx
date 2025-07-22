@@ -1,7 +1,6 @@
-'use client';
+"use client";
 
-import React, { useState, useRef } from 'react';
-import ReCAPTCHA from 'react-google-recaptcha';
+import React, { useState } from 'react';
 
 interface FormData {
   name: string;
@@ -27,33 +26,32 @@ export default function Contact() {
     phone: '',
     message: '',
     privacyConsent: false,
-    marketingConsent: false,
+    marketingConsent: false
   });
 
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'success' | 'error' | null>(null);
-  const recaptchaRef = useRef<ReCAPTCHA>(null);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value, type } = e.target;
     let newValue = type === 'checkbox' ? (e.target as HTMLInputElement).checked : value;
-
+    
     // Filtra il campo telefono per consentire solo numeri, spazi, +, -, (, )
     if (name === 'phone' && typeof newValue === 'string') {
       newValue = newValue.replace(/[^0-9\s\+\-\(\)]/g, '');
     }
-
-    setFormData((prev) => ({
+    
+    setFormData(prev => ({
       ...prev,
-      [name]: newValue,
+      [name]: newValue
     }));
 
     // Rimuovi l'errore quando l'utente inizia a digitare
     if (errors[name as keyof FormErrors]) {
-      setErrors((prev) => ({
+      setErrors(prev => ({
         ...prev,
-        [name]: undefined,
+        [name]: undefined
       }));
     }
 
@@ -71,9 +69,9 @@ export default function Contact() {
     }
 
     if (!formData.email.trim()) {
-      newErrors.email = "L'email è obbligatoria";
+      newErrors.email = 'L\'email è obbligatoria';
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = "Inserisci un'email valida";
+      newErrors.email = 'Inserisci un\'email valida';
     }
 
     if (!formData.phone.trim()) {
@@ -94,48 +92,18 @@ export default function Contact() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
+    
     if (validateForm()) {
       setIsSubmitting(true);
       setSubmitStatus(null);
-
+      
       try {
-        // Esegui reCAPTCHA
-        console.log('🔄 CAPTCHA: Esecuzione...');
-        let recaptchaToken = null;
-        
-        if (recaptchaRef.current) {
-          try {
-            recaptchaToken = await recaptchaRef.current.executeAsync();
-          } catch (recaptchaError) {
-            console.error('❌ CAPTCHA: Errore durante l\'esecuzione:', recaptchaError);
-          }
-        }
-
-        if (!recaptchaToken) {
-          console.log('❌ CAPTCHA: Token non ottenuto - probabilmente in ambiente di sviluppo');
-          // In sviluppo, continuiamo senza reCAPTCHA
-          if (process.env.NODE_ENV === 'development') {
-            recaptchaToken = 'development-token';
-            console.log('🛠️ CAPTCHA: Usando token di sviluppo');
-          } else {
-            setSubmitStatus('error');
-            setIsSubmitting(false);
-            return;
-          }
-        }
-
-        console.log('✅ CAPTCHA: Token ottenuto, invio dati...');
-
         const response = await fetch('/api/contact', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({
-            ...formData,
-            recaptchaToken,
-          }),
+          body: JSON.stringify(formData),
         });
 
         const result = await response.json();
@@ -159,8 +127,6 @@ export default function Contact() {
         setSubmitStatus('error');
       } finally {
         setIsSubmitting(false);
-        // Reset reCAPTCHA
-        recaptchaRef.current?.reset();
       }
     }
   };
@@ -171,27 +137,24 @@ export default function Contact() {
         <h2 className="text-[50px] md:text-[50px] lg:text-[60px] font-figtree font-regular text-second mb-12 text-left">
           Contattaci
         </h2>
-
+        
         {/* Messaggi di stato */}
         {submitStatus === 'success' && (
           <div className="mb-6 p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg">
             ✅ Messaggio inviato con successo! Ti contatteremo presto.
           </div>
         )}
-
+        
         {submitStatus === 'error' && (
           <div className="mb-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg">
             ❌ Si è verificato un errore. Riprova o contattaci direttamente.
           </div>
         )}
-
+        
         <form onSubmit={handleSubmit} className="space-y-12">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
             <div>
-              <label
-                htmlFor="name"
-                className="block text-[20px] font-figtree font-regular text-second mb-3 text-left"
-              >
+              <label htmlFor="name" className="block text-[20px] font-figtree font-regular text-second mb-3 text-left">
                 Nome
               </label>
               <input
@@ -202,21 +165,20 @@ export default function Contact() {
                 onChange={handleInputChange}
                 placeholder="Mario Rossi"
                 className={`w-full px-0 py-3 border-b bg-transparent text-second placeholder-main/50 focus:outline-none transition-colors text-base ${
-                  errors.name
-                    ? 'border-red-400 focus:border-red-500'
+                  errors.name 
+                    ? 'border-red-400 focus:border-red-500' 
                     : 'border-main/20 focus:border-main/40'
                 }`}
               />
               {errors.name && (
-                <p className="text-red-400 text-sm mt-2 font-medium">{errors.name}</p>
+                <p className="text-red-400 text-sm mt-2 font-medium">
+                  {errors.name}
+                </p>
               )}
             </div>
-
+            
             <div>
-              <label
-                htmlFor="email"
-                className="block text-[20px] font-figtree font-regular text-second mb-3 text-left"
-              >
+              <label htmlFor="email" className="block text-[20px] font-figtree font-regular text-second mb-3 text-left">
                 Email
               </label>
               <input
@@ -227,22 +189,21 @@ export default function Contact() {
                 onChange={handleInputChange}
                 placeholder="example@mail.com"
                 className={`w-full px-0 py-3 border-b bg-transparent text-second placeholder-main/50 focus:outline-none transition-colors text-base ${
-                  errors.email
-                    ? 'border-red-400 focus:border-red-500'
+                  errors.email 
+                    ? 'border-red-400 focus:border-red-500' 
                     : 'border-main/20 focus:border-main/40'
                 }`}
               />
               {errors.email && (
-                <p className="text-red-400 text-sm mt-2 font-medium">{errors.email}</p>
+                <p className="text-red-400 text-sm mt-2 font-medium">
+                  {errors.email}
+                </p>
               )}
             </div>
           </div>
 
           <div>
-            <label
-              htmlFor="phone"
-              className="block text-[20px] font-figtree font-regular text-second mb-3 text-left"
-            >
+            <label htmlFor="phone" className="block text-[20px] font-figtree font-regular text-second mb-3 text-left">
               Telefono
             </label>
             <input
@@ -253,21 +214,20 @@ export default function Contact() {
               onChange={handleInputChange}
               placeholder="+39 123 456 7890"
               className={`w-full px-0 py-3 border-b bg-transparent text-second placeholder-main/50 focus:outline-none transition-colors text-base ${
-                errors.phone
-                  ? 'border-red-400 focus:border-red-500'
+                errors.phone 
+                  ? 'border-red-400 focus:border-red-500' 
                   : 'border-main/20 focus:border-main/40'
               }`}
             />
             {errors.phone && (
-              <p className="text-red-400 text-sm mt-2 font-medium">{errors.phone}</p>
+              <p className="text-red-400 text-sm mt-2 font-medium">
+                {errors.phone}
+              </p>
             )}
           </div>
-
+          
           <div>
-            <label
-              htmlFor="message"
-              className="block text-[20px] font-figtree font-regular text-second mb-3 text-left"
-            >
+            <label htmlFor="message" className="block text-[20px] font-figtree font-regular text-second mb-3 text-left">
               Parlaci del tuo progetto
             </label>
             <textarea
@@ -278,17 +238,19 @@ export default function Contact() {
               rows={4}
               placeholder="Scrivi qui"
               className={`w-full px-0 py-3 border-b bg-transparent text-second placeholder-main/50 focus:outline-none transition-colors text-base resize-none ${
-                errors.message
-                  ? 'border-red-400 focus:border-red-500'
+                errors.message 
+                  ? 'border-red-400 focus:border-red-500' 
                   : 'border-main/20 focus:border-main/40'
               }`}
             />
             {errors.message && (
-              <p className="text-red-400 text-sm mt-2 font-medium">{errors.message}</p>
+              <p className="text-red-400 text-sm mt-2 font-medium">
+                {errors.message}
+              </p>
             )}
           </div>
-
-          <div className="space-y-4">
+          
+          <div className="space-y-4 lg:space-y-0 lg:flex lg:items-start lg:gap-8">
             <div>
               <div className="flex items-start gap-3">
                 <input
@@ -298,8 +260,8 @@ export default function Contact() {
                   checked={formData.privacyConsent}
                   onChange={handleInputChange}
                   className={`mt-1 w-4 h-4 text-main bg-transparent rounded focus:ring-2 ${
-                    errors.privacyConsent
-                      ? 'border-red-400 focus:ring-red-400/40'
+                    errors.privacyConsent 
+                      ? 'border-red-400 focus:ring-red-400/40' 
                       : 'border-main/20 focus:ring-main/40'
                   }`}
                 />
@@ -313,7 +275,7 @@ export default function Contact() {
                 </p>
               )}
             </div>
-
+            
             <div>
               <div className="flex items-start gap-3">
                 <input
@@ -330,21 +292,13 @@ export default function Contact() {
               </div>
             </div>
           </div>
-
-          {/* reCAPTCHA invisibile */}
-          <ReCAPTCHA
-            ref={recaptchaRef}
-            sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ''}
-            size="invisible"
-            badge="bottomleft"
-          />
-
+          
           <button
             type="submit"
             disabled={isSubmitting}
             className={`w-full md:w-auto px-8 py-4 font-medium rounded-lg transition-colors mt-8 ${
-              isSubmitting
-                ? 'bg-gray-400 text-gray-600 cursor-not-allowed'
+              isSubmitting 
+                ? 'bg-gray-400 text-gray-600 cursor-not-allowed' 
                 : 'bg-second text-main hover:bg-second/90'
             }`}
           >
