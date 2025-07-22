@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useApiCall } from '@/hooks/useApiCall';
 
 interface FormData {
   name: string;
@@ -30,14 +31,33 @@ export default function Contact() {
   });
 
   const [errors, setErrors] = useState<FormErrors>({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<'success' | 'error' | null>(null);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+
+  const {
+    loading: isSubmitting,
+    error: apiError,
+    execute: submitForm,
+  } = useApiCall({
+    onSuccess: () => {
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        message: '',
+        privacyConsent: false,
+        marketingConsent: false,
+      });
+      setErrors({});
+      setShowSuccessMessage(true);
+      // Nascondi il messaggio dopo 5 secondi
+      setTimeout(() => setShowSuccessMessage(false), 5000);
+    },
+  });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value, type } = e.target;
     let newValue = type === 'checkbox' ? (e.target as HTMLInputElement).checked : value;
 
-    // Filtra il campo telefono per consentire solo numeri, spazi, +, -, (, )
     if (name === 'phone' && typeof newValue === 'string') {
       newValue = newValue.replace(/[^0-9\s\+\-\(\)]/g, '');
     }
@@ -47,7 +67,6 @@ export default function Contact() {
       [name]: newValue,
     }));
 
-    // Rimuovi l'errore quando l'utente inizia a digitare
     if (errors[name as keyof FormErrors]) {
       setErrors((prev) => ({
         ...prev,
@@ -55,9 +74,9 @@ export default function Contact() {
       }));
     }
 
-    // Reset status messaggi
-    if (submitStatus) {
-      setSubmitStatus(null);
+    // Nascondi il messaggio di successo quando l'utente inizia a digitare
+    if (showSuccessMessage) {
+      setShowSuccessMessage(false);
     }
   };
 
@@ -94,40 +113,15 @@ export default function Contact() {
     e.preventDefault();
 
     if (validateForm()) {
-      setIsSubmitting(true);
-      setSubmitStatus(null);
-
-      try {
-        const response = await fetch('/api/contact', {
+      await submitForm(() =>
+        fetch('/api/contact', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify(formData),
-        });
-
-        const result = await response.json();
-
-        if (response.ok) {
-          // Reset form
-          setFormData({
-            name: '',
-            email: '',
-            phone: '',
-            message: '',
-            privacyConsent: false,
-            marketingConsent: false,
-          });
-          setErrors({});
-          setSubmitStatus('success');
-        } else {
-          setSubmitStatus('error');
-        }
-      } catch (error) {
-        setSubmitStatus('error');
-      } finally {
-        setIsSubmitting(false);
-      }
+        })
+      );
     }
   };
 
@@ -138,19 +132,15 @@ export default function Contact() {
           Contattaci
         </h2>
 
-        {submitStatus === 'success' && (
+        {showSuccessMessage && (
           <p className="text-green-500 text-sm font-medium mb-12">
             Messaggio inviato con successo! Ti contatteremo presto.
           </p>
         )}
 
-        {submitStatus === 'error' && (
-          <p className="text-red-400 text-sm font-medium mb-12">
-            Si è verificato un errore. Riprova o contattaci direttamente.
-          </p>
-        )}
+        {apiError && <p className="text-red-400 text-sm font-medium mb-12">{apiError}</p>}
 
-        <form onSubmit={handleSubmit} className="space-y-12">
+        <form onSubmit={handleSubmit} className="space-y-12 mt-12">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
             <div>
               <label

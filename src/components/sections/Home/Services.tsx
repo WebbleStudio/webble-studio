@@ -3,7 +3,7 @@ import ServiceCategory from '@/components/ui/ServiceCategory';
 
 export default function Services() {
   return (
-    <section className="h-[autopx] md:h-auto w-full flex items-start mt-20">
+    <section className="h-[autopx] md:h-auto w-full flex items-start mt-20 py-[75px]">
       <div className="w-full flex flex-col">
         <ServiceCategory
           number="01"

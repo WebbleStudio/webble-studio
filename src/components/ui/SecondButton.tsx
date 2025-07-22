@@ -1,5 +1,5 @@
 import React from 'react';
-import Image from 'next/image';
+import OptimizedImage from './OptimizedImage';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children?: React.ReactNode;
@@ -17,7 +17,7 @@ export default function SecondButton({
       {...props}
     >
       <span className="text-[15px] sm:text-[17px]">{children}</span>
-      <Image
+      <OptimizedImage
         src="/icons/diagonal-arrow.svg"
         alt="Arrow"
         width={12}

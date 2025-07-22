@@ -2,6 +2,14 @@ import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/app/lib/supabaseClient';
 import { Resend } from 'resend';
 import ContactEmail from '@/components/email/ContactEmail';
+import {
+  ApplicationError,
+  ErrorCode,
+  createErrorResponse,
+  logError,
+  isValidEmail,
+  sanitizeInput,
+} from '@/lib/errors';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -10,25 +18,23 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { name, email, phone, message, privacyConsent, marketingConsent } = body;
 
+    // Validation
     if (!name || !email || !message || !privacyConsent) {
-      return NextResponse.json(
-        { error: 'Nome, email, messaggio e consenso privacy sono obbligatori' },
-        { status: 400 }
+      throw new ApplicationError(
+        ErrorCode.VALIDATION_ERROR,
+        'Nome, email, messaggio e consenso privacy sono obbligatori'
       );
     }
 
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      return NextResponse.json(
-        { error: 'Formato email non valido' },
-        { status: 400 }
-      );
+    if (!isValidEmail(email)) {
+      throw new ApplicationError(ErrorCode.VALIDATION_ERROR, 'Formato email non valido');
     }
 
     const contactData = {
-      name: name.trim(),
-      email: email.trim().toLowerCase(),
-      phone: phone ? phone.trim() : null,
-      message: message.trim(),
+      name: sanitizeInput(name),
+      email: sanitizeInput(email).toLowerCase(),
+      phone: phone ? sanitizeInput(phone) : null,
+      message: sanitizeInput(message),
       privacy_consent: !!privacyConsent,
       marketing_consent: !!marketingConsent,
     };
@@ -41,9 +47,11 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ 
-          error: 'Errore nel salvataggio dei dati' 
-        }, { status: 500 });
+        throw new ApplicationError(
+          ErrorCode.DATABASE_ERROR,
+          'Errore nel salvataggio dei dati',
+          error
+        );
       }
 
       // Invio email di conferma
@@ -60,7 +68,10 @@ export async function POST(request: NextRequest) {
           }),
         });
       } catch (emailError) {
-        console.error('Email send error:', emailError);
+        logError(
+          new ApplicationError(ErrorCode.EMAIL_ERROR, "Errore nell'invio email", emailError),
+          'Contact Form Email'
+        );
         // Non blocchiamo il processo se l'email fallisce
       }
 
@@ -71,15 +82,23 @@ export async function POST(request: NextRequest) {
         },
         { status: 201 }
       );
-
     } catch (dbError) {
-      return NextResponse.json({ 
-        error: 'Errore nel database'
-      }, { status: 500 });
+      const error = new ApplicationError(ErrorCode.DATABASE_ERROR, 'Errore nel database', dbError);
+      logError(error, 'Contact Form Database');
+      return createErrorResponse(error, 500);
     }
-  } catch (generalError) {
-    return NextResponse.json({ 
-      error: 'Errore interno del server'
-    }, { status: 500 });
+  } catch (error) {
+    if (error instanceof ApplicationError) {
+      logError(error, 'Contact Form Validation');
+      return createErrorResponse(error, error.code === ErrorCode.VALIDATION_ERROR ? 400 : 500);
+    }
+
+    const unknownError = new ApplicationError(
+      ErrorCode.UNKNOWN_ERROR,
+      'Errore interno del server',
+      error
+    );
+    logError(unknownError, 'Contact Form Unknown');
+    return createErrorResponse(unknownError, 500);
   }
 }

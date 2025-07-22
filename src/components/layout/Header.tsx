@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import Image from 'next/image';
+import OptimizedImage from '@/components/ui/OptimizedImage';
 import Link from 'next/link';
 import '@/css/Header.css';
 import Button from '@/components/ui/Button';
@@ -16,23 +16,23 @@ export default function Header() {
       <div className="flex w-full items-center justify-between md:hidden">
         <div className="h-[30px] flex items-center">
           <Link href="/" className="logo-compact">
-            <Image
+            <OptimizedImage
               src="/img/webble-white-logo.svg"
               alt="Webble Logo"
               width={59}
               height={30}
               priority
-              style={{ width: 'auto' }}
+              className="w-auto"
             />
           </Link>
           <Link href="/" className="logo-extended">
-            <Image
+            <OptimizedImage
               src="/img/webble-white-logo-extended.svg"
               alt="Webble Logo"
               width={192}
               height={30}
               priority
-              style={{ width: 'auto' }}
+              className="w-auto"
             />
           </Link>
         </div>
@@ -47,23 +47,23 @@ export default function Header() {
         {/* Logo a sinistra */}
         <div className="h-[30px] flex items-center">
           <Link href="/" className="logo-compact">
-            <Image
+            <OptimizedImage
               src="/img/webble-white-logo.svg"
               alt="Webble Logo"
               width={59}
               height={30}
               priority
-              style={{ width: 'auto' }}
+              className="w-auto"
             />
           </Link>
           <Link href="/" className="logo-extended">
-            <Image
+            <OptimizedImage
               src="/img/webble-white-logo-extended.svg"
               alt="Webble Logo"
               width={140}
               height={22}
               priority
-              style={{ width: 'auto' }}
+              className="w-auto"
             />
           </Link>
         </div>

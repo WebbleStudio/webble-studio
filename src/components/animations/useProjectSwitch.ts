@@ -6,9 +6,11 @@ import { projectAnimationVariants } from './projectAnimations';
 export interface ProjectData {
   id: string;
   title: string;
+  description: string;
   image: string;
   backgroundImage: string;
   labels: string[];
+  date?: string;
 }
 
 export const useProjectSwitch = (projects: ProjectData[]) => {

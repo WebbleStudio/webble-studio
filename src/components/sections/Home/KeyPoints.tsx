@@ -1,5 +1,5 @@
 import React from 'react';
-import Image from 'next/image';
+import OptimizedImage from '@/components/ui/OptimizedImage';
 import '@/css/KeyPointsResponsive.css';
 
 export default function KeyPoints() {
@@ -84,7 +84,7 @@ export default function KeyPoints() {
                 04
               </h4>
             </div>
-            <Image
+            <OptimizedImage
               src="/icons/bubble-arrow.svg"
               alt="Arrow"
               width={40}
@@ -94,7 +94,7 @@ export default function KeyPoints() {
             <div className="relative z-10">
               <h2 className="text-main font-figtree font-medium text-[20px] sm:text-[25px] xl:text-[30px] leading-[1.3] flex items-center gap-4">
                 I nostri servizi
-                <Image
+                <OptimizedImage
                   src="/icons/bubble-arrow.svg"
                   alt="Arrow"
                   width={40}
