@@ -3,6 +3,8 @@ import { supabase } from '@/app/lib/supabaseClient';
 import { Resend } from 'resend';
 import ContactEmail from '@/components/email/ContactEmail';
 
+export const runtime = 'edge';
+
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(request: NextRequest) {
