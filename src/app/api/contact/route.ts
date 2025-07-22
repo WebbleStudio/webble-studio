@@ -38,35 +38,55 @@ export async function POST(request: NextRequest) {
     }
 
     console.log('Attempting Supabase insert...');
-    // Inserimento dati su Supabase
-    const { data, error } = await supabase
-      .from('contacts')
-      .insert([
-        {
-          name,
-          email,
-          phone: phone || null,
-          message,
-          privacy_consent: privacyConsent,
-          marketing_consent: marketingConsent,
-        },
-      ])
-      .select();
+    
+    // Preparo i dati per l'inserimento
+    const contactData = {
+      name: name.trim(),
+      email: email.trim().toLowerCase(),
+      phone: phone ? phone.trim() : null,
+      message: message.trim(),
+      privacy_consent: !!privacyConsent,
+      marketing_consent: !!marketingConsent,
+    };
 
-    if (error) {
-      console.error('Errore Supabase dettagliato:', {
-        code: error.code,
-        message: error.message,
-        details: error.details,
-        hint: error.hint
+    console.log('Contact data prepared:', { ...contactData, message: 'REDACTED' });
+
+    // Inserimento dati su Supabase
+    try {
+      const { data, error } = await supabase
+        .from('contacts')
+        .insert([contactData])
+        .select('id, email')
+        .single();
+
+      if (error) {
+        console.error('Errore Supabase dettagliato:', {
+          code: error.code,
+          message: error.message,
+          details: error.details,
+          hint: error.hint
+        });
+        return NextResponse.json({ 
+          error: 'Errore nel salvataggio dei dati',
+          details: error.message 
+        }, { status: 500 });
+      }
+
+      console.log('Supabase insert successful:', { id: data?.id });
+    } catch (dbError: any) {
+      console.error('Database error:', {
+        name: dbError?.name,
+        message: dbError?.message,
+        code: dbError?.code,
+        details: dbError?.details
       });
       return NextResponse.json({ 
-        error: 'Errore nel salvataggio dei dati',
-        details: error.message 
+        error: 'Errore nel database',
+        details: dbError?.message 
       }, { status: 500 });
     }
 
-    console.log('Supabase insert successful, attempting email send...');
+    console.log('Attempting email send...');
     // Invia email di conferma
     try {
       await resend.emails.send({
@@ -95,7 +115,6 @@ export async function POST(request: NextRequest) {
       {
         success: true,
         message: 'Messaggio inviato con successo!',
-        data,
       },
       { status: 201 }
     );
