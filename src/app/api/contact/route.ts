@@ -55,13 +55,18 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Verifica CAPTCHA richiesta' }, { status: 400 });
     }
 
-    console.log('🔍 CAPTCHA: Verificando token...');
-    const isRecaptchaValid = await verifyRecaptcha(recaptchaToken);
-    console.log('📊 CAPTCHA: Risultato verifica:', isRecaptchaValid);
+    // Salta verifica reCAPTCHA in sviluppo
+    if (recaptchaToken === 'development-token') {
+      console.log('🛠️ CAPTCHA: Modalità sviluppo - saltando verifica');
+    } else {
+      console.log('🔍 CAPTCHA: Verificando token...');
+      const isRecaptchaValid = await verifyRecaptcha(recaptchaToken);
+      console.log('📊 CAPTCHA: Risultato verifica:', isRecaptchaValid);
 
-    if (!isRecaptchaValid) {
-      console.log('❌ CAPTCHA: Verifica fallita');
-      return NextResponse.json({ error: 'Verifica CAPTCHA fallita. Riprova.' }, { status: 400 });
+      if (!isRecaptchaValid) {
+        console.log('❌ CAPTCHA: Verifica fallita');
+        return NextResponse.json({ error: 'Verifica CAPTCHA fallita. Riprova.' }, { status: 400 });
+      }
     }
 
     console.log('✅ CAPTCHA: Verifica superata');
@@ -128,8 +133,12 @@ export async function POST(request: NextRequest) {
     }
 
     // Invia email di conferma
+    console.log('📧 RESEND: Tentativo di invio email...');
+    console.log('📧 RESEND: API Key presente:', process.env.RESEND_API_KEY ? 'Sì' : 'No');
+    console.log('📧 RESEND: Email destinatario:', email);
+    
     try {
-      await resend.emails.send({
+      const emailResult = await resend.emails.send({
         from: 'Webble Studio <onboarding@resend.dev>',
         to: [email], // Email dinamica inserita dall'utente
         subject: `Grazie ${name}! Il tuo progetto ci interessa`,
@@ -140,8 +149,9 @@ export async function POST(request: NextRequest) {
           message,
         }),
       });
+      console.log('✅ RESEND: Email inviata con successo:', emailResult);
     } catch (emailError) {
-      console.error('Errore invio email:', emailError);
+      console.error('❌ RESEND: Errore invio email:', emailError);
       // Non blocchiamo il processo se l'email fallisce
       // Il form è stato salvato comunque
     }

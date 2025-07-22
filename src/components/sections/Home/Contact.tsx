@@ -102,13 +102,27 @@ export default function Contact() {
       try {
         // Esegui reCAPTCHA
         console.log('🔄 CAPTCHA: Esecuzione...');
-        const recaptchaToken = await recaptchaRef.current?.executeAsync();
+        let recaptchaToken = null;
+        
+        if (recaptchaRef.current) {
+          try {
+            recaptchaToken = await recaptchaRef.current.executeAsync();
+          } catch (recaptchaError) {
+            console.error('❌ CAPTCHA: Errore durante l\'esecuzione:', recaptchaError);
+          }
+        }
 
         if (!recaptchaToken) {
-          console.log('❌ CAPTCHA: Token non ottenuto');
-          setSubmitStatus('error');
-          setIsSubmitting(false);
-          return;
+          console.log('❌ CAPTCHA: Token non ottenuto - probabilmente in ambiente di sviluppo');
+          // In sviluppo, continuiamo senza reCAPTCHA
+          if (process.env.NODE_ENV === 'development') {
+            recaptchaToken = 'development-token';
+            console.log('🛠️ CAPTCHA: Usando token di sviluppo');
+          } else {
+            setSubmitStatus('error');
+            setIsSubmitting(false);
+            return;
+          }
         }
 
         console.log('✅ CAPTCHA: Token ottenuto, invio dati...');
