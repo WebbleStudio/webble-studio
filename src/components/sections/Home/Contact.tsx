@@ -322,7 +322,7 @@ export default function Contact() {
             ref={recaptchaRef}
             sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ''}
             size="invisible"
-            badge="bottomright"
+            badge="bottomleft"
           />
 
           <button

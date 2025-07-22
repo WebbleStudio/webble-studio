@@ -32,3 +32,8 @@ body {
 .font-poppins {
   font-family: 'Poppins', Arial, Helvetica, sans-serif;
 }
+
+/* Nascondi badge reCAPTCHA */
+.grecaptcha-badge {
+  visibility: hidden !important;
+}
