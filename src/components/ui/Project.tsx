@@ -147,8 +147,12 @@ const Project: React.FC<ProjectProps> = ({
             {/* Image */}
             <div
               className="relative w-[600px] h-[360px] 2xl:w-[750px] 2xl:h-[450px] bg-main rounded-[17px] overflow-hidden cursor-none mb-14 md:mb-20"
-              onMouseEnter={() => setIsHoveringImage(true)}
-              onMouseLeave={() => setIsHoveringImage(false)}
+              onMouseEnter={() =>
+                window.matchMedia('(hover: hover)').matches && setIsHoveringImage(true)
+              }
+              onMouseLeave={() =>
+                window.matchMedia('(hover: hover)').matches && setIsHoveringImage(false)
+              }
             >
               <AnimatePresence>
                 <motion.div
@@ -277,8 +281,12 @@ const Project: React.FC<ProjectProps> = ({
             {/* Fixed Image Container - Outside animations */}
             <div
               className="relative w-[300px] h-[185px] xs:w-[340px] xs:h-[210px] sm:w-[380px] sm:h-[235px] md:w-[500px] md:h-[300px] lg:w-[600px] lg:h-[360px] bg-main rounded-[17px] overflow-hidden cursor-none"
-              onMouseEnter={() => setIsHoveringImage(true)}
-              onMouseLeave={() => setIsHoveringImage(false)}
+              onMouseEnter={() =>
+                window.matchMedia('(hover: hover)').matches && setIsHoveringImage(true)
+              }
+              onMouseLeave={() =>
+                window.matchMedia('(hover: hover)').matches && setIsHoveringImage(false)
+              }
             >
               {/* Animated Image Background with Overlay Effect */}
               <AnimatePresence>

@@ -23,7 +23,7 @@ export default function Header() {
               width={80}
               height={40}
               priority
-              className="w-auto"
+              className="w-[80px] h-[40px]"
             />
           </Link>
           <Link href="/" className="logo-extended">
@@ -33,7 +33,7 @@ export default function Header() {
               width={192}
               height={30}
               priority
-              className="w-auto"
+              className="w-[192px] h-[30px]"
             />
           </Link>
         </div>
@@ -57,7 +57,7 @@ export default function Header() {
               width={59}
               height={30}
               priority
-              className="w-auto"
+              className="w-[59px] h-[30px]"
             />
           </Link>
           <Link href="/" className="logo-extended">
@@ -67,7 +67,7 @@ export default function Header() {
               width={140}
               height={22}
               priority
-              className="w-auto"
+              className="w-[140px] h-[22px]"
             />
           </Link>
         </div>

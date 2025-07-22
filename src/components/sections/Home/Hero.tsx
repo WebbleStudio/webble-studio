@@ -27,6 +27,7 @@ export default function Hero() {
             {React.createElement('spline-viewer', {
               url: mobileUrl,
               style: { width: '100%', height: '100%', minHeight: '750px' },
+              className: 'spline-dark-mask',
             })}
           </div>
         )}
@@ -38,10 +39,11 @@ export default function Hero() {
               {React.createElement('spline-viewer', {
                 url: desktopUrl,
                 style: { width: '100%', height: '100%', minHeight: '600px' },
+                className: 'spline-dark-mask',
               })}
             </div>
             {/* Overlay gradiente basso */}
-            <div className="pointer-events-none absolute left-0 bottom-0 w-full h-[500px] lg:h-[90%] bg-gradient-to-t from-black/90 to-transparent dark:from-[#020202]/90" />
+            <div className="pointer-events-none absolute left-0 bottom-0 w-full h-[500px] lg:h-[90%] bg-gradient-to-t from-black/90 to-transparent dark:hidden" />
           </div>
         )}
       </div>
@@ -88,6 +90,11 @@ export default function Hero() {
       <style global jsx>{`
         .hero-arrow .arrow {
           transform: rotate(90deg) translateY(-2px) !important;
+        }
+
+        .dark .spline-dark-mask {
+          -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 90%);
+          mask-image: linear-gradient(to bottom, black 60%, transparent 90%);
         }
       `}</style>
     </section>
