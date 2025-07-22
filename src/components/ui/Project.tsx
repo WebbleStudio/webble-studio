@@ -102,7 +102,7 @@ const Project: React.FC<ProjectProps> = ({
             <div className="w-full h-px bg-white opacity-30 mb-5"></div>
             <div className="flex justify-start">
               <div
-                className="cursor-pointer transition-opacity hover:opacity-70 bg-black bg-opacity-20 rounded-full p-3"
+                className="cursor-pointer transition-opacity hover:opacity-70 bg-black bg-opacity-20 dark:bg-white dark:bg-opacity-10 rounded-full p-3"
                 onClick={onLeftArrowClick}
               >
                 <OptimizedImage
@@ -214,7 +214,7 @@ const Project: React.FC<ProjectProps> = ({
             <div className="w-full h-px bg-white opacity-30 mb-5"></div>
             <div className="flex justify-end">
               <div
-                className="cursor-pointer transition-opacity hover:opacity-70 bg-black bg-opacity-20 rounded-full p-3"
+                className="cursor-pointer transition-opacity hover:opacity-70 bg-black bg-opacity-20 dark:bg-white dark:bg-opacity-10 rounded-full p-3"
                 onClick={onRightArrowClick}
               >
                 <OptimizedImage
@@ -265,7 +265,7 @@ const Project: React.FC<ProjectProps> = ({
             {/* Left Arrow - esterno (da 555px in su) */}
             <div className="hidden button-outside sm:flex sm:items-center mr-8">
               <div
-                className="cursor-pointer transition-opacity hover:opacity-70 bg-black bg-opacity-20 rounded-full p-3"
+                className="cursor-pointer transition-opacity hover:opacity-70 bg-black bg-opacity-20 dark:bg-white dark:bg-opacity-10 rounded-full p-3"
                 onClick={onLeftArrowClick}
               >
                 <OptimizedImage
@@ -305,7 +305,7 @@ const Project: React.FC<ProjectProps> = ({
               <div className="absolute inset-0 flex items-center justify-between px-1 z-10 button-inside sm:hidden">
                 {/* Left Arrow */}
                 <div
-                  className="cursor-pointer transition-opacity hover:opacity-70 bg-black bg-opacity-20 rounded-full p-2"
+                  className="cursor-pointer transition-opacity hover:opacity-70 bg-black bg-opacity-20 dark:bg-white dark:bg-opacity-10 rounded-full p-2"
                   onClick={onLeftArrowClick}
                 >
                   <OptimizedImage
@@ -318,7 +318,7 @@ const Project: React.FC<ProjectProps> = ({
                 </div>
                 {/* Right Arrow */}
                 <div
-                  className="cursor-pointer transition-opacity hover:opacity-70 bg-black bg-opacity-20 rounded-full p-2"
+                  className="cursor-pointer transition-opacity hover:opacity-70 bg-black bg-opacity-20 dark:bg-white dark:bg-opacity-10 rounded-full p-2"
                   onClick={onRightArrowClick}
                 >
                   <OptimizedImage
@@ -335,7 +335,7 @@ const Project: React.FC<ProjectProps> = ({
             {/* Right Arrow - esterno (da 555px in su) */}
             <div className="hidden button-outside sm:flex sm:items-center ml-8">
               <div
-                className="cursor-pointer transition-opacity hover:opacity-70 bg-black bg-opacity-20 rounded-full p-3"
+                className="cursor-pointer transition-opacity hover:opacity-70 bg-black bg-opacity-20 dark:bg-white dark:bg-opacity-10 rounded-full p-3"
                 onClick={onRightArrowClick}
               >
                 <OptimizedImage

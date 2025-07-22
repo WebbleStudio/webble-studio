@@ -23,7 +23,7 @@ export default function Header() {
               width={80}
               height={40}
               priority
-              className="w-[80px] h-[40px]"
+              className="w-[70px] h-[40px]"
             />
           </Link>
           <Link href="/" className="logo-extended">
@@ -49,7 +49,7 @@ export default function Header() {
       {/* Desktop layout: wrapper con bordo visibile solo quando scrollato */}
       <div className={desktopWrapperClassName}>
         {/* Logo a sinistra */}
-        <div className="h-[30px] flex items-center">
+        <div className="h-[40px] flex items-center">
           <Link href="/" className="logo-compact">
             <OptimizedImage
               src="/img/webble-white-logo.svg"
@@ -64,10 +64,10 @@ export default function Header() {
             <OptimizedImage
               src="/img/webble-white-logo-extended.svg"
               alt="Webble Logo"
-              width={140}
-              height={22}
+              width={192}
+              height={30}
               priority
-              className="w-[140px] h-[22px]"
+              className="w-[192px] h-[30px]"
             />
           </Link>
         </div>
