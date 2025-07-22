@@ -21,10 +21,7 @@ export async function POST(request: NextRequest) {
     // Validazione email
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      return NextResponse.json(
-        { error: 'Formato email non valido' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Formato email non valido' }, { status: 400 });
     }
 
     // Inserimento dati su Supabase
@@ -38,16 +35,13 @@ export async function POST(request: NextRequest) {
           message,
           privacy_consent: privacyConsent,
           marketing_consent: marketingConsent,
-        }
+        },
       ])
       .select();
 
     if (error) {
       console.error('Errore Supabase:', error);
-      return NextResponse.json(
-        { error: 'Errore nel salvataggio dei dati' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Errore nel salvataggio dei dati' }, { status: 500 });
     }
 
     // Invia email di conferma
@@ -56,12 +50,12 @@ export async function POST(request: NextRequest) {
         from: 'Webble Studio <onboarding@resend.dev>',
         to: ['webblestudio.com@gmail.com'], // Email verificata per test
         subject: `Grazie ${name}! Il tuo progetto ci interessa`,
-        react: ContactEmail({ 
-          name, 
-          email, 
-          phone: phone || 'Non fornito', 
-          message 
-        })
+        react: ContactEmail({
+          name,
+          email,
+          phone: phone || 'Non fornito',
+          message,
+        }),
       });
     } catch (emailError) {
       console.error('Errore invio email:', emailError);
@@ -70,19 +64,15 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json(
-      { 
-        success: true, 
+      {
+        success: true,
         message: 'Messaggio inviato con successo!',
-        data 
+        data,
       },
       { status: 201 }
     );
-
   } catch (error) {
     console.error('Errore API:', error);
-    return NextResponse.json(
-      { error: 'Errore interno del server' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Errore interno del server' }, { status: 500 });
   }
-} 
+}
