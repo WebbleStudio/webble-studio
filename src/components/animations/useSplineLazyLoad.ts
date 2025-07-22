@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 
@@ -8,10 +8,10 @@ interface UseSplineLazyLoadProps {
   delay?: number;
 }
 
-export const useSplineLazyLoad = ({ 
-  mobileUrl, 
-  desktopUrl, 
-  delay = 1000 
+export const useSplineLazyLoad = ({
+  mobileUrl,
+  desktopUrl,
+  delay = 1000,
 }: UseSplineLazyLoadProps) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
@@ -33,6 +33,7 @@ export const useSplineLazyLoad = ({
 
   // Intersection Observer for lazy loading
   useEffect(() => {
+    const container = containerRef.current;
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -45,17 +46,17 @@ export const useSplineLazyLoad = ({
       },
       {
         rootMargin: '50px', // Start loading 50px before entering viewport
-        threshold: 0.1
+        threshold: 0.1,
       }
     );
 
-    if (containerRef.current) {
-      observer.observe(containerRef.current);
+    if (container) {
+      observer.observe(container);
     }
 
     return () => {
-      if (containerRef.current) {
-        observer.unobserve(containerRef.current);
+      if (container) {
+        observer.unobserve(container);
       }
     };
   }, [loadSplineScript, delay]);
@@ -72,6 +73,6 @@ export const useSplineLazyLoad = ({
     isLoaded,
     isVisible,
     mobileUrl,
-    desktopUrl
+    desktopUrl,
   };
-}; 
+};

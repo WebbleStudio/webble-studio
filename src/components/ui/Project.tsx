@@ -48,9 +48,9 @@ const Project: React.FC<ProjectProps> = ({
           exit="exit"
         >
           <AnimatePresence mode="wait">
-            <motion.h1 
+            <motion.h1
               key={`title-${currentProjectId}`}
-              className="text-[32px] font-figtree font-medium mb-12 text-left" 
+              className="text-[32px] font-figtree font-medium mb-12 text-left"
               variants={animations.title}
               initial="initial"
               animate="animate"
@@ -86,18 +86,18 @@ const Project: React.FC<ProjectProps> = ({
               className="cursor-pointer transition-opacity hover:opacity-70"
               onClick={onLeftArrowClick}
             >
-              <svg 
-                width="80" 
-                height="20" 
-                viewBox="0 0 80 20" 
-                fill="none" 
+              <svg
+                width="80"
+                height="20"
+                viewBox="0 0 80 20"
+                fill="none"
                 xmlns="http://www.w3.org/2000/svg"
               >
-                <path 
-                  d="M10 2L2 10L10 18M2 10H78" 
-                  stroke="rgba(255, 255, 255, 0.8)" 
-                  strokeWidth="2" 
-                  strokeLinecap="round" 
+                <path
+                  d="M10 2L2 10L10 18M2 10H78"
+                  stroke="rgba(255, 255, 255, 0.8)"
+                  strokeWidth="2"
+                  strokeLinecap="round"
                   strokeLinejoin="round"
                 />
               </svg>
@@ -108,18 +108,18 @@ const Project: React.FC<ProjectProps> = ({
               className="cursor-pointer transition-opacity hover:opacity-70"
               onClick={onRightArrowClick}
             >
-              <svg 
-                width="80" 
-                height="20" 
-                viewBox="0 0 80 20" 
-                fill="none" 
+              <svg
+                width="80"
+                height="20"
+                viewBox="0 0 80 20"
+                fill="none"
                 xmlns="http://www.w3.org/2000/svg"
               >
-                <path 
-                  d="M70 18L78 10L70 2M78 10H2" 
-                  stroke="rgba(255, 255, 255, 0.8)" 
-                  strokeWidth="2" 
-                  strokeLinecap="round" 
+                <path
+                  d="M70 18L78 10L70 2M78 10H2"
+                  stroke="rgba(255, 255, 255, 0.8)"
+                  strokeWidth="2"
+                  strokeLinecap="round"
                   strokeLinejoin="round"
                 />
               </svg>

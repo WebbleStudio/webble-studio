@@ -10,9 +10,12 @@ export function useServiceCategoryAnimation() {
   const rectanglesContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const scrollContainer = scrollContainerRef.current;
+    const rectanglesContainer = rectanglesContainerRef.current;
+
     const handleScroll = () => {
-      if (scrollContainerRef.current) {
-        const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
+      if (scrollContainer) {
+        const { scrollLeft, scrollWidth, clientWidth } = scrollContainer;
         const isAtStart = scrollLeft <= 0;
         const isAtEnd = scrollLeft >= scrollWidth - clientWidth - 1;
 
@@ -22,8 +25,8 @@ export function useServiceCategoryAnimation() {
     };
 
     const handleRectanglesScroll = () => {
-      if (rectanglesContainerRef.current) {
-        const { scrollLeft, scrollWidth, clientWidth } = rectanglesContainerRef.current;
+      if (rectanglesContainer) {
+        const { scrollLeft, scrollWidth, clientWidth } = rectanglesContainer;
         const isAtStart = scrollLeft <= 0;
         const isAtEnd = scrollLeft >= scrollWidth - clientWidth - 1;
 
@@ -34,9 +37,6 @@ export function useServiceCategoryAnimation() {
 
     // Add event listeners when elements are available
     const timer = setTimeout(() => {
-      const scrollContainer = scrollContainerRef.current;
-      const rectanglesContainer = rectanglesContainerRef.current;
-
       if (scrollContainer && isExpanded) {
         scrollContainer.addEventListener('scroll', handleScroll);
         handleScroll(); // Check initial state
@@ -50,9 +50,6 @@ export function useServiceCategoryAnimation() {
 
     return () => {
       clearTimeout(timer);
-      const scrollContainer = scrollContainerRef.current;
-      const rectanglesContainer = rectanglesContainerRef.current;
-
       if (scrollContainer) {
         scrollContainer.removeEventListener('scroll', handleScroll);
       }

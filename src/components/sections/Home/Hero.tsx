@@ -6,15 +6,10 @@ import Label from '@/components/ui/Label';
 import { useSplineLazyLoad } from '@/components/animations/useSplineLazyLoad';
 
 export default function Hero() {
-  const {
-    containerRef,
-    isLoaded,
-    mobileUrl,
-    desktopUrl
-  } = useSplineLazyLoad({
+  const { containerRef, isLoaded, mobileUrl, desktopUrl } = useSplineLazyLoad({
     mobileUrl: 'https://prod.spline.design/VpGusEHksTg0dW5e/scene.splinecode',
     desktopUrl: 'https://prod.spline.design/cb0H3zl1WQgxYSZP/scene.splinecode',
-    delay: 500 // Carica dopo 500ms per dare priorità al contenuto
+    delay: 500, // Carica dopo 500ms per dare priorità al contenuto
   });
 
   return (
@@ -25,7 +20,7 @@ export default function Hero() {
         {!isLoaded && (
           <div className="w-full h-full bg-gradient-to-br from-main/5 to-second/10 animate-pulse" />
         )}
-        
+
         {/* Mobile/SM: viewer attuale */}
         {isLoaded && (
           <div className="block md:hidden w-full h-full min-h-[750px] pointer-events-none touch-none">
@@ -35,7 +30,7 @@ export default function Hero() {
             })}
           </div>
         )}
-        
+
         {/* MD+: nuovo viewer */}
         {isLoaded && (
           <div className="hidden md:block w-full h-full min-h-screen relative">

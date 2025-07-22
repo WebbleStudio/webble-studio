@@ -15,9 +15,9 @@ export default function Home() {
         <KeyPoints />
         <Services />
       </Container>
-        <Projects />
+      <Projects />
       <Container>
-         <Contact />
+        <Contact />
       </Container>
     </main>
   );

@@ -20,7 +20,7 @@ async function verifyRecaptcha(token: string): Promise<boolean> {
     });
 
     const data = await response.json();
-    
+
     // reCAPTCHA v3 restituisce un punteggio da 0.0 a 1.0
     // Consideriamo sicuro un punteggio > 0.5
     return data.success && data.score > 0.5;
@@ -46,31 +46,22 @@ export async function POST(request: NextRequest) {
     // Validazione email
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      return NextResponse.json(
-        { error: 'Formato email non valido' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Formato email non valido' }, { status: 400 });
     }
 
     // Verifica reCAPTCHA
     if (!recaptchaToken) {
       console.log('❌ CAPTCHA: Token mancante');
-      return NextResponse.json(
-        { error: 'Verifica CAPTCHA richiesta' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Verifica CAPTCHA richiesta' }, { status: 400 });
     }
 
     console.log('🔍 CAPTCHA: Verificando token...');
     const isRecaptchaValid = await verifyRecaptcha(recaptchaToken);
     console.log('📊 CAPTCHA: Risultato verifica:', isRecaptchaValid);
-    
+
     if (!isRecaptchaValid) {
       console.log('❌ CAPTCHA: Verifica fallita');
-      return NextResponse.json(
-        { error: 'Verifica CAPTCHA fallita. Riprova.' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Verifica CAPTCHA fallita. Riprova.' }, { status: 400 });
     }
 
     console.log('✅ CAPTCHA: Verifica superata');
@@ -86,16 +77,13 @@ export async function POST(request: NextRequest) {
           message,
           privacy_consent: privacyConsent,
           marketing_consent: marketingConsent,
-        }
+        },
       ])
       .select();
 
     if (error) {
       console.error('Errore Supabase:', error);
-      return NextResponse.json(
-        { error: 'Errore nel salvataggio dei dati' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Errore nel salvataggio dei dati' }, { status: 500 });
     }
 
     // Invia email di conferma
@@ -104,12 +92,12 @@ export async function POST(request: NextRequest) {
         from: 'Webble Studio <onboarding@resend.dev>',
         to: [email], // Email dinamica inserita dall'utente
         subject: `Grazie ${name}! Il tuo progetto ci interessa`,
-        react: ContactEmail({ 
-          name, 
-          email, 
-          phone: phone || 'Non fornito', 
-          message 
-        })
+        react: ContactEmail({
+          name,
+          email,
+          phone: phone || 'Non fornito',
+          message,
+        }),
       });
     } catch (emailError) {
       console.error('Errore invio email:', emailError);
@@ -118,19 +106,15 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json(
-      { 
-        success: true, 
+      {
+        success: true,
         message: 'Messaggio inviato con successo!',
-        data 
+        data,
       },
       { status: 201 }
     );
-
   } catch (error) {
     console.error('Errore API:', error);
-    return NextResponse.json(
-      { error: 'Errore interno del server' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Errore interno del server' }, { status: 500 });
   }
-} 
+}
