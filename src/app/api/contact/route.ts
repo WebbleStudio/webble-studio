@@ -67,23 +67,36 @@ export async function POST(request: NextRequest) {
     console.log('✅ CAPTCHA: Verifica superata');
 
     // Inserimento dati su Supabase
-    const { data, error } = await supabase
-      .from('contacts')
-      .insert([
-        {
-          name,
-          email,
-          phone: phone || null,
-          message,
-          privacy_consent: privacyConsent,
-          marketing_consent: marketingConsent,
-        },
-      ])
-      .select();
+    console.log('🔗 SUPABASE: Tentativo di connessione...');
+    console.log('🔗 SUPABASE: URL:', process.env.NEXT_PUBLIC_SUPABASE_URL ? 'Presente' : 'Mancante');
+    console.log('🔗 SUPABASE: Key:', process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ? 'Presente' : 'Mancante');
+    
+    let data;
+    try {
+      const result = await supabase
+        .from('contacts')
+        .insert([
+          {
+            name,
+            email,
+            phone: phone || null,
+            message,
+            privacy_consent: privacyConsent,
+            marketing_consent: marketingConsent,
+          },
+        ])
+        .select();
 
-    if (error) {
-      console.error('Errore Supabase:', error);
-      return NextResponse.json({ error: 'Errore nel salvataggio dei dati' }, { status: 500 });
+      if (result.error) {
+        console.error('Errore Supabase:', result.error);
+        return NextResponse.json({ error: 'Errore nel salvataggio dei dati' }, { status: 500 });
+      }
+      
+      data = result.data;
+      console.log('✅ SUPABASE: Dati salvati con successo');
+    } catch (supabaseError) {
+      console.error('❌ SUPABASE: Errore di connessione:', supabaseError);
+      return NextResponse.json({ error: 'Errore di connessione al database' }, { status: 500 });
     }
 
     // Invia email di conferma
