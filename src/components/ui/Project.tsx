@@ -75,7 +75,7 @@ const Project: React.FC<ProjectProps> = ({
       <AnimatePresence>
         <motion.div
           key={`bg-${currentProjectId}`}
-          className="absolute inset-0 w-full h-full bg-cover bg-left bg-no-repeat"
+          className="absolute inset-0 w-full h-full bg-cover bg-left bg-no-repeat dark:hidden"
           style={{ backgroundImage: `url(${backgroundImage})` }}
           {...animations.background}
         />
@@ -121,7 +121,7 @@ const Project: React.FC<ProjectProps> = ({
             <AnimatePresence mode="wait">
               <motion.h1
                 key={`title-${currentProjectId}`}
-                className="text-[48px] 2xl:text-[56px] font-figtree font-medium text-left relative w-[600px] 2xl:w-[750px]"
+                className="text-white text-[48px] 2xl:text-[56px] font-figtree font-medium text-left relative w-[600px] 2xl:w-[750px]"
                 variants={animations.titleTypewriter}
                 initial="initial"
                 animate="animate"
@@ -230,7 +230,7 @@ const Project: React.FC<ProjectProps> = ({
           <AnimatePresence mode="wait">
             <motion.h1
               key={`title-${currentProjectId}`}
-              className="text-[32px] xs:text-[36px] sm:text-[40px] md:text-[44px] lg:text-[48px] font-figtree font-medium text-left relative w-[300px] xs:w-[340px] sm:w-[380px] md:w-[500px] lg:w-[600px] mx-auto"
+              className="text-white text-[32px] xs:text-[36px] sm:text-[40px] md:text-[44px] lg:text-[48px] font-figtree font-medium text-left relative w-[300px] xs:w-[340px] sm:w-[380px] md:w-[500px] lg:w-[600px] mx-auto"
               variants={animations.titleTypewriter}
               initial="initial"
               animate="animate"

@@ -1,25 +1,31 @@
 import React from 'react';
 import OptimizedImage from '@/components/ui/OptimizedImage';
+import OptimizedVideo from '@/components/ui/OptimizedVideo';
+import { getPublicVideoUrl } from '@/lib/video';
 import '@/css/KeyPointsResponsive.css';
 
 export default function KeyPoints() {
   return (
     <section className="h-auto md:h-screen w-full flex flex-col md:flex-row items-center justify-center gap-3">
       {/* Box 01 - Colonna sinistra su MD+ */}
-      <div className="w-full md:w-1/2 h-[290px] sm:h-[340px] md:h-[450px] xl:h-[510px] 2xl:h-[610px] bg-second rounded-[20px] relative overflow-hidden p-[20px] xl:p-[25px] 2xl:p-[30px] flex flex-col justify-between">
+      <div className="w-full md:w-1/2 h-[290px] sm:h-[340px] md:h-[450px] xl:h-[510px] 2xl:h-[610px] bg-second dark:bg-[#020202] dark:border-[#fafafa]/20 dark:border-[0.5px] rounded-[20px] relative overflow-hidden p-[20px] xl:p-[25px] 2xl:p-[30px] flex flex-col justify-between">
         <div
           className="absolute inset-0 bg-top bg-no-repeat top-11 evolvi-image md:hidden"
           style={{ backgroundImage: 'url(/img/evolvi-immagine.webp)' }}
         />
-        <div className="absolute inset-0 hidden md:block">
-          <iframe
-            src="https://player.vimeo.com/video/1103282949?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;autoplay=1&amp;loop=1&amp;muted=1&amp;controls=0&amp;title=0&amp;byline=0&amp;portrait=0"
-            frameBorder="0"
-            allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
-            referrerPolicy="strict-origin-when-cross-origin"
-            className="w-full h-full object-cover pointer-events-none"
-            style={{ transform: 'translateY(-10%) scale(0.9)' }}
-            title="1080p"
+        <div className="absolute inset-0 hidden md:block overflow-hidden">
+          <OptimizedVideo
+            src={getPublicVideoUrl('1080p.mp4')}
+            className="w-full h-full object-contain pointer-events-none mix-blend-screen"
+            style={{
+              transform: 'translateY(-10%) scale(0.9)',
+              objectPosition: 'center center',
+            }}
+            autoPlay
+            loop
+            muted
+            controls={false}
+            playsInline
           />
         </div>
         <h4 className="text-[14px] sm:text-[16px] xl:text-[19px] 2xl:text-[21px] text-[#EF2D56] relative z-10 font-poppins font-medium">
@@ -42,7 +48,7 @@ export default function KeyPoints() {
 
       {/* Box 02, 03, 04 - Colonna destra su MD+ */}
       <div className="w-full md:w-1/2 flex flex-col gap-3 md:h-[450px] xl:h-[510px] 2xl:h-[610px] md:justify-between">
-        <div className="w-full h-[190px] sm:h-[240px] md:h-[calc(50%-6px)] bg-second rounded-[20px] p-[20px] xl:p-[25px] 2xl:p-[30px] flex flex-col justify-between relative overflow-hidden">
+        <div className="w-full h-[190px] sm:h-[240px] md:h-[calc(50%-6px)] bg-second dark:bg-[#020202] dark:border-[#fafafa]/20 dark:border-[0.5px] rounded-[20px] p-[20px] xl:p-[25px] 2xl:p-[30px] flex flex-col justify-between relative overflow-hidden">
           <div
             className="absolute inset-0 bg-right-top bg-no-repeat top-5 right-5 webble-image xl:top-[70px] xl:right-[90px] xl:scale-125 2xl:scale-[1.40] 2xl:top-[110px] 2xl:right-[190px]"
             style={{ backgroundImage: 'url(/img/webble-3d.webp)' }}
@@ -61,7 +67,7 @@ export default function KeyPoints() {
           </div>
         </div>
         <div className="w-full flex gap-3 md:h-[calc(50%-6px)] xl:h-[calc(50%-6px)] 2xl:h-[calc(50%-6px)]">
-          <div className="w-1/2 h-[190px] sm:h-[220px] md:h-full bg-second rounded-[20px] p-[20px] xl:p-[25px] 2xl:p-[30px] flex flex-col justify-between">
+          <div className="w-1/2 h-[190px] sm:h-[220px] md:h-full bg-second dark:bg-[#020202] dark:border-[#fafafa]/20 dark:border-[0.5px] rounded-[20px] p-[20px] xl:p-[25px] 2xl:p-[30px] flex flex-col justify-between">
             <h4 className="text-[14px] sm:text-[16px] xl:text-[19px] 2xl:text-[21px] text-[#EF2D56] relative z-10 font-poppins font-medium">
               03
             </h4>
@@ -74,7 +80,7 @@ export default function KeyPoints() {
               </p>
             </div>
           </div>
-          <div className="w-1/2 h-[190px] sm:h-[220px] md:h-full bg-second rounded-[20px] p-[20px] xl:p-[25px] 2xl:p-[30px] flex flex-col justify-between relative overflow-hidden">
+          <div className="w-1/2 h-[190px] sm:h-[220px] md:h-full bg-second dark:bg-[#020202] dark:border-[#fafafa]/20 dark:border-[0.5px] rounded-[20px] p-[20px] xl:p-[25px] 2xl:p-[30px] flex flex-col justify-between relative overflow-hidden">
             <div
               className="absolute inset-0 bg-top bg-no-repeat top-8 figma-image xl:scale-[1.25] xl:top-[40px] 2xl:scale-[1.45] 2xl:top-[75px] 2xl:right-[0px]"
               style={{ backgroundImage: 'url(/img/figma-3d.webp)' }}

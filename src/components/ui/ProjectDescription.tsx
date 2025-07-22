@@ -1,8 +1,7 @@
 'use client';
 
 import React from 'react';
-import { motion } from 'framer-motion';
-import { AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 
 interface ProjectDescriptionProps {
   description: string;
@@ -17,7 +16,7 @@ const ProjectDescription: React.FC<ProjectDescriptionProps> = ({
     <AnimatePresence mode="wait">
       <motion.p
         key={`description-${currentProjectId}`}
-        className="text-main/80 text-base xs:text-lg sm:text-xl md:text-xl font-light leading-relaxed mb-12 md:mb-16 text-left max-w-[300px] xs:max-w-[340px] sm:max-w-[380px] md:max-w-[500px]"
+        className="text-white/80 text-base xs:text-lg sm:text-xl md:text-xl font-light leading-relaxed mb-12 md:mb-16 text-left max-w-[300px] xs:max-w-[340px] sm:max-w-[380px] md:max-w-[500px] transition-colors duration-300"
         initial={{ opacity: 0, y: 15 }}
         animate={{
           opacity: 1,

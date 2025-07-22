@@ -5,7 +5,7 @@
   display: none;
 }
 
-@media (min-width: 550px) {
+@media (min-width: 400px) {
   .logo-compact {
     display: none;
   }

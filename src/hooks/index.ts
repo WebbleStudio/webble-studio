@@ -4,6 +4,7 @@
  */
 
 export { useApiCall } from './useApiCall';
+export { useDarkMode } from './useDarkMode';
 
 // Re-export animation hooks for backward compatibility
 export { useProjectSwitch } from '../components/animations/useProjectSwitch';

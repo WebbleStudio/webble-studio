@@ -41,7 +41,7 @@ export default function Hero() {
               })}
             </div>
             {/* Overlay gradiente basso */}
-            <div className="pointer-events-none absolute left-0 bottom-0 w-full h-[500px] lg:h-[90%] bg-gradient-to-t from-black/90 to-transparent" />
+            <div className="pointer-events-none absolute left-0 bottom-0 w-full h-[500px] lg:h-[90%] bg-gradient-to-t from-black/90 to-transparent dark:from-[#020202]/90" />
           </div>
         )}
       </div>

@@ -128,7 +128,7 @@ export default function Contact() {
   return (
     <section className="h-auto w-full flex items-center justify-center py-20">
       <div className="w-full">
-        <h2 className="text-[50px] md:text-[50px] lg:text-[60px] font-figtree font-regular text-second text-left">
+        <h2 className="text-[50px] md:text-[50px] lg:text-[60px] font-figtree font-regular text-second dark:text-[#fafafa] text-left">
           Contattaci
         </h2>
 
@@ -145,7 +145,7 @@ export default function Contact() {
             <div>
               <label
                 htmlFor="name"
-                className="block text-[20px] font-figtree font-regular text-second mb-3 text-left"
+                className="block text-[20px] font-figtree font-regular text-second dark:text-[#fafafa] mb-3 text-left"
               >
                 Nome
               </label>
@@ -159,7 +159,7 @@ export default function Contact() {
                 className={`w-full px-0 py-3 border-b bg-transparent text-second placeholder-main/50 focus:outline-none transition-colors text-base ${
                   errors.name
                     ? 'border-red-400 focus:border-red-500'
-                    : 'border-main/20 focus:border-main/40'
+                    : 'border-main/20 focus:border-main/40 dark:border-[#fafafa]/50 dark:focus:border-[#fafafa]/70'
                 }`}
               />
               {errors.name && (
@@ -170,7 +170,7 @@ export default function Contact() {
             <div>
               <label
                 htmlFor="email"
-                className="block text-[20px] font-figtree font-regular text-second mb-3 text-left"
+                className="block text-[20px] font-figtree font-regular text-second dark:text-[#fafafa] mb-3 text-left"
               >
                 Email
               </label>
@@ -184,7 +184,7 @@ export default function Contact() {
                 className={`w-full px-0 py-3 border-b bg-transparent text-second placeholder-main/50 focus:outline-none transition-colors text-base ${
                   errors.email
                     ? 'border-red-400 focus:border-red-500'
-                    : 'border-main/20 focus:border-main/40'
+                    : 'border-main/20 focus:border-main/40 dark:border-[#fafafa]/50 dark:focus:border-[#fafafa]/70'
                 }`}
               />
               {errors.email && (
@@ -196,7 +196,7 @@ export default function Contact() {
           <div>
             <label
               htmlFor="phone"
-              className="block text-[20px] font-figtree font-regular text-second mb-3 text-left"
+              className="block text-[20px] font-figtree font-regular text-second dark:text-[#fafafa] mb-3 text-left"
             >
               Telefono
             </label>
@@ -210,7 +210,7 @@ export default function Contact() {
               className={`w-full px-0 py-3 border-b bg-transparent text-second placeholder-main/50 focus:outline-none transition-colors text-base ${
                 errors.phone
                   ? 'border-red-400 focus:border-red-500'
-                  : 'border-main/20 focus:border-main/40'
+                  : 'border-main/20 focus:border-main/40 dark:border-[#fafafa]/50 dark:focus:border-[#fafafa]/70'
               }`}
             />
             {errors.phone && (
@@ -221,7 +221,7 @@ export default function Contact() {
           <div>
             <label
               htmlFor="message"
-              className="block text-[20px] font-figtree font-regular text-second mb-3 text-left"
+              className="block text-[20px] font-figtree font-regular text-second dark:text-[#fafafa] mb-3 text-left"
             >
               Parlaci del tuo progetto
             </label>
@@ -235,7 +235,7 @@ export default function Contact() {
               className={`w-full px-0 py-3 border-b bg-transparent text-second placeholder-main/50 focus:outline-none transition-colors text-base resize-none ${
                 errors.message
                   ? 'border-red-400 focus:border-red-500'
-                  : 'border-main/20 focus:border-main/40'
+                  : 'border-main/20 focus:border-main/40 dark:border-[#fafafa]/50 dark:focus:border-[#fafafa]/70'
               }`}
             />
             {errors.message && (
@@ -258,7 +258,10 @@ export default function Contact() {
                       : 'border-main/20 focus:ring-main/40'
                   }`}
                 />
-                <label htmlFor="privacyConsent" className="text-sm text-second leading-relaxed">
+                <label
+                  htmlFor="privacyConsent"
+                  className="text-sm text-second dark:text-[#fafafa] leading-relaxed"
+                >
                   Acconsento al trattamento dei dati personali ai sensi del GDPR
                 </label>
               </div>
@@ -279,7 +282,10 @@ export default function Contact() {
                   onChange={handleInputChange}
                   className="mt-1 w-4 h-4 text-main bg-transparent border-main/20 rounded focus:ring-main/40 focus:ring-2"
                 />
-                <label htmlFor="marketingConsent" className="text-sm text-second leading-relaxed">
+                <label
+                  htmlFor="marketingConsent"
+                  className="text-sm text-second dark:text-[#fafafa] leading-relaxed"
+                >
                   Accetto di ricevere promozioni e comunicazioni marketing
                 </label>
               </div>
@@ -292,7 +298,7 @@ export default function Contact() {
             className={`w-full md:w-auto px-8 py-4 font-medium rounded-lg transition-colors mt-8 ${
               isSubmitting
                 ? 'bg-gray-400 text-gray-600 cursor-not-allowed'
-                : 'bg-second text-main hover:bg-second/90'
+                : 'bg-second text-main dark:bg-[#fafafa] dark:text-[#020202] hover:bg-second/90 dark:hover:bg-[#fafafa]/90'
             }`}
           >
             {isSubmitting ? 'Invio in corso...' : 'Invia richiesta'}

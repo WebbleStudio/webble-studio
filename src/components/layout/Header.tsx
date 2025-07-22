@@ -5,6 +5,7 @@ import OptimizedImage from '@/components/ui/OptimizedImage';
 import Link from 'next/link';
 import '@/css/Header.css';
 import Button from '@/components/ui/Button';
+import DarkModeToggle from '@/components/ui/DarkModeToggle';
 import { useHeaderAnimation } from '../animations/useHeaderAnimation';
 
 export default function Header() {
@@ -14,13 +15,13 @@ export default function Header() {
     <div className="fixed top-0 left-0 w-full z-50 h-[90px] flex items-center px-5 md:px-[30px]">
       {/* Mobile layout: logo e burger menu senza wrapper */}
       <div className="flex w-full items-center justify-between md:hidden">
-        <div className="h-[30px] flex items-center">
+        <div className="h-[40px] flex items-center">
           <Link href="/" className="logo-compact">
             <OptimizedImage
               src="/img/webble-white-logo.svg"
               alt="Webble Logo"
-              width={59}
-              height={30}
+              width={80}
+              height={40}
               priority
               className="w-auto"
             />
@@ -36,9 +37,12 @@ export default function Header() {
             />
           </Link>
         </div>
-        <div className="flex flex-col items-end justify-center gap-[11px] cursor-pointer">
-          <span className="block w-[45px] md:w-[40px] h-[2px] bg-main rounded"></span>
-          <span className="block w-[45px] md:w-[40px] h-[2px] bg-main rounded"></span>
+        <div className="flex items-center gap-3">
+          <DarkModeToggle />
+          <div className="flex flex-col items-end justify-center gap-[11px] cursor-pointer">
+            <span className="block w-[45px] md:w-[40px] h-[2px] bg-main dark:bg-auto-inverse rounded transition-colors duration-300"></span>
+            <span className="block w-[45px] md:w-[40px] h-[2px] bg-main dark:bg-auto-inverse rounded transition-colors duration-300"></span>
+          </div>
         </div>
       </div>
 
@@ -75,8 +79,11 @@ export default function Header() {
           </div>
           <span className="font-poppins text-[#d9d9d9] text-base">Menu</span>
         </div>
-        {/* Button a destra */}
-        <Button className="hidden md:inline-flex">Contattaci</Button>
+        {/* Button e toggle a destra */}
+        <div className="flex items-center gap-3">
+          <DarkModeToggle className="hidden md:block" />
+          <Button className="hidden md:inline-flex">Contattaci</Button>
+        </div>
       </div>
     </div>
   );

@@ -3,27 +3,38 @@
 @tailwind utilities;
 
 :root {
-  --background: #fafafa;
-  --foreground: #020202;
   --main-color: #fafafa;
   --second-color: #020202;
+
+  /* Dark mode auto-system */
+  --text-primary: #020202;
+  --text-secondary: #fafafa;
+  --bg-primary: #fafafa;
+  --bg-secondary: #020202;
+  --border-primary: #020202;
+  --border-secondary: #fafafa;
 }
 
-/*
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #020202;
-    --foreground: #FAFAFA;
-    --main-color: #fafafa;
-    --second-color: #020202;
-  }
+.dark {
+  --main-color: #fafafa;
+  --second-color: #020202;
+
+  /* Dark mode auto-system - inversione automatica */
+  --text-primary: #fafafa;
+  --text-secondary: #020202;
+  --bg-primary: #020202;
+  --bg-secondary: #fafafa;
+  --border-primary: #fafafa;
+  --border-secondary: #020202;
 }
-*/
 
 body {
-  background: var(--main-color);
-  color: var(--main-color);
+  background: var(--bg-primary);
+  color: var(--text-primary);
   font-family: var(--font-figtree), system-ui, sans-serif;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 
 /* Nascondi badge reCAPTCHA */
@@ -60,8 +71,116 @@ body {
   }
 }
 
-/* Component layer for reusable styles */
+/* Component layer for reusable styles with auto dark mode */
 @layer components {
+  /* Automatic dark mode classes */
+  .text-auto {
+    color: var(--text-primary);
+  }
+
+  .text-auto-inverse {
+    color: var(--text-secondary);
+  }
+
+  .bg-auto {
+    background-color: var(--bg-primary);
+  }
+
+  .bg-auto-inverse {
+    background-color: var(--bg-secondary);
+  }
+
+  .border-auto {
+    border-color: var(--border-primary);
+  }
+
+  .border-auto-inverse {
+    border-color: var(--border-secondary);
+  }
+
+  /* Automatic button styles */
+  .btn-auto {
+    @apply bg-auto-inverse text-auto-inverse border-auto-inverse;
+    transition: all 0.3s ease;
+  }
+
+  .btn-auto:hover {
+    opacity: 0.9;
+  }
+
+  /* Automatic form styles */
+  .input-auto {
+    @apply bg-transparent text-auto border-auto-inverse/20 focus:border-auto-inverse/40;
+    transition: all 0.3s ease;
+  }
+
+  /* Automatic card styles */
+  .card-auto {
+    @apply bg-auto-inverse text-auto-inverse;
+    transition: all 0.3s ease;
+  }
+
+  .card-glass {
+    @apply bg-auto-inverse/5 border-auto-inverse/20;
+    transition: all 0.3s ease;
+  }
+
+  /* Payoff background system - Due pseudo-elementi per controllo completo */
+  .payoff-bg-transition {
+    position: relative;
+  }
+
+  /* Light background - ::before */
+  .payoff-bg-transition::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url('/img/bubble-background.webp');
+    background-size: inherit;
+    background-position: inherit;
+    background-repeat: inherit;
+    opacity: 1;
+    z-index: -2;
+    pointer-events: none;
+    transition: opacity 0s;
+  }
+
+  /* Dark background - ::after */
+  .payoff-bg-transition::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url('/img/bubble-background-dark.webp');
+    background-size: inherit;
+    background-position: inherit;
+    background-repeat: inherit;
+    opacity: 0;
+    z-index: -1;
+    pointer-events: none;
+    transition: opacity 0s;
+  }
+
+  /* LIGHT → DARK */
+  .dark .payoff-bg-transition::before {
+    opacity: 0;
+    transition: opacity 0s;
+  }
+
+  .dark .payoff-bg-transition::after {
+    opacity: 1;
+    transition: opacity 0.5s ease-in 0.4s;
+  }
+
+  /* DARK → LIGHT */
+  .payoff-bg-transition::before {
+    transition: opacity 0.5s ease-in 0.4s;
+  }
+
+  .payoff-bg-transition::after {
+    transition: opacity 0s;
+  }
+
+  /* Legacy classes for compatibility */
   .btn-primary {
     @apply px-6 py-3 bg-second text-main rounded-lg font-medium transition-colors hover:bg-second/90;
   }

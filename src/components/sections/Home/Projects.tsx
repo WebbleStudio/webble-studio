@@ -23,6 +23,16 @@ const projectsData: ProjectData[] = [
     labels: ['Web Developement', 'Motion Design', '3D Styling', 'Interactive Design'],
     date: 'Maggio 2025',
   },
+
+  {
+    id: 'x2mcreative',
+    title: 'X2M Creative',
+    description: 'La creative agency di X2 Marco',
+    image: '/img/x2mcreative.webp',
+    backgroundImage: '/img/x2mcreative-background.webp',
+    labels: ['Web Developement', 'Motion Design', '3D Styling', 'Interactive Design'],
+    date: 'Maggio 2025',
+  },
 ];
 
 export default function Projects() {

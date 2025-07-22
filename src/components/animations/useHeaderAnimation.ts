@@ -19,9 +19,11 @@ export function useHeaderAnimation() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Dynamic className for desktop wrapper based on scroll state
+  // Dynamic className for desktop wrapper based on scroll state with dark mode support
   const desktopWrapperClassName = `w-full max-w-[1240px] 2xl:max-w-[1590px] mx-auto h-[65px] rounded-[23px] hidden md:flex items-center justify-between transition-all duration-500 ease-[cubic-bezier(0.68,-0.55,0.265,1.55)] ${
-    isScrolled ? 'border border-[rgba(250,250,250,0.1)] pl-[17px] pr-[11px]' : ''
+    isScrolled
+      ? 'border border-[rgba(250,250,250,0.1)] dark:border-[rgba(250,250,250,0.2)] bg-[#020202]/70 backdrop-blur pl-[12px] pr-[12px]'
+      : ''
   }`;
 
   return {

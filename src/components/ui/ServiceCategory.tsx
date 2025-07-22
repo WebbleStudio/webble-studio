@@ -40,8 +40,8 @@ export default function ServiceCategory({
     <div className={`flex flex-col items-start ${className}`}>
       {/* Header section - always visible */}
       <div className="w-full flex flex-col gap-4">
-        <div className="w-full h-[1px] bg-second"></div>
-        <h4 className="text-[100%] text-second font-poppins font-medium md:mb-[25px] xl:text-[19px]">
+        <div className="w-full h-[1px] bg-second dark:bg-[#fafafa]/50"></div>
+        <h4 className="text-[100%] text-second dark:text-[#fafafa] font-poppins font-medium md:mb-[25px] xl:text-[19px]">
           {number}
         </h4>
       </div>
@@ -50,9 +50,10 @@ export default function ServiceCategory({
       <div className="w-full flex flex-col md:mb-[15px]">
         {/* Clickable h2 */}
         <motion.h2
-          className="text-second text-[53px] sm:text-[63px] md:text-[68px] xl:text-[78px] 2xl:text-[93px] cursor-pointer w-full leading-tight"
+          className="text-second dark:text-[#fafafa]/60 dark:data-[expanded=true]:text-[#fafafa] text-[53px] sm:text-[63px] md:text-[68px] xl:text-[78px] 2xl:text-[93px] cursor-pointer w-full leading-tight hover:dark:text-[#fafafa]/80"
           style={{ transformOrigin: 'left' }}
           onClick={toggleExpansion}
+          data-expanded={isExpanded}
           {...titleAnimationProps}
         >
           {title}
@@ -84,7 +85,7 @@ export default function ServiceCategory({
                     {labels.map((label, index) => (
                       <span
                         key={index}
-                        className="px-[17px] py-[11px] bg-transparent text-black border border-black rounded-full text-sm xl:text-base font-medium whitespace-nowrap"
+                        className="px-[17px] py-[11px] bg-transparent text-black border border-black dark:text-[#fafafa] dark:border-[#fafafa] rounded-full text-sm xl:text-base font-medium whitespace-nowrap"
                       >
                         {label}
                       </span>
@@ -101,7 +102,7 @@ export default function ServiceCategory({
 
               {/* Paragraph */}
               <motion.p
-                className="text-second text-[14px] sm:text-[16px] xl:text-[18px] sm:w-[430px] opacity-60"
+                className="text-second dark:text-[#fafafa] text-[14px] sm:text-[16px] xl:text-[18px] sm:w-[430px] opacity-60"
                 {...paragraphAnimationProps}
                 dangerouslySetInnerHTML={{ __html: paragraph }}
               />
@@ -124,9 +125,9 @@ export default function ServiceCategory({
                   }
                 `}</style>
                 <div className="flex gap-4">
-                  <div className="w-[200px] h-[130px] sm:w-[230px] sm:h-[160px] md:w-[185px] md:h-[115px] xl:w-[200px] xl:h-[130px] bg-black rounded-2xl flex-shrink-0"></div>
-                  <div className="w-[200px] h-[130px] sm:w-[230px] sm:h-[160px] md:w-[185px] md:h-[115px] xl:w-[200px] xl:h-[130px] bg-black rounded-2xl flex-shrink-0"></div>
-                  <div className="w-[200px] h-[130px] sm:w-[230px] sm:h-[160px] md:w-[185px] md:h-[115px] xl:w-[200px] xl:h-[130px] bg-black rounded-2xl flex-shrink-0"></div>
+                  <div className="w-[200px] h-[130px] sm:w-[230px] sm:h-[160px] md:w-[185px] md:h-[115px] xl:w-[200px] xl:h-[130px] bg-black dark:bg-[#fafafa] rounded-2xl flex-shrink-0"></div>
+                  <div className="w-[200px] h-[130px] sm:w-[230px] sm:h-[160px] md:w-[185px] md:h-[115px] xl:w-[200px] xl:h-[130px] bg-black dark:bg-[#fafafa] rounded-2xl flex-shrink-0"></div>
+                  <div className="w-[200px] h-[130px] sm:w-[230px] sm:h-[160px] md:w-[185px] md:h-[115px] xl:w-[200px] xl:h-[130px] bg-black dark:bg-[#fafafa] rounded-2xl flex-shrink-0"></div>
                 </div>
               </div>
               {showLeftFadeRectangles && (
