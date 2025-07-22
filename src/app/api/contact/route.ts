@@ -4,6 +4,7 @@ import { Resend } from 'resend';
 import ContactEmail from '@/components/email/ContactEmail';
 
 export const runtime = 'edge';
+export const maxDuration = 25; // Massima durata in secondi
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -73,6 +74,37 @@ export async function POST(request: NextRequest) {
       }
 
       console.log('Supabase insert successful:', { id: data?.id });
+
+      // Invia email in modo asincrono
+      console.log('Starting async email send...');
+      resend.emails.send({
+        from: 'Webble Studio <onboarding@resend.dev>',
+        to: ['webblestudio.com@gmail.com'], // Email verificata per test
+        subject: `Grazie ${name}! Il tuo progetto ci interessa`,
+        react: ContactEmail({
+          name,
+          email,
+          phone: phone || 'Non fornito',
+          message,
+        }),
+      }).then(() => {
+        console.log('Async email sent successfully');
+      }).catch((emailError: any) => {
+        console.error('Async email error:', {
+          name: emailError?.name,
+          message: emailError?.message,
+        });
+      });
+
+      // Rispondi immediatamente dopo il salvataggio dei dati
+      return NextResponse.json(
+        {
+          success: true,
+          message: 'Messaggio inviato con successo!',
+        },
+        { status: 201 }
+      );
+
     } catch (dbError: any) {
       console.error('Database error:', {
         name: dbError?.name,
@@ -85,39 +117,6 @@ export async function POST(request: NextRequest) {
         details: dbError?.message 
       }, { status: 500 });
     }
-
-    console.log('Attempting email send...');
-    // Invia email di conferma
-    try {
-      await resend.emails.send({
-        from: 'Webble Studio <onboarding@resend.dev>',
-        to: ['webblestudio.com@gmail.com'], // Email verificata per test
-        subject: `Grazie ${name}! Il tuo progetto ci interessa`,
-        react: ContactEmail({
-          name,
-          email,
-          phone: phone || 'Non fornito',
-          message,
-        }),
-      });
-      console.log('Email sent successfully');
-    } catch (emailError: any) {
-      console.error('Errore dettagliato invio email:', {
-        name: emailError?.name,
-        message: emailError?.message,
-        stack: emailError?.stack,
-      });
-      // Non blocchiamo il processo se l'email fallisce
-      // Il form è stato salvato comunque
-    }
-
-    return NextResponse.json(
-      {
-        success: true,
-        message: 'Messaggio inviato con successo!',
-      },
-      { status: 201 }
-    );
   } catch (error: any) {
     console.error('Errore API dettagliato:', {
       name: error?.name,
