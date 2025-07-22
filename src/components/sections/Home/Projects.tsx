@@ -14,7 +14,7 @@ const projectsData: ProjectData[] = [
   },
   {
     id: 'legacy',
-    title: 'L.O.G.',
+    title: 'Legacy of Game',
     image: '/img/Legacy.webp',
     backgroundImage: '/img/LegacyBackground.webp',
     labels: ['Project Management', 'Branding'],
@@ -25,7 +25,7 @@ export default function Projects() {
   const { currentProject, goToNext, goToPrevious } = useProjectSwitch(projectsData);
 
   return (
-    <section className="h-[800px] w-full flex items-center justify-center">
+    <section className="h-screen w-full flex items-center justify-center">
       <Project
         title={currentProject.title}
         image={currentProject.image}

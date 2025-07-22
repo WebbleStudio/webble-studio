@@ -39,12 +39,20 @@ export const projectAnimationVariants = {
   } as Variants,
 
   title: {
-    initial: { opacity: 0, y: 15 },
+    initial: { opacity: 0, x: -30 },
     animate: {
       opacity: 1,
-      y: 0,
+      x: 0,
       transition: {
         duration: ANIMATION_CONFIG.durations.title,
+        ease: ANIMATION_CONFIG.easing,
+      },
+    },
+    exit: {
+      opacity: 0,
+      x: 30,
+      transition: {
+        duration: 0.3,
         ease: ANIMATION_CONFIG.easing,
       },
     },

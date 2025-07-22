@@ -1,45 +1,54 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import Button from '@/components/ui/Button';
 import Label from '@/components/ui/Label';
+import { useSplineLazyLoad } from '@/components/animations/useSplineLazyLoad';
 
 export default function Hero() {
-  useEffect(() => {
-    // Carica lo script Spline solo se non è già presente
-    if (!document.querySelector('script[src*="spline-viewer.js"]')) {
-      const script = document.createElement('script');
-      script.type = 'module';
-      script.src = 'https://unpkg.com/@splinetool/viewer@latest/build/spline-viewer.js';
-      // Add a small delay to ensure DOM is ready
-      setTimeout(() => {
-        document.body.appendChild(script);
-      }, 100);
-    }
-  }, []);
+  const {
+    containerRef,
+    isLoaded,
+    mobileUrl,
+    desktopUrl
+  } = useSplineLazyLoad({
+    mobileUrl: 'https://prod.spline.design/VpGusEHksTg0dW5e/scene.splinecode',
+    desktopUrl: 'https://prod.spline.design/cb0H3zl1WQgxYSZP/scene.splinecode',
+    delay: 500 // Carica dopo 500ms per dare priorità al contenuto
+  });
 
   return (
     <section className="relative bg-second h-[750px] md:h-screen w-full overflow-hidden">
       {/* Spline viewer come background */}
-      <div className="absolute inset-0 w-full h-full z-0">
+      <div ref={containerRef} className="absolute inset-0 w-full h-full z-0">
+        {/* Loading placeholder */}
+        {!isLoaded && (
+          <div className="w-full h-full bg-gradient-to-br from-main/5 to-second/10 animate-pulse" />
+        )}
+        
         {/* Mobile/SM: viewer attuale */}
-        <div className="block md:hidden w-full h-full min-h-[750px] pointer-events-none touch-none">
-          {React.createElement('spline-viewer', {
-            url: 'https://prod.spline.design/VpGusEHksTg0dW5e/scene.splinecode',
-            style: { width: '100%', height: '100%', minHeight: '750px' },
-          })}
-        </div>
-        {/* MD+: nuovo viewer */}
-        <div className="hidden md:block w-full h-full min-h-screen relative">
-          <div className="w-full h-[80%] lg:h-[90%]">
+        {isLoaded && (
+          <div className="block md:hidden w-full h-full min-h-[750px] pointer-events-none touch-none">
             {React.createElement('spline-viewer', {
-              url: 'https://prod.spline.design/cb0H3zl1WQgxYSZP/scene.splinecode',
-              style: { width: '100%', height: '100%', minHeight: '600px' },
+              url: mobileUrl,
+              style: { width: '100%', height: '100%', minHeight: '750px' },
             })}
           </div>
-          {/* Overlay gradiente basso */}
-          <div className="pointer-events-none absolute left-0 bottom-0 w-full h-[500px] lg:h-[90%] bg-gradient-to-t from-black/90 to-transparent" />
-        </div>
+        )}
+        
+        {/* MD+: nuovo viewer */}
+        {isLoaded && (
+          <div className="hidden md:block w-full h-full min-h-screen relative">
+            <div className="w-full h-[80%] lg:h-[90%]">
+              {React.createElement('spline-viewer', {
+                url: desktopUrl,
+                style: { width: '100%', height: '100%', minHeight: '600px' },
+              })}
+            </div>
+            {/* Overlay gradiente basso */}
+            <div className="pointer-events-none absolute left-0 bottom-0 w-full h-[500px] lg:h-[90%] bg-gradient-to-t from-black/90 to-transparent" />
+          </div>
+        )}
       </div>
       {/* Contenuto hero sopra lo sfondo */}
       <div className="absolute left-1/2 bottom-0 w-full max-w-[1300px] 2xl:max-w-[1650px] h-[290px] z-10 flex flex-col md:flex-row items-start md:items-end justify-start md:justify-between px-5 md:px-[30px] md:pb-[75px] -translate-x-1/2">

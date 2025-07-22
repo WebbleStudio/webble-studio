@@ -4,6 +4,7 @@ import Payoff from '@/components/sections/Home/Payoff';
 import KeyPoints from '@/components/sections/Home/KeyPoints';
 import Services from '@/components/sections/Home/Services';
 import Projects from '@/components/sections/Home/Projects';
+import Contact from '@/components/sections/Home/Contact';
 
 export default function Home() {
   return (
@@ -14,7 +15,10 @@ export default function Home() {
         <KeyPoints />
         <Services />
       </Container>
-      <Projects />
+        <Projects />
+      <Container>
+         <Contact />
+      </Container>
     </main>
   );
 }

@@ -26,7 +26,7 @@ const Project: React.FC<ProjectProps> = ({
   const animations = projectAnimationVariants;
 
   return (
-    <div className="h-[600px] w-full bg-second flex items-center justify-center px-5 md:px-[30px] relative overflow-hidden">
+    <div className="h-screen w-full bg-second flex items-center justify-center px-5 md:px-[30px] relative overflow-hidden">
       {/* Animated Background */}
       <AnimatePresence>
         <motion.div
@@ -47,39 +47,26 @@ const Project: React.FC<ProjectProps> = ({
           animate="animate"
           exit="exit"
         >
-          <div className="w-[275px] flex items-center justify-between mb-12">
-            <motion.img
-              src="/icons/arrow-left.svg"
-              alt="Arrow left"
-              className="w-8 h-8 cursor-pointer"
-              onClick={onLeftArrowClick}
-              variants={animations.arrow}
+          <AnimatePresence mode="wait">
+            <motion.h1 
+              key={`title-${currentProjectId}`}
+              className="text-[32px] font-figtree font-medium mb-12 text-left" 
+              variants={animations.title}
               initial="initial"
-              whileHover="hover"
-              whileTap="tap"
-            />
-            <motion.h1 className="text-[32px] font-figtree font-medium" variants={animations.title}>
+              animate="animate"
+              exit="exit"
+            >
               {title}
             </motion.h1>
-            <motion.img
-              src="/icons/arrow-right.svg"
-              alt="Arrow right"
-              className="w-8 h-8 cursor-pointer"
-              onClick={onRightArrowClick}
-              variants={animations.arrow}
-              initial="initial"
-              whileHover="hover"
-              whileTap="tap"
-            />
-          </div>
+          </AnimatePresence>
 
           <motion.div
-            className="w-[275px] h-[175px] bg-main rounded-[17px] bg-cover bg-center bg-no-repeat mb-14"
+            className="w-[275px] h-[175px] xs:w-[305px] xs:h-[205px] bg-main rounded-[17px] bg-cover bg-center bg-no-repeat mb-14"
             style={{ backgroundImage: `url(${image})` }}
             variants={animations.image}
           />
 
-          <motion.div className="flex gap-2 justify-center" variants={animations.labels}>
+          <motion.div className="flex gap-2 justify-start mb-8" variants={animations.labels}>
             {labels.map((label, index) => (
               <motion.span
                 key={`${label}-${index}`}
@@ -91,6 +78,53 @@ const Project: React.FC<ProjectProps> = ({
               </motion.span>
             ))}
           </motion.div>
+
+          {/* Fixed Navigation Arrows - Outside animation */}
+          <div className="flex items-center justify-between w-[275px] xs:w-[305px]">
+            {/* Left Arrow */}
+            <div
+              className="cursor-pointer transition-opacity hover:opacity-70"
+              onClick={onLeftArrowClick}
+            >
+              <svg 
+                width="80" 
+                height="20" 
+                viewBox="0 0 80 20" 
+                fill="none" 
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path 
+                  d="M10 2L2 10L10 18M2 10H78" 
+                  stroke="rgba(255, 255, 255, 0.8)" 
+                  strokeWidth="2" 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </div>
+
+            {/* Right Arrow */}
+            <div
+              className="cursor-pointer transition-opacity hover:opacity-70"
+              onClick={onRightArrowClick}
+            >
+              <svg 
+                width="80" 
+                height="20" 
+                viewBox="0 0 80 20" 
+                fill="none" 
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path 
+                  d="M70 18L78 10L70 2M78 10H2" 
+                  stroke="rgba(255, 255, 255, 0.8)" 
+                  strokeWidth="2" 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </div>
+          </div>
         </motion.div>
       </AnimatePresence>
     </div>

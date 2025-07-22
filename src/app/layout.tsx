@@ -8,8 +8,8 @@ import '@fontsource/poppins/500.css';
 import Header from '@/components/layout/Header';
 
 export const metadata: Metadata = {
-  title: 'Webble Studio',
-  description: 'Scopri cosa significa essere unici',
+  title: 'Webble Studio: Scopri cosa significa essere unici',
+  description: 'Trova i professionisti giusti per il tuo progetto digitale. Designer, sviluppatori, copywriter e marketer pronti a trasformare le tue idee in realtà, garantendo',
 };
 
 export default function RootLayout({
