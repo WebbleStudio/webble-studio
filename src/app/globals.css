@@ -2,32 +2,124 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --main-color: #fafafa;
-  --second-color: #020202;
+/* ========================================
+   SISTEMA COMPLETO DI COLORI PER DARK MODE
+   ======================================== */
 
-  /* Dark mode auto-system */
-  --text-primary: #020202;
-  --text-secondary: #fafafa;
-  --bg-primary: #fafafa;
-  --bg-secondary: #020202;
-  --border-primary: #020202;
-  --border-secondary: #fafafa;
+:root {
+  /* ===== FONT FAMILIES ===== */
+  --font-figtree: 'Figtree', system-ui, sans-serif;
+  --font-poppins: 'Poppins', system-ui, sans-serif;
+
+  /* ===== COLORI BASE ===== */
+  --main-color: #fafafa; /* Bianco principale - usato per sfondi chiari */
+  --second-color: #0b0b0b; /* Nero principale - usato per testi scuri */
+
+  /* ===== SISTEMA TESTI ===== */
+  --text-primary: #0b0b0b; /* Testo principale (nero in light mode) */
+  --text-secondary: #fafafa; /* Testo secondario (bianco in light mode) */
+  --text-primary-60: rgba(11, 11, 11, 0.6); /* Testo con 60% opacità per sottotitoli */
+  --text-inverse: #fafafa; /* Testo inverso (bianco per bottoni scuri) */
+
+  /* ===== SISTEMA BACKGROUNDS ===== */
+  --bg-primary: #fafafa; /* Background principale (bianco) */
+  --bg-secondary: #0b0b0b; /* Background secondario (nero) */
+  --bg-glass: rgba(250, 250, 250, 0.05); /* Background glass per bottoni trasparenti */
+  --bg-overlay: rgba(0, 0, 0, 0.2); /* Overlay per hover states */
+  --bg-card: #0b0b0b; /* Background per cards (nero) */
+
+  /* ===== SISTEMA BORDERS ===== */
+  --border-primary: #0b0b0b; /* Border principale (nero) */
+  --border-secondary: #fafafa; /* Border secondario (bianco) */
+
+  /* Border con opacità per light mode */
+  --border-primary-20: rgba(250, 250, 250, 0.2); /* Border bianco 20% opacità */
+  --border-primary-40: rgba(250, 250, 250, 0.4); /* Border bianco 40% opacità */
+  --border-primary-50: rgba(250, 250, 250, 0.5); /* Border bianco 50% opacità */
+
+  /* Border con opacità per dark mode */
+  --border-dark-20: rgba(11, 11, 11, 0.2); /* Border nero 20% opacità */
+  --border-dark-40: rgba(11, 11, 11, 0.4); /* Border nero 40% opacità */
+  --border-dark-50: rgba(11, 11, 11, 0.5); /* Border nero 50% opacità */
+
+  /* ===== SISTEMA HOVER ===== */
+  --hover-overlay: rgba(0, 0, 0, 0.1); /* Overlay hover per light mode */
+  --hover-bg-secondary: rgba(11, 11, 11, 0.9); /* Background hover per bottoni */
+
+  /* ===== ELEMENTI UI SPECIFICI ===== */
+  --icon-filter: none; /* Filtro per icone (nessuno in light) */
+  --button-glass-bg: rgba(250, 250, 250, 0.05); /* Background bottoni glass */
+  --button-glass-border: rgba(250, 250, 250, 0.5); /* Border bottoni glass (sempre bianco) */
+
+  /* ===== LINEE CHE CAMBIANO IN DARK MODE ===== */
+  --line-fixed: rgba(11, 11, 11, 0.2); /* Linee in light mode (nero 20%) */
+  --line-fixed-focus: rgba(11, 11, 11, 0.4); /* Linee focus in light mode (nero 40%) */
+
+  /* ===== BORDER LABEL PROJECTS ===== */
+  --border-label-project: rgba(250, 250, 250, 0.3); /* Border label projects in white mode */
+
+  /* ===== MENU OVERLAY ===== */
+  --menu-overlay-border: rgba(
+    250,
+    250,
+    250,
+    0.2
+  ); /* Border menu overlay in light mode (bianco sottile) */
 }
 
 .dark {
-  --main-color: #fafafa;
-  --second-color: #020202;
+  /* ===== COLORI BASE (invariati) ===== */
+  --main-color: #fafafa; /* Bianco principale - invariato */
+  --second-color: #0b0b0b; /* Nero principale - invariato */
 
-  /* Dark mode auto-system - inversione automatica */
-  --text-primary: #fafafa;
-  --text-secondary: #020202;
-  --bg-primary: #020202;
-  --bg-secondary: #fafafa;
-  --border-primary: #fafafa;
-  --border-secondary: #020202;
+  /* ===== SISTEMA TESTI (INVERSIONE) ===== */
+  --text-primary: #fafafa; /* Testo principale (bianco in dark mode) */
+  --text-secondary: #0b0b0b; /* Testo secondario (nero in dark mode) */
+  --text-primary-60: rgba(250, 250, 250, 0.6); /* Testo con 60% opacità (bianco) */
+  --text-inverse: #0b0b0b; /* Testo inverso (nero per bottoni chiari) */
+
+  /* ===== SISTEMA BACKGROUNDS (INVERSIONE) ===== */
+  --bg-primary: #0b0b0b; /* Background principale (nero) */
+  --bg-secondary: #fafafa; /* Background secondario (bianco) */
+  --bg-glass: rgba(250, 250, 250, 0.05); /* Background glass (invariato) */
+  --bg-overlay: rgba(255, 255, 255, 0.1); /* Overlay per hover states (bianco) */
+  --bg-card: #0b0b0b; /* Background per cards (nero) */
+
+  /* ===== SISTEMA BORDERS (INVERSIONE) ===== */
+  --border-primary: #fafafa; /* Border principale (bianco) */
+  --border-secondary: #0b0b0b; /* Border secondario (nero) */
+
+  /* Border con opacità per dark mode */
+  --border-primary-20: rgba(250, 250, 250, 0.2); /* Border bianco 20% opacità */
+  --border-primary-40: rgba(250, 250, 250, 0.4); /* Border bianco 40% opacità */
+  --border-primary-50: rgba(250, 250, 250, 0.5); /* Border bianco 50% opacità */
+
+  /* Border con opacità per light mode (non usati in dark) */
+  --border-dark-20: rgba(11, 11, 11, 0.2); /* Border nero 20% opacità */
+  --border-dark-40: rgba(11, 11, 11, 0.4); /* Border nero 40% opacità */
+  --border-dark-50: rgba(11, 11, 11, 0.5); /* Border nero 50% opacità */
+
+  /* ===== SISTEMA HOVER (INVERSIONE) ===== */
+  --hover-overlay: rgba(255, 255, 255, 0.1); /* Overlay hover per dark mode */
+  --hover-bg-secondary: rgba(250, 250, 250, 0.9); /* Background hover per bottoni */
+
+  /* ===== ELEMENTI UI SPECIFICI ===== */
+  --icon-filter: brightness(0) invert(1); /* Filtro per icone (inversione in dark) */
+  --button-glass-bg: rgba(250, 250, 250, 0.05); /* Background bottoni glass (invariato) */
+  --button-glass-border: rgba(250, 250, 250, 0.5); /* Border bottoni glass (sempre bianco) */
+
+  /* ===== LINEE CHE CAMBIANO IN DARK MODE ===== */
+  --line-fixed: rgba(250, 250, 250, 0.2); /* Linee in dark mode (bianco 20%) */
+  --line-fixed-focus: rgba(250, 250, 250, 0.4); /* Linee focus in dark mode (bianco 40%) */
+
+  /* ===== MENU OVERLAY ===== */
+  --menu-overlay-border: rgba(11, 11, 11, 0.5); /* Border menu overlay in dark mode (nero) */
+
+  /* ===== BORDER LABEL PROJECTS (in dark mode stesso colore) ===== */
+  --border-label-project: rgba(250, 250, 250, 0.3); /* Border label projects in dark mode */
 }
 
+/* Global body styles */
 body {
   background: var(--bg-primary);
   color: var(--text-primary);
@@ -42,7 +134,7 @@ body {
   visibility: hidden !important;
 }
 
-/* Base layer improvements */
+/* Base layer improvements - Global resets */
 @layer base {
   html {
     scroll-behavior: smooth;
@@ -71,9 +163,9 @@ body {
   }
 }
 
-/* Component layer for reusable styles with auto dark mode */
+/* Component layer per sistema di colori automatico */
 @layer components {
-  /* Automatic dark mode classes */
+  /* Sistema di auto dark mode - Utility globali per testi */
   .text-auto {
     color: var(--text-primary);
   }
@@ -82,6 +174,15 @@ body {
     color: var(--text-secondary);
   }
 
+  .text-auto-60 {
+    color: var(--text-primary-60);
+  }
+
+  .text-inverse {
+    color: var(--text-inverse);
+  }
+
+  /* Sistema background automatico */
   .bg-auto {
     background-color: var(--bg-primary);
   }
@@ -90,6 +191,7 @@ body {
     background-color: var(--bg-secondary);
   }
 
+  /* Sistema border automatico */
   .border-auto {
     border-color: var(--border-primary);
   }
@@ -98,94 +200,54 @@ body {
     border-color: var(--border-secondary);
   }
 
-  /* Automatic button styles */
-  .btn-auto {
-    @apply bg-auto-inverse text-auto-inverse border-auto-inverse;
-    transition: all 0.3s ease;
+  /* Sistema hover automatico */
+  .hover-overlay {
+    background-color: var(--hover-overlay);
   }
 
-  .btn-auto:hover {
-    opacity: 0.9;
+  /* Linee fisse che cambiano con il tema */
+  .border-line-fixed {
+    border-color: var(--line-fixed);
   }
 
-  /* Automatic form styles */
-  .input-auto {
-    @apply bg-transparent text-auto border-auto-inverse/20 focus:border-auto-inverse/40;
-    transition: all 0.3s ease;
+  .border-line-fixed-focus {
+    border-color: var(--line-fixed-focus);
   }
 
-  /* Automatic card styles */
-  .card-auto {
-    @apply bg-auto-inverse text-auto-inverse;
-    transition: all 0.3s ease;
+  .bg-line-fixed {
+    background-color: var(--line-fixed);
   }
 
-  .card-glass {
-    @apply bg-auto-inverse/5 border-auto-inverse/20;
-    transition: all 0.3s ease;
+  /* Border specifico per label nei projects */
+  .border-label-project {
+    border-color: var(--border-label-project);
   }
 
-  /* Payoff background system - Due pseudo-elementi per controllo completo */
-  .payoff-bg-transition {
-    position: relative;
+  /* Icon filter automatico */
+  .icon-filter {
+    filter: var(--icon-filter);
   }
 
-  /* Light background - ::before */
-  .payoff-bg-transition::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image: url('/img/bubble-background.webp');
-    background-size: inherit;
-    background-position: inherit;
-    background-repeat: inherit;
-    opacity: 1;
-    z-index: -2;
-    pointer-events: none;
-    transition: opacity 0s;
+  /* Bottoni glass con sistema automatico */
+  .btn-glass {
+    background-color: var(--button-glass-bg);
+    border-color: var(--button-glass-border);
   }
 
-  /* Dark background - ::after */
-  .payoff-bg-transition::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image: url('/img/bubble-background-dark.webp');
-    background-size: inherit;
-    background-position: inherit;
-    background-repeat: inherit;
-    opacity: 0;
-    z-index: -1;
-    pointer-events: none;
-    transition: opacity 0s;
+  /* Menu overlay con border dinamico */
+  .menu-overlay {
+    border-color: var(--menu-overlay-border);
   }
 
-  /* LIGHT → DARK */
-  .dark .payoff-bg-transition::before {
-    opacity: 0;
-    transition: opacity 0s;
+  .btn-glass:hover {
+    background-color: var(--hover-bg-secondary);
   }
 
-  .dark .payoff-bg-transition::after {
-    opacity: 1;
-    transition: opacity 0.5s ease-in 0.4s;
-  }
-
-  /* DARK → LIGHT */
-  .payoff-bg-transition::before {
-    transition: opacity 0.5s ease-in 0.4s;
-  }
-
-  .payoff-bg-transition::after {
-    transition: opacity 0s;
-  }
-
-  /* Legacy classes for compatibility */
-  .btn-primary {
-    @apply px-6 py-3 bg-second text-main rounded-lg font-medium transition-colors hover:bg-second/90;
-  }
-
-  .text-balance {
-    text-wrap: balance;
+  /* Animazione di transizione tra temi */
+  .theme-transition {
+    transition:
+      background-color 0.25s ease-out,
+      color 0.25s ease-out,
+      border-color 0.25s ease-out;
   }
 }

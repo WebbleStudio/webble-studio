@@ -1,0 +1,56 @@
+/* Payoff.css - Stili specifici per la sezione Payoff */
+
+/* Payoff background system - Due pseudo-elementi per controllo completo */
+.payoff-bg-transition {
+  position: relative;
+}
+
+/* Light background - ::before */
+.payoff-bg-transition::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url('/img/bubble-background.webp');
+  background-size: inherit;
+  background-position: inherit;
+  background-repeat: inherit;
+  opacity: 1;
+  z-index: -2;
+  pointer-events: none;
+  transition: opacity 0s;
+}
+
+/* Dark background - ::after */
+.payoff-bg-transition::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url('/img/bubble-background-dark.webp');
+  background-size: inherit;
+  background-position: inherit;
+  background-repeat: inherit;
+  opacity: 0;
+  z-index: -1;
+  pointer-events: none;
+  transition: opacity 0s;
+}
+
+/* LIGHT → DARK */
+.dark .payoff-bg-transition::before {
+  opacity: 0;
+  transition: opacity 0s;
+}
+
+.dark .payoff-bg-transition::after {
+  opacity: 1;
+  transition: opacity 0.5s ease-in 0.4s;
+}
+
+/* DARK → LIGHT */
+.payoff-bg-transition::before {
+  transition: opacity 0.5s ease-in 0.4s;
+}
+
+.payoff-bg-transition::after {
+  transition: opacity 0s;
+}

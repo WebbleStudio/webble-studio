@@ -1,0 +1,96 @@
+{
+  "hero": {
+    "title_start": "Scopri cosa significa",
+    "title_bold": "essere unici",
+    "subtitle_left": "Creiamo interfacce personalizzate, per l'utente e pensate per far crescere il tuo business.",
+    "cta": "Scopri di più",
+    "subtitle_right_bold": "Progettiamo esperienze digitali che funzionano.",
+    "subtitle_right_normal": "Design su misura per brand moderni, siti veloci e comunicazione che converte.",
+    "labels": {
+      "creativity": "Creatività",
+      "design": "Design",
+      "strategy": "Strategia"
+    }
+  },
+  "keypoints": {
+    "box01": {
+      "number": "01",
+      "title": "Il Design è Evoluzione.",
+      "description": "Evoluzione continua, mai ferma. Ogni pixel è una scelta strategica verso il futuro del tuo brand."
+    },
+    "box02": {
+      "number": "02",
+      "title": "Il tuo Brand è Unico.",
+      "description": "Lo valorizziamo con una comunicazione visiva e coerente, potente e riconoscibile. Inizia ora!"
+    },
+    "box03": {
+      "number": "03",
+      "title": "Coerenza.",
+      "description": "Dal logo ai colori, ogni dettaglio comunica chi sei."
+    },
+    "box04": {
+      "number": "04",
+      "title": "I nostri servizi"
+    }
+  },
+  "services": {
+    "service01": {
+      "number": "01",
+      "title": "UI/UX Design",
+      "labels": ["User Interface", "User Experience", "Progettazione"],
+      "paragraph": "Ogni interfaccia racconta una storia. Noi la progettiamo per essere impossibile da dimenticare."
+    },
+    "service02": {
+      "number": "02",
+      "title": "Project Management",
+      "labels": ["Gestione Progetti", "Pianificazione", "Coordinamento"],
+      "paragraph": "Trasformiamo le idee in realtà attraverso una gestione precisa e metodica di ogni fase del progetto."
+    },
+    "service03": {
+      "number": "03",
+      "title": "Advertising",
+      "labels": ["Pubblicità", "Marketing", "Campagne"],
+      "paragraph": "Creiamo campagne pubblicitarie che catturano l'attenzione e convertono il pubblico in clienti fedeli."
+    },
+    "service04": {
+      "number": "04",
+      "title": "Social Media Design",
+      "labels": ["Social Media", "Content Design", "Branding"],
+      "paragraph": "Progettiamo contenuti social che raccontano il tuo brand e coinvolgono la tua community."
+    }
+  },
+  "payoff": {
+    "title_start": "Progettiamo",
+    "title_middle": "esperienze",
+    "title_end_normal": "che",
+    "title_end_bold": "lasciano il segno",
+    "subtitle": "Interfacce su misura, pensate per distinguerti, coinvolgere l'utente e generare valore.",
+    "cta": "Prenota una call"
+  },
+  "contact": {
+    "title": "Contattaci",
+    "success": "Messaggio inviato con successo! Ti contatteremo presto.",
+    "submit": "Invia richiesta",
+    "submitting": "Invio in corso...",
+    "fields": {
+      "name": "Nome",
+      "name_placeholder": "Mario Rossi",
+      "email": "Email",
+      "email_placeholder": "example@mail.com",
+      "phone": "Telefono",
+      "phone_placeholder": "+39 123 456 7890",
+      "message": "Parlaci del tuo progetto",
+      "message_placeholder": "Scrivi qui"
+    },
+    "privacy": "Acconsento al trattamento dei dati personali ai sensi del GDPR",
+    "marketing": "Accetto di ricevere promozioni e comunicazioni marketing",
+    "errors": {
+      "name": "Il nome è obbligatorio",
+      "email": "L'email è obbligatoria",
+      "email_invalid": "Inserisci un'email valida",
+      "phone": "Il telefono è obbligatorio",
+      "message": "Il messaggio è obbligatorio",
+      "privacy": "Devi accettare il trattamento dei dati"
+    }
+  }
+}

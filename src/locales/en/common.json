@@ -1,0 +1,96 @@
+{
+  "hero": {
+    "title_start": "Discover what it means",
+    "title_bold": "to be unique",
+    "subtitle_left": "We create custom interfaces, designed for the user and built to grow your business.",
+    "cta": "Discover more",
+    "subtitle_right_bold": "We design digital experiences that work.",
+    "subtitle_right_normal": "Custom design for modern brands, fast websites and converting communication.",
+    "labels": {
+      "creativity": "Creativity",
+      "design": "Design",
+      "strategy": "Strategy"
+    }
+  },
+  "keypoints": {
+    "box01": {
+      "number": "01",
+      "title": "Design is Evolution.",
+      "description": "Continuous evolution, never still. Every pixel is a strategic choice towards your brand's future."
+    },
+    "box02": {
+      "number": "02",
+      "title": "Your Brand is Unique.",
+      "description": "We enhance it with visual and coherent communication, powerful and recognizable."
+    },
+    "box03": {
+      "number": "03",
+      "title": "Consistency.",
+      "description": "From logo to colors, every detail communicates."
+    },
+    "box04": {
+      "number": "04",
+      "title": "Our services"
+    }
+  },
+  "services": {
+    "service01": {
+      "number": "01",
+      "title": "UI/UX Design",
+      "labels": ["User Interface", "User Experience", "Design"],
+      "paragraph": "Every interface tells a story. We design it to be impossible to forget."
+    },
+    "service02": {
+      "number": "02",
+      "title": "Project Management",
+      "labels": ["Project Management", "Planning", "Coordination"],
+      "paragraph": "We transform ideas into reality through precise and methodical management of every project phase."
+    },
+    "service03": {
+      "number": "03",
+      "title": "Advertising",
+      "labels": ["Advertising", "Marketing", "Campaigns"],
+      "paragraph": "We create advertising campaigns that capture attention and convert audiences into loyal customers."
+    },
+    "service04": {
+      "number": "04",
+      "title": "Social Media Design",
+      "labels": ["Social Media", "Content Design", "Branding"],
+      "paragraph": "We design social content that tells your brand story and engages your community."
+    }
+  },
+  "payoff": {
+    "title_start": "We design",
+    "title_middle": "experiences",
+    "title_end_normal": "that",
+    "title_end_bold": "make a difference",
+    "subtitle": "Custom interfaces, designed to make you stand out, engage users and create value.",
+    "cta": "Book a call"
+  },
+  "contact": {
+    "title": "Contact us",
+    "success": "Message sent successfully! We will contact you soon.",
+    "submit": "Send request",
+    "submitting": "Sending...",
+    "fields": {
+      "name": "Name",
+      "name_placeholder": "John Smith",
+      "email": "Email",
+      "email_placeholder": "example@mail.com",
+      "phone": "Phone",
+      "phone_placeholder": "+1 123 456 7890",
+      "message": "Tell us about your project",
+      "message_placeholder": "Write here"
+    },
+    "privacy": "I consent to the processing of personal data pursuant to the GDPR",
+    "marketing": "I agree to receive promotions and marketing communications",
+    "errors": {
+      "name": "Name is required",
+      "email": "Email is required",
+      "email_invalid": "Enter a valid email",
+      "phone": "Phone is required",
+      "message": "Message is required",
+      "privacy": "You must accept the data processing"
+    }
+  }
+}

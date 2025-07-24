@@ -3,11 +3,19 @@
  * Provides a single import point for hooks across the application
  */
 
-export { useApiCall } from './useApiCall';
+export { useSectionScroll } from './useSectionScroll';
+export { useTranslation } from './useTranslation';
+export { usePerformance } from './usePerformance';
 export { useDarkMode } from './useDarkMode';
+export { useApiCall } from './useApiCall';
+export { useAnimationManager } from './useAnimationManager';
 
-// Re-export animation hooks for backward compatibility
-export { useProjectSwitch } from '../components/animations/useProjectSwitch';
+// Lazy loading hooks
+export { useLazyLoad } from './useLazyLoad';
 export { useSplineLazyLoad } from '../components/animations/useSplineLazyLoad';
-export { useServiceCategoryAnimation } from '../components/animations/useServiceCategoryAnimation';
+
+// Animation hooks
+export { useProjectSwitch } from '../components/animations/useProjectSwitch';
 export { useHeaderAnimation } from '../components/animations/useHeaderAnimation';
+export { useServiceCategoryAnimation } from '../components/animations/useServiceCategoryAnimation';
+export { useMenuOverlayAnimation } from '../components/animations/useMenuOverlayAnimation';

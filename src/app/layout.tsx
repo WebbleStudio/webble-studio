@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { fontVariables } from './fonts';
-import Header from '@/components/layout/Header';
+import ClientLayout from './ClientLayout';
 
 export const metadata: Metadata = {
   title: 'Webble Studio: Scopri cosa significa essere unici',
@@ -27,8 +27,7 @@ export default function RootLayout({
   return (
     <html lang="it" className={fontVariables}>
       <body className="antialiased">
-        <Header />
-        {children}
+        <ClientLayout>{children}</ClientLayout>
       </body>
     </html>
   );

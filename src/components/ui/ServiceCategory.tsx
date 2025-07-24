@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
+import AnimatedText from '@/components/ui/AnimatedText';
 import { useServiceCategoryAnimation } from '../animations/useServiceCategoryAnimation';
 
 interface ServiceCategoryProps {
@@ -40,18 +41,17 @@ export default function ServiceCategory({
     <div className={`flex flex-col items-start ${className}`}>
       {/* Header section - always visible */}
       <div className="w-full flex flex-col gap-4">
-        <div className="w-full h-[1px] bg-second dark:bg-[#fafafa]/50"></div>
-        <h4 className="text-[100%] text-second dark:text-[#fafafa] font-poppins font-medium md:mb-[25px] xl:text-[19px]">
-          {number}
+        <div className="w-full h-[1px] bg-line-fixed"></div>
+        <h4 className="text-[100%] text-text-primary font-poppins font-medium md:mb-[25px] xl:text-[19px]">
+          <AnimatedText>{number}</AnimatedText>
         </h4>
       </div>
 
       {/* Content wrapper */}
       <div className="w-full flex flex-col md:mb-[15px]">
-        {/* Clickable h2 */}
+        {/* Clickable h2 - title principale NON animato come richiesto */}
         <motion.h2
-          className="text-second dark:text-[#fafafa]/60 dark:data-[expanded=true]:text-[#fafafa] text-[53px] sm:text-[63px] md:text-[68px] xl:text-[78px] 2xl:text-[93px] cursor-pointer w-full leading-tight hover:dark:text-[#fafafa]/80"
-          style={{ transformOrigin: 'left' }}
+          className="text-text-primary-60 data-[expanded=true]:text-text-primary text-[53px] sm:text-[63px] md:text-[68px] xl:text-[78px] 2xl:text-[93px] cursor-pointer w-full leading-tight hover:text-text-primary"
           onClick={toggleExpansion}
           data-expanded={isExpanded}
           {...titleAnimationProps}
@@ -85,9 +85,9 @@ export default function ServiceCategory({
                     {labels.map((label, index) => (
                       <span
                         key={index}
-                        className="px-[17px] py-[11px] bg-transparent text-black border border-black dark:text-[#fafafa] dark:border-[#fafafa] rounded-full text-sm xl:text-base font-medium whitespace-nowrap"
+                        className="px-[17px] py-[11px] bg-transparent text-text-primary border border-line-fixed rounded-full text-sm xl:text-base font-medium whitespace-nowrap"
                       >
-                        {label}
+                        <AnimatedText>{label}</AnimatedText>
                       </span>
                     ))}
                   </div>
@@ -101,11 +101,12 @@ export default function ServiceCategory({
               </motion.div>
 
               {/* Paragraph */}
-              <motion.p
-                className="text-second dark:text-[#fafafa] text-[14px] sm:text-[16px] xl:text-[18px] sm:w-[430px] opacity-60"
+              <motion.div
+                className="text-text-primary-60 text-[14px] sm:text-[16px] xl:text-[18px] sm:w-[430px]"
                 {...paragraphAnimationProps}
-                dangerouslySetInnerHTML={{ __html: paragraph }}
-              />
+              >
+                <AnimatedText as="div">{paragraph}</AnimatedText>
+              </motion.div>
             </div>
 
             {/* Right column - rectangles */}
@@ -125,9 +126,9 @@ export default function ServiceCategory({
                   }
                 `}</style>
                 <div className="flex gap-4">
-                  <div className="w-[200px] h-[130px] sm:w-[230px] sm:h-[160px] md:w-[185px] md:h-[115px] xl:w-[200px] xl:h-[130px] bg-black dark:bg-[#fafafa] rounded-2xl flex-shrink-0"></div>
-                  <div className="w-[200px] h-[130px] sm:w-[230px] sm:h-[160px] md:w-[185px] md:h-[115px] xl:w-[200px] xl:h-[130px] bg-black dark:bg-[#fafafa] rounded-2xl flex-shrink-0"></div>
-                  <div className="w-[200px] h-[130px] sm:w-[230px] sm:h-[160px] md:w-[185px] md:h-[115px] xl:w-[200px] xl:h-[130px] bg-black dark:bg-[#fafafa] rounded-2xl flex-shrink-0"></div>
+                  <div className="w-[200px] h-[130px] sm:w-[230px] sm:h-[160px] md:w-[185px] md:h-[115px] xl:w-[200px] xl:h-[130px] bg-bg-secondary rounded-2xl flex-shrink-0"></div>
+                  <div className="w-[200px] h-[130px] sm:w-[230px] sm:h-[160px] md:w-[185px] md:h-[115px] xl:w-[200px] xl:h-[130px] bg-bg-secondary rounded-2xl flex-shrink-0"></div>
+                  <div className="w-[200px] h-[130px] sm:w-[230px] sm:h-[160px] md:w-[185px] md:h-[115px] xl:w-[200px] xl:h-[130px] bg-bg-secondary rounded-2xl flex-shrink-0"></div>
                 </div>
               </div>
               {showLeftFadeRectangles && (

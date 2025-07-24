@@ -19,11 +19,44 @@ module.exports = {
       colors: {
         main: 'var(--main-color)',
         second: 'var(--second-color)',
+
+        // Sistema completo dark mode
+        'text-primary': 'var(--text-primary)',
+        'text-secondary': 'var(--text-secondary)',
+        'text-primary-60': 'var(--text-primary-60)',
+        'text-inverse': 'var(--text-inverse)',
+
+        'bg-primary': 'var(--bg-primary)',
+        'bg-secondary': 'var(--bg-secondary)',
+        'bg-glass': 'var(--bg-glass)',
+        'bg-overlay': 'var(--bg-overlay)',
+        'bg-card': 'var(--bg-card)',
+
+        'border-primary': 'var(--border-primary)',
+        'border-secondary': 'var(--border-secondary)',
+        'border-primary-20': 'var(--border-primary-20)',
+        'border-primary-40': 'var(--border-primary-40)',
+        'border-primary-50': 'var(--border-primary-50)',
+        'border-dark-20': 'var(--border-dark-20)',
+        'border-dark-40': 'var(--border-dark-40)',
+        'border-dark-50': 'var(--border-dark-50)',
+
+        'hover-overlay': 'var(--hover-overlay)',
+        'hover-bg-secondary': 'var(--hover-bg-secondary)',
+
+        'icon-filter': 'var(--icon-filter)',
+        'button-glass-bg': 'var(--button-glass-bg)',
+        'button-glass-border': 'var(--button-glass-border)',
+
+        'line-fixed': 'var(--line-fixed)',
+        'line-fixed-focus': 'var(--line-fixed-focus)',
+
+        // Nuovo: border specifico per label progetti
+        'label-project': 'var(--border-label-project)',
       },
       fontFamily: {
         figtree: ['var(--font-figtree)', 'system-ui', 'sans-serif'],
         poppins: ['var(--font-poppins)', 'system-ui', 'sans-serif'],
-        sans: ['var(--font-figtree)', 'system-ui', 'sans-serif'], // Default sans
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-in-out',

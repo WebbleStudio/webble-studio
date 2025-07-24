@@ -1,33 +1,38 @@
+'use client';
+
 import React from 'react';
 import ServiceCategory from '@/components/ui/ServiceCategory';
+import { useTranslation } from '@/hooks/useTranslation';
 
 export default function Services() {
+  const { t } = useTranslation();
+
   return (
-    <section className="h-[autopx] md:h-auto w-full flex items-start mt-20 py-[75px]">
+    <section className="section-scroll h-auto w-full flex items-start mt-0 py-[75px]">
       <div className="w-full flex flex-col">
         <ServiceCategory
-          number="01"
-          title="UI/UX Design"
-          labels={['User Interface', 'User Experience', 'Progettazione']}
-          paragraph="Ogni interfaccia racconta una storia. Noi la progettiamo per essere impossibile da dimenticare."
+          number={t('services.service01.number')}
+          title={t('services.service01.title')}
+          labels={t('services.service01.labels', { returnObjects: true }) as string[]}
+          paragraph={t('services.service01.paragraph')}
         />
         <ServiceCategory
-          number="02"
-          title="Project Management"
-          labels={['User Interface', 'User Experience', 'Progettazione']}
-          paragraph="Ogni interfaccia racconta una storia. Noi la progettiamo per essere impossibile da dimenticare."
+          number={t('services.service02.number')}
+          title={t('services.service02.title')}
+          labels={t('services.service02.labels', { returnObjects: true }) as string[]}
+          paragraph={t('services.service02.paragraph')}
         />
         <ServiceCategory
-          number="03"
-          title="Advertising"
-          labels={['User Interface', 'User Experience', 'Progettazione']}
-          paragraph="Ogni interfaccia racconta una storia. Noi la progettiamo per essere impossibile da dimenticare."
+          number={t('services.service03.number')}
+          title={t('services.service03.title')}
+          labels={t('services.service03.labels', { returnObjects: true }) as string[]}
+          paragraph={t('services.service03.paragraph')}
         />
         <ServiceCategory
-          number="04"
-          title="Social Media Design"
-          labels={['User Interface', 'User Experience', 'Progettazione']}
-          paragraph="Ogni interfaccia racconta una storia. Noi la progettiamo per essere impossibile da dimenticare."
+          number={t('services.service04.number')}
+          title={t('services.service04.title')}
+          labels={t('services.service04.labels', { returnObjects: true }) as string[]}
+          paragraph={t('services.service04.paragraph')}
         />
       </div>
     </section>

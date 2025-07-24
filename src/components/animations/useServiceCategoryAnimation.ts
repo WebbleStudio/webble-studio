@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 
 export function useServiceCategoryAnimation() {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -9,11 +9,16 @@ export function useServiceCategoryAnimation() {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const rectanglesContainerRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const scrollContainer = scrollContainerRef.current;
-    const rectanglesContainer = rectanglesContainerRef.current;
+  // Refs per throttling ottimizzato
+  const scrollRafRef = useRef<number | null>(null);
+  const rectanglesRafRef = useRef<number | null>(null);
 
-    const handleScroll = () => {
+  // Throttled scroll handler con RAF per labels
+  const handleScroll = useCallback(() => {
+    if (scrollRafRef.current !== null) return;
+
+    scrollRafRef.current = requestAnimationFrame(() => {
+      const scrollContainer = scrollContainerRef.current;
       if (scrollContainer) {
         const { scrollLeft, scrollWidth, clientWidth } = scrollContainer;
         const isAtStart = scrollLeft <= 0;
@@ -22,9 +27,16 @@ export function useServiceCategoryAnimation() {
         setShowLeftFade(!isAtStart);
         setShowRightFade(!isAtEnd);
       }
-    };
+      scrollRafRef.current = null;
+    });
+  }, []);
 
-    const handleRectanglesScroll = () => {
+  // Throttled scroll handler con RAF per rectangles
+  const handleRectanglesScroll = useCallback(() => {
+    if (rectanglesRafRef.current !== null) return;
+
+    rectanglesRafRef.current = requestAnimationFrame(() => {
+      const rectanglesContainer = rectanglesContainerRef.current;
       if (rectanglesContainer) {
         const { scrollLeft, scrollWidth, clientWidth } = rectanglesContainer;
         const isAtStart = scrollLeft <= 0;
@@ -33,37 +45,57 @@ export function useServiceCategoryAnimation() {
         setShowLeftFadeRectangles(!isAtStart);
         setShowRightFadeRectangles(!isAtEnd);
       }
-    };
+      rectanglesRafRef.current = null;
+    });
+  }, []);
 
-    // Add event listeners when elements are available
-    const timer = setTimeout(() => {
-      if (scrollContainer && isExpanded) {
-        scrollContainer.addEventListener('scroll', handleScroll);
-        handleScroll(); // Check initial state
-      }
+  useEffect(() => {
+    const scrollContainer = scrollContainerRef.current;
+    const rectanglesContainer = rectanglesContainerRef.current;
 
-      if (rectanglesContainer && isExpanded) {
-        rectanglesContainer.addEventListener('scroll', handleRectanglesScroll);
-        handleRectanglesScroll(); // Check initial state
-      }
-    }, 200);
+    // Setup listeners solo quando expanded per performance
+    if (isExpanded) {
+      const setupTimer = setTimeout(() => {
+        if (scrollContainer) {
+          scrollContainer.addEventListener('scroll', handleScroll, { passive: true });
+          handleScroll(); // Check initial state
+        }
 
-    return () => {
-      clearTimeout(timer);
-      if (scrollContainer) {
-        scrollContainer.removeEventListener('scroll', handleScroll);
-      }
-      if (rectanglesContainer) {
-        rectanglesContainer.removeEventListener('scroll', handleRectanglesScroll);
-      }
-    };
+        if (rectanglesContainer) {
+          rectanglesContainer.addEventListener('scroll', handleRectanglesScroll, { passive: true });
+          handleRectanglesScroll(); // Check initial state
+        }
+      }, 100); // Ridotto da 200ms per responsiveness migliore
+
+      return () => {
+        clearTimeout(setupTimer);
+
+        // Cleanup listeners
+        if (scrollContainer) {
+          scrollContainer.removeEventListener('scroll', handleScroll);
+        }
+        if (rectanglesContainer) {
+          rectanglesContainer.removeEventListener('scroll', handleRectanglesScroll);
+        }
+
+        // Cancel RAF se pending
+        if (scrollRafRef.current !== null) {
+          cancelAnimationFrame(scrollRafRef.current);
+          scrollRafRef.current = null;
+        }
+        if (rectanglesRafRef.current !== null) {
+          cancelAnimationFrame(rectanglesRafRef.current);
+          rectanglesRafRef.current = null;
+        }
+      };
+    }
+  }, [isExpanded, handleScroll, handleRectanglesScroll]);
+
+  const toggleExpansion = useCallback(() => {
+    setIsExpanded(!isExpanded);
   }, [isExpanded]);
 
-  const toggleExpansion = () => {
-    setIsExpanded(!isExpanded);
-  };
-
-  // Animation properties for different elements
+  // Animation properties ottimizzate per GPU - risolto conflitto style
   const titleAnimationProps = {
     animate: {
       opacity: isExpanded ? 1 : 0.3,
@@ -82,6 +114,10 @@ export function useServiceCategoryAnimation() {
       duration: 0.3,
       ease: [0.25, 0.46, 0.45, 0.94] as const,
     },
+    style: {
+      willChange: 'transform, opacity', // GPU optimization
+      transformOrigin: 'left', // Aggiunto per risolvere conflitto
+    },
   };
 
   const containerAnimationProps = {
@@ -96,7 +132,10 @@ export function useServiceCategoryAnimation() {
       ease: [0.25, 0.46, 0.45, 0.94] as const,
       opacity: { duration: 0.3 },
     },
-    style: { overflow: 'hidden' },
+    style: {
+      overflow: 'hidden',
+      willChange: 'height, opacity, transform', // GPU optimization
+    },
   };
 
   const labelsAnimationProps = {
@@ -110,6 +149,7 @@ export function useServiceCategoryAnimation() {
       duration: 0.4,
       ease: [0.25, 0.46, 0.45, 0.94] as const,
     },
+    style: { willChange: 'transform, opacity, filter' }, // GPU optimization
   };
 
   const paragraphAnimationProps = {
@@ -123,6 +163,7 @@ export function useServiceCategoryAnimation() {
       duration: 0.4,
       ease: [0.25, 0.46, 0.45, 0.94] as const,
     },
+    style: { willChange: 'transform, opacity, filter' }, // GPU optimization
   };
 
   const rectanglesAnimationProps = {
@@ -136,11 +177,15 @@ export function useServiceCategoryAnimation() {
       duration: 0.4,
       ease: [0.25, 0.46, 0.45, 0.94] as const,
     },
+    style: { willChange: 'transform, opacity, filter' }, // GPU optimization
   };
 
   const scrollStyles = {
     scrollbarWidth: 'none' as const,
     msOverflowStyle: 'none' as const,
+    // Aggiunte ottimizzazioni scroll
+    overflowX: 'auto' as const,
+    WebkitOverflowScrolling: 'touch' as const, // iOS smooth scrolling
   };
 
   return {
@@ -158,14 +203,14 @@ export function useServiceCategoryAnimation() {
     // Functions
     toggleExpansion,
 
-    // Animation props
+    // Animation props ottimizzate
     titleAnimationProps,
     containerAnimationProps,
     labelsAnimationProps,
     paragraphAnimationProps,
     rectanglesAnimationProps,
 
-    // Styles
+    // Styles ottimizzati
     scrollStyles,
   };
 }

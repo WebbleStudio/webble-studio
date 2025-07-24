@@ -2,6 +2,8 @@
 
 import React, { useState } from 'react';
 import { useApiCall } from '@/hooks/useApiCall';
+import { useTranslation } from '@/hooks/useTranslation';
+import AnimatedText from '@/components/ui/AnimatedText';
 
 interface FormData {
   name: string;
@@ -21,6 +23,7 @@ interface FormErrors {
 }
 
 export default function Contact() {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
@@ -128,26 +131,30 @@ export default function Contact() {
   return (
     <section className="h-auto w-full flex items-center justify-center py-20">
       <div className="w-full">
-        <h2 className="text-[50px] md:text-[50px] lg:text-[60px] font-figtree font-regular text-second dark:text-[#fafafa] text-left">
-          Contattaci
+        <h2 className="text-[50px] md:text-[50px] lg:text-[60px] font-figtree font-regular text-text-primary text-left">
+          <AnimatedText>{t('contact.title')}</AnimatedText>
         </h2>
 
         {showSuccessMessage && (
-          <p className="text-green-500 text-sm font-medium mb-12">
-            Messaggio inviato con successo! Ti contatteremo presto.
-          </p>
+          <AnimatedText as="p" className="text-green-500 text-sm font-medium mb-12">
+            {t('contact.success')}
+          </AnimatedText>
         )}
 
-        {apiError && <p className="text-red-400 text-sm font-medium mb-12">{apiError}</p>}
+        {apiError && (
+          <AnimatedText as="p" className="text-red-400 text-sm font-medium mb-12">
+            {apiError}
+          </AnimatedText>
+        )}
 
         <form onSubmit={handleSubmit} className="space-y-12 mt-12">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
             <div>
               <label
                 htmlFor="name"
-                className="block text-[20px] font-figtree font-regular text-second dark:text-[#fafafa] mb-3 text-left"
+                className="block text-[20px] font-figtree font-regular text-text-primary mb-3 text-left"
               >
-                Nome
+                <AnimatedText>{t('contact.fields.name')}</AnimatedText>
               </label>
               <input
                 type="text"
@@ -155,24 +162,26 @@ export default function Contact() {
                 name="name"
                 value={formData.name}
                 onChange={handleInputChange}
-                placeholder="Mario Rossi"
+                placeholder={t('contact.fields.name_placeholder')}
                 className={`w-full px-0 py-3 border-b bg-transparent text-second placeholder-main/50 focus:outline-none transition-colors text-base ${
                   errors.name
                     ? 'border-red-400 focus:border-red-500'
-                    : 'border-main/20 focus:border-main/40 dark:border-[#fafafa]/50 dark:focus:border-[#fafafa]/70'
+                    : 'border-line-fixed focus:border-line-fixed-focus'
                 }`}
               />
               {errors.name && (
-                <p className="text-red-400 text-sm mt-2 font-medium">{errors.name}</p>
+                <AnimatedText as="p" className="text-red-400 text-sm mt-2 font-medium">
+                  {t('contact.errors.name')}
+                </AnimatedText>
               )}
             </div>
 
             <div>
               <label
                 htmlFor="email"
-                className="block text-[20px] font-figtree font-regular text-second dark:text-[#fafafa] mb-3 text-left"
+                className="block text-[20px] font-figtree font-regular text-text-primary mb-3 text-left"
               >
-                Email
+                <AnimatedText>{t('contact.fields.email')}</AnimatedText>
               </label>
               <input
                 type="text"
@@ -180,15 +189,19 @@ export default function Contact() {
                 name="email"
                 value={formData.email}
                 onChange={handleInputChange}
-                placeholder="example@mail.com"
+                placeholder={t('contact.fields.email_placeholder')}
                 className={`w-full px-0 py-3 border-b bg-transparent text-second placeholder-main/50 focus:outline-none transition-colors text-base ${
                   errors.email
                     ? 'border-red-400 focus:border-red-500'
-                    : 'border-main/20 focus:border-main/40 dark:border-[#fafafa]/50 dark:focus:border-[#fafafa]/70'
+                    : 'border-line-fixed focus:border-line-fixed-focus'
                 }`}
               />
               {errors.email && (
-                <p className="text-red-400 text-sm mt-2 font-medium">{errors.email}</p>
+                <AnimatedText as="p" className="text-red-400 text-sm mt-2 font-medium">
+                  {errors.email === "Inserisci un'email valida"
+                    ? t('contact.errors.email_invalid')
+                    : t('contact.errors.email')}
+                </AnimatedText>
               )}
             </div>
           </div>
@@ -196,9 +209,9 @@ export default function Contact() {
           <div>
             <label
               htmlFor="phone"
-              className="block text-[20px] font-figtree font-regular text-second dark:text-[#fafafa] mb-3 text-left"
+              className="block text-[20px] font-figtree font-regular text-text-primary mb-3 text-left"
             >
-              Telefono
+              <AnimatedText>{t('contact.fields.phone')}</AnimatedText>
             </label>
             <input
               type="tel"
@@ -206,24 +219,26 @@ export default function Contact() {
               name="phone"
               value={formData.phone}
               onChange={handleInputChange}
-              placeholder="+39 123 456 7890"
+              placeholder={t('contact.fields.phone_placeholder')}
               className={`w-full px-0 py-3 border-b bg-transparent text-second placeholder-main/50 focus:outline-none transition-colors text-base ${
                 errors.phone
                   ? 'border-red-400 focus:border-red-500'
-                  : 'border-main/20 focus:border-main/40 dark:border-[#fafafa]/50 dark:focus:border-[#fafafa]/70'
+                  : 'border-line-fixed focus:border-line-fixed-focus'
               }`}
             />
             {errors.phone && (
-              <p className="text-red-400 text-sm mt-2 font-medium">{errors.phone}</p>
+              <AnimatedText as="p" className="text-red-400 text-sm mt-2 font-medium">
+                {t('contact.errors.phone')}
+              </AnimatedText>
             )}
           </div>
 
           <div>
             <label
               htmlFor="message"
-              className="block text-[20px] font-figtree font-regular text-second dark:text-[#fafafa] mb-3 text-left"
+              className="block text-[20px] font-figtree font-regular text-text-primary mb-3 text-left"
             >
-              Parlaci del tuo progetto
+              <AnimatedText>{t('contact.fields.message')}</AnimatedText>
             </label>
             <textarea
               id="message"
@@ -231,15 +246,17 @@ export default function Contact() {
               value={formData.message}
               onChange={handleInputChange}
               rows={4}
-              placeholder="Scrivi qui"
+              placeholder={t('contact.fields.message_placeholder')}
               className={`w-full px-0 py-3 border-b bg-transparent text-second placeholder-main/50 focus:outline-none transition-colors text-base resize-none ${
                 errors.message
                   ? 'border-red-400 focus:border-red-500'
-                  : 'border-main/20 focus:border-main/40 dark:border-[#fafafa]/50 dark:focus:border-[#fafafa]/70'
+                  : 'border-line-fixed focus:border-line-fixed-focus'
               }`}
             />
             {errors.message && (
-              <p className="text-red-400 text-sm mt-2 font-medium">{errors.message}</p>
+              <AnimatedText as="p" className="text-red-400 text-sm mt-2 font-medium">
+                {t('contact.errors.message')}
+              </AnimatedText>
             )}
           </div>
 
@@ -260,15 +277,15 @@ export default function Contact() {
                 />
                 <label
                   htmlFor="privacyConsent"
-                  className="text-sm text-second dark:text-[#fafafa] leading-relaxed"
+                  className="text-sm text-text-primary leading-relaxed"
                 >
-                  Acconsento al trattamento dei dati personali ai sensi del GDPR
+                  <AnimatedText>{t('contact.privacy')}</AnimatedText>
                 </label>
               </div>
               {errors.privacyConsent && (
-                <p className="text-red-400 text-sm mt-2 font-medium ml-7">
-                  {errors.privacyConsent}
-                </p>
+                <AnimatedText as="p" className="text-red-400 text-sm mt-2 font-medium ml-7">
+                  {t('contact.errors.privacy')}
+                </AnimatedText>
               )}
             </div>
 
@@ -284,9 +301,9 @@ export default function Contact() {
                 />
                 <label
                   htmlFor="marketingConsent"
-                  className="text-sm text-second dark:text-[#fafafa] leading-relaxed"
+                  className="text-sm text-text-primary leading-relaxed"
                 >
-                  Accetto di ricevere promozioni e comunicazioni marketing
+                  <AnimatedText>{t('contact.marketing')}</AnimatedText>
                 </label>
               </div>
             </div>
@@ -298,10 +315,12 @@ export default function Contact() {
             className={`w-full md:w-auto px-8 py-4 font-medium rounded-lg transition-colors mt-8 ${
               isSubmitting
                 ? 'bg-gray-400 text-gray-600 cursor-not-allowed'
-                : 'bg-second text-main dark:bg-[#fafafa] dark:text-[#020202] hover:bg-second/90 dark:hover:bg-[#fafafa]/90'
+                : 'bg-bg-secondary text-text-inverse hover:hover-bg-secondary'
             }`}
           >
-            {isSubmitting ? 'Invio in corso...' : 'Invia richiesta'}
+            <AnimatedText>
+              {isSubmitting ? t('contact.submitting') : t('contact.submit')}
+            </AnimatedText>
           </button>
         </form>
       </div>

@@ -13,7 +13,7 @@ export default function SecondButton({
 }: ButtonProps) {
   return (
     <button
-      className={`px-[24px] py-2.5 rounded-[12px] font-medium bg-second text-main dark:bg-[#fafafa] dark:text-[#020202] flex items-center gap-2 sm:px-[32px] sm:py-3 sm:text-[17px] ${className}`}
+      className={`px-[24px] py-2.5 rounded-[12px] font-medium bg-bg-secondary text-text-inverse flex items-center gap-2 sm:px-[32px] sm:py-3 sm:text-[17px] ${className}`}
       {...props}
     >
       <span className="text-[15px] sm:text-[17px]">{children}</span>
@@ -22,7 +22,7 @@ export default function SecondButton({
         alt="Arrow"
         width={12}
         height={12}
-        className="arrow translate-y-[1px] dark:brightness-0"
+        className="arrow translate-y-[1px] icon-filter"
       />
     </button>
   );

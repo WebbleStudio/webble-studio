@@ -57,8 +57,8 @@ export async function POST(request: NextRequest) {
       // Invio email di conferma
       try {
         await resend.emails.send({
-          from: 'Webble Studio <onboarding@resend.dev>',
-          to: ['webblestudio.com@gmail.com'],
+          from: 'Webble Studio <noreply@contacts.webblestudio.com>',
+          to: [email],
           subject: `Grazie ${name}! Il tuo progetto ci interessa`,
           react: ContactEmail({
             name,

@@ -22,7 +22,7 @@ export default function ContactEmail({ name, email, phone, message }: ContactEma
       {/* Header con Logo */}
       <div
         style={{
-          backgroundColor: '#020202',
+          backgroundColor: '#0B0B0B',
           padding: '40px 40px 30px 40px',
           textAlign: 'center',
         }}
@@ -40,14 +40,14 @@ export default function ContactEmail({ name, email, phone, message }: ContactEma
             justifyContent: 'center',
             fontSize: '28px',
             fontWeight: 'bold',
-            color: '#020202',
+            color: '#0b0b0b',
             border: '3px solid #fafafa',
             boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
           }}
         >
           <span
             style={{
-              background: 'linear-gradient(135deg, #020202 0%, #333 100%)',
+              background: 'linear-gradient(135deg, #0b0b0b 0%, #333 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
@@ -86,7 +86,7 @@ export default function ContactEmail({ name, email, phone, message }: ContactEma
         <div style={{ marginBottom: '32px' }}>
           <h2
             style={{
-              color: '#020202',
+              color: '#0b0b0b',
               fontSize: '28px',
               margin: '0 0 16px 0',
               fontWeight: '600',
@@ -121,7 +121,7 @@ export default function ContactEmail({ name, email, phone, message }: ContactEma
           <h3
             style={{
               margin: '0 0 20px 0',
-              color: '#020202',
+              color: '#0b0b0b',
               fontSize: '20px',
               fontWeight: '600',
             }}
@@ -134,7 +134,7 @@ export default function ContactEmail({ name, email, phone, message }: ContactEma
               backgroundColor: '#f8f9fa',
               padding: '20px',
               borderRadius: '8px',
-              borderLeft: '4px solid #020202',
+              borderLeft: '4px solid #0b0b0b',
               marginBottom: '24px',
             }}
           >
@@ -165,7 +165,7 @@ export default function ContactEmail({ name, email, phone, message }: ContactEma
                 fontSize: '15px',
               }}
             >
-              <strong style={{ color: '#020202' }}>📧 Email:</strong>
+              <strong style={{ color: '#0b0b0b' }}>📧 Email:</strong>
               <span style={{ marginLeft: '8px', color: '#666' }}>{email}</span>
             </div>
             <div
@@ -176,7 +176,7 @@ export default function ContactEmail({ name, email, phone, message }: ContactEma
                 fontSize: '15px',
               }}
             >
-              <strong style={{ color: '#020202' }}>📱 Telefono:</strong>
+              <strong style={{ color: '#0b0b0b' }}>📱 Telefono:</strong>
               <span style={{ marginLeft: '8px', color: '#666' }}>{phone}</span>
             </div>
           </div>
@@ -194,7 +194,7 @@ export default function ContactEmail({ name, email, phone, message }: ContactEma
         >
           <h3
             style={{
-              color: '#020202',
+              color: '#0b0b0b',
               fontSize: '20px',
               margin: '0 0 16px 0',
               fontWeight: '600',
@@ -219,7 +219,7 @@ export default function ContactEmail({ name, email, phone, message }: ContactEma
         <div style={{ marginBottom: '32px' }}>
           <h3
             style={{
-              color: '#020202',
+              color: '#0b0b0b',
               fontSize: '18px',
               margin: '0 0 20px 0',
               fontWeight: '600',
@@ -261,7 +261,7 @@ export default function ContactEmail({ name, email, phone, message }: ContactEma
           <a
             href="https://webble.studio"
             style={{
-              backgroundColor: '#020202',
+              backgroundColor: '#0b0b0b',
               color: 'white',
               padding: '16px 32px',
               textDecoration: 'none',
@@ -288,7 +288,7 @@ export default function ContactEmail({ name, email, phone, message }: ContactEma
         >
           <h4
             style={{
-              color: '#020202',
+              color: '#0b0b0b',
               margin: '0 0 16px 0',
               fontSize: '16px',
               fontWeight: '600',
@@ -306,7 +306,7 @@ export default function ContactEmail({ name, email, phone, message }: ContactEma
             📧{' '}
             <a
               href="mailto:info@webblestudio.com"
-              style={{ color: '#020202', textDecoration: 'none' }}
+              style={{ color: '#0b0b0b', textDecoration: 'none' }}
             >
               info@webblestudio.com
             </a>

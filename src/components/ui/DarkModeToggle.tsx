@@ -16,7 +16,7 @@ export default function DarkModeToggle({ className = '' }: DarkModeToggleProps) 
   return (
     <button
       onClick={toggleTheme}
-      className={`p-2 rounded-lg transition-colors duration-200 hover:bg-black/10 dark:hover:bg-white/10 ${className}`}
+      className={`p-2 rounded-lg transition-colors duration-200 ${className}`}
       aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
     >
       {theme === 'light' ? (

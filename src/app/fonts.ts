@@ -1,24 +1,31 @@
-import { Figtree, Poppins } from 'next/font/google';
+// Import local font files instead of Google Fonts CDN
+import '@fontsource/figtree/300.css';
+import '@fontsource/figtree/400.css';
+import '@fontsource/figtree/500.css';
+import '@fontsource/figtree/600.css';
+import '@fontsource/figtree/700.css';
 
-// Figtree font configuration
-export const figtree = Figtree({
-  subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700'],
+import '@fontsource/poppins/300.css';
+import '@fontsource/poppins/400.css';
+import '@fontsource/poppins/500.css';
+import '@fontsource/poppins/600.css';
+
+// Font family configurations
+export const figtree = {
+  style: {
+    fontFamily: 'Figtree, system-ui, sans-serif',
+  },
+  className: 'font-figtree',
   variable: '--font-figtree',
-  display: 'swap',
-  preload: true,
-  fallback: ['system-ui', 'sans-serif'],
-});
+};
 
-// Poppins font configuration
-export const poppins = Poppins({
-  subsets: ['latin'],
-  weight: ['300', '400', '500', '600'],
+export const poppins = {
+  style: {
+    fontFamily: 'Poppins, system-ui, sans-serif',
+  },
+  className: 'font-poppins',
   variable: '--font-poppins',
-  display: 'swap',
-  preload: true,
-  fallback: ['system-ui', 'sans-serif'],
-});
+};
 
 // CSS variables for use in components
 export const fontVariables = `${figtree.variable} ${poppins.variable}`;
