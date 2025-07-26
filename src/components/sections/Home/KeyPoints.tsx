@@ -1,20 +1,17 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import AnimatedText from '@/components/ui/AnimatedText';
 import OptimizedImage from '@/components/ui/OptimizedImage';
 import OptimizedVideo from '@/components/ui/OptimizedVideo';
 import { useLazyLoad } from '@/hooks/useLazyLoad';
 import { usePerformance } from '@/hooks/usePerformance';
 import { useTranslation } from '@/hooks/useTranslation';
-
-// Helper function to get public video URL
-const getPublicVideoUrl = (filename: string) => `/videos/${filename}`;
+import { getPublicVideoUrl } from '@/lib/video';
+import '@/css/KeyPointsResponsive.css';
 
 export default function KeyPoints() {
   const { t } = useTranslation();
-  const [isMounted, setIsMounted] = useState(false);
-  const [isDesktop, setIsDesktop] = useState(false);
 
   // Performance optimization
   const { shouldSkipAnimation } = usePerformance();
@@ -29,19 +26,6 @@ export default function KeyPoints() {
     threshold: 0.1,
     delay: shouldSkipAnimation('medium') ? 0 : 200,
   });
-
-  useEffect(() => {
-    setIsMounted(true);
-
-    const checkIsDesktop = () => {
-      setIsDesktop(window.innerWidth >= 768);
-    };
-
-    checkIsDesktop();
-    window.addEventListener('resize', checkIsDesktop);
-
-    return () => window.removeEventListener('resize', checkIsDesktop);
-  }, []);
 
   // Rendering placeholder ottimizzato che rispetta il layout originale
   if (!shouldRender) {
@@ -75,41 +59,23 @@ export default function KeyPoints() {
           className="w-full md:w-1/2 h-[290px] sm:h-[340px] md:h-[450px] xl:h-[510px] 2xl:h-[610px] bg-bg-card keypoint-border border-[0.5px] rounded-[20px] relative overflow-hidden p-[20px] xl:p-[25px] 2xl:p-[30px] flex flex-col justify-between"
           style={{ willChange: 'transform' }}
         >
-          {/* Conditional rendering based on mounted state and breakpoint */}
-          {isMounted ? (
-            isDesktop ? (
-              // Desktop: Video
-              <div className="absolute inset-0 overflow-hidden">
-                <OptimizedVideo
-                  src={getPublicVideoUrl('1080p.mp4')}
-                  className="w-full h-full object-contain pointer-events-none mix-blend-screen"
-                  style={{
-                    transform: 'translateY(-10%) scale(0.9)',
-                    objectPosition: 'center center',
-                    willChange: 'transform',
-                  }}
-                  autoPlay
-                  loop
-                  muted
-                  controls={false}
-                  playsInline
-                  poster="/img/evolvi-immagine.webp"
-                />
-              </div>
-            ) : (
-              // Mobile: Static image
-              <div
-                className="absolute inset-0 bg-top bg-no-repeat top-11 evolvi-image"
-                style={{ backgroundImage: 'url(/img/evolvi-immagine.webp)' }}
-              />
-            )
-          ) : (
-            // SSR/Initial: Show mobile version to prevent hydration mismatch
-            <div
-              className="absolute inset-0 bg-top bg-no-repeat top-11 evolvi-image"
-              style={{ backgroundImage: 'url(/img/evolvi-immagine.webp)' }}
+          {/* Video per tutti i breakpoint */}
+          <div className="absolute inset-0 overflow-hidden">
+            <OptimizedVideo
+              src={getPublicVideoUrl('1080p.mp4')}
+              className="w-full h-full object-contain pointer-events-none mix-blend-screen"
+              style={{
+                transform: 'translateY(-10%) scale(0.9)',
+                objectPosition: 'center center',
+                willChange: 'transform',
+              }}
+              autoPlay
+              loop
+              muted
+              controls={false}
+              playsInline
             />
-          )}
+          </div>
 
           <h4 className="text-[14px] sm:text-[16px] xl:text-[19px] 2xl:text-[21px] text-[#EF2D56] relative z-10 font-poppins font-medium">
             <AnimatedText>{t('keypoints.box01.number')}</AnimatedText>
@@ -190,11 +156,7 @@ export default function KeyPoints() {
                 className="absolute inset-0 bg-top bg-no-repeat top-8 figma-image xl:scale-[1.25] xl:top-[40px] 2xl:scale-[1.45] 2xl:top-[75px] 2xl:right-[0px]"
                 style={{ backgroundImage: 'url(/img/figma-3d.webp)' }}
               />
-              <div className="flex justify-between items-start relative z-10">
-                <h4 className="text-[14px] sm:text-[16px] xl:text-[19px] 2xl:text-[21px] text-[#EF2D56] relative z-10 font-poppins font-medium">
-                  <AnimatedText>{t('keypoints.box04.number')}</AnimatedText>
-                </h4>
-              </div>
+              {/* Freccia in alto a destra */}
               <OptimizedImage
                 src="/icons/bubble-arrow.svg"
                 alt="Arrow"
@@ -202,6 +164,11 @@ export default function KeyPoints() {
                 height={40}
                 className="icon-servizi"
               />
+              <div className="relative z-10">
+                <h4 className="text-[14px] sm:text-[16px] xl:text-[19px] 2xl:text-[21px] text-[#EF2D56] relative z-10 font-poppins font-medium">
+                  <AnimatedText>{t('keypoints.box04.number')}</AnimatedText>
+                </h4>
+              </div>
               <div className="relative z-10">
                 <h2 className="text-main font-figtree font-medium text-[20px] sm:text-[25px] xl:text-[30px] leading-[1.3] flex items-center gap-4">
                   <AnimatedText>{t('keypoints.box04.title')}</AnimatedText>
@@ -218,85 +185,6 @@ export default function KeyPoints() {
           </div>
         </div>
       </section>
-
-      <style jsx>{`
-        .keypoint-border {
-          border-color: rgba(250, 250, 250, 0.2);
-        }
-
-        :global(.dark) .keypoint-border {
-          border-color: #434343;
-        }
-
-        .evolvi-image {
-          background-size: 270px;
-        }
-
-        .webble-image {
-          background-size: 170px;
-        }
-
-        .figma-image {
-          background-size: 90px;
-        }
-
-        @media (min-width: 480px) {
-          .evolvi-image {
-            background-size: 350px;
-          }
-
-          .webble-image {
-            background-size: 220px;
-          }
-
-          .figma-image {
-            background-size: 120px;
-          }
-        }
-
-        .icon-servizi {
-          position: absolute;
-          top: 20px;
-          right: 20px;
-        }
-
-        .icon-servizi-desktop {
-          display: none;
-        }
-
-        @media (min-width: 547px) {
-          .icon-servizi {
-            display: none;
-          }
-
-          .icon-servizi-desktop {
-            display: block;
-          }
-        }
-
-        @media (min-width: 768px) {
-          .icon-servizi {
-            display: block;
-            position: absolute;
-            top: 20px;
-            right: 20px;
-          }
-
-          .icon-servizi-desktop {
-            display: none;
-          }
-        }
-
-        @media (min-width: 1086px) {
-          .icon-servizi {
-            display: none;
-          }
-
-          .icon-servizi-desktop {
-            display: block;
-          }
-        }
-      `}</style>
     </>
   );
 }

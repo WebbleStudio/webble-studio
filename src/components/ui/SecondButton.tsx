@@ -22,7 +22,7 @@ export default function SecondButton({
         alt="Arrow"
         width={12}
         height={12}
-        className="arrow translate-y-[1px] icon-filter"
+        className="arrow translate-y-[1px] icon-filter-dark-black"
       />
     </button>
   );

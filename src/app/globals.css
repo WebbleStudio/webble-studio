@@ -136,9 +136,7 @@ body {
 
 /* Base layer improvements - Global resets */
 @layer base {
-  html {
-    scroll-behavior: smooth;
-  }
+  /* Smooth scroll removed per request */
 
   *,
   *::before,
@@ -228,19 +226,52 @@ body {
     filter: var(--icon-filter);
   }
 
+  /* Freccia che diventa nera in dark mode */
+  .icon-filter-dark-black {
+    filter: none;
+  }
+
+  .dark .icon-filter-dark-black {
+    filter: brightness(0) saturate(100%) invert(5%) sepia(5%) saturate(7%) hue-rotate(315deg)
+      brightness(95%) contrast(100%);
+  }
+
   /* Bottoni glass con sistema automatico */
   .btn-glass {
     background-color: var(--button-glass-bg);
     border-color: var(--button-glass-border);
+    border: 0.5px solid rgba(255, 255, 255, 0.2);
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s ease-in-out;
+  }
+
+  .btn-glass:hover {
+    background: radial-gradient(ellipse at center top, #ef2d56 0%, #891a31 100%);
+  }
+
+  /* Animazione frecce in hover - effetto slide out/slide in */
+  .btn-glass .arrow-main {
+    transition: all 0.3s ease-in-out;
+  }
+
+  .btn-glass .arrow-secondary {
+    transition: all 0.3s ease-in-out;
+  }
+
+  .btn-glass:hover .arrow-main {
+    transform: translate(16px, -15px) translateY(1px);
+    opacity: 0;
+  }
+
+  .btn-glass:hover .arrow-secondary {
+    transform: translate(0, 1px);
+    opacity: 1;
   }
 
   /* Menu overlay con border dinamico */
   .menu-overlay {
     border-color: var(--menu-overlay-border);
-  }
-
-  .btn-glass:hover {
-    background-color: var(--hover-bg-secondary);
   }
 
   /* Animazione di transizione tra temi */

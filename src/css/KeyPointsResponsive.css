@@ -1,7 +1,11 @@
 /* KeyPointsResponsive.css */
 
-.evolvi-image {
-  background-size: 270px;
+.keypoint-border {
+  border-color: rgba(250, 250, 250, 0.2);
+}
+
+.dark .keypoint-border {
+  border-color: #434343;
 }
 
 .webble-image {
@@ -13,10 +17,6 @@
 }
 
 @media (min-width: 480px) {
-  .evolvi-image {
-    background-size: 350px;
-  }
-
   .webble-image {
     background-size: 220px;
   }
@@ -26,6 +26,7 @@
   }
 }
 
+/* Comportamento frecce responsive */
 .icon-servizi {
   position: absolute;
   top: 20px;
@@ -36,7 +37,19 @@
   display: none;
 }
 
-@media (min-width: 547px) {
+/* Sotto i 560px: mostro freccia in alto, nascondo quella in basso */
+@media (max-width: 559px) {
+  .icon-servizi {
+    display: block;
+  }
+
+  .icon-servizi-desktop {
+    display: none;
+  }
+}
+
+/* 560px - 767px: nascondo freccia in alto, mostro quella in basso */
+@media (min-width: 560px) and (max-width: 767px) {
   .icon-servizi {
     display: none;
   }
@@ -46,12 +59,10 @@
   }
 }
 
-@media (min-width: 768px) {
+/* Da 768px a 1109px: mostro freccia in alto, nascondo quella in basso */
+@media (min-width: 768px) and (max-width: 1109px) {
   .icon-servizi {
     display: block;
-    position: absolute;
-    top: 20px;
-    right: 20px;
   }
 
   .icon-servizi-desktop {
@@ -59,7 +70,8 @@
   }
 }
 
-@media (min-width: 1086px) {
+/* Da 1110px in su: nascondo freccia in alto, mostro quella in basso */
+@media (min-width: 1110px) {
   .icon-servizi {
     display: none;
   }

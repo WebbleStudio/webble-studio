@@ -3,7 +3,6 @@
  * Provides a single import point for hooks across the application
  */
 
-export { useSectionScroll } from './useSectionScroll';
 export { useTranslation } from './useTranslation';
 export { usePerformance } from './usePerformance';
 export { useDarkMode } from './useDarkMode';

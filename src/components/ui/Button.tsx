@@ -13,13 +13,22 @@ export default function Button({ children = 'Contattaci', className = '', ...pro
       {...props}
     >
       <span className="text-[15px]">{children}</span>
-      <OptimizedImage
-        src="/icons/diagonal-arrow.svg"
-        alt="Arrow"
-        width={12}
-        height={12}
-        className="arrow translate-y-[1px] icon-filter"
-      />
+      <div className="relative w-3 h-3 overflow-hidden">
+        <OptimizedImage
+          src="/icons/diagonal-arrow.svg"
+          alt="Arrow"
+          width={12}
+          height={12}
+          className="arrow-main absolute translate-y-[1px] icon-filter transition-transform duration-300 ease-in-out"
+        />
+        <OptimizedImage
+          src="/icons/diagonal-arrow.svg"
+          alt="Arrow"
+          width={12}
+          height={12}
+          className="arrow-secondary absolute translate-y-[1px] icon-filter transition-transform duration-300 ease-in-out transform -translate-x-4 translate-y-4 opacity-0"
+        />
+      </div>
     </button>
   );
 }

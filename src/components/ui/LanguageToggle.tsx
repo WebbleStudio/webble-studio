@@ -16,11 +16,12 @@ export default function LanguageToggle({ className = '' }: LanguageToggleProps) 
   return (
     <button
       onClick={toggleLanguage}
-      className={`px-2 py-1 text-sm font-medium transition-colors duration-200 text-[#fafafa] flex items-center justify-center focus:outline-none ${className}`}
+      className={`p-2 rounded-lg transition-colors duration-200 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-[#fafafa] flex items-center justify-center focus:outline-none ${className}`}
       aria-label={`Switch to ${currentLanguage === 'it' ? 'English' : 'Italian'}`}
-      style={{ background: 'none', border: 'none', boxShadow: 'none' }}
     >
-      <span className="font-semibold">{currentLanguage === 'it' ? 'IT' : 'EN'}</span>
+      <span className="font-semibold text-xs leading-none w-4 h-4 flex items-center justify-center">
+        {currentLanguage === 'it' ? 'IT' : 'EN'}
+      </span>
     </button>
   );
 }

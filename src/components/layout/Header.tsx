@@ -110,13 +110,26 @@ export default function Header() {
           onClick={toggleMenu}
         >
           <span
-            className={`block w-[40px] h-[2px] bg-[#d9d9d9] rounded transition-all duration-500 ease-in-out ${menuOpen ? 'transform rotate-45 translate-y-[5.5px] scale-x-75' : ''}`}
+            className={`block w-[40px] h-[2px] rounded transition-all duration-500 ease-in-out ${
+              menuOpen
+                ? 'transform rotate-45 translate-y-[5.5px] scale-x-75 bg-[#d9d9d9] dark:bg-[#020202]'
+                : 'bg-[#d9d9d9]'
+            }`}
           ></span>
           <span
-            className={`block w-[40px] h-[2px] bg-[#d9d9d9] rounded transition-all duration-500 ease-in-out ${menuOpen ? 'transform -rotate-45 -translate-y-[5.5px] scale-x-75' : ''}`}
+            className={`block w-[40px] h-[2px] rounded transition-all duration-500 ease-in-out ${
+              menuOpen
+                ? 'transform -rotate-45 -translate-y-[5.5px] scale-x-75 bg-[#d9d9d9] dark:bg-[#020202]'
+                : 'bg-[#d9d9d9]'
+            }`}
           ></span>
         </div>
-        <span className="font-poppins text-[#d9d9d9] text-base cursor-pointer" onClick={toggleMenu}>
+        <span
+          className={`font-poppins text-base cursor-pointer transition-colors duration-500 ${
+            menuOpen ? 'text-[#d9d9d9] dark:text-[#020202]' : 'text-[#d9d9d9]'
+          }`}
+          onClick={toggleMenu}
+        >
           Menu
         </span>
       </div>
