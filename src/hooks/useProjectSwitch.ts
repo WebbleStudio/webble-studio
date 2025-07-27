@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import { projectAnimationVariants } from './projectAnimations';
+import { projectAnimationVariants } from '../components/animations/projectAnimations';
 
 export interface ProjectData {
   id: string;
