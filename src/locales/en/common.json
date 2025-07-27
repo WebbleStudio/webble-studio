@@ -67,6 +67,12 @@
     "subtitle": "Custom interfaces, designed to make you stand out, engage users and create value.",
     "cta": "Book a call"
   },
+  "menu": {
+    "home": "Home",
+    "about": "About",
+    "portfolio": "Portfolio",
+    "contact": "Contact"
+  },
   "contact": {
     "title": "Contact us",
     "success": "Message sent successfully! We will contact you soon.",

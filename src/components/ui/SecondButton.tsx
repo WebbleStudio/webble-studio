@@ -13,7 +13,7 @@ export default function SecondButton({
 }: ButtonProps) {
   return (
     <button
-      className={`px-[24px] py-2.5 rounded-[12px] font-medium bg-bg-secondary text-text-inverse flex items-center gap-2 sm:px-[32px] sm:py-3 sm:text-[17px] ${className}`}
+      className={`px-[24px] py-2.5 rounded-[12px] font-medium bg-bg-secondary text-text-inverse flex items-center gap-2 sm:px-[32px] sm:py-3 sm:text-[17px] btn-secondary ${className}`}
       {...props}
     >
       <span className="text-[15px] sm:text-[17px]">{children}</span>

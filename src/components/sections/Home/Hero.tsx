@@ -167,13 +167,22 @@ export default function Hero() {
             }}
           >
             <AnimatedText>{t('hero.cta')}</AnimatedText>
-            <OptimizedImage
-              src="/icons/diagonal-arrow.svg"
-              alt="Arrow"
-              width={12}
-              height={12}
-              className="arrow translate-y-[1px] icon-filter"
-            />
+            <div className="relative w-4 h-4 overflow-hidden">
+              <OptimizedImage
+                src="/icons/diagonal-arrow.svg"
+                alt="Arrow"
+                width={12}
+                height={12}
+                className="hero-arrow-main absolute icon-filter"
+              />
+              <OptimizedImage
+                src="/icons/diagonal-arrow.svg"
+                alt="Arrow"
+                width={12}
+                height={12}
+                className="hero-arrow-secondary absolute icon-filter"
+              />
+            </div>
           </button>
         </div>
 
@@ -203,11 +212,6 @@ export default function Hero() {
 
       {/* Enhanced styles con focus su performance */}
       <style global jsx>{`
-        .hero-arrow .arrow {
-          transform: rotate(90deg) translateY(-2px) !important;
-          will-change: transform;
-        }
-
         .spline-dark-mask {
           -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 90%);
           mask-image: linear-gradient(to bottom, black 60%, transparent 90%);

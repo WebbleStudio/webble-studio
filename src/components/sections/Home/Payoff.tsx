@@ -24,7 +24,7 @@ export default function Payoff() {
         </AnimatedText>
         <AnimatedText
           as="p"
-          className="text-center text-[14px] sm:text-[16px] md:text-[20px] font-figtree font-regular text-text-primary max-w-xl mx-auto"
+          className="text-center text-[14px] sm:text-[16px] md:text-[20px] font-figtree font-regular text-text-primary w-[300px] sm:w-[400px] md:w-[500px] mx-auto"
         >
           {t('payoff.subtitle')}
         </AnimatedText>

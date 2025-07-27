@@ -25,23 +25,47 @@ export function useMenuOverlayAnimation(isScrolled: boolean, menuOpen: boolean) 
     if (!isMounted) return;
     function calcHeaderDimensions() {
       const windowWidth = window.innerWidth;
-      let headerWidth: string;
+      let headerWidth: number;
       let headerLeft: string;
-      if (windowWidth >= 1920) {
-        headerWidth = isScrolled ? '1590px' : '1840px';
-      } else if (windowWidth >= 1300) {
-        headerWidth = isScrolled ? '1240px' : `${windowWidth - 160}px`;
+      
+      // Misura direttamente l'elemento del header se disponibile
+      const headerElement = document.querySelector('.desktop-wrapper') as HTMLElement;
+      
+      if (headerElement && windowWidth >= 768) {
+        // Usa le dimensioni reali del header
+        const headerRect = headerElement.getBoundingClientRect();
+        headerWidth = headerRect.width;
+        headerLeft = `${headerRect.left}px`;
       } else {
-        headerWidth = '1240px';
+        // Fallback per mobile o se l'elemento non è trovato
+        if (windowWidth >= 1920) {
+          headerWidth = isScrolled ? 1590 : 1840;
+        } else if (windowWidth >= 1300) {
+          if (isScrolled) {
+            headerWidth = 1240;
+          } else {
+            headerWidth = windowWidth - 60;
+          }
+        } else if (windowWidth >= 768) {
+          const containerWidth = Math.min(1240, windowWidth - 60);
+          headerWidth = containerWidth;
+        } else {
+          headerWidth = windowWidth - 40;
+        }
+        
+        // Calcola la posizione left per centrare l'elemento
+        headerLeft = `${(windowWidth - headerWidth) / 2}px`;
+        
+        if (windowWidth < 768) {
+          headerLeft = '20px';
+        }
       }
-      const headerWidthNum = parseInt(headerWidth);
-      headerLeft = `${(windowWidth - headerWidthNum) / 2}px`;
-      if (windowWidth < 768) {
-        headerWidth = `${windowWidth - 40}px`;
-        headerLeft = '20px';
-      }
+      
+      // Assicurati che la larghezza non superi mai quella dello schermo
+      const maxWidth = Math.min(headerWidth, windowWidth - 40);
+      
       setHeaderDimensions({
-        width: headerWidth,
+        width: `${maxWidth}px`,
         height: '65px',
         left: headerLeft,
         top: '12.5px',
@@ -103,7 +127,7 @@ export function useMenuOverlayAnimation(isScrolled: boolean, menuOpen: boolean) 
     if (!isMounted) {
       return { display: 'none' };
     }
-    const baseTransition = 'all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1)';
+    const baseTransition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
     switch (animationState) {
       case 'closed':
         return { display: 'none' };
@@ -133,11 +157,12 @@ export function useMenuOverlayAnimation(isScrolled: boolean, menuOpen: boolean) 
     }
   }, [animationState, headerDimensions, isMounted]);
 
-  const overlayClassName = `fixed z-[101] text-text-secondary bg-bg-secondary rounded-[23px] flex flex-col items-center justify-center border-[0.5px] menu-overlay`;
+  const overlayClassName = `fixed z-[101] text-text-secondary bg-[#0b0b0b]/70 dark:bg-[#fafafa]/70 backdrop-blur-lg rounded-[23px] flex flex-col items-center justify-center border-[0.5px] menu-overlay`;
 
   return {
     overlayStyle: getOverlayStyle(),
     overlayClassName,
     isVisible: isMounted ? animationState !== 'closed' : false,
+    animationState,
   };
 }

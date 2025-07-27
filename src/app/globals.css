@@ -243,20 +243,37 @@ body {
     border: 0.5px solid rgba(255, 255, 255, 0.2);
     position: relative;
     overflow: hidden;
-    transition: background 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
   }
 
-  .btn-glass:hover {
+  .btn-glass::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     background: radial-gradient(ellipse at center top, #ef2d56 0%, #891a31 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    z-index: -1;
+  }
+
+  .btn-glass:hover::before {
+    opacity: 1;
   }
 
   /* Animazione frecce in hover - effetto slide out/slide in */
   .btn-glass .arrow-main {
-    transition: all 0.3s ease-in-out;
+    transition: all 0.25s ease-out;
+    opacity: 1;
+    transform: translateY(1px);
   }
 
   .btn-glass .arrow-secondary {
-    transition: all 0.3s ease-in-out;
+    transition: all 0.25s ease-out;
+    opacity: 0;
+    transform: translate(-8px, 12px);
   }
 
   .btn-glass:hover .arrow-main {
@@ -265,7 +282,30 @@ body {
   }
 
   .btn-glass:hover .arrow-secondary {
-    transform: translate(0, 1px);
+    transform: translateY(1px);
+    opacity: 1;
+  }
+
+  /* Animazione frecce hero button - effetto slide out/slide in (freccia verso basso-destra) */
+  .hero-arrow .hero-arrow-main {
+    transition: all 0.25s ease-out;
+    opacity: 1;
+    transform: rotate(90deg) translateY(-1px);
+  }
+
+  .hero-arrow .hero-arrow-secondary {
+    transition: all 0.25s ease-out;
+    opacity: 0;
+    transform: rotate(90deg) translate(-8px, 12px);
+  }
+
+  .hero-arrow:hover .hero-arrow-main {
+    transform: rotate(90deg) translate(16px, -15px) translateY(-1px);
+    opacity: 0;
+  }
+
+  .hero-arrow:hover .hero-arrow-secondary {
+    transform: rotate(90deg) translateY(-1px);
     opacity: 1;
   }
 
@@ -280,5 +320,29 @@ body {
       background-color 0.25s ease-out,
       color 0.25s ease-out,
       border-color 0.25s ease-out;
+  }
+
+  /* Animazione fade per SecondButton */
+  .btn-secondary {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .btn-secondary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.1);
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    z-index: -1;
+  }
+
+  .btn-secondary:hover::before {
+    opacity: 1;
   }
 }

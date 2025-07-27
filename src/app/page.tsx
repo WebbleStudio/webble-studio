@@ -104,9 +104,28 @@ export default function Home() {
         <KeyPoints />
         <Services />
       </Container>
-      <Projects projectData={project1} />
-      <Projects projectData={project2} />
-      <Projects projectData={project3} />
+      
+      {/* Sezione Progetti con effetto stacking sticky */}
+      <section className="relative">
+        {/* Container per l'effetto stacking */}
+        <div className="relative">
+          {/* Progetto 1 - Mavimatt (bottom layer) */}
+          <div className="sticky top-0 h-screen z-10">
+            <Projects projectData={project1} />
+          </div>
+          
+          {/* Progetto 2 - Legacy of Games (middle layer) */}
+          <div className="sticky top-0 h-screen z-20">
+            <Projects projectData={project2} />
+          </div>
+          
+          {/* Progetto 3 - X2M Creative (top layer) */}
+          <div className="sticky top-0 h-screen z-30">
+            <Projects projectData={project3} />
+          </div>
+        </div>
+      </section>
+      
       <Container>
         <Contact />
       </Container>

@@ -19,14 +19,14 @@ export default function Button({ children = 'Contattaci', className = '', ...pro
           alt="Arrow"
           width={12}
           height={12}
-          className="arrow-main absolute translate-y-[1px] icon-filter transition-transform duration-300 ease-in-out"
+          className="arrow-main absolute icon-filter"
         />
         <OptimizedImage
           src="/icons/diagonal-arrow.svg"
           alt="Arrow"
           width={12}
           height={12}
-          className="arrow-secondary absolute translate-y-[1px] icon-filter transition-transform duration-300 ease-in-out transform -translate-x-4 translate-y-4 opacity-0"
+          className="arrow-secondary absolute icon-filter"
         />
       </div>
     </button>

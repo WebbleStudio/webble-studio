@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { supabase } from '@/app/lib/supabaseClient';
+import { supabase } from '@/lib/supabaseClient';
 import { Resend } from 'resend';
 import ContactEmail from '@/components/email/ContactEmail';
 import {

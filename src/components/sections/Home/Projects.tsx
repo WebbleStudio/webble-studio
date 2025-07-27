@@ -21,8 +21,7 @@ export default function Projects({ projectData }: ProjectsProps) {
   } = useSlideSwitch(projectData);
 
   const animations = projectAnimationVariants;
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [isHoveringImage, setIsHoveringImage] = useState(false);
+
 
   // Performance optimization hook
   const {
@@ -33,77 +32,9 @@ export default function Projects({ projectData }: ProjectsProps) {
     shouldSkipAnimation,
   } = usePerformance();
 
-  // Refs per ottimizzazione performance
-  const rafRef = useRef<number | null>(null);
-  const mousePositionRef = useRef({ x: 0, y: 0 });
-  const lastUpdateRef = useRef(0);
 
-  // Throttled mouse update con RAF per performance ottimali
-  const updateMousePosition = useCallback((e: MouseEvent) => {
-    mousePositionRef.current = { x: e.clientX, y: e.clientY };
 
-    // Throttle usando RAF per sync con browser refresh rate
-    if (rafRef.current !== null) return;
 
-    rafRef.current = requestAnimationFrame(() => {
-      const now = performance.now();
-      // Limita aggiornamenti a max 30fps per performance migliori (invece di 60)
-      if (now - lastUpdateRef.current >= 33.33) {
-        // ~30fps
-        setMousePosition(mousePositionRef.current);
-        lastUpdateRef.current = now;
-      }
-      rafRef.current = null;
-    });
-  }, []);
-
-  // Gestione hover ottimizzata con media query check e performance awareness
-  const handleMouseEnter = useCallback(() => {
-    if (
-      window.matchMedia('(hover: hover)').matches &&
-      !shouldReduceAnimations &&
-      !shouldSkipAnimation('medium')
-    ) {
-      setIsHoveringImage(true);
-    }
-  }, [shouldReduceAnimations, shouldSkipAnimation]);
-
-  const handleMouseLeave = useCallback(() => {
-    if (window.matchMedia('(hover: hover)').matches) {
-      setIsHoveringImage(false);
-    }
-  }, []);
-
-  // Enhanced effect con performance optimizations
-  useEffect(() => {
-    // Aggiungi listener solo quando necessario e performance permette
-    if (isHoveringImage && !shouldReduceAnimations && !shouldSkipAnimation('medium')) {
-      window.addEventListener('mousemove', updateMousePosition, {
-        passive: true,
-        capture: false, // Non catturare eventi in fase di capture per performance
-      });
-    }
-
-    return () => {
-      window.removeEventListener('mousemove', updateMousePosition);
-      if (rafRef.current !== null) {
-        cancelAnimationFrame(rafRef.current);
-        rafRef.current = null;
-      }
-    };
-  }, [isHoveringImage, shouldReduceAnimations, shouldSkipAnimation, updateMousePosition]);
-
-  // Configurazioni dinamiche per performance con memoria
-  const cursorStyles = useMemo(
-    () => ({
-      left: mousePosition.x,
-      top: mousePosition.y,
-      transform: 'translate(-50%, -50%)',
-      willChange: shouldUseGPUAcceleration ? 'transform, opacity' : 'auto',
-      contain: 'layout style paint', // Performance isolation
-    }),
-    [mousePosition.x, mousePosition.y, shouldUseGPUAcceleration]
-  );
 
   // Image animation configs ottimizzati con caching
   const imageAnimationConfig = useMemo(() => {
@@ -120,31 +51,10 @@ export default function Projects({ projectData }: ProjectsProps) {
   // Animation duration ottimizzata
   const animationDuration = useMemo(() => getAnimationDuration(400), [getAnimationDuration]);
 
-  // Cursor animation configuration
-  const cursorAnimationConfig = useMemo(
-    () => ({
-      initial: { scale: 0 },
-      animate: {
-        scale: isHoveringImage ? 1 : 0,
-      },
-      transition: shouldReduceAnimations
-        ? {
-            type: 'tween' as const,
-            duration: animationDuration / 1000,
-            ease: 'easeOut' as const,
-          }
-        : {
-            type: 'spring' as const,
-            stiffness: 300,
-            damping: 20,
-            duration: animationDuration / 1000,
-          },
-    }),
-    [isHoveringImage, shouldReduceAnimations, animationDuration]
-  );
+
 
   return (
-    <section className="section-scroll h-screen w-full flex items-center justify-center mt-0 mb-0">
+    <section className="h-screen w-full flex items-center justify-center mt-0 mb-0">
       <div
         className="h-screen w-full bg-second flex items-center justify-center relative overflow-hidden"
         style={{ contain: 'layout style' }}
@@ -160,29 +70,7 @@ export default function Projects({ projectData }: ProjectsProps) {
           }}
         />
 
-        {/* Enhanced Custom Cursor - performance optimized */}
-        {!shouldSkipAnimation('medium') && (
-          <motion.div
-            className={`fixed pointer-events-none z-50 transition-opacity duration-300 ${
-              isHoveringImage ? 'opacity-100' : 'opacity-0'
-            }`}
-            style={cursorStyles}
-            initial={cursorAnimationConfig.initial}
-            animate={cursorAnimationConfig.animate}
-            transition={cursorAnimationConfig.transition}
-          >
-            <div
-              className="w-10 h-10 rounded-full shadow-xl border-2 border-line-fixed bg-cover bg-center"
-              style={{
-                backgroundImage: `url(${project.backgroundImage})`,
-                willChange: shouldUseGPUAcceleration ? 'transform' : 'auto',
-                contain: 'layout style paint',
-                backfaceVisibility: 'hidden',
-                WebkitBackfaceVisibility: 'hidden',
-              }}
-            />
-          </motion.div>
-        )}
+
 
         {/* Content Wrapper */}
         <div
@@ -230,9 +118,7 @@ export default function Projects({ projectData }: ProjectsProps) {
 
               {/* Animated Image */}
               <div
-                className="relative w-[600px] h-[360px] 2xl:w-[750px] 2xl:h-[450px] bg-main rounded-[17px] overflow-hidden cursor-none mb-14 md:mb-20"
-                onMouseEnter={handleMouseEnter}
-                onMouseLeave={handleMouseLeave}
+                className="relative w-[600px] h-[360px] 2xl:w-[750px] 2xl:h-[450px] bg-main rounded-[17px] overflow-hidden mb-14 md:mb-20"
                 style={{
                   willChange: shouldUseGPUAcceleration ? 'transform' : 'auto',
                   contain: 'layout style paint',
@@ -335,9 +221,7 @@ export default function Projects({ projectData }: ProjectsProps) {
 
               {/* Animated Image Container */}
               <div
-                className="relative w-[300px] h-[185px] xs:w-[340px] xs:h-[210px] sm:w-[380px] sm:h-[235px] md:w-[500px] md:h-[300px] lg:w-[600px] lg:h-[360px] bg-main rounded-[17px] overflow-hidden cursor-none"
-                onMouseEnter={handleMouseEnter}
-                onMouseLeave={handleMouseLeave}
+                className="relative w-[300px] h-[185px] xs:w-[340px] xs:h-[210px] sm:w-[380px] sm:h-[235px] md:w-[500px] md:h-[300px] lg:w-[600px] lg:h-[360px] bg-main rounded-[17px] overflow-hidden"
                 style={{
                   willChange: shouldUseGPUAcceleration ? 'transform' : 'auto',
                   contain: 'layout style paint',

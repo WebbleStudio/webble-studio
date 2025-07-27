@@ -3,27 +3,95 @@
 import React, { useState } from 'react';
 import OptimizedImage from '@/components/ui/OptimizedImage';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import '@/css/Header.css';
 import Button from '@/components/ui/Button';
 import DarkModeToggle from '@/components/ui/DarkModeToggle';
 import LanguageToggle from '@/components/ui/LanguageToggle';
+import AnimatedText from '@/components/ui/AnimatedText';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useHeaderAnimation } from '../animations/useHeaderAnimation';
 import { useMenuOverlayAnimation } from '../animations/useMenuOverlayAnimation';
+import { useTranslation } from '@/hooks/useTranslation';
 
 export default function Header() {
+  const { t } = useTranslation();
   const { desktopWrapperClassName, isScrolled } = useHeaderAnimation();
   const [menuOpen, setMenuOpen] = useState(false);
-  const { overlayStyle, overlayClassName, isVisible } = useMenuOverlayAnimation(
+  const pathname = usePathname();
+  const { overlayStyle, overlayClassName, isVisible, animationState } = useMenuOverlayAnimation(
     isScrolled,
     menuOpen
   );
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
 
+  // Funzione per determinare se una voce è attiva
+  const isActivePage = (path: string) => {
+    if (path === '/') {
+      return pathname === '/';
+    }
+    return pathname.startsWith(path);
+  };
+
+  // Animazioni per i contenuti del menu overlay
+  const menuContentVariants = {
+    hidden: {
+      opacity: 0,
+      y: 20,
+      scale: 0.95,
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+    },
+    exit: {
+      opacity: 0,
+      y: -20,
+      scale: 0.95,
+    },
+  };
+
+  const menuItemVariants = {
+    hidden: {
+      opacity: 0,
+      y: 15,
+      filter: 'blur(4px)',
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      filter: 'blur(0px)',
+    },
+    exit: {
+      opacity: 0,
+      y: -15,
+      filter: 'blur(4px)',
+    },
+  };
+
+  const separatorVariants = {
+    hidden: {
+      opacity: 0,
+      scaleX: 0,
+    },
+    visible: {
+      opacity: 1,
+      scaleX: 1,
+    },
+    exit: {
+      opacity: 0,
+      scaleX: 0,
+    },
+  };
+
   return (
     <>
       {/* HEADER */}
-      <div className="fixed top-0 left-0 w-full z-[100] h-[90px] flex items-center px-5 md:px-[30px] xl:px-20">
+      <div className={`fixed top-0 left-0 w-full z-[100] h-[90px] flex items-center px-4 md:px-[30px] xl:px-20 transition-all duration-300 ${
+        isScrolled ? 'bg-[#0b0b0b]/70 backdrop-blur-sm md:bg-transparent' : ''
+      }`}>
         {/* Mobile layout: solo logo */}
         <div className="flex w-full items-center justify-start md:hidden">
           <div className="h-[40px] flex items-center">
@@ -51,7 +119,7 @@ export default function Header() {
         </div>
 
         {/* Desktop layout: wrapper con bordo visibile solo quando scrollato */}
-        <div className={desktopWrapperClassName}>
+        <div className={`${desktopWrapperClassName} desktop-wrapper`}>
           {/* Logo a sinistra */}
           <div className="h-[40px] flex items-center">
             <Link href="/" className="logo-compact">
@@ -95,10 +163,18 @@ export default function Header() {
           onClick={toggleMenu}
         >
           <span
-            className={`block w-[45px] h-[2px] bg-text-inverse rounded transition-all duration-500 ease-in-out ${menuOpen ? 'transform rotate-45 translate-y-[6.5px] scale-x-75' : ''}`}
+            className={`block w-[45px] h-[2px] rounded transition-all duration-500 ease-in-out ${
+              menuOpen
+                ? 'transform rotate-45 translate-y-[6.5px] scale-x-75 bg-[#d9d9d9] dark:bg-[#020202]'
+                : 'bg-[#d9d9d9]'
+            }`}
           ></span>
           <span
-            className={`block w-[45px] h-[2px] bg-text-inverse rounded transition-all duration-500 ease-in-out ${menuOpen ? 'transform -rotate-45 -translate-y-[6.5px] scale-x-75' : ''}`}
+            className={`block w-[45px] h-[2px] rounded transition-all duration-500 ease-in-out ${
+              menuOpen
+                ? 'transform -rotate-45 -translate-y-[6.5px] scale-x-75 bg-[#d9d9d9] dark:bg-[#020202]'
+                : 'bg-[#d9d9d9]'
+            }`}
           ></span>
         </div>
       </div>
@@ -137,51 +213,99 @@ export default function Header() {
       {/* MENU OVERLAY */}
       {isVisible && (
         <div className={overlayClassName} style={overlayStyle}>
-          <div className="w-full h-full flex flex-col items-center justify-center p-8">
-            <div className="text-center space-y-8">
-              <h2 className="text-4xl md:text-5xl font-figtree font-medium text-text-primary">
-                Menu
-              </h2>
-              <nav className="flex flex-col space-y-6">
-                <Link
-                  href="/"
-                  className="text-xl font-medium text-text-primary hover:text-main transition-colors"
+          <div className="w-full h-full flex flex-col items-center justify-center">
+            <AnimatePresence mode="wait">
+              {animationState === 'open' && (
+                <motion.div
+                  key="menu-content"
+                  className="flex flex-col items-center space-y-8"
+                  variants={menuContentVariants}
+                  initial="hidden"
+                  animate="visible"
+                  exit="exit"
+                  transition={{
+                    duration: 0.6,
+                    ease: "easeOut",
+                    staggerChildren: 0.1,
+                    delayChildren: 0.2,
+                  }}
                 >
-                  Home
-                </Link>
-                <Link
-                  href="/about"
-                  className="text-xl font-medium text-text-primary hover:text-main transition-colors"
+                <motion.div 
+                  variants={menuItemVariants}
+                  transition={{ duration: 0.5, ease: "easeOut" }}
                 >
-                  Chi Siamo
-                </Link>
-                <Link
-                  href="/services"
-                  className="text-xl font-medium text-text-primary hover:text-main transition-colors"
+                  <AnimatedText
+                    as="h1"
+                    className={`text-4xl md:text-5xl font-figtree text-auto-inverse cursor-pointer hover:text-[#F20352] transition-all duration-200 ${
+                      isActivePage('/') ? 'font-medium' : 'font-light'
+                    }`}
+                  >
+                    {t('menu.home')}
+                  </AnimatedText>
+                </motion.div>
+                
+                <motion.div 
+                  variants={separatorVariants}
+                  className="w-24 h-[2px] bg-[#fafafa] dark:bg-[#0b0b0b] opacity-40 origin-left"
+                  transition={{ duration: 0.4, ease: "easeOut", delay: 0.3 }}
+                ></motion.div>
+                
+                <motion.div 
+                  variants={menuItemVariants}
+                  transition={{ duration: 0.5, ease: "easeOut" }}
                 >
-                  Servizi
-                </Link>
-                <Link
-                  href="/projects"
-                  className="text-xl font-medium text-text-primary hover:text-main transition-colors"
+                  <AnimatedText
+                    as="h1"
+                    className={`text-4xl md:text-5xl font-figtree text-auto-inverse cursor-pointer hover:text-[#F20352] transition-all duration-200 ${
+                      isActivePage('/about') ? 'font-medium' : 'font-light'
+                    }`}
+                  >
+                    {t('menu.about')}
+                  </AnimatedText>
+                </motion.div>
+                
+                <motion.div 
+                  variants={separatorVariants}
+                  className="w-24 h-[2px] bg-[#fafafa] dark:bg-[#0b0b0b] opacity-40 origin-left"
+                  transition={{ duration: 0.4, ease: "easeOut", delay: 0.3 }}
+                ></motion.div>
+                
+                <motion.div 
+                  variants={menuItemVariants}
+                  transition={{ duration: 0.5, ease: "easeOut" }}
                 >
-                  Progetti
-                </Link>
-                <Link
-                  href="/contact"
-                  className="text-xl font-medium text-text-primary hover:text-main transition-colors"
+                  <AnimatedText
+                    as="h1"
+                    className={`text-4xl md:text-5xl font-figtree text-auto-inverse cursor-pointer hover:text-[#F20352] transition-all duration-200 ${
+                      isActivePage('/portfolio') ? 'font-medium' : 'font-light'
+                    }`}
+                  >
+                    {t('menu.portfolio')}
+                  </AnimatedText>
+                </motion.div>
+                
+                <motion.div 
+                  variants={separatorVariants}
+                  className="w-24 h-[2px] bg-[#fafafa] dark:bg-[#0b0b0b] opacity-40 origin-left"
+                  transition={{ duration: 0.4, ease: "easeOut", delay: 0.3 }}
+                ></motion.div>
+                
+                <motion.div 
+                  variants={menuItemVariants}
+                  transition={{ duration: 0.5, ease: "easeOut" }}
                 >
-                  Contatti
-                </Link>
-              </nav>
-
-              {/* Debug info - rimuovi in produzione */}
-              <div className="mt-8 text-sm text-text-secondary opacity-50">
-                <div>State: {menuOpen ? 'OPEN' : 'CLOSED'}</div>
-                <div>Visible: {isVisible ? 'YES' : 'NO'}</div>
-                <div>Style: {JSON.stringify(overlayStyle, null, 2)}</div>
-              </div>
-            </div>
+                  <AnimatedText
+                    as="h1"
+                    className={`text-4xl md:text-5xl font-figtree text-auto-inverse cursor-pointer hover:text-[#F20352] transition-all duration-200 ${
+                      isActivePage('/contact') ? 'font-medium' : 'font-light'
+                    }`}
+                  >
+                    {t('menu.contact')}
+                  </AnimatedText>
+                </motion.div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         </div>
       )}

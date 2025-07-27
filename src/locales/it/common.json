@@ -67,6 +67,12 @@
     "subtitle": "Interfacce su misura, pensate per distinguerti, coinvolgere l'utente e generare valore.",
     "cta": "Prenota una call"
   },
+  "menu": {
+    "home": "Home",
+    "about": "Chi siamo",
+    "portfolio": "Portfolio",
+    "contact": "Contatti"
+  },
   "contact": {
     "title": "Contattaci",
     "success": "Messaggio inviato con successo! Ti contatteremo presto.",
