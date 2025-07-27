@@ -18,3 +18,5 @@ export { useProjectSwitch } from '../components/animations/useProjectSwitch';
 export { useHeaderAnimation } from '../components/animations/useHeaderAnimation';
 export { useServiceCategoryAnimation } from '../components/animations/useServiceCategoryAnimation';
 export { useMenuOverlayAnimation } from '../components/animations/useMenuOverlayAnimation';
+export { usePortfolioFiltersAnimation } from '../components/animations/usePortfolioFiltersAnimation';
+export { usePortfolioProjectsAnimation } from '../components/animations/usePortfolioProjectsAnimation';

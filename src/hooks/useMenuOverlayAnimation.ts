@@ -1,4 +1,11 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { 
+  menuOverlayVariants, 
+  menuContentVariants, 
+  menuItemVariants, 
+  menuSeparatorVariants,
+  getMenuTransitions 
+} from './menuAnimations';
 
 type AnimationState = 'closed' | 'open' | 'closing';
 
@@ -21,8 +28,10 @@ export function useMenuOverlayAnimation(isScrolled: boolean, menuOpen: boolean) 
   }, []);
 
   // Update header dimensions on mount, resize, or scroll state change
+  // Memoize per evitare re-calcoli durante le animazioni
   useEffect(() => {
     if (!isMounted) return;
+    
     function calcHeaderDimensions() {
       const windowWidth = window.innerWidth;
       let headerWidth: number;
@@ -71,10 +80,14 @@ export function useMenuOverlayAnimation(isScrolled: boolean, menuOpen: boolean) 
         top: '12.5px',
       });
     }
-    calcHeaderDimensions();
-    window.addEventListener('resize', calcHeaderDimensions);
-    return () => window.removeEventListener('resize', calcHeaderDimensions);
-  }, [isMounted, isScrolled]);
+    
+    // Avoid recalculating during menu animation
+    if (animationState === 'closed') {
+      calcHeaderDimensions();
+      window.addEventListener('resize', calcHeaderDimensions);
+      return () => window.removeEventListener('resize', calcHeaderDimensions);
+    }
+  }, [isMounted, isScrolled, animationState]);
 
   // Disable scroll when overlay is open (client only)
   useEffect(() => {
@@ -89,24 +102,26 @@ export function useMenuOverlayAnimation(isScrolled: boolean, menuOpen: boolean) 
     };
   }, [menuOpen, isMounted]);
 
-  // Animation state machine (client only)
+  // Simplified animation state machine (client only)
   useEffect(() => {
     if (!isMounted) return;
     const wasOpen = previousMenuOpenRef.current;
     previousMenuOpenRef.current = menuOpen;
+    
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
       timeoutRef.current = null;
     }
+    
     if (menuOpen && !wasOpen) {
-      // Direttamente a "open" senza stato intermedio "opening" per evitare flickering
+      // Directly go to open state - no more "opening" flicker
       setAnimationState('open');
     } else if (!menuOpen && wasOpen) {
       setAnimationState('closing');
       timeoutRef.current = window.setTimeout(() => {
         setAnimationState('closed');
         timeoutRef.current = null;
-      }, 250); // Ridotto da 400ms per chiusura più reattiva
+      }, 250); // Reduced from 400ms to 250ms for faster response
     }
   }, [menuOpen, isMounted]);
 
@@ -119,25 +134,36 @@ export function useMenuOverlayAnimation(isScrolled: boolean, menuOpen: boolean) 
     };
   }, []);
 
-  // Overlay style - semplificato per evitare conflitti con Framer Motion
+  // Overlay style now returns only position/size, no transitions (Framer Motion will handle everything)
   const getOverlayStyle = useCallback(() => {
     if (!isMounted || animationState === 'closed') {
       return { display: 'none' };
     }
     
-    // Restituisce solo le dimensioni iniziali, Framer Motion gestisce le transizioni
+    // Always return the initial position for Framer Motion to animate from
     return {
       ...headerDimensions,
-      // Nessuna transizione CSS - lasciamo che Framer Motion gestisca tutto
+      // Remove all CSS transitions - let Framer Motion handle everything
     };
-  }, [animationState, headerDimensions, isMounted]);
+  }, [headerDimensions, isMounted, animationState]);
 
   const overlayClassName = `fixed z-[101] text-text-secondary bg-[#0b0b0b]/70 dark:bg-[#fafafa]/70 backdrop-blur-lg rounded-[23px] flex flex-col items-center justify-center border-[0.5px] menu-overlay`;
+
+  // Get animation variants and transitions
+  const transitions = getMenuTransitions(animationState);
 
   return {
     overlayStyle: getOverlayStyle(),
     overlayClassName,
     isVisible: isMounted ? animationState !== 'closed' : false,
     animationState,
+    headerDimensions, // Export for use in Framer Motion
+    // Animation variants
+    overlayVariants: menuOverlayVariants,
+    contentVariants: menuContentVariants,
+    itemVariants: menuItemVariants,
+    separatorVariants: menuSeparatorVariants,
+    // Dynamic transitions
+    transitions,
   };
 }

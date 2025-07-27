@@ -203,8 +203,8 @@ export default function Projects({ projectData }: ProjectsProps) {
               className="flex flex-col items-center sm:flex-row sm:justify-center sm:items-center relative mb-14 sm:mb-10 md:mb-20"
               style={{ contain: 'layout style' }}
             >
-              {/* Left Arrow - esterno (da 555px in su) */}
-              <div className="hidden button-outside sm:flex sm:items-center mr-8">
+              {/* Left Arrow - esterno (da 768px in su) */}
+              <div className="hidden md:flex md:items-center mr-8">
                 <div
                   className="cursor-pointer transition-opacity hover:opacity-70 bg-bg-overlay rounded-full p-3"
                   onClick={goToPrevious}
@@ -247,42 +247,40 @@ export default function Projects({ projectData }: ProjectsProps) {
                   />
                 </AnimatePresence>
 
-                {/* Arrows dentro l'immagine (fino a 554px) */}
-                <div className="absolute inset-0 flex items-center justify-between p-4 button-inside">
-                  <div className="flex items-center gap-4">
-                    {/* Left Arrow */}
-                    <div
-                      className="cursor-pointer transition-opacity hover:opacity-70 bg-bg-overlay rounded-full p-2"
-                      onClick={goToPrevious}
-                    >
-                      <OptimizedImage
-                        src="/icons/arrow-left.svg"
-                        alt="Previous slide"
-                        width={20}
-                        height={20}
-                        className="w-5 h-5"
-                      />
-                    </div>
+                {/* Arrows dentro l'immagine (sotto 768px) */}
+                <div className="absolute inset-0 flex items-center justify-between p-4 md:hidden">
+                  {/* Left Arrow */}
+                  <div
+                    className="cursor-pointer transition-opacity hover:opacity-70 bg-bg-overlay rounded-full p-2"
+                    onClick={goToPrevious}
+                  >
+                    <OptimizedImage
+                      src="/icons/arrow-left.svg"
+                      alt="Previous slide"
+                      width={20}
+                      height={20}
+                      className="w-5 h-5"
+                    />
+                  </div>
 
-                    {/* Right Arrow */}
-                    <div
-                      className="cursor-pointer transition-opacity hover:opacity-70 bg-bg-overlay rounded-full p-2"
-                      onClick={goToNext}
-                    >
-                      <OptimizedImage
-                        src="/icons/arrow-right.svg"
-                        alt="Next slide"
-                        width={20}
-                        height={20}
-                        className="w-5 h-5"
-                      />
-                    </div>
+                  {/* Right Arrow */}
+                  <div
+                    className="cursor-pointer transition-opacity hover:opacity-70 bg-bg-overlay rounded-full p-2"
+                    onClick={goToNext}
+                  >
+                    <OptimizedImage
+                      src="/icons/arrow-right.svg"
+                      alt="Next slide"
+                      width={20}
+                      height={20}
+                      className="w-5 h-5"
+                    />
                   </div>
                 </div>
               </div>
 
-              {/* Right Arrow - esterno (da 555px in su) */}
-              <div className="hidden button-outside sm:flex sm:items-center ml-8">
+              {/* Right Arrow - esterno (da 768px in su) */}
+              <div className="hidden md:flex md:items-center ml-8">
                 <div
                   className="cursor-pointer transition-opacity hover:opacity-70 bg-bg-overlay rounded-full p-3"
                   onClick={goToNext}
@@ -299,22 +297,6 @@ export default function Projects({ projectData }: ProjectsProps) {
             </div>
 
             <style jsx>{`
-              @media (min-width: 555px) {
-                .button-outside {
-                  display: flex !important;
-                }
-                .button-inside {
-                  display: none !important;
-                }
-              }
-              @media (max-width: 554px) {
-                .button-outside {
-                  display: none !important;
-                }
-                .button-inside {
-                  display: flex !important;
-                }
-              }
               @media (min-width: 768px) {
                 .md-auto-width {
                   width: auto !important;

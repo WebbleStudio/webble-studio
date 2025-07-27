@@ -19,6 +19,27 @@ export default function Hero() {
       delay: shouldReduceAnimations ? 100 : 300,
     });
 
+  // Funzione di scroll smooth ottimizzata che non interferisce con le animazioni del header
+  const scrollToPayoff = () => {
+    const payoffTitle = document.getElementById('payoff-title');
+    if (!payoffTitle) return;
+
+    // Calcola la posizione del centro verticale del titolo
+    const titleRect = payoffTitle.getBoundingClientRect();
+    const titleCenter = titleRect.top + titleRect.height / 2;
+    const viewportCenter = window.innerHeight / 2;
+    const currentScrollY = window.scrollY;
+    
+    // Posizione di scroll per centrare il titolo verticalmente
+    const targetScrollY = currentScrollY + titleCenter - viewportCenter;
+
+    // Usa scrollTo nativo con smooth behavior per prestazioni ottimali
+    window.scrollTo({
+      top: Math.max(0, targetScrollY), // Evita scroll negativo
+      behavior: 'smooth'
+    });
+  };
+
   return (
     <section className="relative bg-second h-[750px] md:h-screen w-full overflow-hidden">
       {/* Enhanced Spline viewer container con transizioni fluide */}
@@ -161,6 +182,7 @@ export default function Hero() {
             {t('hero.subtitle_left')}
           </AnimatedText>
           <button
+            onClick={scrollToPayoff}
             className="hero-arrow rounded-[12px] font-medium border-[0.5px] text-main btn-glass flex items-center gap-2 transition-all duration-300 px-[24px] py-2.5 text-[15px] sm:px-[32px] sm:py-3 sm:text-[17px] md:px-[24px] md:py-2.5 md:text-[15px] lg:px-[32px] lg:py-3 lg:text-[17px] xl:px-[32px] xl:py-3 xl:text-[17px] 2xl:px-[36px] 2xl:py-3.5 2xl:text-[18px] 2xl:rounded-[14px]"
             style={{
               willChange: 'transform, opacity',
