@@ -1,6 +1,7 @@
 'use client';
 
 import Header from '@/components/layout/Header';
+import Footer from '@/components/layout/Footer';
 import { useDarkMode } from '@/hooks/useDarkMode';
 import '@/lib/i18n/config'; // Inizializza i18n
 
@@ -12,6 +13,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
     <>
       <Header />
       {children}
+      <Footer />
     </>
   );
 }

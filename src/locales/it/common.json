@@ -98,5 +98,29 @@
       "message": "Il messaggio è obbligatorio",
       "privacy": "Devi accettare il trattamento dei dati"
     }
+  },
+  "footer": {
+    "cta": "PRENOTA CHIAMATA",
+    "cta_highlight": "PRENOTA",
+    "privacy_policy": "Privacy Policy",
+    "cookie_policy": "Cookie Policy",
+    "social": {
+      "behance": "Behance",
+      "instagram": "Instagram",
+      "dribbble": "Dribbble",
+      "linkedin": "LinkedIn"
+    },
+    "navigation": {
+      "home": "Home",
+      "about": "Chi siamo",
+      "portfolio": "Portfolio",
+      "lawyers": "Web / Avvocati",
+      "dentists": "Web / Dentisti",
+      "restaurants": "Web / Ristoranti",
+      "contacts": "Contatti",
+      "blog": "Blog",
+      "services": "Servizi"
+    },
+    "company_description": "Webble Studio è un marchio di proprietà di Vady Solutions LLC, una società a responsabilità limitata costituita e registrata secondo le leggi del Delaware, con sede legale in 16192 Coastal Hwy. Lewes, DE 19958."
   }
 }
