@@ -64,6 +64,8 @@ export default function KeyPoints() {
             <OptimizedVideo
               src={getPublicVideoUrl('1080p.mp4')}
               className="w-full h-full object-contain pointer-events-none mix-blend-screen"
+              lazy={true}
+              preload="metadata"
               style={{
                 transform: 'translateY(-10%) scale(0.9)',
                 objectPosition: 'center center',

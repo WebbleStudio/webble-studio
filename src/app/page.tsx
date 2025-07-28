@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import Container from '@/components/layout/Container';
 import Hero from '@/components/sections/Home/Hero';
 import Payoff from '@/components/sections/Home/Payoff';
@@ -9,88 +9,94 @@ import Services from '@/components/sections/Home/Services';
 import Projects from '@/components/sections/Home/Projects';
 import Contact from '@/components/sections/Home/Contact';
 import { SingleProjectData } from '@/components/animations/useProjectSwitch';
+import { useHeroProjects, HeroProject } from '@/hooks/useHeroProjects';
 
-// Configurazione Progetto 1 - Mavimatt
-const project1: SingleProjectData = {
-  id: 'mavimatt',
-  title: 'Mavimatt',
-  backgroundImage: '/img/MavimattBackground.webp',
-  labels: ['Project Management', 'UI/UX Design', 'Branding', 'Social Media Design'],
-  date: 'Maggio 2025',
+// Funzione per creare placeholder vuoti
+const createPlaceholderProject = (position: number): SingleProjectData => ({
+  id: `placeholder-${position}`,
+  title: `Progetto ${position}`,
+  backgroundImage: '/img/sfondo-box3.png', // Sfondo placeholder esistente
+  labels: ['Coming Soon'],
+  date: 'Prossimamente',
   slides: [
     {
-      id: 'slide-1',
-      description: 'La company profile del lusso',
-      image: '/img/Mavimatt.webp',
+      id: `placeholder-slide-1-${position}`,
+      description: 'Questo progetto sarà configurato dalla sezione admin',
+      image: '/img/sfondo-box3.png',
     },
     {
-      id: 'slide-2',
-      description: 'Il design esclusivo per il mercato premium',
-      image: '/img/Mavimatt.webp',
+      id: `placeholder-slide-2-${position}`,
+      description: 'Seleziona un progetto nella sezione Highlights',
+      image: '/img/sfondo-box3.png',
     },
     {
-      id: 'slide-3',
-      description: "La creatività incontra l'eleganza italiana",
-      image: '/img/Mavimatt.webp',
+      id: `placeholder-slide-3-${position}`,
+      description: 'Configura descrizioni, immagini e sfondo',
+      image: '/img/sfondo-box3.png',
     },
   ],
-};
+});
 
-// Configurazione Progetto 2 - Legacy of Games
-const project2: SingleProjectData = {
-  id: 'legacy',
-  title: 'Legacy of Games',
-  backgroundImage: '/img/LegacyBackground.webp',
-  labels: ['Web Development', 'Motion Design', '3D Styling', 'Interactive Design'],
-  date: 'Giugno 2025',
-  slides: [
-    {
-      id: 'slide-1',
-      description: 'Il futuro del gaming virtuale',
-      image: '/img/Legacy.webp',
-    },
-    {
-      id: 'slide-2',
-      description: 'Esperienza immersiva senza precedenti',
-      image: '/img/Legacy.webp',
-    },
-    {
-      id: 'slide-3',
-      description: "Dove la tecnologia incontra l'arte",
-      image: '/img/Legacy.webp',
-    },
-  ],
-};
+// Funzione per convertire HeroProject in SingleProjectData
+const convertHeroProjectToSingleProject = (heroProject: HeroProject): SingleProjectData => {
+  const project = heroProject.projects;
+  if (!project) {
+    return createPlaceholderProject(heroProject.position);
+  }
 
-// Configurazione Progetto 3 - X2M Creative
-const project3: SingleProjectData = {
-  id: 'x2mcreative',
-  title: 'X2M Creative',
-  backgroundImage: '/img/x2mcreative-background.webp',
-  labels: ['Creative Direction', 'Brand Strategy', 'Visual Identity', 'Digital Marketing'],
-  date: 'Luglio 2025',
-  slides: [
-    {
-      id: 'slide-1',
-      description: 'La creative agency di nuova generazione',
-      image: '/img/x2mcreative.webp',
-    },
-    {
-      id: 'slide-2',
-      description: 'Innovazione e creatività senza limiti',
-      image: '/img/Legacy.webp',
-    },
-    {
-      id: 'slide-3',
-      description: 'Il partner ideale per il tuo brand',
-      image: '/img/Mavimatt.webp',
-    },
-  ],
+  // Usa le immagini configurate o fallback all'immagine del progetto
+  const slideImages = heroProject.images.length > 0 ? heroProject.images : [project.image_url];
+  
+  // Crea le slides dalle descrizioni e immagini
+  const slides = [0, 1, 2].map((index) => ({
+    id: `slide-${index + 1}-${project.id}`,
+    description: heroProject.descriptions[index] || 'Descrizione non configurata',
+    image: slideImages[index % slideImages.length] || project.image_url,
+  }));
+
+  return {
+    id: project.id,
+    title: project.title,
+    backgroundImage: heroProject.background_image || project.image_url,
+    labels: project.categories,
+    date: new Date(heroProject.created_at).toLocaleDateString('it-IT', { 
+      month: 'long', 
+      year: 'numeric' 
+    }),
+    slides,
+  };
 };
 
 export default function Home() {
   const heroRef = useRef<HTMLDivElement>(null);
   const payoffRef = useRef<HTMLDivElement>(null);
+  const { heroProjects, fetchHeroProjects } = useHeroProjects();
+  const [displayProjects, setDisplayProjects] = useState<SingleProjectData[]>([]);
+
+  // Carica hero projects all'avvio
+  useEffect(() => {
+    fetchHeroProjects();
+  }, [fetchHeroProjects]);
+
+  // Aggiorna i progetti da mostrare quando cambiano i hero projects
+  useEffect(() => {
+    const projects: SingleProjectData[] = [];
+    
+    // Crea sempre 3 progetti per mantenere l'effetto stacking
+    for (let position = 1; position <= 3; position++) {
+      const heroProject = heroProjects.find(hp => hp.position === position);
+      
+      if (heroProject) {
+        // Usa il progetto configurato
+        projects.push(convertHeroProjectToSingleProject(heroProject));
+      } else {
+        // Usa placeholder
+        projects.push(createPlaceholderProject(position));
+      }
+    }
+    
+    setDisplayProjects(projects);
+  }, [heroProjects]);
 
   return (
     <main>
@@ -109,20 +115,37 @@ export default function Home() {
       <section className="relative">
         {/* Container per l'effetto stacking */}
         <div className="relative">
-          {/* Progetto 1 - Mavimatt (bottom layer) */}
-          <div className="sticky top-0 h-screen z-10">
-            <Projects projectData={project1} />
-          </div>
-          
-          {/* Progetto 2 - Legacy of Games (middle layer) */}
-          <div className="sticky top-0 h-screen z-20">
-            <Projects projectData={project2} />
-          </div>
-          
-          {/* Progetto 3 - X2M Creative (top layer) */}
-          <div className="sticky top-0 h-screen z-30">
-            <Projects projectData={project3} />
-          </div>
+          {displayProjects.length > 0 ? (
+            displayProjects.map((project, index) => {
+              // Z-index statici per Tailwind CSS
+              const zIndexClasses = ['z-10', 'z-20', 'z-30'];
+              const zIndexClass = zIndexClasses[index] || 'z-10';
+              
+              return (
+                <div 
+                  key={project.id} 
+                  className={`sticky top-0 h-screen ${zIndexClass}`}
+                >
+                  <Projects projectData={project} />
+                </div>
+              );
+            })
+          ) : (
+            // Fallback durante il caricamento - mostra 3 placeholder
+            [1, 2, 3].map((position, index) => {
+              const zIndexClasses = ['z-10', 'z-20', 'z-30'];
+              const zIndexClass = zIndexClasses[index] || 'z-10';
+              
+              return (
+                <div 
+                  key={`loading-${position}`} 
+                  className={`sticky top-0 h-screen ${zIndexClass}`}
+                >
+                  <Projects projectData={createPlaceholderProject(position)} />
+                </div>
+              );
+            })
+          )}
         </div>
       </section>
       

@@ -6,60 +6,39 @@ import Filter from '@/components/ui/Filter';
 import FilterButton from '@/components/ui/FilterButton';
 import Project from '@/components/ui/Project';
 import { usePortfolioFiltersAnimation, usePortfolioProjectsAnimation } from '@/hooks';
+import { useProjects } from '@/hooks/useProjects';
 
-const baseMainFilters = ['All', 'Web Desing'];
+const baseMainFilters = ['All', 'Web Design'];
 const smResponsiveFilter = 'Branding';
 const mdResponsiveFilter = 'Project Management';
 const remainingFilters = [
-  'Social Media',
-  'Advertising'
+  'UI/UX',
+  'Social Media'
 ];
 
-// Progetti di esempio
-const projectsData = [
-  {
-    id: 1,
-    title: 'Mavimatt',
-    category: 'Printing Design',
-    filters: ['Branding']
-  },
-  {
-    id: 2,
-    title: 'E-commerce Platform',
-    category: 'Web Development',
-    filters: ['Web Desing']
-  },
-  {
-    id: 3,
-    title: 'Brand Identity',
-    category: 'Visual Design',
-    filters: ['Branding']
-  },
-  {
-    id: 4,
-    title: 'Social Campaign',
-    category: 'Digital Marketing',
-    filters: ['Social Media', 'Advertising']
-  },
-  {
-    id: 5,
-    title: 'Project Tracker',
-    category: 'Dashboard Design',
-    filters: ['Project Management']
-  },
-  {
-    id: 6,
-    title: 'Mobile App',
-    category: 'UI/UX Design',
-    filters: ['Web Desing']
-  },
-  {
-    id: 7,
-    title: 'Corporate Website',
-    category: 'Web Design',
-    filters: ['Branding', 'Web Desing']
-  }
-];
+interface PortfolioProjectsProps {
+  // Rimosso layoutMode - ora completamente responsivo
+}
+
+// Componente Scheletro
+const ProjectSkeleton = ({ className = "" }: { className?: string }) => (
+  <div className={`bg-border-primary-20 rounded-[25px] border-2 border-dashed border-text-primary-60 ${className}`}>
+    <div className="aspect-video bg-text-primary-60/10 rounded-t-[23px] flex items-center justify-center">
+      <div className="text-center text-text-primary-60">
+        <div className="w-12 h-12 mx-auto mb-2 bg-text-primary-60/20 rounded-lg flex items-center justify-center">
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+        </div>
+        <p className="text-xs">Project Slot</p>
+      </div>
+    </div>
+    <div className="p-4">
+      <div className="h-4 bg-text-primary-60/20 rounded mb-2"></div>
+      <div className="h-3 bg-text-primary-60/10 rounded w-2/3"></div>
+    </div>
+  </div>
+);
 
 export default function PortfolioProjects() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -82,10 +61,18 @@ export default function PortfolioProjects() {
     emptyStateAnimationProps,
   } = usePortfolioProjectsAnimation();
 
+  const { projects, loading, error, fetchProjects } = useProjects();
+
+  // Carica progetti all'avvio
+  useEffect(() => {
+    fetchProjects();
+  }, [fetchProjects]);
+
   // Filtra i progetti in base ai filtri attivi
-  const filteredProjects = projectsData.filter(project => {
+  const filteredProjects = projects.filter(project => {
     if (activeFilters.includes('All')) return true;
-    return project.filters.some(filter => activeFilters.includes(filter));
+    // Controlla se almeno una delle categorie del progetto è nei filtri attivi
+    return project.categories.some(category => activeFilters.includes(category));
   });
 
   // Trigger animation quando cambiano i filtri
@@ -116,25 +103,19 @@ export default function PortfolioProjects() {
     console.log('Selected filter:', filter);
     
     if (filter === 'All') {
-      // Se clicco "All", deseleziona tutti gli altri
       setActiveFilters(['All']);
     } else {
       setActiveFilters(prev => {
-        // Rimuovi "All" se presente
         const withoutAll = prev.filter(f => f !== 'All');
         
         if (withoutAll.includes(filter)) {
-          // Se il filtro è già attivo, rimuovilo
           const newFilters = withoutAll.filter(f => f !== filter);
-          // Se non rimane nessun filtro, torna a "All"
           return newFilters.length === 0 ? ['All'] : newFilters;
         } else {
-          // Se il filtro non è attivo, aggiungilo
           return [...withoutAll, filter];
         }
       });
     }
-    // NON chiudere il dropdown - rimosso toggleExpansion()
   };
 
   const handleMainFilterSelect = (filter: string) => {
@@ -154,18 +135,170 @@ export default function PortfolioProjects() {
     }
   };
 
-  const handleProjectClick = (project: typeof projectsData[0]) => {
+  const handleProjectClick = (project: typeof projects[0]) => {
     console.log('Clicked project:', project.title);
+    
+    // Apri il link del progetto se presente
+    if (project.link) {
+      // Verifica se il link ha già il protocollo
+      const url = project.link.startsWith('http://') || project.link.startsWith('https://') 
+        ? project.link 
+        : `https://${project.link}`;
+      
+      window.open(url, '_blank', 'noopener,noreferrer');
+    } else {
+      console.log('Nessun link disponibile per questo progetto');
+    }
+  };
+
+  // Render layout responsivo automatico basato sui breakpoint
+  const renderResponsiveLayout = () => {
+    // Rimuoviamo il limite di 7 progetti per supportare la ripetizione ciclica
+    const projectsToShow = filteredProjects;
+
+    return (
+      <div>
+        {/* Layout Mobile: < md (768px) - 1 progetto per riga */}
+        <div className="block md:hidden space-y-6">
+          {projectsToShow.map((project, index) => (
+            <motion.div
+              key={project.id}
+              {...getProjectAnimationProps(index)}
+            >
+              <Project
+                title={project.title}
+                category={project.categories.join(", ")}
+                imageUrl={project.image_url}
+                hasLink={!!project.link}
+                onClick={project.link ? () => handleProjectClick(project) : undefined}
+              />
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Layout Tablet: md - xl (768px - 1280px) - 2 progetti per riga */}
+        <div className="hidden md:block xl:hidden space-y-6">
+          {Array.from({ length: Math.ceil(projectsToShow.length / 2) }).map((_, rowIndex) => (
+            <div key={`row-${rowIndex}`} className="flex gap-6">
+              {projectsToShow.slice(rowIndex * 2, rowIndex * 2 + 2).map((project, index) => (
+                <motion.div
+                  key={project.id}
+                  className="w-1/2"
+                  {...getProjectAnimationProps(rowIndex * 2 + index)}
+                >
+                  <Project
+                    title={project.title}
+                    category={project.categories.join(", ")}
+                    imageUrl={project.image_url}
+                    hasLink={!!project.link}
+                    onClick={project.link ? () => handleProjectClick(project) : undefined}
+                  />
+                </motion.div>
+              ))}
+            </div>
+          ))}
+        </div>
+
+        {/* Layout Desktop: ≥ xl (1280px) - Layout complesso con ripetizione ciclica */}
+        <div className="hidden xl:block space-y-10">
+          {renderXLLayoutWithCyclicalPattern(projectsToShow)}
+        </div>
+      </div>
+    );
+  };
+
+  // Funzione per renderizzare il layout XL con pattern ciclico ogni 7 progetti
+  const renderXLLayoutWithCyclicalPattern = (projects: typeof filteredProjects) => {
+    const rows = [];
+    const projectsPerPattern = 7; // Pattern si ripete ogni 7 progetti
+    
+    // Dividiamo i progetti in gruppi di 7
+    for (let groupStart = 0; groupStart < projects.length; groupStart += projectsPerPattern) {
+      const currentGroup = projects.slice(groupStart, groupStart + projectsPerPattern);
+      const groupIndex = Math.floor(groupStart / projectsPerPattern);
+      
+      // Prima riga del gruppo: primi 2 progetti (se disponibili)
+      if (currentGroup.length >= 1) {
+        const firstRowProjects = currentGroup.slice(0, 2);
+        rows.push(
+          <div key={`group-${groupIndex}-row-0`} className="flex gap-10">
+            {firstRowProjects.map((project, index) => (
+              <motion.div
+                key={project.id}
+                className="w-1/2"
+                {...getXLProjectAnimationProps(groupIndex * 3, index)} // Offset animazioni per gruppo
+              >
+                <Project
+                  title={project.title}
+                  category={project.categories.join(", ")}
+                  imageUrl={project.image_url}
+                  hasLink={!!project.link}
+                  onClick={project.link ? () => handleProjectClick(project) : undefined}
+                />
+              </motion.div>
+            ))}
+          </div>
+        );
+      }
+
+      // Seconda riga del gruppo: progetti 3-5 (se disponibili)
+      if (currentGroup.length >= 3) {
+        const secondRowProjects = currentGroup.slice(2, 5);
+        rows.push(
+          <div key={`group-${groupIndex}-row-1`} className="flex gap-10">
+            {secondRowProjects.map((project, index) => (
+              <motion.div
+                key={project.id}
+                className="w-1/3"
+                {...getXLProjectAnimationProps(groupIndex * 3 + 1, index)} // Offset animazioni per gruppo
+              >
+                <Project
+                  title={project.title}
+                  category={project.categories.join(", ")}
+                  imageUrl={project.image_url}
+                  hasLink={!!project.link}
+                  onClick={project.link ? () => handleProjectClick(project) : undefined}
+                />
+              </motion.div>
+            ))}
+          </div>
+        );
+      }
+
+      // Terza riga del gruppo: progetti 6-7 (se disponibili)
+      if (currentGroup.length >= 6) {
+        const thirdRowProjects = currentGroup.slice(5, 7);
+        rows.push(
+          <div key={`group-${groupIndex}-row-2`} className="flex gap-10">
+            {thirdRowProjects.map((project, index) => (
+              <motion.div
+                key={project.id}
+                className={index === 0 ? "w-[35%]" : "w-[65%]"}
+                {...getXLProjectAnimationProps(groupIndex * 3 + 2, index)} // Offset animazioni per gruppo
+              >
+                <Project
+                  title={project.title}
+                  category={project.categories.join(", ")}
+                  imageUrl={project.image_url}
+                  hasLink={!!project.link}
+                  onClick={project.link ? () => handleProjectClick(project) : undefined}
+                />
+              </motion.div>
+            ))}
+          </div>
+        );
+      }
+    }
+    
+    return rows;
   };
 
   return (
-    <section className="h-auto min-h-screen flex flex-col">
-      <div className="flex flex-col items-start gap-6" ref={containerRef}>
+    <section className="h-auto min-h-screen flex flex-col py-16">
+      <div className="flex flex-col items-start gap-8" ref={containerRef}>
         {/* Sezione Filtri */}
         <div className="flex flex-col items-start gap-2 w-full">
-          {/* Prima riga con filtri principali responsivi */}
           <div className="flex items-start gap-2 flex-wrap">
-            {/* Filtri base sempre visibili */}
             {baseMainFilters.map((filter) => (
               <Filter 
                 key={filter}
@@ -176,7 +309,6 @@ export default function PortfolioProjects() {
               </Filter>
             ))}
             
-            {/* Branding appare da SM+ */}
             <div className="hidden sm:block">
               <Filter 
                 active={activeFilters.includes(smResponsiveFilter)}
@@ -186,7 +318,6 @@ export default function PortfolioProjects() {
               </Filter>
             </div>
             
-            {/* Project Management appare da MD+ */}
             <div className="hidden md:block">
               <Filter 
                 active={activeFilters.includes(mdResponsiveFilter)}
@@ -196,7 +327,6 @@ export default function PortfolioProjects() {
               </Filter>
             </div>
             
-            {/* Tutti i filtri rimanenti appaiono da LG+ */}
             <div className="hidden lg:flex lg:items-start lg:gap-2">
               {remainingFilters.map((filter) => (
                 <Filter 
@@ -209,7 +339,6 @@ export default function PortfolioProjects() {
               ))}
             </div>
             
-            {/* FilterButton sparisce da LG+ */}
             <div className="block lg:hidden">
               <motion.div {...buttonAnimationProps}>
                 <FilterButton onClick={toggleExpansion} />
@@ -217,13 +346,11 @@ export default function PortfolioProjects() {
             </div>
           </div>
           
-          {/* Dropdown con filtri aggiuntivi - sparisce da LG+ */}
           <div className="block lg:hidden">
             <motion.div 
               className="flex items-start gap-2 flex-wrap"
               {...containerAnimationProps}
             >
-              {/* Branding appare solo su mobile nel dropdown */}
               <div className="block sm:hidden">
                 <motion.div {...getFilterAnimationProps(0)}>
                   <Filter 
@@ -235,7 +362,6 @@ export default function PortfolioProjects() {
                 </motion.div>
               </div>
               
-              {/* Project Management appare su SM ma sparisce da MD+ */}
               <div className="block md:hidden">
                 <motion.div {...getFilterAnimationProps(1)}>
                   <Filter 
@@ -247,11 +373,10 @@ export default function PortfolioProjects() {
                 </motion.div>
               </div>
               
-              {/* Filtri rimanenti nel dropdown fino a LG */}
               {remainingFilters.map((filter, index) => (
                 <motion.div
                   key={index}
-                  {...getFilterAnimationProps(index + 2)} // +2 per compensare Branding e Project Management
+                  {...getFilterAnimationProps(index + 2)}
                 >
                   <Filter 
                     active={activeFilters.includes(filter)}
@@ -265,131 +390,48 @@ export default function PortfolioProjects() {
           </div>
         </div>
         
-        {/* Griglia Progetti con Animazioni */}
+        {/* Layout Preview */}
         <div className="w-full">
-          {/* Layout normale per schermi < XL */}
-          <div className="xl:hidden">
-            <AnimatePresence mode="wait" key="normal-layout">
-              <motion.div 
-                key={`normal-${animationKey}`}
-                className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.3 }}
-              >
-                {filteredProjects.map((project, index) => (
-                  <motion.div
-                    key={project.id}
-                    {...getProjectAnimationProps(index)}
-                  >
-                    <Project
-                      title={project.title}
-                      category={project.category}
-                      onClick={() => handleProjectClick(project)}
-                    />
-                  </motion.div>
-                ))}
-              </motion.div>
-            </AnimatePresence>
-          </div>
-
-          {/* Layout personalizzato per XL+ con animazioni */}
-          <div className="hidden xl:block">
-            <AnimatePresence mode="wait" key="xl-layout">
-              <motion.div 
-                key={`xl-${animationKey}`}
-                className="space-y-10"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.3 }}
-              >
-                {Array.from({ length: Math.ceil(filteredProjects.length / 7) }).map((_, groupIndex) => {
-                  const startIndex = groupIndex * 7;
-                  const groupProjects = filteredProjects.slice(startIndex, startIndex + 7);
-                  
-                  return (
-                    <div key={groupIndex} className="space-y-10">
-                      {/* Prima riga: 2 progetti (50/50) - anche se ce n'è solo 1 */}
-                      {groupProjects.length > 0 && (
-                        <div className="flex gap-10">
-                          {groupProjects.slice(0, 2).map((project, index) => (
-                            <motion.div
-                              key={project.id}
-                              className="w-1/2"
-                              {...getXLProjectAnimationProps(0, index)}
-                            >
-                              <Project
-                                title={project.title}
-                                category={project.category}
-                                onClick={() => handleProjectClick(project)}
-                              />
-                            </motion.div>
-                          ))}
-                          {/* Spazio vuoto se c'è solo 1 progetto nella prima riga */}
-                          {groupProjects.length === 1 && (
-                            <div className="w-1/2"></div>
-                          )}
-                        </div>
-                      )}
-
-                      {/* Seconda riga: 3 progetti (33/33/33) - si adatta al numero disponibile */}
-                      {groupProjects.length > 2 && (
-                        <div className="flex gap-10 justify-start">
-                          {groupProjects.slice(2, 5).map((project, index) => (
-                            <motion.div
-                              key={project.id}
-                              className="w-1/3"
-                              {...getXLProjectAnimationProps(1, index)}
-                            >
-                              <Project
-                                title={project.title}
-                                category={project.category}
-                                onClick={() => handleProjectClick(project)}
-                              />
-                            </motion.div>
-                          ))}
-                        </div>
-                      )}
-
-                      {/* Terza riga: 2 progetti (30/70) - si adatta al numero disponibile */}
-                      {groupProjects.length > 5 && (
-                        <div className="flex gap-10">
-                          {groupProjects.slice(5, 7).map((project, index) => (
-                            <motion.div
-                              key={project.id}
-                              className={index === 0 ? "w-[30%]" : "w-[70%]"}
-                              {...getXLProjectAnimationProps(2, index)}
-                            >
-                              <Project
-                                title={project.title}
-                                category={project.category}
-                                onClick={() => handleProjectClick(project)}
-                              />
-                            </motion.div>
-                          ))}
-                          {/* Spazio vuoto se c'è solo 1 progetto nella terza riga */}
-                          {groupProjects.slice(5, 7).length === 1 && (
-                            <div className="w-[70%]"></div>
-                          )}
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
-              </motion.div>
-            </AnimatePresence>
-          </div>
+          {/* Loading State */}
+          {loading && (
+            <div className="flex items-center justify-center py-12">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#F20352]"></div>
+              <span className="ml-3 text-text-primary-60">Caricamento progetti...</span>
+            </div>
+          )}
           
-          {/* Messaggio se nessun progetto con animazione */}
+          {/* Error State */}
+          {error && (
+            <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4 mb-6">
+              <p className="text-red-700 dark:text-red-200 text-center">
+                Errore nel caricamento dei progetti: {error}
+              </p>
+            </div>
+          )}
+          
+          {/* Content */}
+          {!loading && !error && (
+            <AnimatePresence mode="wait" key={`${animationKey}`}>
+              <motion.div 
+                key={`${animationKey}`}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.4 }}
+              >
+                {renderResponsiveLayout()}
+              </motion.div>
+            </AnimatePresence>
+          )}
+          
+          {/* Messaggio se nessun progetto */}
           <AnimatePresence>
             {filteredProjects.length === 0 && (
               <motion.div 
                 className="text-center py-12"
                 {...emptyStateAnimationProps}
               >
-                <p className="text-black/60 dark:text-white/60 text-lg">
+                <p className="text-text-primary-60 text-lg">
                   Nessun progetto trovato per i filtri selezionati
                 </p>
               </motion.div>
