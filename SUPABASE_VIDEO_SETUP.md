@@ -1,6 +1,7 @@
 # 📹 Supabase Video Setup Guide
 
 ## 🎯 Problema Attuale
+
 Il video nella homepage non si carica perché manca il file `1080p.mp4` nel bucket Supabase.
 
 **Errore**: `{"error":"Video not found","availableFiles":[]}`
@@ -10,10 +11,12 @@ Il video nella homepage non si carica perché manca il file `1080p.mp4` nel buck
 ## ✅ Soluzione Passo-Passo
 
 ### **1. Accedi al Dashboard Supabase**
+
 - Vai su https://app.supabase.com
 - Seleziona il tuo progetto
 
 ### **2. Crea il Bucket "videos"**
+
 ```bash
 Naviga a: Storage → Create a new bucket
 Nome: videos
@@ -21,6 +24,7 @@ Public bucket: ✅ ABILITATO (importante!)
 ```
 
 ### **3. Carica il Video**
+
 ```bash
 1. Clicca sul bucket "videos"
 2. Upload file → Seleziona 1080p.mp4
@@ -28,6 +32,7 @@ Public bucket: ✅ ABILITATO (importante!)
 ```
 
 ### **4. Verifica Impostazioni Bucket**
+
 ```bash
 Bucket settings → videos
 - Public: ✅ Deve essere abilitato
@@ -35,6 +40,7 @@ Bucket settings → videos
 ```
 
 ### **5. Test Finale**
+
 ```bash
 URL pubblico: https://[PROJECT].supabase.co/storage/v1/object/public/videos/1080p.mp4
 Dovrebbe mostrare il video nel browser
@@ -45,19 +51,23 @@ Dovrebbe mostrare il video nel browser
 ## 🔧 Ottimizzazioni Video Raccomandate
 
 ### **Compressione Ottimale**
+
 ```bash
 # Usa FFmpeg per ottimizzare il video prima dell'upload
 ffmpeg -i input.mp4 -c:v libx264 -crf 28 -preset slow -c:a aac -b:a 128k -movflags +faststart 1080p.mp4
 ```
 
 ### **Dimensioni Raccomandate**
+
 - **Risoluzione**: 1920x1080 (Full HD)
 - **Bitrate**: 2-4 Mbps per buona qualità
 - **Formato**: MP4 (H.264 + AAC)
 - **Durata**: Keep it short per performance
 
 ### **Alternative Risoluzioni**
+
 Puoi caricare anche:
+
 - `720p.mp4` (1280x720) - Per mobile
 - `480p.mp4` (854x480) - Per connessioni lente
 
@@ -71,18 +81,20 @@ Una volta caricato il video, il nostro sistema automaticamente:
 ✅ **Range requests** per streaming efficiente  
 ✅ **Lazy loading** intelligente  
 ✅ **Network-aware** optimization  
-✅ **Fallback robusto** per errori  
+✅ **Fallback robusto** per errori
 
 ---
 
 ## 🐛 Troubleshooting
 
 ### **Errore 404 - Video not found**
+
 - ✅ Controlla che il bucket "videos" esiste
 - ✅ Controlla che il file si chiama esattamente `1080p.mp4`
 - ✅ Verifica che il bucket sia pubblico
 
 ### **Errore 403 - Access denied**
+
 ```bash
 1. Bucket settings → videos
 2. Public bucket: ABILITA
@@ -90,11 +102,13 @@ Una volta caricato il video, il nostro sistema automaticamente:
 ```
 
 ### **Video non si riproduce**
+
 - ✅ Formato video supportato (MP4/H.264)
 - ✅ Codec audio compatibile (AAC)
 - ✅ File non corrotto
 
 ### **Performance lenta**
+
 - ✅ Comprimi il video (vedi sopra)
 - ✅ Usa CDN Supabase (automatico)
 - ✅ Riduci risoluzione se necessario
@@ -104,6 +118,7 @@ Una volta caricato il video, il nostro sistema automaticamente:
 ## 📊 Monitoring
 
 ### **Check Status**
+
 ```bash
 # Test API endpoint
 curl -I http://localhost:3002/api/video/1080p.mp4
@@ -113,6 +128,7 @@ curl -I http://localhost:3002/api/video/1080p.mp4
 ```
 
 ### **Browser Console**
+
 ```javascript
 // Debug video loading
 document.querySelector('video').addEventListener('error', (e) => {
@@ -140,10 +156,11 @@ console.log('Connection:', navigator.connection?.effectiveType);
 ## 🎯 Risultato Finale
 
 Dopo aver completato questi passaggi:
+
 - ✅ Video si carica velocemente
 - ✅ Cache riduce 90%+ traffico Supabase
 - ✅ Ottimizzazioni automatiche attive
 - ✅ Fallback elegante per errori
 - ✅ Performance ottimale su ogni device
 
-**Tempo stimato setup**: 5-10 minuti 🚀 
+**Tempo stimato setup**: 5-10 minuti 🚀

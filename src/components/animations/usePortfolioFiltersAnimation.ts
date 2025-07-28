@@ -42,15 +42,15 @@ export function usePortfolioFiltersAnimation() {
     whileHover: {
       scale: 1.02,
       y: -2,
-      transition: { 
-        duration: 0.2, 
+      transition: {
+        duration: 0.2,
         ease: 'easeOut' as const,
       },
     },
     whileTap: {
       scale: 0.98,
-      transition: { 
-        duration: 0.1, 
+      transition: {
+        duration: 0.1,
         ease: 'easeInOut' as const,
       },
     },
@@ -84,13 +84,13 @@ export function usePortfolioFiltersAnimation() {
   return {
     // State
     isExpanded,
-    
-    // Functions  
+
+    // Functions
     toggleExpansion,
-    
+
     // Animation props
     containerAnimationProps,
     getFilterAnimationProps,
     buttonAnimationProps,
   };
-} 
+}

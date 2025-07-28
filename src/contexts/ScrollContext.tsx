@@ -23,8 +23,10 @@ export const ScrollProvider = ({ children }: { children: ReactNode }) => {
   const [activeSectionIndex, setActiveSectionIndex] = useState(0);
 
   return (
-    <ScrollContext.Provider value={{ scrollContainerRef, activeSectionIndex, setActiveSectionIndex }}>
+    <ScrollContext.Provider
+      value={{ scrollContainerRef, activeSectionIndex, setActiveSectionIndex }}
+    >
       {children}
     </ScrollContext.Provider>
   );
-}; 
+};

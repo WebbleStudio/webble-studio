@@ -1,10 +1,10 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { 
-  menuOverlayVariants, 
-  menuContentVariants, 
-  menuItemVariants, 
+import {
+  menuOverlayVariants,
+  menuContentVariants,
+  menuItemVariants,
   menuSeparatorVariants,
-  getMenuTransitions 
+  getMenuTransitions,
 } from './menuAnimations';
 
 type AnimationState = 'closed' | 'open' | 'closing';
@@ -31,15 +31,15 @@ export function useMenuOverlayAnimation(isScrolled: boolean, menuOpen: boolean) 
   // Memoize per evitare re-calcoli durante le animazioni
   useEffect(() => {
     if (!isMounted) return;
-    
+
     function calcHeaderDimensions() {
       const windowWidth = window.innerWidth;
       let headerWidth: number;
       let headerLeft: string;
-      
+
       // Misura direttamente l'elemento del header se disponibile
       const headerElement = document.querySelector('.desktop-wrapper') as HTMLElement;
-      
+
       if (headerElement && windowWidth >= 768) {
         // Usa le dimensioni reali del header
         const headerRect = headerElement.getBoundingClientRect();
@@ -61,18 +61,18 @@ export function useMenuOverlayAnimation(isScrolled: boolean, menuOpen: boolean) 
         } else {
           headerWidth = windowWidth - 40;
         }
-        
+
         // Calcola la posizione left per centrare l'elemento
         headerLeft = `${(windowWidth - headerWidth) / 2}px`;
-        
+
         if (windowWidth < 768) {
           headerLeft = '20px';
         }
       }
-      
+
       // Assicurati che la larghezza non superi mai quella dello schermo
       const maxWidth = Math.min(headerWidth, windowWidth - 40);
-      
+
       setHeaderDimensions({
         width: `${maxWidth}px`,
         height: '65px',
@@ -80,7 +80,7 @@ export function useMenuOverlayAnimation(isScrolled: boolean, menuOpen: boolean) 
         top: '12.5px',
       });
     }
-    
+
     // Avoid recalculating during menu animation
     if (animationState === 'closed') {
       calcHeaderDimensions();
@@ -107,12 +107,12 @@ export function useMenuOverlayAnimation(isScrolled: boolean, menuOpen: boolean) 
     if (!isMounted) return;
     const wasOpen = previousMenuOpenRef.current;
     previousMenuOpenRef.current = menuOpen;
-    
+
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
       timeoutRef.current = null;
     }
-    
+
     if (menuOpen && !wasOpen) {
       // Directly go to open state - no more "opening" flicker
       setAnimationState('open');
@@ -139,7 +139,7 @@ export function useMenuOverlayAnimation(isScrolled: boolean, menuOpen: boolean) 
     if (!isMounted || animationState === 'closed') {
       return { display: 'none' };
     }
-    
+
     // Always return the initial position for Framer Motion to animate from
     return {
       ...headerDimensions,

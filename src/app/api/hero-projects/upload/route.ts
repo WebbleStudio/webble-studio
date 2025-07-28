@@ -6,13 +6,16 @@ export async function POST(request: NextRequest) {
     const formData = await request.formData();
     const file = formData.get('file') as File;
     const type = formData.get('type') as string; // 'background' o 'navigation'
-    
+
     if (!file) {
       return NextResponse.json({ error: 'No file provided' }, { status: 400 });
     }
 
     if (!type || !['background', 'navigation'].includes(type)) {
-      return NextResponse.json({ error: 'Invalid type. Must be "background" or "navigation"' }, { status: 400 });
+      return NextResponse.json(
+        { error: 'Invalid type. Must be "background" or "navigation"' },
+        { status: 400 }
+      );
     }
 
     // Verifica che sia un'immagine
@@ -35,7 +38,7 @@ export async function POST(request: NextRequest) {
       .from('projects') // Usa lo stesso bucket dei progetti
       .upload(filePath, file, {
         cacheControl: '3600',
-        upsert: false
+        upsert: false,
       });
 
     if (uploadError) {
@@ -44,17 +47,14 @@ export async function POST(request: NextRequest) {
     }
 
     // Genera URL pubblico
-    const { data: urlData } = supabase.storage
-      .from('projects')
-      .getPublicUrl(filePath);
+    const { data: urlData } = supabase.storage.from('projects').getPublicUrl(filePath);
 
     return NextResponse.json({
       message: 'File uploaded successfully',
       url: urlData.publicUrl,
       fileName: fileName,
-      filePath: filePath
+      filePath: filePath,
     });
-
   } catch (error) {
     console.error('Error in POST /api/hero-projects/upload:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
@@ -71,9 +71,7 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json({ error: 'filePath parameter is required' }, { status: 400 });
     }
 
-    const { error } = await supabase.storage
-      .from('projects')
-      .remove([filePath]);
+    const { error } = await supabase.storage.from('projects').remove([filePath]);
 
     if (error) {
       console.error('Error deleting file:', error);
@@ -81,9 +79,8 @@ export async function DELETE(request: NextRequest) {
     }
 
     return NextResponse.json({ message: 'File deleted successfully' });
-
   } catch (error) {
     console.error('Error in DELETE /api/hero-projects/upload:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
-} 
+}

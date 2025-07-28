@@ -90,9 +90,13 @@ export default function Header() {
   return (
     <>
       {/* HEADER */}
-      <div className={`fixed top-0 left-0 w-full z-[100] h-[90px] flex items-center px-4 md:px-[30px] xl:px-20 transition-all duration-300 ${
-        isScrolled ? 'bg-[#0b0b0b]/70 backdrop-blur-sm md:bg-transparent md:backdrop-blur-none' : ''
-      }`}>
+      <div
+        className={`fixed top-0 left-0 w-full z-[100] h-[90px] flex items-center px-4 md:px-[30px] xl:px-20 transition-all duration-300 ${
+          isScrolled
+            ? 'bg-[#0b0b0b]/70 backdrop-blur-sm md:bg-transparent md:backdrop-blur-none'
+            : ''
+        }`}
+      >
         {/* Mobile layout: solo logo */}
         <div className="flex w-full items-center justify-start md:hidden">
           <div className="h-[40px] flex items-center">
@@ -248,20 +252,20 @@ export default function Header() {
               variants={menuContentVariants}
               initial="hidden"
               animate="visible"
-              exit="exit" 
+              exit="exit"
               transition={{
                 duration: animationState === 'open' ? 0.4 : 0.25, // Chiusura più veloce
                 delay: animationState === 'open' ? 0.1 : 0, // Nessun delay sulla chiusura
-                ease: "easeOut",
+                ease: 'easeOut',
                 staggerChildren: animationState === 'open' ? 0.08 : 0.04, // Stagger più veloce sulla chiusura
                 delayChildren: animationState === 'open' ? 0.12 : 0, // Nessun delay children sulla chiusura
               }}
             >
-              <motion.div 
+              <motion.div
                 variants={menuItemVariants}
-                transition={{ 
+                transition={{
                   duration: animationState === 'open' ? 0.3 : 0.2, // Chiusura più veloce
-                  ease: animationState === 'open' ? "easeOut" : "easeIn" // Easing diverso per chiusura 
+                  ease: animationState === 'open' ? 'easeOut' : 'easeIn', // Easing diverso per chiusura
                 }}
               >
                 <Link href="/" onClick={handleLinkClick}>
@@ -274,21 +278,21 @@ export default function Header() {
                   </div>
                 </Link>
               </motion.div>
-              
-              <motion.div 
+
+              <motion.div
                 variants={separatorVariants}
                 className="w-24 h-[2px] bg-[#fafafa] dark:bg-[#0b0b0b] opacity-40 origin-left my-6"
-                transition={{ 
+                transition={{
                   duration: animationState === 'open' ? 0.25 : 0.15, // Chiusura più veloce
-                  ease: animationState === 'open' ? "easeOut" : "easeIn"
+                  ease: animationState === 'open' ? 'easeOut' : 'easeIn',
                 }}
               ></motion.div>
-              
-              <motion.div 
+
+              <motion.div
                 variants={menuItemVariants}
-                transition={{ 
+                transition={{
                   duration: animationState === 'open' ? 0.3 : 0.2,
-                  ease: animationState === 'open' ? "easeOut" : "easeIn"
+                  ease: animationState === 'open' ? 'easeOut' : 'easeIn',
                 }}
               >
                 <Link href="/about" onClick={handleLinkClick}>
@@ -301,21 +305,21 @@ export default function Header() {
                   </div>
                 </Link>
               </motion.div>
-              
-              <motion.div 
+
+              <motion.div
                 variants={separatorVariants}
                 className="w-24 h-[2px] bg-[#fafafa] dark:bg-[#0b0b0b] opacity-40 origin-left my-6"
-                transition={{ 
+                transition={{
                   duration: animationState === 'open' ? 0.25 : 0.15,
-                  ease: animationState === 'open' ? "easeOut" : "easeIn"
+                  ease: animationState === 'open' ? 'easeOut' : 'easeIn',
                 }}
               ></motion.div>
-              
-              <motion.div 
+
+              <motion.div
                 variants={menuItemVariants}
-                transition={{ 
+                transition={{
                   duration: animationState === 'open' ? 0.3 : 0.2,
-                  ease: animationState === 'open' ? "easeOut" : "easeIn"
+                  ease: animationState === 'open' ? 'easeOut' : 'easeIn',
                 }}
               >
                 <Link href="/portfolio" onClick={handleLinkClick}>
@@ -328,21 +332,21 @@ export default function Header() {
                   </div>
                 </Link>
               </motion.div>
-              
-              <motion.div 
+
+              <motion.div
                 variants={separatorVariants}
                 className="w-24 h-[2px] bg-[#fafafa] dark:bg-[#0b0b0b] opacity-40 origin-left my-6"
-                transition={{ 
+                transition={{
                   duration: animationState === 'open' ? 0.25 : 0.15,
-                  ease: animationState === 'open' ? "easeOut" : "easeIn"
+                  ease: animationState === 'open' ? 'easeOut' : 'easeIn',
                 }}
               ></motion.div>
-              
-              <motion.div 
+
+              <motion.div
                 variants={menuItemVariants}
-                transition={{ 
+                transition={{
                   duration: animationState === 'open' ? 0.3 : 0.2,
-                  ease: animationState === 'open' ? "easeOut" : "easeIn"
+                  ease: animationState === 'open' ? 'easeOut' : 'easeIn',
                 }}
               >
                 <div

@@ -7,8 +7,8 @@ export function usePortfolioProjectsAnimation() {
   // Forza una nuova animazione quando cambiano i filtri
   const triggerFilterAnimation = useCallback(() => {
     setIsAnimating(true);
-    setAnimationKey(prev => prev + 1);
-    
+    setAnimationKey((prev) => prev + 1);
+
     // Reset animation state dopo un breve delay
     setTimeout(() => {
       setIsAnimating(false);
@@ -29,18 +29,18 @@ export function usePortfolioProjectsAnimation() {
 
   // Animation properties per i singoli progetti con stagger effect
   const getProjectAnimationProps = (index: number) => ({
-    initial: { 
-      opacity: 0, 
+    initial: {
+      opacity: 0,
       y: 20,
       scale: 0.95,
     },
-    animate: { 
-      opacity: 1, 
+    animate: {
+      opacity: 1,
       y: 0,
       scale: 1,
     },
-    exit: { 
-      opacity: 0, 
+    exit: {
+      opacity: 0,
       y: -10,
       scale: 0.95,
     },
@@ -60,18 +60,18 @@ export function usePortfolioProjectsAnimation() {
     const totalDelay = baseDelay + positionDelay;
 
     return {
-      initial: { 
-        opacity: 0, 
+      initial: {
+        opacity: 0,
         y: 30,
         scale: 0.92,
       },
-      animate: { 
-        opacity: 1, 
+      animate: {
+        opacity: 1,
         y: 0,
         scale: 1,
       },
-      exit: { 
-        opacity: 0, 
+      exit: {
+        opacity: 0,
         y: -15,
         scale: 0.92,
       },
@@ -100,14 +100,14 @@ export function usePortfolioProjectsAnimation() {
     // State
     isAnimating,
     animationKey,
-    
+
     // Functions
     triggerFilterAnimation,
-    
+
     // Animation props
     containerAnimationProps,
     getProjectAnimationProps,
     getXLProjectAnimationProps,
     emptyStateAnimationProps,
   };
-} 
+}

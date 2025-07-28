@@ -46,7 +46,7 @@ const convertHeroProjectToSingleProject = (heroProject: HeroProject): SingleProj
 
   // Usa le immagini configurate o fallback all'immagine del progetto
   const slideImages = heroProject.images.length > 0 ? heroProject.images : [project.image_url];
-  
+
   // Crea le slides dalle descrizioni e immagini
   const slides = [0, 1, 2].map((index) => ({
     id: `slide-${index + 1}-${project.id}`,
@@ -59,9 +59,9 @@ const convertHeroProjectToSingleProject = (heroProject: HeroProject): SingleProj
     title: project.title,
     backgroundImage: heroProject.background_image || project.image_url,
     labels: project.categories,
-    date: new Date(heroProject.created_at).toLocaleDateString('it-IT', { 
-      month: 'long', 
-      year: 'numeric' 
+    date: new Date(heroProject.created_at).toLocaleDateString('it-IT', {
+      month: 'long',
+      year: 'numeric',
     }),
     slides,
   };
@@ -81,11 +81,11 @@ export default function Home() {
   // Aggiorna i progetti da mostrare quando cambiano i hero projects
   useEffect(() => {
     const projects: SingleProjectData[] = [];
-    
+
     // Crea sempre 3 progetti per mantenere l'effetto stacking
     for (let position = 1; position <= 3; position++) {
-      const heroProject = heroProjects.find(hp => hp.position === position);
-      
+      const heroProject = heroProjects.find((hp) => hp.position === position);
+
       if (heroProject) {
         // Usa il progetto configurato
         projects.push(convertHeroProjectToSingleProject(heroProject));
@@ -94,7 +94,7 @@ export default function Home() {
         projects.push(createPlaceholderProject(position));
       }
     }
-    
+
     setDisplayProjects(projects);
   }, [heroProjects]);
 
@@ -110,45 +110,40 @@ export default function Home() {
         <KeyPoints />
         <Services />
       </Container>
-      
+
       {/* Sezione Progetti con effetto stacking sticky */}
       <section className="relative">
         {/* Container per l'effetto stacking */}
         <div className="relative">
-          {displayProjects.length > 0 ? (
-            displayProjects.map((project, index) => {
-              // Z-index statici per Tailwind CSS
-              const zIndexClasses = ['z-10', 'z-20', 'z-30'];
-              const zIndexClass = zIndexClasses[index] || 'z-10';
-              
-              return (
-                <div 
-                  key={project.id} 
-                  className={`sticky top-0 h-screen ${zIndexClass}`}
-                >
-                  <Projects projectData={project} />
-                </div>
-              );
-            })
-          ) : (
-            // Fallback durante il caricamento - mostra 3 placeholder
-            [1, 2, 3].map((position, index) => {
-              const zIndexClasses = ['z-10', 'z-20', 'z-30'];
-              const zIndexClass = zIndexClasses[index] || 'z-10';
-              
-              return (
-                <div 
-                  key={`loading-${position}`} 
-                  className={`sticky top-0 h-screen ${zIndexClass}`}
-                >
-                  <Projects projectData={createPlaceholderProject(position)} />
-                </div>
-              );
-            })
-          )}
+          {displayProjects.length > 0
+            ? displayProjects.map((project, index) => {
+                // Z-index statici per Tailwind CSS
+                const zIndexClasses = ['z-10', 'z-20', 'z-30'];
+                const zIndexClass = zIndexClasses[index] || 'z-10';
+
+                return (
+                  <div key={project.id} className={`sticky top-0 h-screen ${zIndexClass}`}>
+                    <Projects projectData={project} />
+                  </div>
+                );
+              })
+            : // Fallback durante il caricamento - mostra 3 placeholder
+              [1, 2, 3].map((position, index) => {
+                const zIndexClasses = ['z-10', 'z-20', 'z-30'];
+                const zIndexClass = zIndexClasses[index] || 'z-10';
+
+                return (
+                  <div
+                    key={`loading-${position}`}
+                    className={`sticky top-0 h-screen ${zIndexClass}`}
+                  >
+                    <Projects projectData={createPlaceholderProject(position)} />
+                  </div>
+                );
+              })}
         </div>
       </section>
-      
+
       <Container>
         <Contact />
       </Container>

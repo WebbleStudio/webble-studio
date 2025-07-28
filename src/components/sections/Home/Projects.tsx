@@ -22,7 +22,6 @@ export default function Projects({ projectData }: ProjectsProps) {
 
   const animations = projectAnimationVariants;
 
-
   // Performance optimization hook
   const {
     shouldReduceAnimations,
@@ -31,10 +30,6 @@ export default function Projects({ projectData }: ProjectsProps) {
     getAnimationDuration,
     shouldSkipAnimation,
   } = usePerformance();
-
-
-
-
 
   // Image animation configs ottimizzati con caching
   const imageAnimationConfig = useMemo(() => {
@@ -50,8 +45,6 @@ export default function Projects({ projectData }: ProjectsProps) {
 
   // Animation duration ottimizzata
   const animationDuration = useMemo(() => getAnimationDuration(400), [getAnimationDuration]);
-
-
 
   return (
     <section className="h-screen w-full flex items-center justify-center mt-0 mb-0">
@@ -69,8 +62,6 @@ export default function Projects({ projectData }: ProjectsProps) {
             backgroundRepeat: 'no-repeat',
           }}
         />
-
-
 
         {/* Content Wrapper */}
         <div

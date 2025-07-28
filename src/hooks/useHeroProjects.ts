@@ -35,7 +35,7 @@ export const useHeroProjects = () => {
   const fetchHeroProjects = useCallback(async () => {
     setLoading(true);
     setError(null);
-    
+
     try {
       const response = await fetch('/api/hero-projects');
       const data = await response.json();
@@ -55,38 +55,41 @@ export const useHeroProjects = () => {
   }, []);
 
   // Save hero projects configuration
-  const saveHeroProjects = useCallback(async (configs: HeroProjectConfig[]) => {
-    setLoading(true);
-    setError(null);
-    
-    try {
-      const response = await fetch('/api/hero-projects', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ heroProjects: configs })
-      });
+  const saveHeroProjects = useCallback(
+    async (configs: HeroProjectConfig[]) => {
+      setLoading(true);
+      setError(null);
 
-      const data = await response.json();
+      try {
+        const response = await fetch('/api/hero-projects', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ heroProjects: configs }),
+        });
 
-      if (!response.ok) {
-        throw new Error(data.error || 'Failed to save hero projects');
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || 'Failed to save hero projects');
+        }
+
+        // Aggiorna i dati locali
+        await fetchHeroProjects();
+
+        return data;
+      } catch (err) {
+        const errorMessage = err instanceof Error ? err.message : 'Unknown error occurred';
+        setError(errorMessage);
+        console.error('Error saving hero projects:', err);
+        throw err;
+      } finally {
+        setLoading(false);
       }
-
-      // Aggiorna i dati locali
-      await fetchHeroProjects();
-      
-      return data;
-    } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Unknown error occurred';
-      setError(errorMessage);
-      console.error('Error saving hero projects:', err);
-      throw err;
-    } finally {
-      setLoading(false);
-    }
-  }, [fetchHeroProjects]);
+    },
+    [fetchHeroProjects]
+  );
 
   // Upload image for hero projects
   const uploadImage = useCallback(async (file: File, type: 'background' | 'navigation') => {
@@ -100,7 +103,7 @@ export const useHeroProjects = () => {
 
       const response = await fetch('/api/hero-projects/upload', {
         method: 'POST',
-        body: formData
+        body: formData,
       });
 
       const data = await response.json();
@@ -126,9 +129,12 @@ export const useHeroProjects = () => {
     setError(null);
 
     try {
-      const response = await fetch(`/api/hero-projects/upload?filePath=${encodeURIComponent(filePath)}`, {
-        method: 'DELETE'
-      });
+      const response = await fetch(
+        `/api/hero-projects/upload?filePath=${encodeURIComponent(filePath)}`,
+        {
+          method: 'DELETE',
+        }
+      );
 
       const data = await response.json();
 
@@ -151,10 +157,10 @@ export const useHeroProjects = () => {
   const clearHeroProjects = useCallback(async () => {
     setLoading(true);
     setError(null);
-    
+
     try {
       const response = await fetch('/api/hero-projects', {
-        method: 'DELETE'
+        method: 'DELETE',
       });
 
       const data = await response.json();
@@ -184,6 +190,6 @@ export const useHeroProjects = () => {
     uploadImage,
     deleteImage,
     clearHeroProjects,
-    setError
+    setError,
   };
-}; 
+};

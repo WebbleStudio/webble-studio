@@ -44,40 +44,43 @@ export function useProjects() {
   }, []);
 
   // Riordina progetti (drag & drop)
-  const reorderProjects = useCallback(async (reorderedProjects: Project[]) => {
-    setLoading(true);
-    setError(null);
-    try {
-      // Aggiorna lo stato locale immediatamente per UI responsiva
-      setProjects(reorderedProjects);
+  const reorderProjects = useCallback(
+    async (reorderedProjects: Project[]) => {
+      setLoading(true);
+      setError(null);
+      try {
+        // Aggiorna lo stato locale immediatamente per UI responsiva
+        setProjects(reorderedProjects);
 
-      // Invia nuovo ordine al server
-      const response = await fetch('/api/projects/reorder', {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          projectIds: reorderedProjects.map(p => p.id)
-        }),
-      });
+        // Invia nuovo ordine al server
+        const response = await fetch('/api/projects/reorder', {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            projectIds: reorderedProjects.map((p) => p.id),
+          }),
+        });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to reorder projects');
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.error || 'Failed to reorder projects');
+        }
+
+        // Ricarica i progetti per assicurarsi che siano sincronizzati
+        await fetchProjects();
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'An error occurred');
+        // Ricarica i progetti in caso di errore per ripristinare l'ordine corretto
+        await fetchProjects();
+        throw err;
+      } finally {
+        setLoading(false);
       }
-
-      // Ricarica i progetti per assicurarsi che siano sincronizzati
-      await fetchProjects();
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred');
-      // Ricarica i progetti in caso di errore per ripristinare l'ordine corretto
-      await fetchProjects();
-      throw err;
-    } finally {
-      setLoading(false);
-    }
-  }, [fetchProjects]);
+    },
+    [fetchProjects]
+  );
 
   // Crea nuovo progetto
   const createProject = useCallback(async (projectData: CreateProjectData) => {
@@ -104,7 +107,7 @@ export function useProjects() {
       }
 
       const newProject = await response.json();
-      setProjects(prev => [newProject, ...prev]);
+      setProjects((prev) => [newProject, ...prev]);
       return newProject;
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
@@ -128,7 +131,7 @@ export function useProjects() {
         throw new Error(errorData.error || 'Failed to delete project');
       }
 
-      setProjects(prev => prev.filter(p => p.id !== projectId));
+      setProjects((prev) => prev.filter((p) => p.id !== projectId));
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
       throw err;
@@ -138,35 +141,38 @@ export function useProjects() {
   }, []);
 
   // Aggiorna progetto
-  const updateProject = useCallback(async (
-    projectId: string, 
-    updates: Partial<Pick<Project, 'title' | 'categories' | 'description' | 'link'>>
-  ) => {
-    setLoading(true);
-    setError(null);
-    try {
-      const response = await fetch(`/api/projects/${projectId}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(updates),
-      });
+  const updateProject = useCallback(
+    async (
+      projectId: string,
+      updates: Partial<Pick<Project, 'title' | 'categories' | 'description' | 'link'>>
+    ) => {
+      setLoading(true);
+      setError(null);
+      try {
+        const response = await fetch(`/api/projects/${projectId}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(updates),
+        });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to update project');
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.error || 'Failed to update project');
+        }
+
+        const updatedProject = await response.json();
+        setProjects((prev) => prev.map((p) => (p.id === projectId ? updatedProject : p)));
+        return updatedProject;
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'An error occurred');
+      } finally {
+        setLoading(false);
       }
-
-      const updatedProject = await response.json();
-      setProjects(prev => prev.map(p => p.id === projectId ? updatedProject : p));
-      return updatedProject;
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred');
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+    },
+    []
+  );
 
   return {
     projects,
@@ -177,6 +183,6 @@ export function useProjects() {
     deleteProject,
     updateProject,
     setError,
-    reorderProjects
+    reorderProjects,
   };
-} 
+}

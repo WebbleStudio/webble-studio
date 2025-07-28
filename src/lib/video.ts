@@ -27,10 +27,6 @@ export function getDirectVideoUrl(filename: string): string {
 }
 
 // Lista dei video disponibili (da aggiornare quando aggiungi video)
-export const AVAILABLE_VIDEOS = [
-  '1080p.mp4',
-  '720p.mp4',
-  'demo.mp4'
-] as const;
+export const AVAILABLE_VIDEOS = ['1080p.mp4', '720p.mp4', 'demo.mp4'] as const;
 
-export type VideoFilename = typeof AVAILABLE_VIDEOS[number];
+export type VideoFilename = (typeof AVAILABLE_VIDEOS)[number];

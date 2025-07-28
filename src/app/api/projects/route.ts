@@ -36,10 +36,7 @@ export async function POST(request: NextRequest) {
     try {
       categories = JSON.parse(categoriesJson);
     } catch (error) {
-      return NextResponse.json(
-        { error: 'Invalid categories format' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Invalid categories format' }, { status: 400 });
     }
 
     // Validazione input
@@ -62,9 +59,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Failed to determine project position' }, { status: 500 });
     }
 
-    const nextOrderPosition = maxOrderData && maxOrderData.length > 0 
-      ? maxOrderData[0].order_position + 1 
-      : 0;
+    const nextOrderPosition =
+      maxOrderData && maxOrderData.length > 0 ? maxOrderData[0].order_position + 1 : 0;
 
     // Genera nome file unico
     const fileExt = file.name.split('.').pop();
@@ -76,7 +72,7 @@ export async function POST(request: NextRequest) {
       .from('projects')
       .upload(filePath, file, {
         cacheControl: '3600',
-        upsert: false
+        upsert: false,
       });
 
     if (uploadError) {
@@ -85,13 +81,19 @@ export async function POST(request: NextRequest) {
     }
 
     // Ottieni URL pubblico dell'immagine
-    const { data: { publicUrl } } = supabase.storage
-      .from('projects')
-      .getPublicUrl(filePath);
+    const {
+      data: { publicUrl },
+    } = supabase.storage.from('projects').getPublicUrl(filePath);
 
     // Salva progetto nel database con categorie multiple e ordine
-    console.log('Attempting to insert project with data:', { title, categories, description, link, order_position: nextOrderPosition });
-    
+    console.log('Attempting to insert project with data:', {
+      title,
+      categories,
+      description,
+      link,
+      order_position: nextOrderPosition,
+    });
+
     const { data: projectData, error: dbError } = await supabase
       .from('projects')
       .insert({
@@ -100,7 +102,7 @@ export async function POST(request: NextRequest) {
         description,
         image_url: publicUrl,
         link: link || null,
-        order_position: nextOrderPosition
+        order_position: nextOrderPosition,
       })
       .select()
       .single();
@@ -112,11 +114,14 @@ export async function POST(request: NextRequest) {
       console.error('Error details:', dbError.details);
       // Se salvataggio DB fallisce, elimina l'immagine
       await supabase.storage.from('projects').remove([filePath]);
-      return NextResponse.json({ 
-        error: 'Failed to save project', 
-        details: dbError.message,
-        code: dbError.code
-      }, { status: 500 });
+      return NextResponse.json(
+        {
+          error: 'Failed to save project',
+          details: dbError.message,
+          code: dbError.code,
+        },
+        { status: 500 }
+      );
     }
 
     return NextResponse.json(projectData, { status: 201 });
@@ -124,4 +129,4 @@ export async function POST(request: NextRequest) {
     console.error('Unexpected error:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
-} 
+}

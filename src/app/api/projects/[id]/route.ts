@@ -4,16 +4,13 @@ import { supabase } from '@/lib/supabaseClient';
 // DELETE: Elimina progetto per ID
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const projectId = params.id;
+    const { id: projectId } = await params;
 
     if (!projectId) {
-      return NextResponse.json(
-        { error: 'Project ID is required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Project ID is required' }, { status: 400 });
     }
 
     // Prima ottieni il progetto per avere l'URL dell'immagine
@@ -24,35 +21,29 @@ export async function DELETE(
       .single();
 
     if (fetchError || !project) {
-      return NextResponse.json(
-        { error: 'Project not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: 'Project not found' }, { status: 404 });
     }
 
     // Estrai il path dell'immagine dall'URL
     const imageUrl = project.image_url;
     const urlParts = imageUrl.split('/');
     const bucketIndex = urlParts.findIndex((part: string) => part === 'projects');
-    
+
     if (bucketIndex !== -1 && bucketIndex < urlParts.length - 1) {
       const imagePath = urlParts.slice(bucketIndex + 1).join('/');
-      
+
       // Elimina l'immagine dal storage
       const { error: storageError } = await supabase.storage
         .from('projects')
         .remove([`projects/${imagePath}`]);
-      
+
       if (storageError) {
         console.warn('Warning: Failed to delete image from storage:', storageError);
       }
     }
 
     // Elimina il progetto dal database
-    const { error: deleteError } = await supabase
-      .from('projects')
-      .delete()
-      .eq('id', projectId);
+    const { error: deleteError } = await supabase.from('projects').delete().eq('id', projectId);
 
     if (deleteError) {
       console.error('Delete error:', deleteError);
@@ -67,20 +58,14 @@ export async function DELETE(
 }
 
 // PUT: Aggiorna progetto
-export async function PUT(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const projectId = params.id;
+    const { id: projectId } = await params;
     const body = await request.json();
     const { title, categories, description, link } = body;
 
     if (!projectId) {
-      return NextResponse.json(
-        { error: 'Project ID is required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Project ID is required' }, { status: 400 });
     }
 
     // Aggiorna il progetto
@@ -90,7 +75,7 @@ export async function PUT(
         ...(title && { title }),
         ...(categories && { categories }), // Ora gestisce array di categorie
         ...(description !== undefined && { description }),
-        ...(link !== undefined && { link: link || null })
+        ...(link !== undefined && { link: link || null }),
       })
       .eq('id', projectId)
       .select()
@@ -102,10 +87,7 @@ export async function PUT(
     }
 
     if (!updatedProject) {
-      return NextResponse.json(
-        { error: 'Project not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: 'Project not found' }, { status: 404 });
     }
 
     return NextResponse.json(updatedProject);
@@ -113,4 +95,4 @@ export async function PUT(
     console.error('Unexpected error:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
-} 
+}

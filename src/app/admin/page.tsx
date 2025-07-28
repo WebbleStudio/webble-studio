@@ -21,21 +21,13 @@ import {
   verticalListSortingStrategy,
   horizontalListSortingStrategy,
 } from '@dnd-kit/sortable';
-import {
-  useSortable,
-} from '@dnd-kit/sortable';
+import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
 type LayoutMode = 'desktop' | 'tablet' | 'mobile';
 type AdminSection = 'projects' | 'highlights';
 
-const categories = [
-  'Web Design',
-  'UI/UX', 
-  'Branding',
-  'Project Management',
-  'Social Media'
-];
+const categories = ['Web Design', 'UI/UX', 'Branding', 'Project Management', 'Social Media'];
 
 // Componente per progetti draggabili
 interface SortableProjectProps {
@@ -45,15 +37,10 @@ interface SortableProjectProps {
   className?: string;
 }
 
-function SortableProject({ project, index, onDelete, className = "" }: SortableProjectProps) {
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-    isDragging,
-  } = useSortable({ id: project.id });
+function SortableProject({ project, index, onDelete, className = '' }: SortableProjectProps) {
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+    id: project.id,
+  });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -63,7 +50,7 @@ function SortableProject({ project, index, onDelete, className = "" }: SortableP
   };
 
   // Usa altezza fissa per slot 6 e 7 (posizioni 6 e 7) per avere stessa altezza con larghezze diverse
-  const aspectRatio = index === 5 || index === 6 ? "h-36" : "aspect-video";
+  const aspectRatio = index === 5 || index === 6 ? 'h-36' : 'aspect-video';
 
   return (
     <div
@@ -80,7 +67,7 @@ function SortableProject({ project, index, onDelete, className = "" }: SortableP
           <div className="absolute top-3 left-3 bg-gradient-to-r from-[#F20352] to-[#D91848] text-white text-xs font-semibold w-7 h-7 rounded-full flex items-center justify-center shadow-lg border-2 border-white/20 backdrop-blur-sm">
             {index + 1}
           </div>
-          
+
           {/* Pulsante rimozione elegante */}
           <button
             onClick={(e) => {
@@ -90,22 +77,40 @@ function SortableProject({ project, index, onDelete, className = "" }: SortableP
             className="absolute top-3 right-3 bg-red-500/90 hover:bg-red-600 text-white w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg border-2 border-white/20 backdrop-blur-sm group/btn"
             title="Elimina progetto"
           >
-            <svg className="w-4 h-4 transition-transform duration-300 group-hover/btn:rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
+            <svg
+              className="w-4 h-4 transition-transform duration-300 group-hover/btn:rotate-90"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2.5}
+                d="M6 18L18 6M6 6l12 12"
+              />
             </svg>
           </button>
           {/* Indicatore drag elegante */}
           <div className="absolute bottom-3 right-3 bg-white/95 dark:bg-gray-900/95 rounded-full p-2 opacity-0 group-hover:opacity-100 transition-all duration-300 hover:scale-110 shadow-lg backdrop-blur-sm border border-white/30 dark:border-gray-700/30">
-            <svg className="w-4 h-4 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
+            <svg
+              className="w-4 h-4 text-gray-600 dark:text-gray-300"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"
+              />
             </svg>
           </div>
         </div>
         <div className="p-3">
           <h4 className="font-medium text-sm">{project.title}</h4>
-          <p className="text-xs text-text-primary-60">
-            {project.categories.join(", ")}
-          </p>
+          <p className="text-xs text-text-primary-60">{project.categories.join(', ')}</p>
         </div>
       </div>
     </div>
@@ -114,17 +119,17 @@ function SortableProject({ project, index, onDelete, className = "" }: SortableP
 
 export default function AdminPage() {
   const { t } = useTranslation();
-  const { 
-    projects, 
-    loading, 
-    error, 
-    fetchProjects, 
-    createProject, 
+  const {
+    projects,
+    loading,
+    error,
+    fetchProjects,
+    createProject,
     deleteProject,
     reorderProjects,
-    setError 
+    setError,
   } = useProjects();
-  
+
   const {
     heroProjects,
     loading: heroLoading,
@@ -134,14 +139,14 @@ export default function AdminPage() {
     uploadImage,
     deleteImage,
     clearHeroProjects,
-    setError: setHeroError
+    setError: setHeroError,
   } = useHeroProjects();
-  
+
   const [dragActive, setDragActive] = useState(false);
   const [layoutMode, setLayoutMode] = useState<LayoutMode>('desktop');
   const [activeSection, setActiveSection] = useState<AdminSection>('projects');
   // States per upload immagini
-  const [uploadingImage, setUploadingImage] = useState<{[key: string]: boolean}>({});
+  const [uploadingImage, setUploadingImage] = useState<{ [key: string]: boolean }>({});
   // State per modifiche locali non salvate (Highlights)
   const [localConfigs, setLocalConfigs] = useState<{
     [projectId: string]: {
@@ -149,7 +154,7 @@ export default function AdminPage() {
       images: string[];
       backgroundImage: string;
       hasChanges: boolean;
-    }
+    };
   }>({});
 
   // State per modifiche locali non salvate (Projects)
@@ -160,27 +165,32 @@ export default function AdminPage() {
   }>({
     projects: [],
     deletedProjects: [],
-    hasChanges: false
+    hasChanges: false,
   });
-  
+
   // Derive selected highlights from heroProjects
-  const selectedHighlights = heroProjects.map(hp => hp.project_id);
-  const highlightConfigs = heroProjects.reduce((acc, hp) => {
-    acc[hp.project_id] = {
-      descriptions: hp.descriptions,
-      images: hp.images,
-      backgroundImage: hp.background_image
-    };
-    return acc;
-  }, {} as { [projectId: string]: { descriptions: string[]; images: string[]; backgroundImage: string; } });
+  const selectedHighlights = heroProjects.map((hp) => hp.project_id);
+  const highlightConfigs = heroProjects.reduce(
+    (acc, hp) => {
+      acc[hp.project_id] = {
+        descriptions: hp.descriptions,
+        images: hp.images,
+        backgroundImage: hp.background_image,
+      };
+      return acc;
+    },
+    {} as {
+      [projectId: string]: { descriptions: string[]; images: string[]; backgroundImage: string };
+    }
+  );
 
   // Filtra progetti per mostrare solo quelli non selezionati come highlights
-  const availableProjects = projects.filter(project => !selectedHighlights.includes(project.id));
+  const availableProjects = projects.filter((project) => !selectedHighlights.includes(project.id));
   const [newProject, setNewProject] = useState({
     title: '',
     categories: [] as string[],
     description: '',
-    link: ''
+    link: '',
   });
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -203,18 +213,20 @@ export default function AdminPage() {
     const { active, over } = event;
 
     if (active.id !== over?.id) {
-      const currentProjects = localProjectsState.hasChanges ? localProjectsState.projects : projects;
-      const oldIndex = currentProjects.findIndex(p => p.id === active.id);
-      const newIndex = currentProjects.findIndex(p => p.id === over?.id);
+      const currentProjects = localProjectsState.hasChanges
+        ? localProjectsState.projects
+        : projects;
+      const oldIndex = currentProjects.findIndex((p) => p.id === active.id);
+      const newIndex = currentProjects.findIndex((p) => p.id === over?.id);
 
       const reorderedItems = arrayMove(currentProjects, oldIndex, newIndex);
-      
-      setLocalProjectsState(prev => ({
+
+      setLocalProjectsState((prev) => ({
         ...prev,
         projects: reorderedItems,
-        hasChanges: true
+        hasChanges: true,
       }));
-      
+
       console.log('Projects reordered locally (not saved)');
     }
   };
@@ -227,9 +239,9 @@ export default function AdminPage() {
   // Inizializza stato locale quando i progetti cambiano
   useEffect(() => {
     if (projects.length > 0 && !localProjectsState.hasChanges) {
-      setLocalProjectsState(prev => ({
+      setLocalProjectsState((prev) => ({
         ...prev,
-        projects: [...projects]
+        projects: [...projects],
       }));
     }
   }, [projects, localProjectsState.hasChanges]);
@@ -264,10 +276,10 @@ export default function AdminPage() {
         setImagePreview(e.target?.result as string);
       };
       reader.readAsDataURL(file);
-      
+
       console.log('File selezionato:', file.name);
     } else {
-      console.log('File non valido o non è un\'immagine');
+      console.log("File non valido o non è un'immagine");
     }
   };
 
@@ -289,9 +301,9 @@ export default function AdminPage() {
         categories: newProject.categories, // Invia tutte le categorie come array
         description: newProject.description,
         link: newProject.link || undefined,
-        file: selectedFile
+        file: selectedFile,
       });
-      
+
       // Reset form dopo successo
       setNewProject({ title: '', categories: [], description: '', link: '' });
       setSelectedFile(null);
@@ -299,7 +311,7 @@ export default function AdminPage() {
       if (fileInputRef.current) {
         fileInputRef.current.value = '';
       }
-      
+
       console.log('Upload completato con successo!');
     } catch (error) {
       console.error('Error creating project:', error);
@@ -314,15 +326,15 @@ export default function AdminPage() {
 
   const removeProject = (id: string) => {
     const currentProjects = localProjectsState.hasChanges ? localProjectsState.projects : projects;
-    const filteredProjects = currentProjects.filter(p => p.id !== id);
-    
-    setLocalProjectsState(prev => ({
+    const filteredProjects = currentProjects.filter((p) => p.id !== id);
+
+    setLocalProjectsState((prev) => ({
       ...prev,
       projects: filteredProjects,
       deletedProjects: [...prev.deletedProjects, id],
-      hasChanges: true
+      hasChanges: true,
     }));
-    
+
     console.log('Project marked for deletion locally (not saved)');
   };
 
@@ -345,7 +357,7 @@ export default function AdminPage() {
       setLocalProjectsState({
         projects: [],
         deletedProjects: [],
-        hasChanges: false
+        hasChanges: false,
       });
 
       // Ricarica i progetti dal server per assicurarsi che tutto sia sincronizzato
@@ -360,20 +372,20 @@ export default function AdminPage() {
 
   // Gestione multi-selezione categorie
   const handleCategoryToggle = (category: string) => {
-    setNewProject(prev => ({
+    setNewProject((prev) => ({
       ...prev,
       categories: prev.categories.includes(category)
-        ? prev.categories.filter(c => c !== category)
-        : [...prev.categories, category]
+        ? prev.categories.filter((c) => c !== category)
+        : [...prev.categories, category],
     }));
   };
 
   const clearAllCategories = () => {
-    setNewProject(prev => ({ ...prev, categories: [] }));
+    setNewProject((prev) => ({ ...prev, categories: [] }));
   };
 
   const selectAllCategories = () => {
-    setNewProject(prev => ({ ...prev, categories: [...categories] }));
+    setNewProject((prev) => ({ ...prev, categories: [...categories] }));
   };
 
   // Carica hero projects all'avvio
@@ -384,12 +396,12 @@ export default function AdminPage() {
   // Inizializza localConfigs quando cambiano gli heroProjects
   useEffect(() => {
     const newLocalConfigs: typeof localConfigs = {};
-    heroProjects.forEach(hp => {
+    heroProjects.forEach((hp) => {
       newLocalConfigs[hp.project_id] = {
         descriptions: [...hp.descriptions],
         images: [...hp.images],
         backgroundImage: hp.background_image,
-        hasChanges: false
+        hasChanges: false,
       };
     });
     setLocalConfigs(newLocalConfigs);
@@ -401,49 +413,49 @@ export default function AdminPage() {
       if (selectedHighlights.includes(projectId)) {
         // Rimuovi progetto
         const newConfigs = selectedHighlights
-          .filter(id => id !== projectId)
-          .map(id => {
+          .filter((id) => id !== projectId)
+          .map((id) => {
             const config = highlightConfigs[id];
             return {
               projectId: id,
               descriptions: config.descriptions,
               images: config.images,
-              backgroundImage: config.backgroundImage
+              backgroundImage: config.backgroundImage,
             };
           });
         await saveHeroProjects(newConfigs);
       } else if (selectedHighlights.length < 3) {
         // Aggiungi progetto (max 3)
-        const project = projects.find(p => p.id === projectId);
+        const project = projects.find((p) => p.id === projectId);
         if (project) {
           const newConfig: HeroProjectConfig = {
             projectId,
             descriptions: ['', '', ''], // 3 descrizioni per 3 slide
             images: [project.image_url], // Inizia con l'immagine principale
-            backgroundImage: project.image_url // Usa l'immagine principale come sfondo di default
+            backgroundImage: project.image_url, // Usa l'immagine principale come sfondo di default
           };
-          
-          const existingConfigs = selectedHighlights.map(id => {
+
+          const existingConfigs = selectedHighlights.map((id) => {
             const config = highlightConfigs[id];
             return {
               projectId: id,
               descriptions: config.descriptions,
               images: config.images,
-              backgroundImage: config.backgroundImage
+              backgroundImage: config.backgroundImage,
             };
           });
-          
+
           await saveHeroProjects([...existingConfigs, newConfig]);
-          
+
           // Inizializza il localConfig per il nuovo progetto
-          setLocalConfigs(prev => ({
+          setLocalConfigs((prev) => ({
             ...prev,
             [projectId]: {
               descriptions: newConfig.descriptions,
               images: newConfig.images,
               backgroundImage: newConfig.backgroundImage,
-              hasChanges: false
-            }
+              hasChanges: false,
+            },
           }));
         }
       }
@@ -453,18 +465,20 @@ export default function AdminPage() {
   };
 
   // Aggiorna le configurazioni locali (senza salvare)
-  const updateLocalConfig = (projectId: string, field: 'descriptions' | 'images' | 'backgroundImage', value: any) => {
-    setLocalConfigs(prev => ({
+  const updateLocalConfig = (
+    projectId: string,
+    field: 'descriptions' | 'images' | 'backgroundImage',
+    value: any
+  ) => {
+    setLocalConfigs((prev) => ({
       ...prev,
       [projectId]: {
         ...prev[projectId],
         [field]: value,
-        hasChanges: true
-      }
+        hasChanges: true,
+      },
     }));
   };
-
-
 
   // Salva tutte le configurazioni highlights (unica funzione di salvataggio)
   const saveAllChanges = async () => {
@@ -472,25 +486,25 @@ export default function AdminPage() {
     if (selectedHighlights.length === 0) return;
 
     try {
-      const updatedConfigs = selectedHighlights.map(id => {
+      const updatedConfigs = selectedHighlights.map((id) => {
         const localConfig = localConfigs[id];
         // Usa i dati locali se disponibili, altrimenti quelli salvati
         const configData = localConfig || highlightConfigs[id];
-        
+
         return {
           projectId: id,
           descriptions: configData.descriptions,
           images: configData.images,
-          backgroundImage: configData.backgroundImage
+          backgroundImage: configData.backgroundImage,
         };
       });
-      
+
       await saveHeroProjects(updatedConfigs);
-      
+
       // Marca tutti i progetti come salvati
-      setLocalConfigs(prev => {
+      setLocalConfigs((prev) => {
         const newConfigs = { ...prev };
-        selectedHighlights.forEach(id => {
+        selectedHighlights.forEach((id) => {
           if (newConfigs[id]) {
             newConfigs[id].hasChanges = false;
           }
@@ -503,28 +517,34 @@ export default function AdminPage() {
   };
 
   // Gestione upload immagini
-  const handleImageUpload = async (projectId: string, file: File, type: 'background' | 'navigation') => {
+  const handleImageUpload = async (
+    projectId: string,
+    file: File,
+    type: 'background' | 'navigation'
+  ) => {
     const uploadKey = `${projectId}-${type}`;
-    setUploadingImage(prev => ({ ...prev, [uploadKey]: true }));
-    
+    setUploadingImage((prev) => ({ ...prev, [uploadKey]: true }));
+
     try {
       const result = await uploadImage(file, type);
-      
+
       if (type === 'background') {
         updateLocalConfig(projectId, 'backgroundImage', result.url);
       } else {
         // Recupera le immagini attuali dal localConfig se disponibile
         const existingLocalConfig = localConfigs[projectId];
-        const currentImages = existingLocalConfig ? existingLocalConfig.images : highlightConfigs[projectId]?.images || [];
+        const currentImages = existingLocalConfig
+          ? existingLocalConfig.images
+          : highlightConfigs[projectId]?.images || [];
         updateLocalConfig(projectId, 'images', [...currentImages, result.url]);
       }
-      
+
       return result;
     } catch (error) {
       console.error('Error uploading image:', error);
       throw error;
     } finally {
-      setUploadingImage(prev => ({ ...prev, [uploadKey]: false }));
+      setUploadingImage((prev) => ({ ...prev, [uploadKey]: false }));
     }
   };
 
@@ -532,13 +552,17 @@ export default function AdminPage() {
   const filteredProjects = localProjectsState.hasChanges ? localProjectsState.projects : projects;
 
   // Componente Scheletro per mostrare slot vuoti
-  const ProjectSlot = ({ position, className = "" }: { position: number; className?: string }) => {
+  const ProjectSlot = ({ position, className = '' }: { position: number; className?: string }) => {
     // Usa altezza fissa per slot 6 e 7 (posizioni 6 e 7) per avere stessa altezza con larghezze diverse
-    const aspectRatio = position === 6 || position === 7 ? "h-36" : "aspect-video";
-    
+    const aspectRatio = position === 6 || position === 7 ? 'h-36' : 'aspect-video';
+
     return (
-      <div className={`bg-border-primary-20 rounded-[25px] border-2 border-dashed border-text-primary-60/50 hover:border-text-primary-60 transition-all duration-300 hover:bg-text-primary-60/5 ${className}`}>
-        <div className={`${aspectRatio} bg-text-primary-60/10 rounded-t-[23px] flex items-center justify-center relative`}>
+      <div
+        className={`bg-border-primary-20 rounded-[25px] border-2 border-dashed border-text-primary-60/50 hover:border-text-primary-60 transition-all duration-300 hover:bg-text-primary-60/5 ${className}`}
+      >
+        <div
+          className={`${aspectRatio} bg-text-primary-60/10 rounded-t-[23px] flex items-center justify-center relative`}
+        >
           {/* Numerazione elegante per slot vuoti */}
           <div className="absolute top-3 left-3 bg-gradient-to-r from-text-primary-60/80 to-text-primary-60/60 text-white text-xs font-semibold w-7 h-7 rounded-full flex items-center justify-center shadow-lg border-2 border-white/20 backdrop-blur-sm">
             {position}
@@ -546,7 +570,12 @@ export default function AdminPage() {
           <div className="text-center text-text-primary-60">
             <div className="w-10 h-10 mx-auto mb-2 bg-text-primary-60/20 rounded-full flex items-center justify-center border-2 border-dashed border-text-primary-60/40">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                />
               </svg>
             </div>
             <p className="text-xs font-medium">Slot disponibile</p>
@@ -565,7 +594,7 @@ export default function AdminPage() {
     const minSlots = layoutMode === 'desktop' ? 7 : layoutMode === 'tablet' ? 6 : 4;
     // Mostra tutti i progetti esistenti oppure almeno i slot minimi
     const totalSlots = Math.max(minSlots, filteredProjects.length);
-    
+
     switch (layoutMode) {
       case 'mobile':
         return (
@@ -594,7 +623,7 @@ export default function AdminPage() {
                 {Array.from({ length: 2 }).map((_, colIndex) => {
                   const index = rowIndex * 2 + colIndex;
                   if (index >= totalSlots) return null;
-                  
+
                   const project = filteredProjects[index];
                   return project ? (
                     <SortableProject
@@ -627,12 +656,12 @@ export default function AdminPage() {
     const projectsPerPattern = 7; // Pattern si ripete ogni 7 progetti
     const minSlots = 7;
     const totalSlots = Math.max(minSlots, filteredProjects.length);
-    
+
     // Dividiamo i progetti in gruppi di 7
     for (let groupStart = 0; groupStart < totalSlots; groupStart += projectsPerPattern) {
       const currentGroupEnd = Math.min(groupStart + projectsPerPattern, totalSlots);
       const groupIndex = Math.floor(groupStart / projectsPerPattern);
-      
+
       // Prima riga del gruppo: primi 2 progetti (se disponibili)
       if (groupStart < totalSlots) {
         const firstRowEnd = Math.min(groupStart + 2, currentGroupEnd);
@@ -644,7 +673,7 @@ export default function AdminPage() {
         while (firstRowProjects.length < 2 && groupStart < minSlots) {
           firstRowProjects.push(groupStart + firstRowProjects.length);
         }
-        
+
         if (firstRowProjects.length > 0) {
           rows.push(
             <div key={`group-${groupIndex}-row-0`} className="flex gap-4">
@@ -679,7 +708,7 @@ export default function AdminPage() {
         while (secondRowProjects.length < 3 && secondRowStart < minSlots) {
           secondRowProjects.push(secondRowStart + secondRowProjects.length);
         }
-        
+
         if (secondRowProjects.length > 0) {
           rows.push(
             <div key={`group-${groupIndex}-row-1`} className="flex gap-4">
@@ -714,13 +743,13 @@ export default function AdminPage() {
         while (thirdRowProjects.length < 2 && thirdRowStart < minSlots) {
           thirdRowProjects.push(thirdRowStart + thirdRowProjects.length);
         }
-        
+
         if (thirdRowProjects.length > 0) {
           rows.push(
             <div key={`group-${groupIndex}-row-2`} className="flex gap-4">
               {thirdRowProjects.map((index, rowIndex) => {
                 const project = filteredProjects[index];
-                const width = rowIndex === 0 ? "w-[35%]" : "w-[65%]";
+                const width = rowIndex === 0 ? 'w-[35%]' : 'w-[65%]';
                 return project ? (
                   <SortableProject
                     key={project.id}
@@ -738,7 +767,7 @@ export default function AdminPage() {
         }
       }
     }
-    
+
     return <div className="space-y-6">{rows}</div>;
   };
 
@@ -753,10 +782,7 @@ export default function AdminPage() {
           >
             Admin Dashboard
           </AnimatedText>
-          <AnimatedText
-            as="p"
-            className="text-text-primary-60 mt-2"
-          >
+          <AnimatedText as="p" className="text-text-primary-60 mt-2">
             Gestisci i progetti del portfolio e visualizza il layout
           </AnimatedText>
         </div>
@@ -794,161 +820,194 @@ export default function AdminPage() {
         {/* Projects Section */}
         {activeSection === 'projects' && (
           <div className="grid grid-cols-1 xl:grid-cols-4 gap-8">
-          {/* Upload Section */}
-          <div className="xl:col-span-1">
-            <div className="bg-bg-card border border-border-primary-20 rounded-[25px] p-6 sticky top-[188px]">
-              <AnimatedText
-                as="h2"
-                className="text-xl font-figtree font-medium mb-6"
-              >
-                Nuovo Progetto
-              </AnimatedText>
-
-              {/* Form Fields */}
-              <div className="space-y-4 mb-6">
-                <div>
-                  <label className="block text-sm font-medium mb-2">Titolo</label>
-                  <input
-                    type="text"
-                    value={newProject.title}
-                    onChange={(e) => setNewProject(prev => ({ ...prev, title: e.target.value }))}
-                    className="w-full px-4 py-3 bg-bg-primary border border-border-primary-20 rounded-lg text-text-primary focus:outline-none focus:border-[#F20352] transition-colors"
-                    placeholder="Nome del progetto"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-2">Descrizione</label>
-                  <textarea
-                    value={newProject.description}
-                    onChange={(e) => setNewProject(prev => ({ ...prev, description: e.target.value }))}
-                    className="w-full px-4 py-3 bg-bg-primary border border-border-primary-20 rounded-lg text-text-primary focus:outline-none focus:border-[#F20352] transition-colors resize-none"
-                    rows={3}
-                    placeholder="Descrizione del progetto"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-2">Link</label>
-                  <input
-                    type="url"
-                    value={newProject.link}
-                    onChange={(e) => setNewProject(prev => ({ ...prev, link: e.target.value }))}
-                    className="w-full px-4 py-3 bg-bg-primary border border-border-primary-20 rounded-lg text-text-primary focus:outline-none focus:border-[#F20352] transition-colors"
-                    placeholder="Link del progetto (opzionale)"
-                  />
-                </div>
-              </div>
-
-              {/* Categoria Selection Buttons */}
-              <div className="space-y-3 mb-6">
-                <div className="flex items-center justify-between">
-                  <label className="block text-sm font-medium">Categoria</label>
-                  <div className="flex gap-2">
-                    <button
-                      onClick={selectAllCategories}
-                      className="text-xs px-3 py-1 bg-[#F20352]/10 text-[#F20352] rounded-full hover:bg-[#F20352]/20 transition-colors"
-                    >
-                      Tutti
-                    </button>
-                    <button
-                      onClick={clearAllCategories}
-                      className="text-xs px-3 py-1 bg-text-primary-60/10 text-text-primary-60 rounded-full hover:bg-text-primary-60/20 transition-colors"
-                    >
-                      Reset
-                    </button>
-                  </div>
-                </div>
-                <div className="grid grid-cols-1 gap-2">
-                  {categories.map((category) => (
-                    <button
-                      key={category}
-                      onClick={() => handleCategoryToggle(category)}
-                      className={`p-3 rounded-lg border-2 transition-all duration-300 text-left ${
-                        newProject.categories.includes(category)
-                          ? 'border-[#F20352] bg-[#F20352]/5 text-[#F20352]'
-                          : 'border-border-primary-20 hover:border-[#F20352]/50 text-text-primary'
-                      }`}
-                    >
-                      <div className="flex items-center gap-3">
-                        <div className={`w-4 h-4 rounded border-2 flex items-center justify-center ${
-                          newProject.categories.includes(category) 
-                            ? 'border-[#F20352] bg-[#F20352]' 
-                            : 'border-border-primary-20'
-                        }`}>
-                          {newProject.categories.includes(category) && (
-                            <svg className="w-2 h-2 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                            </svg>
-                          )}
-                        </div>
-                                                  <span className={`font-medium text-sm ${newProject.categories.includes(category) ? 'text-[#F20352]' : 'text-text-primary'}`}>{category}</span>
-                      </div>
-                    </button>
-                  ))}
-                </div>
-                {newProject.categories.length > 0 && (
-                  <div className="mt-3 p-3 bg-[#F20352]/5 rounded-lg">
-                    <p className="text-sm text-[#F20352] font-medium">
-                      {newProject.categories.length} categorie selezionate
-                    </p>
-                    <p className="text-xs text-text-primary-60 mt-1">
-                      Il progetto apparirà in tutte le categorie selezionate
-                    </p>
-                  </div>
-                )}
-              </div>
-
-
-            </div>
-          </div>
-
-          {/* Layout Preview Section */}
-          <div className="xl:col-span-2">
-            <div className="flex items-center justify-between mb-6">
-              <div>
-                <AnimatedText
-                  as="h2"
-                  className="text-xl font-figtree font-medium"
-                >
-                  Portfolio Layout Preview
+            {/* Upload Section */}
+            <div className="xl:col-span-1">
+              <div className="bg-bg-card border border-border-primary-20 rounded-[25px] p-6 sticky top-[188px]">
+                <AnimatedText as="h2" className="text-xl font-figtree font-medium mb-6">
+                  Nuovo Progetto
                 </AnimatedText>
-                <p className="text-text-primary-60 text-sm mt-1">
-                  Layout: <span className="font-medium text-[#F20352] capitalize">{layoutMode}</span> - 
-                  Progetti: {filteredProjects.length} {filteredProjects.length === 1 ? 'progetto' : 'progetti'}
-                {localProjectsState.hasChanges && (
-                  <span className="ml-2 text-xs bg-orange-500 text-white px-2 py-1 rounded-full">
-                    Non salvato
-                  </span>
-                )}
-                </p>
+
+                {/* Form Fields */}
+                <div className="space-y-4 mb-6">
+                  <div>
+                    <label className="block text-sm font-medium mb-2">Titolo</label>
+                    <input
+                      type="text"
+                      value={newProject.title}
+                      onChange={(e) =>
+                        setNewProject((prev) => ({ ...prev, title: e.target.value }))
+                      }
+                      className="w-full px-4 py-3 bg-bg-primary border border-border-primary-20 rounded-lg text-text-primary focus:outline-none focus:border-[#F20352] transition-colors"
+                      placeholder="Nome del progetto"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium mb-2">Descrizione</label>
+                    <textarea
+                      value={newProject.description}
+                      onChange={(e) =>
+                        setNewProject((prev) => ({ ...prev, description: e.target.value }))
+                      }
+                      className="w-full px-4 py-3 bg-bg-primary border border-border-primary-20 rounded-lg text-text-primary focus:outline-none focus:border-[#F20352] transition-colors resize-none"
+                      rows={3}
+                      placeholder="Descrizione del progetto"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium mb-2">Link</label>
+                    <input
+                      type="url"
+                      value={newProject.link}
+                      onChange={(e) => setNewProject((prev) => ({ ...prev, link: e.target.value }))}
+                      className="w-full px-4 py-3 bg-bg-primary border border-border-primary-20 rounded-lg text-text-primary focus:outline-none focus:border-[#F20352] transition-colors"
+                      placeholder="Link del progetto (opzionale)"
+                    />
+                  </div>
+                </div>
+
+                {/* Categoria Selection Buttons */}
+                <div className="space-y-3 mb-6">
+                  <div className="flex items-center justify-between">
+                    <label className="block text-sm font-medium">Categoria</label>
+                    <div className="flex gap-2">
+                      <button
+                        onClick={selectAllCategories}
+                        className="text-xs px-3 py-1 bg-[#F20352]/10 text-[#F20352] rounded-full hover:bg-[#F20352]/20 transition-colors"
+                      >
+                        Tutti
+                      </button>
+                      <button
+                        onClick={clearAllCategories}
+                        className="text-xs px-3 py-1 bg-text-primary-60/10 text-text-primary-60 rounded-full hover:bg-text-primary-60/20 transition-colors"
+                      >
+                        Reset
+                      </button>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-1 gap-2">
+                    {categories.map((category) => (
+                      <button
+                        key={category}
+                        onClick={() => handleCategoryToggle(category)}
+                        className={`p-3 rounded-lg border-2 transition-all duration-300 text-left ${
+                          newProject.categories.includes(category)
+                            ? 'border-[#F20352] bg-[#F20352]/5 text-[#F20352]'
+                            : 'border-border-primary-20 hover:border-[#F20352]/50 text-text-primary'
+                        }`}
+                      >
+                        <div className="flex items-center gap-3">
+                          <div
+                            className={`w-4 h-4 rounded border-2 flex items-center justify-center ${
+                              newProject.categories.includes(category)
+                                ? 'border-[#F20352] bg-[#F20352]'
+                                : 'border-border-primary-20'
+                            }`}
+                          >
+                            {newProject.categories.includes(category) && (
+                              <svg
+                                className="w-2 h-2 text-white"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={3}
+                                  d="M5 13l4 4L19 7"
+                                />
+                              </svg>
+                            )}
+                          </div>
+                          <span
+                            className={`font-medium text-sm ${newProject.categories.includes(category) ? 'text-[#F20352]' : 'text-text-primary'}`}
+                          >
+                            {category}
+                          </span>
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                  {newProject.categories.length > 0 && (
+                    <div className="mt-3 p-3 bg-[#F20352]/5 rounded-lg">
+                      <p className="text-sm text-[#F20352] font-medium">
+                        {newProject.categories.length} categorie selezionate
+                      </p>
+                      <p className="text-xs text-text-primary-60 mt-1">
+                        Il progetto apparirà in tutte le categorie selezionate
+                      </p>
+                    </div>
+                  )}
+                </div>
               </div>
-              <div className="flex items-center gap-3">
-                <button
-                  onClick={() => window.open('/portfolio', '_blank')}
-                  className="px-4 py-2 bg-transparent hover:bg-text-primary-60/10 text-text-primary-60 hover:text-text-primary text-sm font-medium rounded-lg transition-colors duration-300 flex items-center gap-2 border border-border-primary-20 hover:border-text-primary-60/30"
-                >
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                  </svg>
-                  Visualizza Portfolio
-                </button>
-                {localProjectsState.hasChanges && (
+            </div>
+
+            {/* Layout Preview Section */}
+            <div className="xl:col-span-2">
+              <div className="flex items-center justify-between mb-6">
+                <div>
+                  <AnimatedText as="h2" className="text-xl font-figtree font-medium">
+                    Portfolio Layout Preview
+                  </AnimatedText>
+                  <p className="text-text-primary-60 text-sm mt-1">
+                    Layout:{' '}
+                    <span className="font-medium text-[#F20352] capitalize">{layoutMode}</span> -
+                    Progetti: {filteredProjects.length}{' '}
+                    {filteredProjects.length === 1 ? 'progetto' : 'progetti'}
+                    {localProjectsState.hasChanges && (
+                      <span className="ml-2 text-xs bg-orange-500 text-white px-2 py-1 rounded-full">
+                        Non salvato
+                      </span>
+                    )}
+                  </p>
+                </div>
+                <div className="flex items-center gap-3">
                   <button
-                    onClick={saveAllProjectChanges}
-                    disabled={loading}
-                    className="px-4 py-2 text-sm bg-[#F20352] hover:bg-[#F20352]/90 text-white rounded-lg disabled:opacity-50 transition-all duration-300 relative flex items-center gap-2 shadow-sm"
+                    onClick={() => window.open('/portfolio', '_blank')}
+                    className="px-4 py-2 bg-transparent hover:bg-text-primary-60/10 text-text-primary-60 hover:text-text-primary text-sm font-medium rounded-lg transition-colors duration-300 flex items-center gap-2 border border-border-primary-20 hover:border-text-primary-60/30"
                   >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3-3m0 0l-3 3m3-3v12" />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                      />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                      />
                     </svg>
-                    {loading ? 'Salvando...' : 'Salva'}
+                    Visualizza Portfolio
                   </button>
-                )}
+                  {localProjectsState.hasChanges && (
+                    <button
+                      onClick={saveAllProjectChanges}
+                      disabled={loading}
+                      className="px-4 py-2 text-sm bg-[#F20352] hover:bg-[#F20352]/90 text-white rounded-lg disabled:opacity-50 transition-all duration-300 relative flex items-center gap-2 shadow-sm"
+                    >
+                      <svg
+                        className="w-4 h-4"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3-3m0 0l-3 3m3-3v12"
+                        />
+                      </svg>
+                      {loading ? 'Salvando...' : 'Salva'}
+                    </button>
+                  )}
+                </div>
               </div>
 
-            </div>
-
-                          <div className="bg-bg-card border border-border-primary-20 rounded-[25px] p-6">
+              <div className="bg-bg-card border border-border-primary-20 rounded-[25px] p-6">
                 {/* Loading State */}
                 {loading && (
                   <div className="flex items-center justify-center py-8">
@@ -956,14 +1015,24 @@ export default function AdminPage() {
                     <span className="ml-3 text-text-primary-60">Caricamento...</span>
                   </div>
                 )}
-                
+
                 {/* Error State */}
                 {error && (
                   <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4 mb-4">
                     <div className="flex items-center">
                       <div className="flex-shrink-0">
-                        <svg className="h-5 w-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        <svg
+                          className="h-5 w-5 text-red-400"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                          />
                         </svg>
                       </div>
                       <div className="ml-3">
@@ -975,15 +1044,25 @@ export default function AdminPage() {
                           className="text-red-400 hover:text-red-600"
                         >
                           <span className="sr-only">Chiudi</span>
-                          <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                          <svg
+                            className="h-5 w-5"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M6 18L18 6M6 6l12 12"
+                            />
                           </svg>
                         </button>
                       </div>
                     </div>
                   </div>
                 )}
-                
+
                 {/* Content */}
                 {!loading && !error && (
                   <DndContext
@@ -992,7 +1071,10 @@ export default function AdminPage() {
                     onDragEnd={handleDragEnd}
                   >
                     <SortableContext
-                      items={(localProjectsState.hasChanges ? localProjectsState.projects : projects).map(p => p.id)}
+                      items={(localProjectsState.hasChanges
+                        ? localProjectsState.projects
+                        : projects
+                      ).map((p) => p.id)}
                       strategy={verticalListSortingStrategy}
                     >
                       {renderLayoutPreview()}
@@ -1000,156 +1082,171 @@ export default function AdminPage() {
                   </DndContext>
                 )}
               </div>
-          </div>
-
-          {/* Layout Selector - Colonna destra */}
-          <div className="xl:col-span-1 sticky top-[188px] self-start">
-            <div className="bg-bg-card border border-border-primary-20 rounded-[25px] p-6">
-              <h3 className="text-lg font-figtree font-medium mb-4">Layout Preview</h3>
-              <p className="text-text-primary-60 text-sm mb-6">
-                Visualizza come i progetti appaiono nel portfolio
-              </p>
-              
-              <div className="space-y-3">
-                {(['desktop', 'tablet', 'mobile'] as LayoutMode[]).map((mode) => (
-                  <button
-                    key={mode}
-                    onClick={() => setLayoutMode(mode)}
-                    className={`w-full p-3 rounded-lg border-2 transition-all duration-300 text-left ${
-                      layoutMode === mode
-                        ? 'border-[#F20352] bg-[#F20352]/5 text-[#F20352]'
-                        : 'border-border-primary-20 hover:border-[#F20352]/50 text-text-primary'
-                    }`}
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className={`w-2 h-2 rounded-full ${layoutMode === mode ? 'bg-[#F20352]' : 'bg-text-primary-60'}`} />
-                      <span className="font-medium capitalize">{mode}</span>
-                      <span className="text-xs text-text-primary-60 ml-auto">
-                        {mode === 'desktop' ? 'Pattern 7' : mode === 'tablet' ? '1 per riga' : '1 per riga'}
-                      </span>
-                    </div>
-                  </button>
-                ))}
-              </div>
             </div>
 
-            {/* Upload Section */}
-            <div className="bg-bg-card border border-border-primary-20 rounded-[25px] p-6 mt-6">
-              <h3 className="text-lg font-figtree font-medium mb-4">Upload Immagine</h3>
-              <p className="text-text-primary-60 text-sm mb-6">
-                Carica l'immagine del progetto
-              </p>
+            {/* Layout Selector - Colonna destra */}
+            <div className="xl:col-span-1 sticky top-[188px] self-start">
+              <div className="bg-bg-card border border-border-primary-20 rounded-[25px] p-6">
+                <h3 className="text-lg font-figtree font-medium mb-4">Layout Preview</h3>
+                <p className="text-text-primary-60 text-sm mb-6">
+                  Visualizza come i progetti appaiono nel portfolio
+                </p>
 
-              {/* Drag & Drop Area */}
-              <div
-                className={`relative border-2 border-dashed rounded-lg p-8 text-center transition-all duration-300 ${
-                  dragActive
-                    ? 'border-[#F20352] bg-[#F20352]/5'
-                    : 'border-border-primary-20 hover:border-[#F20352]/50'
-                }`}
-                onDragEnter={handleDrag}
-                onDragLeave={handleDrag}
-                onDragOver={handleDrag}
-                onDrop={handleDrop}
-                onClick={() => fileInputRef.current?.click()}
-              >
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  accept="image/*"
-                  onChange={handleInputChange}
-                  className="hidden"
-                />
-                
-                {/* Preview dell'immagine selezionata */}
-                {imagePreview ? (
-                  <div className="space-y-4">
-                    <div className="relative inline-block">
-                      <img 
-                        src={imagePreview} 
-                        alt="Preview" 
-                        className="max-w-full max-h-48 rounded-lg object-cover"
-                      />
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setSelectedFile(null);
-                          setImagePreview(null);
-                          if (fileInputRef.current) fileInputRef.current.value = '';
-                        }}
-                        className="absolute -top-2 -right-2 bg-red-500 hover:bg-red-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs"
-                      >
-                        ×
-                      </button>
-                    </div>
-                    {selectedFile && (
-                      <div>
-                        <p className="text-text-primary font-medium text-sm">
-                          {selectedFile.name}
-                        </p>
-                        <p className="text-text-primary-60 text-xs">
-                          {(selectedFile.size / 1024 / 1024).toFixed(2)} MB
-                        </p>
+                <div className="space-y-3">
+                  {(['desktop', 'tablet', 'mobile'] as LayoutMode[]).map((mode) => (
+                    <button
+                      key={mode}
+                      onClick={() => setLayoutMode(mode)}
+                      className={`w-full p-3 rounded-lg border-2 transition-all duration-300 text-left ${
+                        layoutMode === mode
+                          ? 'border-[#F20352] bg-[#F20352]/5 text-[#F20352]'
+                          : 'border-border-primary-20 hover:border-[#F20352]/50 text-text-primary'
+                      }`}
+                    >
+                      <div className="flex items-center gap-3">
+                        <div
+                          className={`w-2 h-2 rounded-full ${layoutMode === mode ? 'bg-[#F20352]' : 'bg-text-primary-60'}`}
+                        />
+                        <span className="font-medium capitalize">{mode}</span>
+                        <span className="text-xs text-text-primary-60 ml-auto">
+                          {mode === 'desktop'
+                            ? 'Pattern 7'
+                            : mode === 'tablet'
+                              ? '1 per riga'
+                              : '1 per riga'}
+                        </span>
                       </div>
-                    )}
-                  </div>
-                ) : (
-                  <div className="space-y-4">
-                    <div className="w-12 h-12 mx-auto bg-[#F20352]/10 rounded-full flex items-center justify-center">
-                      <svg className="w-6 h-6 text-[#F20352]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-                      </svg>
-                    </div>
-                    <div>
-                      <p className="text-text-primary font-medium">
-                        Trascina un'immagine qui
-                      </p>
-                      <p className="text-text-primary-60 text-sm mt-1">
-                        o clicca per selezionare
-                      </p>
-                    </div>
-                  </div>
-                )}
+                    </button>
+                  ))}
+                </div>
               </div>
 
-              {/* Pulsante Upload */}
-              {selectedFile && (
-                <button
-                  onClick={handleUpload}
-                  disabled={loading || !newProject.title || newProject.categories.length === 0}
-                  className={`w-full mt-4 px-4 py-3 rounded-lg font-medium transition-all duration-300 ${
-                    loading || !newProject.title || newProject.categories.length === 0
-                      ? 'bg-text-primary-60/20 text-text-primary-60 cursor-not-allowed'
-                      : 'bg-[#F20352] hover:bg-[#F20352]/90 text-white'
+              {/* Upload Section */}
+              <div className="bg-bg-card border border-border-primary-20 rounded-[25px] p-6 mt-6">
+                <h3 className="text-lg font-figtree font-medium mb-4">Upload Immagine</h3>
+                <p className="text-text-primary-60 text-sm mb-6">
+                  Carica l&apos;immagine del progetto
+                </p>
+
+                {/* Drag & Drop Area */}
+                <div
+                  className={`relative border-2 border-dashed rounded-lg p-8 text-center transition-all duration-300 ${
+                    dragActive
+                      ? 'border-[#F20352] bg-[#F20352]/5'
+                      : 'border-border-primary-20 hover:border-[#F20352]/50'
                   }`}
+                  onDragEnter={handleDrag}
+                  onDragLeave={handleDrag}
+                  onDragOver={handleDrag}
+                  onDrop={handleDrop}
+                  onClick={() => fileInputRef.current?.click()}
                 >
-                  {loading ? (
-                    <div className="flex items-center justify-center">
-                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                      Caricamento...
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*"
+                    onChange={handleInputChange}
+                    className="hidden"
+                  />
+
+                  {/* Preview dell'immagine selezionata */}
+                  {imagePreview ? (
+                    <div className="space-y-4">
+                      <div className="relative inline-block">
+                        <img
+                          src={imagePreview}
+                          alt="Preview"
+                          className="max-w-full max-h-48 rounded-lg object-cover"
+                        />
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setSelectedFile(null);
+                            setImagePreview(null);
+                            if (fileInputRef.current) fileInputRef.current.value = '';
+                          }}
+                          className="absolute -top-2 -right-2 bg-red-500 hover:bg-red-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs"
+                        >
+                          ×
+                        </button>
+                      </div>
+                      {selectedFile && (
+                        <div>
+                          <p className="text-text-primary font-medium text-sm">
+                            {selectedFile.name}
+                          </p>
+                          <p className="text-text-primary-60 text-xs">
+                            {(selectedFile.size / 1024 / 1024).toFixed(2)} MB
+                          </p>
+                        </div>
+                      )}
                     </div>
                   ) : (
-                    'Carica progetto'
+                    <div className="space-y-4">
+                      <div className="w-12 h-12 mx-auto bg-[#F20352]/10 rounded-full flex items-center justify-center">
+                        <svg
+                          className="w-6 h-6 text-[#F20352]"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                          />
+                        </svg>
+                      </div>
+                      <div>
+                        <p className="text-text-primary font-medium">
+                          Trascina un&apos;immagine qui
+                        </p>
+                        <p className="text-text-primary-60 text-sm mt-1">
+                          o clicca per selezionare
+                        </p>
+                      </div>
+                    </div>
                   )}
-                </button>
-              )}
+                </div>
 
-              {!newProject.title || newProject.categories.length === 0 ? (
-                <p className="text-text-primary-60 text-sm mt-4 text-center">
-                  {!selectedFile ? 
-                    'Compila titolo e almeno una categoria prima di selezionare l\'immagine' :
-                    'Compila titolo e almeno una categoria per abilitare l\'upload'
-                  }
-                </p>
-              ) : null}
+                {/* Pulsante Upload */}
+                {selectedFile && (
+                  <button
+                    onClick={handleUpload}
+                    disabled={loading || !newProject.title || newProject.categories.length === 0}
+                    className={`w-full mt-4 px-4 py-3 rounded-lg font-medium transition-all duration-300 ${
+                      loading || !newProject.title || newProject.categories.length === 0
+                        ? 'bg-text-primary-60/20 text-text-primary-60 cursor-not-allowed'
+                        : 'bg-[#F20352] hover:bg-[#F20352]/90 text-white'
+                    }`}
+                  >
+                    {loading ? (
+                      <div className="flex items-center justify-center">
+                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                        Caricamento...
+                      </div>
+                    ) : (
+                      'Carica progetto'
+                    )}
+                  </button>
+                )}
+
+                {!newProject.title || newProject.categories.length === 0 ? (
+                  <p className="text-text-primary-60 text-sm mt-4 text-center">
+                    {!selectedFile
+                      ? 'Compila titolo e almeno una categoria prima di selezionare l&apos;immagine'
+                      : "Compila titolo e almeno una categoria per abilitare l'upload"}
+                  </p>
+                ) : null}
+              </div>
             </div>
           </div>
-        </div>
         )}
 
         {/* Highlights Section */}
         {activeSection === 'highlights' && (
-                     <div className="space-y-8">
+          <div className="space-y-8">
             <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
               {/* Left: Project Selection */}
               <div className="xl:col-span-1">
@@ -1160,98 +1257,139 @@ export default function AdminPage() {
                       ({selectedHighlights.length}/3)
                     </span>
                   </h3>
-                  
-                                     <div className="space-y-3">
-                     {/* Progetti già selezionati */}
-                     {selectedHighlights.map((projectId) => {
-                       const project = projects.find(p => p.id === projectId);
-                       if (!project) return null;
-                       
-                       return (
-                         <div
-                           key={project.id}
-                           className="p-4 rounded-lg border-2 border-[#F20352] bg-[#F20352]/5"
-                         >
-                           <div className="flex items-center gap-3">
-                             <div className="w-4 h-4 rounded border-2 border-[#F20352] bg-[#F20352] flex items-center justify-center">
-                               <svg className="w-2 h-2 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                               </svg>
-                             </div>
-                             <img src={project.image_url} alt={project.title} className="w-10 h-10 rounded object-cover" />
-                             <div className="flex-1">
-                               <h4 className="font-medium text-sm">{project.title}</h4>
-                               <p className="text-xs text-text-primary-60">
-                                 {project.categories.join(", ")} • Pos. {selectedHighlights.indexOf(projectId) + 1}
-                               </p>
-                             </div>
-                             <button
-                               onClick={() => handleHighlightSelection(project.id)}
-                               className="px-2 py-1 text-xs bg-red-50 hover:bg-red-100 dark:bg-red-900/20 dark:hover:bg-red-900/30 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800 hover:border-red-300 dark:hover:border-red-700 rounded-lg transition-all duration-300 flex items-center gap-1"
-                             >  
-                               <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                               </svg>
-                               Rimuovi
-                             </button>
-                           </div>
-                         </div>
-                       );
-                     })}
-                     
-                     {/* Separatore se ci sono progetti selezionati */}
-                     {selectedHighlights.length > 0 && availableProjects.length > 0 && (
-                       <div className="border-t border-border-primary-20 my-4 pt-4">
-                         <p className="text-xs text-text-primary-60 mb-3">Progetti disponibili:</p>
-                       </div>
-                     )}
-                     
-                                            {/* Progetti disponibili */}
-                     {availableProjects.map((project) => (
-                       <div
-                         key={project.id}
-                         className={`p-4 rounded-lg border-2 cursor-pointer transition-all duration-300 border-border-primary-20 hover:border-[#F20352]/50 ${
-                           selectedHighlights.length >= 3 ? 'opacity-50 cursor-not-allowed' : ''
-                         }`}
-                         onClick={() => {
-                           if (selectedHighlights.length < 3) {
-                             handleHighlightSelection(project.id);
-                           }
-                         }}
-                       >
-                         <div className="flex items-center gap-3">
-                           <div className="w-4 h-4 rounded border-2 border-border-primary-20 flex items-center justify-center">
-                             <svg className="w-2 h-2 text-text-primary-60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                             </svg>
-                           </div>
-                           <img src={project.image_url} alt={project.title} className="w-10 h-10 rounded object-cover" />
-                           <div className="flex-1">
-                             <h4 className="font-medium text-sm">{project.title}</h4>
-                             <p className="text-xs text-text-primary-60">
-                               {project.categories.join(", ")}
-                             </p>
-                           </div>
-                         </div>
-                       </div>
-                     ))}
-                     
-                     {/* Messaggio quando non ci sono progetti disponibili */}
-                     {availableProjects.length === 0 && selectedHighlights.length < 3 && (
-                       <div className="text-center py-8 text-text-primary-60">
-                         <p className="text-sm">Nessun progetto disponibile</p>
-                         <p className="text-xs mt-1">Crea prima dei progetti nella sezione Projects</p>
-                       </div>
-                     )}
-                     
-                     {/* Messaggio quando hai raggiunto il limite */}
-                     {selectedHighlights.length >= 3 && availableProjects.length > 0 && (
-                       <div className="text-center py-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg">
-                         <p className="text-sm text-yellow-700 dark:text-yellow-200">
-                           Limite raggiunto: massimo 3 progetti selezionabili
-                         </p>
-                       </div>
-                     )}
+
+                  <div className="space-y-3">
+                    {/* Progetti già selezionati */}
+                    {selectedHighlights.map((projectId) => {
+                      const project = projects.find((p) => p.id === projectId);
+                      if (!project) return null;
+
+                      return (
+                        <div
+                          key={project.id}
+                          className="p-4 rounded-lg border-2 border-[#F20352] bg-[#F20352]/5"
+                        >
+                          <div className="flex items-center gap-3">
+                            <div className="w-4 h-4 rounded border-2 border-[#F20352] bg-[#F20352] flex items-center justify-center">
+                              <svg
+                                className="w-2 h-2 text-white"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={3}
+                                  d="M5 13l4 4L19 7"
+                                />
+                              </svg>
+                            </div>
+                            <img
+                              src={project.image_url}
+                              alt={project.title}
+                              className="w-10 h-10 rounded object-cover"
+                            />
+                            <div className="flex-1">
+                              <h4 className="font-medium text-sm">{project.title}</h4>
+                              <p className="text-xs text-text-primary-60">
+                                {project.categories.join(', ')} • Pos.{' '}
+                                {selectedHighlights.indexOf(projectId) + 1}
+                              </p>
+                            </div>
+                            <button
+                              onClick={() => handleHighlightSelection(project.id)}
+                              className="px-2 py-1 text-xs bg-red-50 hover:bg-red-100 dark:bg-red-900/20 dark:hover:bg-red-900/30 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800 hover:border-red-300 dark:hover:border-red-700 rounded-lg transition-all duration-300 flex items-center gap-1"
+                            >
+                              <svg
+                                className="w-3 h-3"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M6 18L18 6M6 6l12 12"
+                                />
+                              </svg>
+                              Rimuovi
+                            </button>
+                          </div>
+                        </div>
+                      );
+                    })}
+
+                    {/* Separatore se ci sono progetti selezionati */}
+                    {selectedHighlights.length > 0 && availableProjects.length > 0 && (
+                      <div className="border-t border-border-primary-20 my-4 pt-4">
+                        <p className="text-xs text-text-primary-60 mb-3">Progetti disponibili:</p>
+                      </div>
+                    )}
+
+                    {/* Progetti disponibili */}
+                    {availableProjects.map((project) => (
+                      <div
+                        key={project.id}
+                        className={`p-4 rounded-lg border-2 cursor-pointer transition-all duration-300 border-border-primary-20 hover:border-[#F20352]/50 ${
+                          selectedHighlights.length >= 3 ? 'opacity-50 cursor-not-allowed' : ''
+                        }`}
+                        onClick={() => {
+                          if (selectedHighlights.length < 3) {
+                            handleHighlightSelection(project.id);
+                          }
+                        }}
+                      >
+                        <div className="flex items-center gap-3">
+                          <div className="w-4 h-4 rounded border-2 border-border-primary-20 flex items-center justify-center">
+                            <svg
+                              className="w-2 h-2 text-text-primary-60"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                              />
+                            </svg>
+                          </div>
+                          <img
+                            src={project.image_url}
+                            alt={project.title}
+                            className="w-10 h-10 rounded object-cover"
+                          />
+                          <div className="flex-1">
+                            <h4 className="font-medium text-sm">{project.title}</h4>
+                            <p className="text-xs text-text-primary-60">
+                              {project.categories.join(', ')}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+
+                    {/* Messaggio quando non ci sono progetti disponibili */}
+                    {availableProjects.length === 0 && selectedHighlights.length < 3 && (
+                      <div className="text-center py-8 text-text-primary-60">
+                        <p className="text-sm">Nessun progetto disponibile</p>
+                        <p className="text-xs mt-1">
+                          Crea prima dei progetti nella sezione Projects
+                        </p>
+                      </div>
+                    )}
+
+                    {/* Messaggio quando hai raggiunto il limite */}
+                    {selectedHighlights.length >= 3 && availableProjects.length > 0 && (
+                      <div className="text-center py-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg">
+                        <p className="text-sm text-yellow-700 dark:text-yellow-200">
+                          Limite raggiunto: massimo 3 progetti selezionabili
+                        </p>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -1260,9 +1398,7 @@ export default function AdminPage() {
               <div className="xl:col-span-2">
                 <div className="bg-bg-card border border-border-primary-20 rounded-[25px] p-6">
                   <div className="flex items-center justify-between mb-6">
-                    <h3 className="text-lg font-figtree font-medium">
-                      Configurazione Highlights
-                    </h3>
+                    <h3 className="text-lg font-figtree font-medium">Configurazione Highlights</h3>
                     <div className="flex items-center gap-2">
                       {/* Pulsante Salva sempre visibile se ci sono progetti selezionati */}
                       {selectedHighlights.length > 0 && (
@@ -1272,7 +1408,7 @@ export default function AdminPage() {
                           className="px-4 py-2 text-sm bg-[#F20352] hover:bg-[#F20352]/90 text-white rounded-lg disabled:opacity-50 transition-all duration-300 relative flex items-center gap-2 shadow-sm"
                         >
                           {/* Indicatore modifiche non salvate */}
-                          {Object.values(localConfigs).some(config => config?.hasChanges) && (
+                          {Object.values(localConfigs).some((config) => config?.hasChanges) && (
                             <span className="absolute -top-1 -right-1 w-3 h-3 bg-orange-500 rounded-full shadow-sm"></span>
                           )}
                           {heroLoading ? (
@@ -1282,8 +1418,18 @@ export default function AdminPage() {
                             </>
                           ) : (
                             <>
-                              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3-3m0 0l-3 3m3-3v12" />
+                              <svg
+                                className="w-4 h-4"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3-3m0 0l-3 3m3-3v12"
+                                />
                               </svg>
                               Salva
                             </>
@@ -1296,8 +1442,18 @@ export default function AdminPage() {
                           disabled={heroLoading}
                           className="px-4 py-2 text-sm bg-red-50 hover:bg-red-100 dark:bg-red-900/20 dark:hover:bg-red-900/30 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800 hover:border-red-300 dark:hover:border-red-700 rounded-lg transition-all duration-300 disabled:opacity-50 flex items-center gap-2"
                         >
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                          <svg
+                            className="w-4 h-4"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                            />
                           </svg>
                           Elimina Tutto
                         </button>
@@ -1308,9 +1464,7 @@ export default function AdminPage() {
                   {/* Error State */}
                   {heroError && (
                     <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4 mb-6">
-                      <p className="text-red-700 dark:text-red-200 text-sm">
-                        Errore: {heroError}
-                      </p>
+                      <p className="text-red-700 dark:text-red-200 text-sm">Errore: {heroError}</p>
                       <button
                         onClick={() => setHeroError(null)}
                         className="text-red-600 hover:text-red-700 text-xs mt-2"
@@ -1327,12 +1481,22 @@ export default function AdminPage() {
                       <span className="ml-3 text-text-primary-60 text-sm">Caricamento...</span>
                     </div>
                   )}
-                  
+
                   {selectedHighlights.length === 0 && !heroLoading ? (
                     <div className="text-center py-12">
                       <div className="w-16 h-16 mx-auto mb-4 bg-text-primary-60/10 rounded-full flex items-center justify-center">
-                        <svg className="w-8 h-8 text-text-primary-60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                        <svg
+                          className="w-8 h-8 text-text-primary-60"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                          />
                         </svg>
                       </div>
                       <p className="text-text-primary-60">
@@ -1342,21 +1506,24 @@ export default function AdminPage() {
                   ) : (
                     <div className="space-y-8">
                       {selectedHighlights.map((projectId, index) => {
-                        const project = projects.find(p => p.id === projectId);
+                        const project = projects.find((p) => p.id === projectId);
                         const config = highlightConfigs[projectId];
                         const localConfig = localConfigs[projectId];
                         if (!project || !config) return null;
-                        
+
                         // Usa i dati locali se disponibili, altrimenti quelli salvati
                         const currentConfig = localConfig || {
                           descriptions: config.descriptions,
                           images: config.images,
                           backgroundImage: config.backgroundImage,
-                          hasChanges: false
+                          hasChanges: false,
                         };
 
                         return (
-                          <div key={projectId} className="border border-border-primary-20 rounded-lg p-6">
+                          <div
+                            key={projectId}
+                            className="border border-border-primary-20 rounded-lg p-6"
+                          >
                             <div className="flex items-center justify-between mb-6">
                               <div className="flex items-center gap-3">
                                 <div className="w-8 h-8 bg-[#F20352] text-white rounded-full flex items-center justify-center text-sm font-medium">
@@ -1365,7 +1532,7 @@ export default function AdminPage() {
                                 <div>
                                   <h4 className="font-medium">{project.title}</h4>
                                   <p className="text-sm text-text-primary-60">
-                                    {project.categories.join(", ")}
+                                    {project.categories.join(', ')}
                                   </p>
                                 </div>
                               </div>
@@ -1373,8 +1540,18 @@ export default function AdminPage() {
                                 onClick={() => handleHighlightSelection(projectId)}
                                 className="px-3 py-1.5 text-xs bg-red-50 hover:bg-red-100 dark:bg-red-900/20 dark:hover:bg-red-900/30 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800 hover:border-red-300 dark:hover:border-red-700 rounded-lg transition-all duration-300 flex items-center gap-1.5"
                               >
-                                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                <svg
+                                  className="w-3 h-3"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M6 18L18 6M6 6l12 12"
+                                  />
                                 </svg>
                                 Rimuovi
                               </button>
@@ -1383,7 +1560,9 @@ export default function AdminPage() {
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                               {/* Descriptions */}
                               <div>
-                                <label className="block text-sm font-medium mb-3">Descrizioni Slides</label>
+                                <label className="block text-sm font-medium mb-3">
+                                  Descrizioni Slides
+                                </label>
                                 <div className="space-y-3">
                                   {currentConfig.descriptions.map((desc, descIndex) => (
                                     <div key={descIndex}>
@@ -1395,7 +1574,11 @@ export default function AdminPage() {
                                         onChange={(e) => {
                                           const newDescriptions = [...currentConfig.descriptions];
                                           newDescriptions[descIndex] = e.target.value;
-                                          updateLocalConfig(projectId, 'descriptions', newDescriptions);
+                                          updateLocalConfig(
+                                            projectId,
+                                            'descriptions',
+                                            newDescriptions
+                                          );
                                         }}
                                         className="w-full px-3 py-2 bg-bg-primary border border-border-primary-20 rounded-lg text-text-primary text-sm focus:outline-none focus:border-[#F20352] transition-colors resize-none"
                                         rows={2}
@@ -1408,11 +1591,13 @@ export default function AdminPage() {
 
                               {/* Background Image */}
                               <div>
-                                <label className="block text-sm font-medium mb-3">Sfondo Container</label>
+                                <label className="block text-sm font-medium mb-3">
+                                  Sfondo Container
+                                </label>
                                 <div className="space-y-3">
                                   <div className="relative w-full aspect-video bg-border-primary-20 rounded-lg overflow-hidden">
-                                    <img 
-                                      src={currentConfig.backgroundImage} 
+                                    <img
+                                      src={currentConfig.backgroundImage}
                                       alt="Background preview"
                                       className="w-full h-full object-cover"
                                     />
@@ -1442,10 +1627,22 @@ export default function AdminPage() {
                                     }}
                                   >
                                     <div className="flex items-center justify-center gap-2 text-text-primary-60">
-                                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                                      <svg
+                                        className="w-4 h-4"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                      >
+                                        <path
+                                          strokeLinecap="round"
+                                          strokeLinejoin="round"
+                                          strokeWidth={2}
+                                          d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                                        />
                                       </svg>
-                                      <span className="text-sm">Carica nuova immagine di sfondo</span>
+                                      <span className="text-sm">
+                                        Carica nuova immagine di sfondo
+                                      </span>
                                     </div>
                                   </div>
                                 </div>
@@ -1463,21 +1660,33 @@ export default function AdminPage() {
                               <div className="flex gap-3 flex-wrap">
                                 {currentConfig.images.map((imageUrl, imgIndex) => (
                                   <div key={imgIndex} className="relative group">
-                                    <img 
-                                      src={imageUrl} 
+                                    <img
+                                      src={imageUrl}
                                       alt={`Image ${imgIndex + 1}`}
                                       className="w-16 h-16 object-cover rounded-lg border border-border-primary-20"
                                     />
                                     <button
                                       onClick={() => {
-                                        const newImages = currentConfig.images.filter((_, i) => i !== imgIndex);
+                                        const newImages = currentConfig.images.filter(
+                                          (_, i) => i !== imgIndex
+                                        );
                                         updateLocalConfig(projectId, 'images', newImages);
                                       }}
                                       className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 hover:bg-red-600 text-white rounded-full text-xs opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center shadow-sm"
                                       title="Rimuovi immagine"
                                     >
-                                      <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                      <svg
+                                        className="w-3 h-3"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                      >
+                                        <path
+                                          strokeLinecap="round"
+                                          strokeLinejoin="round"
+                                          strokeWidth={2}
+                                          d="M6 18L18 6M6 6l12 12"
+                                        />
                                       </svg>
                                     </button>
                                   </div>
@@ -1505,8 +1714,18 @@ export default function AdminPage() {
                                   {uploadingImage[`${projectId}-navigation`] ? (
                                     <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-current"></div>
                                   ) : (
-                                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                    <svg
+                                      className="w-6 h-6"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      viewBox="0 0 24 24"
+                                    >
+                                      <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                                      />
                                     </svg>
                                   )}
                                 </button>
@@ -1521,8 +1740,8 @@ export default function AdminPage() {
               </div>
             </div>
           </div>
-          )}
+        )}
       </div>
     </div>
   );
-} 
+}

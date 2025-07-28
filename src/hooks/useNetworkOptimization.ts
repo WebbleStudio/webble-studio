@@ -12,8 +12,11 @@ export function useNetworkOptimization() {
 
   useEffect(() => {
     // Check per supporto Network Information API
-    const connection = (navigator as any).connection || (navigator as any).mozConnection || (navigator as any).webkitConnection;
-    
+    const connection =
+      (navigator as any).connection ||
+      (navigator as any).mozConnection ||
+      (navigator as any).webkitConnection;
+
     if (connection) {
       const updateNetworkInfo = () => {
         const effectiveType = connection.effectiveType;
@@ -21,11 +24,8 @@ export function useNetworkOptimization() {
         const downlink = connection.downlink || 1;
 
         // Ottimizza per connessioni lente o modalità risparmio dati
-        const shouldOpt = 
-          effectiveType === '2g' || 
-          effectiveType === 'slow-2g' || 
-          saveData || 
-          downlink < 1.5;
+        const shouldOpt =
+          effectiveType === '2g' || effectiveType === 'slow-2g' || saveData || downlink < 1.5;
 
         setShouldOptimize(shouldOpt);
 
@@ -60,4 +60,4 @@ export function useNetworkOptimization() {
     shouldAutoPlay: !shouldOptimize, // Non autoplay se connessione lenta
     shouldLoop: !shouldOptimize, // Non loop se connessione lenta
   };
-} 
+}

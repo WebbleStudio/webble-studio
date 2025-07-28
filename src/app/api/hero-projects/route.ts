@@ -6,7 +6,8 @@ export async function GET() {
   try {
     const { data: heroProjects, error } = await supabase
       .from('hero-projects')
-      .select(`
+      .select(
+        `
         *,
         projects:project_id (
           id,
@@ -16,7 +17,8 @@ export async function GET() {
           image_url,
           link
         )
-      `)
+      `
+      )
       .order('position', { ascending: true });
 
     if (error) {
@@ -47,10 +49,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Prima elimina tutti i record esistenti
-    const { error: deleteError } = await supabase
-      .from('hero-projects')
-      .delete()
-      .gt('position', 0); // Elimina tutti i record
+    const { error: deleteError } = await supabase.from('hero-projects').delete().gt('position', 0); // Elimina tutti i record
 
     if (deleteError) {
       console.error('Error deleting existing hero projects:', deleteError);
@@ -59,15 +58,15 @@ export async function POST(request: NextRequest) {
 
     // Se non ci sono hero projects, restituisci successo
     if (heroProjects.length === 0) {
-      return NextResponse.json({ 
-        message: 'Hero projects cleared successfully', 
-        data: [] 
+      return NextResponse.json({
+        message: 'Hero projects cleared successfully',
+        data: [],
       });
     }
 
     // Inserisci i nuovi hero projects uno alla volta per evitare conflitti
     const insertedData = [];
-    
+
     for (let index = 0; index < heroProjects.length; index++) {
       const hp = heroProjects[index];
       const heroProjectData = {
@@ -75,7 +74,7 @@ export async function POST(request: NextRequest) {
         position: index + 1,
         descriptions: hp.descriptions || ['', '', ''],
         images: hp.images || [],
-        background_image: hp.backgroundImage || ''
+        background_image: hp.backgroundImage || '',
       };
 
       const { data: insertData, error: insertError } = await supabase
@@ -96,11 +95,10 @@ export async function POST(request: NextRequest) {
 
     const data = insertedData;
 
-    return NextResponse.json({ 
-      message: 'Hero projects saved successfully', 
-      data 
+    return NextResponse.json({
+      message: 'Hero projects saved successfully',
+      data,
     });
-
   } catch (error) {
     console.error('Error in POST /api/hero-projects:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
@@ -125,4 +123,4 @@ export async function DELETE() {
     console.error('Error in DELETE /api/hero-projects:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
-} 
+}

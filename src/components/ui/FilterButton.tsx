@@ -13,14 +13,14 @@ export default function FilterButton({ className = '', ...props }: FilterButtonP
       {...props}
     >
       {/* Icona filter semplice con SVG inline */}
-      <svg 
-        width="16" 
-        height="16" 
-        viewBox="0 0 24 24" 
-        fill="none" 
-        stroke="currentColor" 
-        strokeWidth="1.5" 
-        strokeLinecap="round" 
+      <svg
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
         strokeLinejoin="round"
         className="lg:w-5 lg:h-5"
       >
@@ -28,4 +28,4 @@ export default function FilterButton({ className = '', ...props }: FilterButtonP
       </svg>
     </button>
   );
-} 
+}

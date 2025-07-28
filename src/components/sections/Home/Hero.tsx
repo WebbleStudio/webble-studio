@@ -29,14 +29,14 @@ export default function Hero() {
     const titleCenter = titleRect.top + titleRect.height / 2;
     const viewportCenter = window.innerHeight / 2;
     const currentScrollY = window.scrollY;
-    
+
     // Posizione di scroll per centrare il titolo verticalmente
     const targetScrollY = currentScrollY + titleCenter - viewportCenter;
 
     // Usa scrollTo nativo con smooth behavior per prestazioni ottimali
     window.scrollTo({
       top: Math.max(0, targetScrollY), // Evita scroll negativo
-      behavior: 'smooth'
+      behavior: 'smooth',
     });
   };
 

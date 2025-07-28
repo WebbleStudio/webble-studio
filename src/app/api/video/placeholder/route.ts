@@ -45,11 +45,11 @@ export async function GET(request: NextRequest) {
         step2: 'Naviga in Storage > Create bucket "videos" (se non esiste)',
         step3: 'Rendi il bucket pubblico',
         step4: 'Carica il file 1080p.mp4',
-        step5: 'Ricarica la pagina'
-      }
+        step5: 'Ricarica la pagina',
+      },
     });
   } catch (error) {
     console.error('Failed to create placeholder:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
-} 
+}

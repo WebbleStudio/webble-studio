@@ -27,10 +27,10 @@ export function useMenuOverlayAnimation(isScrolled: boolean, menuOpen: boolean) 
       const windowWidth = window.innerWidth;
       let headerWidth: number;
       let headerLeft: string;
-      
+
       // Misura direttamente l'elemento del header se disponibile
       const headerElement = document.querySelector('.desktop-wrapper') as HTMLElement;
-      
+
       if (headerElement && windowWidth >= 768) {
         // Usa le dimensioni reali del header
         const headerRect = headerElement.getBoundingClientRect();
@@ -52,18 +52,18 @@ export function useMenuOverlayAnimation(isScrolled: boolean, menuOpen: boolean) 
         } else {
           headerWidth = windowWidth - 40;
         }
-        
+
         // Calcola la posizione left per centrare l'elemento
         headerLeft = `${(windowWidth - headerWidth) / 2}px`;
-        
+
         if (windowWidth < 768) {
           headerLeft = '20px';
         }
       }
-      
+
       // Assicurati che la larghezza non superi mai quella dello schermo
       const maxWidth = Math.min(headerWidth, windowWidth - 40);
-      
+
       setHeaderDimensions({
         width: `${maxWidth}px`,
         height: '65px',
@@ -124,7 +124,7 @@ export function useMenuOverlayAnimation(isScrolled: boolean, menuOpen: boolean) 
     if (!isMounted || animationState === 'closed') {
       return { display: 'none' };
     }
-    
+
     // Restituisce solo le dimensioni iniziali, Framer Motion gestisce le transizioni
     return {
       ...headerDimensions,

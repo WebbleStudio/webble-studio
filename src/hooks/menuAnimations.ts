@@ -95,4 +95,4 @@ export const getMenuTransitions = (animationState: AnimationState) => {
     default:
       return baseTransition;
   }
-}; 
+};

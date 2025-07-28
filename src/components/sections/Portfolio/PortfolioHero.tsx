@@ -18,10 +18,11 @@ export default function PortfolioHero() {
             as="p"
             className="text-text-primary-60 text-lg md:text-xl max-w-2xl mx-auto"
           >
-            I nostri progetti e realizzazioni, organizzati in un layout responsivo che si adatta perfettamente a ogni dispositivo.
+            I nostri progetti e realizzazioni, organizzati in un layout responsivo che si adatta
+            perfettamente a ogni dispositivo.
           </AnimatedText>
         </div>
       </div>
     </section>
   );
-} 
+}
