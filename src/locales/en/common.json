@@ -98,5 +98,29 @@
       "message": "Message is required",
       "privacy": "You must accept the data processing"
     }
+  },
+  "footer": {
+    "cta": "BOOK CALL",
+    "cta_highlight": "BOOK",
+    "privacy_policy": "Privacy Policy",
+    "cookie_policy": "Cookie Policy",
+    "social": {
+      "behance": "Behance",
+      "instagram": "Instagram",
+      "dribbble": "Dribbble",
+      "linkedin": "LinkedIn"
+    },
+    "navigation": {
+      "home": "Home",
+      "about": "About",
+      "portfolio": "Portfolio",
+      "lawyers": "Web / Lawyers",
+      "dentists": "Web / Dentists",
+      "restaurants": "Web / Restaurants",
+      "contacts": "Contact",
+      "blog": "Blog",
+      "services": "Services"
+    },
+    "company_description": "Webble Studio is a trademark owned by Vady Solutions LLC, a limited liability company incorporated and registered under Delaware law, with registered office at 16192 Coastal Hwy. Lewes, DE 19958."
   }
 }

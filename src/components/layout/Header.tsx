@@ -8,7 +8,6 @@ import '@/css/Header.css';
 import Button from '@/components/ui/Button';
 import DarkModeToggle from '@/components/ui/DarkModeToggle';
 import LanguageToggle from '@/components/ui/LanguageToggle';
-import AnimatedText from '@/components/ui/AnimatedText';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useHeaderAnimation } from '../animations/useHeaderAnimation';
 import { useMenuOverlayAnimation } from '../animations/useMenuOverlayAnimation';
@@ -26,6 +25,10 @@ export default function Header() {
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
 
+  const handleLinkClick = () => {
+    setMenuOpen(false);
+  };
+
   // Funzione per determinare se una voce è attiva
   const isActivePage = (path: string) => {
     if (path === '/') {
@@ -34,7 +37,7 @@ export default function Header() {
     return pathname.startsWith(path);
   };
 
-  // Animazioni per i contenuti del menu overlay
+  // Animazioni ottimizzate per i contenuti del menu overlay - senza blur per evitare flickering
   const menuContentVariants = {
     hidden: {
       opacity: 0,
@@ -48,26 +51,24 @@ export default function Header() {
     },
     exit: {
       opacity: 0,
-      y: -20,
-      scale: 0.95,
+      y: -25, // Movimento più drammatico per feedback immediato
+      scale: 0.9, // Scala più piccola per effetto più marcato
     },
   };
 
+  // Rimosso filter blur per prestazioni migliori e zero flickering
   const menuItemVariants = {
     hidden: {
       opacity: 0,
-      y: 15,
-      filter: 'blur(4px)',
+      y: 12,
     },
     visible: {
       opacity: 1,
       y: 0,
-      filter: 'blur(0px)',
     },
     exit: {
       opacity: 0,
-      y: -15,
-      filter: 'blur(4px)',
+      y: -15, // Movimento più drammatico
     },
   };
 
@@ -90,7 +91,7 @@ export default function Header() {
     <>
       {/* HEADER */}
       <div className={`fixed top-0 left-0 w-full z-[100] h-[90px] flex items-center px-4 md:px-[30px] xl:px-20 transition-all duration-300 ${
-        isScrolled ? 'bg-[#0b0b0b]/70 backdrop-blur-sm md:bg-transparent' : ''
+        isScrolled ? 'bg-[#0b0b0b]/70 backdrop-blur-sm md:bg-transparent md:backdrop-blur-none' : ''
       }`}>
         {/* Mobile layout: solo logo */}
         <div className="flex w-full items-center justify-start md:hidden">
@@ -210,105 +211,152 @@ export default function Header() {
         </span>
       </div>
 
-      {/* MENU OVERLAY */}
-      {isVisible && (
-        <div className={overlayClassName} style={overlayStyle}>
-          <div className="w-full h-full flex flex-col items-center justify-center">
-            <AnimatePresence mode="wait">
-              {animationState === 'open' && (
-                <motion.div
-                  key="menu-content"
-                  className="flex flex-col items-center space-y-8"
-                  variants={menuContentVariants}
-                  initial="hidden"
-                  animate="visible"
-                  exit="exit"
-                  transition={{
-                    duration: 0.6,
-                    ease: "easeOut",
-                    staggerChildren: 0.1,
-                    delayChildren: 0.2,
-                  }}
-                >
-                <motion.div 
-                  variants={menuItemVariants}
-                  transition={{ duration: 0.5, ease: "easeOut" }}
-                >
-                  <AnimatedText
-                    as="h1"
-                    className={`text-4xl md:text-5xl font-figtree text-auto-inverse cursor-pointer hover:text-[#F20352] transition-all duration-200 ${
+      {/* MENU OVERLAY - Animazioni unificate per zero flickering */}
+      <AnimatePresence mode="wait">
+        {isVisible && (
+          <motion.div
+            className={overlayClassName}
+            style={{
+              ...overlayStyle,
+              willChange: 'transform, opacity',
+            }}
+            initial={{
+              ...overlayStyle,
+              opacity: 0,
+              scale: 0.95,
+            }}
+            animate={{
+              width: 'calc(100% - 25px)',
+              height: 'calc(100% - 25px)',
+              left: '12.5px',
+              top: '12.5px',
+              opacity: 1,
+              scale: 1,
+            }}
+            exit={{
+              ...overlayStyle,
+              opacity: 0,
+              scale: 0.95,
+            }}
+            transition={{
+              duration: animationState === 'open' ? 0.4 : 0.25, // Chiusura più veloce per overlay
+              ease: [0.4, 0, 0.2, 1],
+            }}
+          >
+            <motion.div
+              className="w-full h-full flex flex-col items-center justify-center"
+              variants={menuContentVariants}
+              initial="hidden"
+              animate="visible"
+              exit="exit" 
+              transition={{
+                duration: animationState === 'open' ? 0.4 : 0.25, // Chiusura più veloce
+                delay: animationState === 'open' ? 0.1 : 0, // Nessun delay sulla chiusura
+                ease: "easeOut",
+                staggerChildren: animationState === 'open' ? 0.08 : 0.04, // Stagger più veloce sulla chiusura
+                delayChildren: animationState === 'open' ? 0.12 : 0, // Nessun delay children sulla chiusura
+              }}
+            >
+              <motion.div 
+                variants={menuItemVariants}
+                transition={{ 
+                  duration: animationState === 'open' ? 0.3 : 0.2, // Chiusura più veloce
+                  ease: animationState === 'open' ? "easeOut" : "easeIn" // Easing diverso per chiusura 
+                }}
+              >
+                <Link href="/" onClick={handleLinkClick}>
+                  <div
+                    className={`text-4xl md:text-5xl font-figtree text-auto-inverse cursor-pointer hover:text-[#F20352] transition-colors duration-200 ${
                       isActivePage('/') ? 'font-medium' : 'font-light'
                     }`}
                   >
                     {t('menu.home')}
-                  </AnimatedText>
-                </motion.div>
-                
-                <motion.div 
-                  variants={separatorVariants}
-                  className="w-24 h-[2px] bg-[#fafafa] dark:bg-[#0b0b0b] opacity-40 origin-left"
-                  transition={{ duration: 0.4, ease: "easeOut", delay: 0.3 }}
-                ></motion.div>
-                
-                <motion.div 
-                  variants={menuItemVariants}
-                  transition={{ duration: 0.5, ease: "easeOut" }}
-                >
-                  <AnimatedText
-                    as="h1"
-                    className={`text-4xl md:text-5xl font-figtree text-auto-inverse cursor-pointer hover:text-[#F20352] transition-all duration-200 ${
+                  </div>
+                </Link>
+              </motion.div>
+              
+              <motion.div 
+                variants={separatorVariants}
+                className="w-24 h-[2px] bg-[#fafafa] dark:bg-[#0b0b0b] opacity-40 origin-left my-6"
+                transition={{ 
+                  duration: animationState === 'open' ? 0.25 : 0.15, // Chiusura più veloce
+                  ease: animationState === 'open' ? "easeOut" : "easeIn"
+                }}
+              ></motion.div>
+              
+              <motion.div 
+                variants={menuItemVariants}
+                transition={{ 
+                  duration: animationState === 'open' ? 0.3 : 0.2,
+                  ease: animationState === 'open' ? "easeOut" : "easeIn"
+                }}
+              >
+                <Link href="/about" onClick={handleLinkClick}>
+                  <div
+                    className={`text-4xl md:text-5xl font-figtree text-auto-inverse cursor-pointer hover:text-[#F20352] transition-colors duration-200 ${
                       isActivePage('/about') ? 'font-medium' : 'font-light'
                     }`}
                   >
                     {t('menu.about')}
-                  </AnimatedText>
-                </motion.div>
-                
-                <motion.div 
-                  variants={separatorVariants}
-                  className="w-24 h-[2px] bg-[#fafafa] dark:bg-[#0b0b0b] opacity-40 origin-left"
-                  transition={{ duration: 0.4, ease: "easeOut", delay: 0.3 }}
-                ></motion.div>
-                
-                <motion.div 
-                  variants={menuItemVariants}
-                  transition={{ duration: 0.5, ease: "easeOut" }}
-                >
-                  <AnimatedText
-                    as="h1"
-                    className={`text-4xl md:text-5xl font-figtree text-auto-inverse cursor-pointer hover:text-[#F20352] transition-all duration-200 ${
+                  </div>
+                </Link>
+              </motion.div>
+              
+              <motion.div 
+                variants={separatorVariants}
+                className="w-24 h-[2px] bg-[#fafafa] dark:bg-[#0b0b0b] opacity-40 origin-left my-6"
+                transition={{ 
+                  duration: animationState === 'open' ? 0.25 : 0.15,
+                  ease: animationState === 'open' ? "easeOut" : "easeIn"
+                }}
+              ></motion.div>
+              
+              <motion.div 
+                variants={menuItemVariants}
+                transition={{ 
+                  duration: animationState === 'open' ? 0.3 : 0.2,
+                  ease: animationState === 'open' ? "easeOut" : "easeIn"
+                }}
+              >
+                <Link href="/portfolio" onClick={handleLinkClick}>
+                  <div
+                    className={`text-4xl md:text-5xl font-figtree text-auto-inverse cursor-pointer hover:text-[#F20352] transition-colors duration-200 ${
                       isActivePage('/portfolio') ? 'font-medium' : 'font-light'
                     }`}
                   >
                     {t('menu.portfolio')}
-                  </AnimatedText>
-                </motion.div>
-                
-                <motion.div 
-                  variants={separatorVariants}
-                  className="w-24 h-[2px] bg-[#fafafa] dark:bg-[#0b0b0b] opacity-40 origin-left"
-                  transition={{ duration: 0.4, ease: "easeOut", delay: 0.3 }}
-                ></motion.div>
-                
-                <motion.div 
-                  variants={menuItemVariants}
-                  transition={{ duration: 0.5, ease: "easeOut" }}
+                  </div>
+                </Link>
+              </motion.div>
+              
+              <motion.div 
+                variants={separatorVariants}
+                className="w-24 h-[2px] bg-[#fafafa] dark:bg-[#0b0b0b] opacity-40 origin-left my-6"
+                transition={{ 
+                  duration: animationState === 'open' ? 0.25 : 0.15,
+                  ease: animationState === 'open' ? "easeOut" : "easeIn"
+                }}
+              ></motion.div>
+              
+              <motion.div 
+                variants={menuItemVariants}
+                transition={{ 
+                  duration: animationState === 'open' ? 0.3 : 0.2,
+                  ease: animationState === 'open' ? "easeOut" : "easeIn"
+                }}
+              >
+                <div
+                  className={`text-4xl md:text-5xl font-figtree text-auto-inverse cursor-pointer hover:text-[#F20352] transition-colors duration-200 ${
+                    isActivePage('/contact') ? 'font-medium' : 'font-light'
+                  }`}
                 >
-                  <AnimatedText
-                    as="h1"
-                    className={`text-4xl md:text-5xl font-figtree text-auto-inverse cursor-pointer hover:text-[#F20352] transition-all duration-200 ${
-                      isActivePage('/contact') ? 'font-medium' : 'font-light'
-                    }`}
-                  >
-                    {t('menu.contact')}
-                  </AnimatedText>
-                </motion.div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-        </div>
-      )}
+                  {t('menu.contact')}
+                </div>
+              </motion.div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }
