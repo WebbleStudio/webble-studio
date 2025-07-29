@@ -3,7 +3,7 @@ import { createClient } from '@supabase/supabase-js';
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 );
 
 export async function POST(request: NextRequest) {
@@ -20,12 +20,10 @@ export async function POST(request: NextRequest) {
     const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
 
     // Upload su Supabase Storage
-    const { data, error } = await supabase.storage
-      .from('project-images')
-      .upload(fileName, file, {
-        cacheControl: '3600',
-        upsert: false,
-      });
+    const { data, error } = await supabase.storage.from('project-images').upload(fileName, file, {
+      cacheControl: '3600',
+      upsert: false,
+    });
 
     if (error) {
       console.error('Supabase upload error:', error);
@@ -33,13 +31,11 @@ export async function POST(request: NextRequest) {
     }
 
     // Genera URL pubblico
-    const { data: urlData } = supabase.storage
-      .from('project-images')
-      .getPublicUrl(fileName);
+    const { data: urlData } = supabase.storage.from('project-images').getPublicUrl(fileName);
 
     return NextResponse.json({ url: urlData.publicUrl });
   } catch (error) {
     console.error('Upload error:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
-} 
+}

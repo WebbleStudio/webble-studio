@@ -38,7 +38,13 @@ interface SortableProjectProps {
   className?: string;
 }
 
-function SortableProject({ project, index, onDelete, onEdit, className = '' }: SortableProjectProps) {
+function SortableProject({
+  project,
+  index,
+  onDelete,
+  onEdit,
+  className = '',
+}: SortableProjectProps) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: project.id,
   });
@@ -62,7 +68,9 @@ function SortableProject({ project, index, onDelete, onEdit, className = '' }: S
       {...listeners}
     >
       <div className="bg-bg-card border border-border-primary-20 rounded-[25px] overflow-hidden hover:border-[#F20352]/50 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 h-full flex flex-col">
-        <div className={`${aspectRatio} bg-border-primary-20 relative overflow-hidden flex-shrink-0`}>
+        <div
+          className={`${aspectRatio} bg-border-primary-20 relative overflow-hidden flex-shrink-0`}
+        >
           <img src={project.image_url} alt={project.title} className="w-full h-full object-cover" />
           {/* Numerazione elegante */}
           <div className="absolute top-3 left-3 bg-gradient-to-r from-[#F20352] to-[#D91848] text-white text-xs font-semibold w-7 h-7 rounded-full flex items-center justify-center shadow-lg border-2 border-white/20 backdrop-blur-sm">
@@ -147,11 +155,11 @@ export default function AdminPage() {
   const [activeSection, setActiveSection] = useState<AdminSection>('projects');
   // States per upload immagini
   const [uploadingImage, setUploadingImage] = useState<{ [key: string]: boolean }>({});
-  
+
   // States per modale editing
   const [editingProject, setEditingProject] = useState<ProjectType | null>(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  
+
   // Refs per mantenere il focus
   const titleInputRef = useRef<HTMLInputElement>(null);
   const descriptionInputRef = useRef<HTMLTextAreaElement>(null);
@@ -367,8 +375,6 @@ export default function AdminPage() {
     setIsEditModalOpen(false);
     setEditingProject(null);
   }, []);
-
-
 
   // Salva tutte le modifiche ai progetti
   const saveAllProjectChanges = async () => {
@@ -809,7 +815,7 @@ export default function AdminPage() {
   };
 
   // Componente modale per editing progetto - memoizzato per evitare re-render
-  const EditProjectModal = React.memo(() => {
+  const EditProjectModal = React.memo(function EditProjectModal() {
     // Stati interni al modale per evitare re-render
     const [internalFormData, setInternalFormData] = useState({
       title: '',
@@ -874,7 +880,7 @@ export default function AdminPage() {
         if (internalImageFile) {
           const formData = new FormData();
           formData.append('file', internalImageFile);
-          
+
           const imageResponse = await fetch('/api/projects/upload-image', {
             method: 'POST',
             body: formData,
@@ -892,7 +898,7 @@ export default function AdminPage() {
         closeEditModal();
       } catch (error) {
         console.error('Error updating project:', error);
-        setError('Errore nell\'aggiornamento del progetto');
+        setError("Errore nell'aggiornamento del progetto");
       }
     };
 
@@ -901,11 +907,8 @@ export default function AdminPage() {
     return (
       <div className="fixed inset-0 z-50 flex items-center justify-center">
         {/* Backdrop */}
-        <div 
-          className="absolute inset-0 bg-black/50 backdrop-blur-sm"
-          onClick={closeEditModal}
-        />
-        
+        <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={closeEditModal} />
+
         {/* Modale */}
         <div className="relative bg-bg-card border border-border-primary-20 rounded-[25px] p-6 max-w-3xl w-full mx-4 max-h-[90vh] overflow-y-auto">
           {/* Header */}
@@ -918,7 +921,12 @@ export default function AdminPage() {
               className="text-text-primary-60 hover:text-text-primary transition-colors"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
               </svg>
             </button>
           </div>
@@ -933,7 +941,9 @@ export default function AdminPage() {
                 <input
                   type="text"
                   value={internalFormData.title}
-                  onChange={(e) => setInternalFormData(prev => ({ ...prev, title: e.target.value }))}
+                  onChange={(e) =>
+                    setInternalFormData((prev) => ({ ...prev, title: e.target.value }))
+                  }
                   className="w-full px-4 py-3 bg-bg-primary border border-border-primary-20 rounded-lg text-text-primary focus:outline-none focus:border-[#F20352] transition-colors"
                   placeholder="Nome del progetto"
                   ref={titleInputRef}
@@ -942,10 +952,14 @@ export default function AdminPage() {
 
               {/* Descrizione */}
               <div>
-                <label className="block text-sm font-medium mb-2 text-text-primary">Descrizione</label>
+                <label className="block text-sm font-medium mb-2 text-text-primary">
+                  Descrizione
+                </label>
                 <textarea
                   value={internalFormData.description}
-                  onChange={(e) => setInternalFormData(prev => ({ ...prev, description: e.target.value }))}
+                  onChange={(e) =>
+                    setInternalFormData((prev) => ({ ...prev, description: e.target.value }))
+                  }
                   className="w-full px-4 py-3 bg-bg-primary border border-border-primary-20 rounded-lg text-text-primary focus:outline-none focus:border-[#F20352] transition-colors resize-none"
                   rows={4}
                   placeholder="Descrizione del progetto"
@@ -959,7 +973,9 @@ export default function AdminPage() {
                 <input
                   type="url"
                   value={internalFormData.link}
-                  onChange={(e) => setInternalFormData(prev => ({ ...prev, link: e.target.value }))}
+                  onChange={(e) =>
+                    setInternalFormData((prev) => ({ ...prev, link: e.target.value }))
+                  }
                   className="w-full px-4 py-3 bg-bg-primary border border-border-primary-20 rounded-lg text-text-primary focus:outline-none focus:border-[#F20352] transition-colors"
                   placeholder="Link del progetto (opzionale)"
                   ref={linkInputRef}
@@ -971,7 +987,9 @@ export default function AdminPage() {
             <div className="space-y-4">
               {/* Categorie */}
               <div>
-                <label className="block text-sm font-medium mb-3 text-text-primary">Categorie</label>
+                <label className="block text-sm font-medium mb-3 text-text-primary">
+                  Categorie
+                </label>
                 <div className="grid grid-cols-1 gap-2 max-h-32 overflow-y-auto">
                   {categories.map((category) => (
                     <button
@@ -1033,7 +1051,7 @@ export default function AdminPage() {
                       className="w-full h-full object-cover"
                     />
                   </div>
-                  
+
                   {/* Upload nuova immagine */}
                   <div className="border-2 border-dashed border-border-primary-20 rounded-lg p-4 text-center hover:border-[#F20352]/50 transition-colors cursor-pointer">
                     <input
@@ -1046,12 +1064,24 @@ export default function AdminPage() {
                     <label htmlFor="edit-image-upload" className="cursor-pointer">
                       <div className="space-y-2">
                         <div className="w-8 h-8 mx-auto bg-[#F20352]/10 rounded-full flex items-center justify-center">
-                          <svg className="w-4 h-4 text-[#F20352]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                          <svg
+                            className="w-4 h-4 text-[#F20352]"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                            />
                           </svg>
                         </div>
                         <p className="text-sm text-text-primary-60">
-                          {internalImageFile ? 'Nuova immagine selezionata' : 'Clicca per cambiare immagine'}
+                          {internalImageFile
+                            ? 'Nuova immagine selezionata'
+                            : 'Clicca per cambiare immagine'}
                         </p>
                       </div>
                     </label>
@@ -1071,7 +1101,9 @@ export default function AdminPage() {
             </button>
             <button
               onClick={handleInternalSubmit}
-              disabled={loading || !internalFormData.title || internalFormData.categories.length === 0}
+              disabled={
+                loading || !internalFormData.title || internalFormData.categories.length === 0
+              }
               className="px-4 py-3 bg-[#F20352] hover:bg-[#F20352]/90 text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300"
             >
               {loading ? 'Salvando...' : 'Salva Modifiche'}
@@ -1133,7 +1165,10 @@ export default function AdminPage() {
           <div className="grid grid-cols-1 xl:grid-cols-4 gap-8">
             {/* Upload Section - Colonna sinistra sticky */}
             <div className="xl:col-span-1">
-              <div className="bg-bg-card border border-border-primary-20 rounded-[25px] p-6 sticky top-[188px] z-10 max-h-[70vh] overflow-y-auto" style={{ position: 'sticky', top: '188px' }}>
+              <div
+                className="bg-bg-card border border-border-primary-20 rounded-[25px] p-6 sticky top-[188px] z-10 max-h-[70vh] overflow-y-auto"
+                style={{ position: 'sticky', top: '188px' }}
+              >
                 <AnimatedText as="h2" className="text-xl font-figtree font-medium mb-6">
                   Nuovo Progetto
                 </AnimatedText>
@@ -1397,7 +1432,10 @@ export default function AdminPage() {
 
             {/* Layout Selector - Colonna destra sticky */}
             <div className="xl:col-span-1">
-              <div className="bg-bg-card border border-border-primary-20 rounded-[25px] p-6 sticky top-[188px] z-10" style={{ position: 'sticky', top: '188px' }}>
+              <div
+                className="bg-bg-card border border-border-primary-20 rounded-[25px] p-6 sticky top-[188px] z-10"
+                style={{ position: 'sticky', top: '188px' }}
+              >
                 <h3 className="text-lg font-figtree font-medium mb-4">Layout Preview</h3>
                 <p className="text-text-primary-60 text-sm mb-6">
                   Visualizza come i progetti appaiono nel portfolio
@@ -1437,117 +1475,117 @@ export default function AdminPage() {
                     Carica l&apos;immagine del progetto
                   </p>
 
-                {/* Drag & Drop Area */}
-                <div
-                  className={`relative border-2 border-dashed rounded-lg p-8 text-center transition-all duration-300 ${
-                    dragActive
-                      ? 'border-[#F20352] bg-[#F20352]/5'
-                      : 'border-border-primary-20 hover:border-[#F20352]/50'
-                  }`}
-                  onDragEnter={handleDrag}
-                  onDragLeave={handleDrag}
-                  onDragOver={handleDrag}
-                  onDrop={handleDrop}
-                  onClick={() => fileInputRef.current?.click()}
-                >
-                  <input
-                    ref={fileInputRef}
-                    type="file"
-                    accept="image/*"
-                    onChange={handleInputChange}
-                    className="hidden"
-                  />
-
-                  {/* Preview dell'immagine selezionata */}
-                  {imagePreview ? (
-                    <div className="space-y-4">
-                      <div className="relative inline-block">
-                        <img
-                          src={imagePreview}
-                          alt="Preview"
-                          className="max-w-full max-h-48 rounded-lg object-cover"
-                        />
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setSelectedFile(null);
-                            setImagePreview(null);
-                            if (fileInputRef.current) fileInputRef.current.value = '';
-                          }}
-                          className="absolute -top-2 -right-2 bg-red-500 hover:bg-red-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs"
-                        >
-                          ×
-                        </button>
-                      </div>
-                      {selectedFile && (
-                        <div>
-                          <p className="text-text-primary font-medium text-sm">
-                            {selectedFile.name}
-                          </p>
-                          <p className="text-text-primary-60 text-xs">
-                            {(selectedFile.size / 1024 / 1024).toFixed(2)} MB
-                          </p>
-                        </div>
-                      )}
-                    </div>
-                  ) : (
-                    <div className="space-y-4">
-                      <div className="w-12 h-12 mx-auto bg-[#F20352]/10 rounded-full flex items-center justify-center">
-                        <svg
-                          className="w-6 h-6 text-[#F20352]"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
-                          />
-                        </svg>
-                      </div>
-                      <div>
-                        <p className="text-text-primary font-medium">
-                          Trascina un&apos;immagine qui
-                        </p>
-                        <p className="text-text-primary-60 text-sm mt-1">
-                          o clicca per selezionare
-                        </p>
-                      </div>
-                    </div>
-                  )}
-                </div>
-
-                {/* Pulsante Upload */}
-                {selectedFile && (
-                  <button
-                    onClick={handleUpload}
-                    disabled={loading || !newProject.title || newProject.categories.length === 0}
-                    className={`w-full mt-4 px-4 py-3 rounded-lg font-medium transition-all duration-300 ${
-                      loading || !newProject.title || newProject.categories.length === 0
-                        ? 'bg-text-primary-60/20 text-text-primary-60 cursor-not-allowed'
-                        : 'bg-[#F20352] hover:bg-[#F20352]/90 text-white'
+                  {/* Drag & Drop Area */}
+                  <div
+                    className={`relative border-2 border-dashed rounded-lg p-8 text-center transition-all duration-300 ${
+                      dragActive
+                        ? 'border-[#F20352] bg-[#F20352]/5'
+                        : 'border-border-primary-20 hover:border-[#F20352]/50'
                     }`}
+                    onDragEnter={handleDrag}
+                    onDragLeave={handleDrag}
+                    onDragOver={handleDrag}
+                    onDrop={handleDrop}
+                    onClick={() => fileInputRef.current?.click()}
                   >
-                    {loading ? (
-                      <div className="flex items-center justify-center">
-                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                        Caricamento...
+                    <input
+                      ref={fileInputRef}
+                      type="file"
+                      accept="image/*"
+                      onChange={handleInputChange}
+                      className="hidden"
+                    />
+
+                    {/* Preview dell'immagine selezionata */}
+                    {imagePreview ? (
+                      <div className="space-y-4">
+                        <div className="relative inline-block">
+                          <img
+                            src={imagePreview}
+                            alt="Preview"
+                            className="max-w-full max-h-48 rounded-lg object-cover"
+                          />
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setSelectedFile(null);
+                              setImagePreview(null);
+                              if (fileInputRef.current) fileInputRef.current.value = '';
+                            }}
+                            className="absolute -top-2 -right-2 bg-red-500 hover:bg-red-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs"
+                          >
+                            ×
+                          </button>
+                        </div>
+                        {selectedFile && (
+                          <div>
+                            <p className="text-text-primary font-medium text-sm">
+                              {selectedFile.name}
+                            </p>
+                            <p className="text-text-primary-60 text-xs">
+                              {(selectedFile.size / 1024 / 1024).toFixed(2)} MB
+                            </p>
+                          </div>
+                        )}
                       </div>
                     ) : (
-                      'Carica progetto'
+                      <div className="space-y-4">
+                        <div className="w-12 h-12 mx-auto bg-[#F20352]/10 rounded-full flex items-center justify-center">
+                          <svg
+                            className="w-6 h-6 text-[#F20352]"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                            />
+                          </svg>
+                        </div>
+                        <div>
+                          <p className="text-text-primary font-medium">
+                            Trascina un&apos;immagine qui
+                          </p>
+                          <p className="text-text-primary-60 text-sm mt-1">
+                            o clicca per selezionare
+                          </p>
+                        </div>
+                      </div>
                     )}
-                  </button>
-                )}
+                  </div>
 
-                {!newProject.title || newProject.categories.length === 0 ? (
-                  <p className="text-text-primary-60 text-sm mt-4 text-center">
-                    {!selectedFile
-                      ? 'Compila titolo e almeno una categoria prima di selezionare l&apos;immagine'
-                      : "Compila titolo e almeno una categoria per abilitare l'upload"}
-                  </p>
-                ) : null}
+                  {/* Pulsante Upload */}
+                  {selectedFile && (
+                    <button
+                      onClick={handleUpload}
+                      disabled={loading || !newProject.title || newProject.categories.length === 0}
+                      className={`w-full mt-4 px-4 py-3 rounded-lg font-medium transition-all duration-300 ${
+                        loading || !newProject.title || newProject.categories.length === 0
+                          ? 'bg-text-primary-60/20 text-text-primary-60 cursor-not-allowed'
+                          : 'bg-[#F20352] hover:bg-[#F20352]/90 text-white'
+                      }`}
+                    >
+                      {loading ? (
+                        <div className="flex items-center justify-center">
+                          <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                          Caricamento...
+                        </div>
+                      ) : (
+                        'Carica progetto'
+                      )}
+                    </button>
+                  )}
+
+                  {!newProject.title || newProject.categories.length === 0 ? (
+                    <p className="text-text-primary-60 text-sm mt-4 text-center">
+                      {!selectedFile
+                        ? 'Compila titolo e almeno una categoria prima di selezionare l&apos;immagine'
+                        : "Compila titolo e almeno una categoria per abilitare l'upload"}
+                    </p>
+                  ) : null}
                 </div>
               </div>
             </div>
@@ -1560,7 +1598,10 @@ export default function AdminPage() {
             <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
               {/* Left: Project Selection - Colonna sinistra sticky */}
               <div className="xl:col-span-1">
-                <div className="bg-bg-card border border-border-primary-20 rounded-[25px] p-6 sticky top-[188px] z-10" style={{ position: 'sticky', top: '188px' }}>
+                <div
+                  className="bg-bg-card border border-border-primary-20 rounded-[25px] p-6 sticky top-[188px] z-10"
+                  style={{ position: 'sticky', top: '188px' }}
+                >
                   <h3 className="text-lg font-figtree font-medium mb-4">
                     Seleziona Progetti
                     <span className="text-sm text-text-primary-60 ml-2">
