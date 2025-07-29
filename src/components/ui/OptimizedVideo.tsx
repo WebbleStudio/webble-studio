@@ -33,6 +33,7 @@ export default function OptimizedVideo({
   const [hasLoaded, setHasLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);
   const [fallbackToOriginal, setFallbackToOriginal] = useState(false);
+  const [showPlaceholder, setShowPlaceholder] = useState(false);
 
   // Ottimizzazioni basate sulla connessione di rete
   const networkOptimization = useNetworkOptimization();
@@ -89,15 +90,48 @@ export default function OptimizedVideo({
       setFallbackToOriginal(true);
       setHasError(false); // Reset error state per retry
     } else {
-      // Fetch istruzioni per il placeholder solo se entrambi i tentativi falliscono
-      try {
-        const response = await fetch('/api/video/placeholder');
-        const data = await response.json();
-      } catch (err) {
-        // Silently handle placeholder fetch error
-      }
+      // Se anche il fallback fallisce, mostra il placeholder
+      setShowPlaceholder(true);
     }
   };
+
+  // Se deve mostrare il placeholder, non renderizzare il video
+  if (showPlaceholder) {
+    return (
+      <div className={`${className} flex items-center justify-center bg-gradient-to-br from-[#F20352]/10 to-[#D91848]/10 border-2 border-dashed border-[#F20352]/30 text-gray-600 dark:text-gray-300`} style={style}>
+        <div className="text-center p-6">
+          <div className="relative mb-4">
+            <svg
+              className="w-16 h-16 mx-auto opacity-60"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={1.5}
+                d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"
+              />
+            </svg>
+            <div className="absolute -top-1 -right-1 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center">
+              <span className="text-white text-xs">!</span>
+            </div>
+          </div>
+          <h3 className="font-medium text-sm mb-2">Video non disponibile</h3>
+          <p className="text-xs opacity-75 max-w-xs mx-auto">
+            Il video <code className="bg-gray-200 dark:bg-gray-700 px-1 rounded text-xs">1080p.mp4</code> non è stato trovato nel bucket Supabase
+          </p>
+          <div className="mt-3 text-xs opacity-60">
+            <div className="flex items-center justify-center gap-1">
+              <span>📁</span>
+              <span>Storage → videos → 1080p.mp4</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <video
@@ -137,45 +171,7 @@ export default function OptimizedVideo({
         }
       }}
     >
-      {hasError && fallbackToOriginal ? (
-        <div className="flex items-center justify-center h-full bg-gradient-to-br from-[#F20352]/10 to-[#D91848]/10 border-2 border-dashed border-[#F20352]/30 text-gray-600 dark:text-gray-300">
-          <div className="text-center p-6">
-            <div className="relative mb-4">
-              <svg
-                className="w-16 h-16 mx-auto opacity-60"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={1.5}
-                  d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"
-                />
-              </svg>
-              <div className="absolute -top-1 -right-1 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center">
-                <span className="text-white text-xs">!</span>
-              </div>
-            </div>
-            <h3 className="font-medium text-sm mb-2">Video non trovato</h3>
-            <p className="text-xs opacity-75 max-w-xs mx-auto">
-              Carica il file{' '}
-              <code className="bg-gray-200 dark:bg-gray-700 px-1 rounded text-xs">1080p.mp4</code>{' '}
-              nel bucket Supabase{' '}
-              <code className="bg-gray-200 dark:bg-gray-700 px-1 rounded text-xs">videos</code>
-            </p>
-            <div className="mt-3 text-xs opacity-60">
-              <div className="flex items-center justify-center gap-1">
-                <span>📁</span>
-                <span>Storage → videos → 1080p.mp4</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      ) : (
-        'Il tuo browser non supporta il tag video.'
-      )}
+      Il tuo browser non supporta il tag video.
     </video>
   );
 }

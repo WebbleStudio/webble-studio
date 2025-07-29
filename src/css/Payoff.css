@@ -25,7 +25,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background-image: url('/img/bubble-background-dark.webp');
+  background-image: url('/img/bubble-background-dark.png');
   background-size: inherit;
   background-position: inherit;
   background-repeat: inherit;

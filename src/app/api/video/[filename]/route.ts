@@ -9,18 +9,10 @@ export async function GET(
   const range = request.headers.get('range');
 
   try {
-    console.log(`📹 Attempting to serve video: ${filename}`);
-
     // Check if file exists first (lighter operation)
     const { data: fileData, error: checkError } = await supabase.storage
       .from('videos')
       .list('', { search: filename });
-
-    console.log('📁 File check result:', {
-      error: checkError,
-      files: fileData?.map((f) => f.name),
-      searchingFor: filename,
-    });
 
     if (checkError) {
       console.error('❌ Error checking video existence:', checkError);
@@ -28,7 +20,7 @@ export async function GET(
     }
 
     if (!fileData?.some((file) => file.name === filename)) {
-      console.error('❌ Video file not found:', filename);
+      // Non loggare come errore - è normale che il file non esista
       return NextResponse.json(
         {
           error: 'Video not found',
@@ -39,7 +31,6 @@ export async function GET(
     }
 
     // Download del video da Supabase
-    console.log(`⬇️ Downloading video: ${filename}`);
     const { data, error } = await supabase.storage.from('videos').download(filename);
 
     if (error) {
@@ -53,8 +44,6 @@ export async function GET(
         { status: 500 }
       );
     }
-
-    console.log(`✅ Successfully downloaded video: ${filename}, size: ${data.size} bytes`);
 
     // Converti il blob in ArrayBuffer
     const arrayBuffer = await data.arrayBuffer();

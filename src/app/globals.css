@@ -100,23 +100,40 @@
   --border-dark-50: rgba(11, 11, 11, 0.5); /* Border nero 50% opacità */
 
   /* ===== SISTEMA HOVER (INVERSIONE) ===== */
-  --hover-overlay: rgba(255, 255, 255, 0.1); /* Overlay hover per dark mode */
+  --hover-overlay: rgba(255, 255, 255, 0.1); /* Overlay hover per dark mode (bianco) */
   --hover-bg-secondary: rgba(250, 250, 250, 0.9); /* Background hover per bottoni */
 
-  /* ===== ELEMENTI UI SPECIFICI ===== */
-  --icon-filter: brightness(0) invert(1); /* Filtro per icone (inversione in dark) */
+  /* ===== ELEMENTI UI SPECIFICI (INVERSIONE) ===== */
+  --icon-filter: invert(1); /* Filtro per icone (invertito in dark) */
   --button-glass-bg: rgba(250, 250, 250, 0.05); /* Background bottoni glass (invariato) */
-  --button-glass-border: rgba(250, 250, 250, 0.5); /* Border bottoni glass (sempre bianco) */
+  --button-glass-border: rgba(250, 250, 250, 0.5); /* Border bottoni glass (invariato) */
 
   /* ===== LINEE CHE CAMBIANO IN DARK MODE ===== */
   --line-fixed: rgba(250, 250, 250, 0.2); /* Linee in dark mode (bianco 20%) */
   --line-fixed-focus: rgba(250, 250, 250, 0.4); /* Linee focus in dark mode (bianco 40%) */
 
-  /* ===== MENU OVERLAY ===== */
-  --menu-overlay-border: rgba(11, 11, 11, 0.5); /* Border menu overlay in dark mode (nero) */
-
-  /* ===== BORDER LABEL PROJECTS (in dark mode stesso colore) ===== */
+  /* ===== BORDER LABEL PROJECTS ===== */
   --border-label-project: rgba(250, 250, 250, 0.3); /* Border label projects in dark mode */
+
+  /* ===== MENU OVERLAY ===== */
+  --menu-overlay-border: rgba(
+    250,
+    250,
+    250,
+    0.2
+  ); /* Border menu overlay in dark mode (bianco sottile) */
+}
+
+/* ========================================
+   UTILITY CLASSES
+   ======================================== */
+
+/* Line clamp utility per limitare il testo a 2 righe */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 /* Global body styles */

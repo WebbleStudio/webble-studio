@@ -2,7 +2,7 @@ import React from 'react';
 
 interface ProjectProps {
   title: string;
-  category: string;
+  description: string;
   imageUrl?: string;
   hasLink?: boolean;
   className?: string;
@@ -11,7 +11,7 @@ interface ProjectProps {
 
 export default function Project({
   title,
-  category,
+  description,
   imageUrl,
   hasLink = false,
   className = '',
@@ -75,8 +75,8 @@ export default function Project({
         >
           {title}
         </h3>
-        <p className="text-black/60 dark:text-white/60 text-[14px] lg:text-[15px] 2xl:text-[16px] transition-colors duration-300">
-          {category}
+        <p className="text-black/60 dark:text-white/60 text-[14px] lg:text-[15px] 2xl:text-[16px] transition-colors duration-300 line-clamp-2">
+          {description}
         </p>
       </div>
     </div>

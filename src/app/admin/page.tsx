@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import { useTranslation } from '@/hooks/useTranslation';
 import AnimatedText from '@/components/ui/AnimatedText';
 import { useProjects, Project as ProjectType } from '@/hooks/useProjects';
@@ -34,10 +34,11 @@ interface SortableProjectProps {
   project: ProjectType;
   index: number;
   onDelete: (id: string) => void;
+  onEdit: (project: ProjectType) => void;
   className?: string;
 }
 
-function SortableProject({ project, index, onDelete, className = '' }: SortableProjectProps) {
+function SortableProject({ project, index, onDelete, onEdit, className = '' }: SortableProjectProps) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: project.id,
   });
@@ -49,68 +50,66 @@ function SortableProject({ project, index, onDelete, className = '' }: SortableP
     zIndex: isDragging ? 1000 : 1,
   };
 
-  // Usa altezza fissa per slot 6 e 7 (posizioni 6 e 7) per avere stessa altezza con larghezze diverse
-  const aspectRatio = index === 5 || index === 6 ? 'h-36' : 'aspect-video';
+  // Usa sempre aspect-video per uniformità su tutti i dispositivi
+  const aspectRatio = 'aspect-video';
 
   return (
     <div
       ref={setNodeRef}
       style={style}
-      className={`${className} ${isDragging ? 'cursor-grabbing' : 'cursor-grab'} relative group`}
+      className={`${className} ${isDragging ? 'cursor-grabbing' : 'cursor-grab'} relative group h-full`}
       {...attributes}
       {...listeners}
     >
-      <div className="bg-bg-card border border-border-primary-20 rounded-[25px] overflow-hidden hover:border-[#F20352]/50 transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
-        <div className={`${aspectRatio} bg-border-primary-20 relative overflow-hidden`}>
+      <div className="bg-bg-card border border-border-primary-20 rounded-[25px] overflow-hidden hover:border-[#F20352]/50 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 h-full flex flex-col">
+        <div className={`${aspectRatio} bg-border-primary-20 relative overflow-hidden flex-shrink-0`}>
           <img src={project.image_url} alt={project.title} className="w-full h-full object-cover" />
           {/* Numerazione elegante */}
           <div className="absolute top-3 left-3 bg-gradient-to-r from-[#F20352] to-[#D91848] text-white text-xs font-semibold w-7 h-7 rounded-full flex items-center justify-center shadow-lg border-2 border-white/20 backdrop-blur-sm">
             {index + 1}
           </div>
 
-          {/* Pulsante rimozione elegante */}
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              onDelete(project.id);
-            }}
-            className="absolute top-3 right-3 bg-red-500/90 hover:bg-red-600 text-white w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg border-2 border-white/20 backdrop-blur-sm group/btn"
-            title="Elimina progetto"
-          >
-            <svg
-              className="w-4 h-4 transition-transform duration-300 group-hover/btn:rotate-90"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
+          {/* Pulsanti Edit e Delete */}
+          <div className="absolute top-2 right-2 flex gap-2">
+            {/* Pulsante Edit */}
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                onEdit(project);
+              }}
+              className="bg-black hover:bg-neutral-800 text-white h-8 px-3 rounded-full text-xs font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg border-2 border-white/20 backdrop-blur-sm opacity-0 group-hover:opacity-100"
+              title="Modifica progetto"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2.5}
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
-          </button>
-          {/* Indicatore drag elegante */}
-          <div className="absolute bottom-3 right-3 bg-white/95 dark:bg-gray-900/95 rounded-full p-2 opacity-0 group-hover:opacity-100 transition-all duration-300 hover:scale-110 shadow-lg backdrop-blur-sm border border-white/30 dark:border-gray-700/30">
-            <svg
-              className="w-4 h-4 text-gray-600 dark:text-gray-300"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
+              Edit
+            </button>
+
+            {/* Pulsante rimozione */}
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                onDelete(project.id);
+              }}
+              className="bg-red-500/90 hover:bg-red-600 text-white w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg border-2 border-white/20 backdrop-blur-sm opacity-0 group-hover:opacity-100"
+              title="Elimina progetto"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"
-              />
-            </svg>
+              <svg
+                className="w-4 h-4 transition-transform duration-300 group-hover/btn:rotate-90"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2.5}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
           </div>
         </div>
-        <div className="p-3">
+        <div className="p-3 flex-1 flex flex-col justify-center min-h-[32px]">
           <h4 className="font-medium text-sm">{project.title}</h4>
-          <p className="text-xs text-text-primary-60">{project.categories.join(', ')}</p>
         </div>
       </div>
     </div>
@@ -126,6 +125,7 @@ export default function AdminPage() {
     fetchProjects,
     createProject,
     deleteProject,
+    updateProject,
     reorderProjects,
     setError,
   } = useProjects();
@@ -147,6 +147,15 @@ export default function AdminPage() {
   const [activeSection, setActiveSection] = useState<AdminSection>('projects');
   // States per upload immagini
   const [uploadingImage, setUploadingImage] = useState<{ [key: string]: boolean }>({});
+  
+  // States per modale editing
+  const [editingProject, setEditingProject] = useState<ProjectType | null>(null);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  
+  // Refs per mantenere il focus
+  const titleInputRef = useRef<HTMLInputElement>(null);
+  const descriptionInputRef = useRef<HTMLTextAreaElement>(null);
+  const linkInputRef = useRef<HTMLInputElement>(null);
   // State per modifiche locali non salvate (Highlights)
   const [localConfigs, setLocalConfigs] = useState<{
     [projectId: string]: {
@@ -235,6 +244,16 @@ export default function AdminPage() {
   useEffect(() => {
     fetchProjects();
   }, [fetchProjects]);
+
+  // Mantieni il focus quando il modale si apre
+  useEffect(() => {
+    if (isEditModalOpen && titleInputRef.current) {
+      // Piccolo delay per assicurarsi che il modale sia renderizzato
+      setTimeout(() => {
+        titleInputRef.current?.focus();
+      }, 100);
+    }
+  }, [isEditModalOpen]);
 
   // Inizializza stato locale quando i progetti cambiano
   useEffect(() => {
@@ -337,6 +356,19 @@ export default function AdminPage() {
 
     console.log('Project marked for deletion locally (not saved)');
   };
+
+  // Funzioni per editing - stabilizzate con useCallback
+  const openEditModal = useCallback((project: ProjectType) => {
+    setEditingProject(project);
+    setIsEditModalOpen(true);
+  }, []);
+
+  const closeEditModal = useCallback(() => {
+    setIsEditModalOpen(false);
+    setEditingProject(null);
+  }, []);
+
+
 
   // Salva tutte le modifiche ai progetti
   const saveAllProjectChanges = async () => {
@@ -553,15 +585,15 @@ export default function AdminPage() {
 
   // Componente Scheletro per mostrare slot vuoti
   const ProjectSlot = ({ position, className = '' }: { position: number; className?: string }) => {
-    // Usa altezza fissa per slot 6 e 7 (posizioni 6 e 7) per avere stessa altezza con larghezze diverse
-    const aspectRatio = position === 6 || position === 7 ? 'h-36' : 'aspect-video';
+    // Usa sempre aspect-video per uniformità su tutti i dispositivi
+    const aspectRatio = 'aspect-video';
 
     return (
       <div
-        className={`bg-border-primary-20 rounded-[25px] border-2 border-dashed border-text-primary-60/50 hover:border-text-primary-60 transition-all duration-300 hover:bg-text-primary-60/5 ${className}`}
+        className={`bg-border-primary-20 rounded-[25px] border-2 border-dashed border-text-primary-60/50 hover:border-text-primary-60 transition-all duration-300 hover:bg-text-primary-60/5 h-full flex flex-col ${className}`}
       >
         <div
-          className={`${aspectRatio} bg-text-primary-60/10 rounded-t-[23px] flex items-center justify-center relative`}
+          className={`${aspectRatio} bg-text-primary-60/10 rounded-t-[23px] flex items-center justify-center relative flex-shrink-0`}
         >
           {/* Numerazione elegante per slot vuoti */}
           <div className="absolute top-3 left-3 bg-gradient-to-r from-text-primary-60/80 to-text-primary-60/60 text-white text-xs font-semibold w-7 h-7 rounded-full flex items-center justify-center shadow-lg border-2 border-white/20 backdrop-blur-sm">
@@ -581,7 +613,7 @@ export default function AdminPage() {
             <p className="text-xs font-medium">Slot disponibile</p>
           </div>
         </div>
-        <div className="p-3">
+        <div className="p-3 flex-1 flex flex-col justify-center min-h-[32px]">
           <div className="h-3 bg-text-primary-60/20 rounded mb-1"></div>
           <div className="h-2 bg-text-primary-60/10 rounded w-2/3"></div>
         </div>
@@ -598,7 +630,7 @@ export default function AdminPage() {
     switch (layoutMode) {
       case 'mobile':
         return (
-          <div className="space-y-4">
+          <div className="grid grid-cols-1 gap-4">
             {Array.from({ length: totalSlots }).map((_, index) => {
               const project = filteredProjects[index];
               return project ? (
@@ -607,9 +639,11 @@ export default function AdminPage() {
                   project={project}
                   index={index}
                   onDelete={removeProject}
+                  onEdit={openEditModal}
+                  className="h-full"
                 />
               ) : (
-                <ProjectSlot key={`slot-${index}`} position={index + 1} />
+                <ProjectSlot key={`slot-${index}`} position={index + 1} className="h-full" />
               );
             })}
           </div>
@@ -619,7 +653,7 @@ export default function AdminPage() {
         return (
           <div className="space-y-4">
             {Array.from({ length: Math.ceil(totalSlots / 2) }).map((_, rowIndex) => (
-              <div key={`row-${rowIndex}`} className="flex gap-4">
+              <div key={`row-${rowIndex}`} className="grid grid-cols-2 gap-4">
                 {Array.from({ length: 2 }).map((_, colIndex) => {
                   const index = rowIndex * 2 + colIndex;
                   if (index >= totalSlots) return null;
@@ -631,10 +665,11 @@ export default function AdminPage() {
                       project={project}
                       index={index}
                       onDelete={removeProject}
-                      className="w-1/2"
+                      onEdit={openEditModal}
+                      className="h-full"
                     />
                   ) : (
-                    <ProjectSlot key={`slot-${index}`} position={index + 1} className="w-1/2" />
+                    <ProjectSlot key={`slot-${index}`} position={index + 1} className="h-full" />
                   );
                 })}
               </div>
@@ -676,7 +711,7 @@ export default function AdminPage() {
 
         if (firstRowProjects.length > 0) {
           rows.push(
-            <div key={`group-${groupIndex}-row-0`} className="flex gap-4">
+            <div key={`group-${groupIndex}-row-0`} className="grid grid-cols-2 gap-4">
               {firstRowProjects.map((index) => {
                 const project = filteredProjects[index];
                 return project ? (
@@ -685,10 +720,11 @@ export default function AdminPage() {
                     project={project}
                     index={index}
                     onDelete={removeProject}
-                    className="w-1/2"
+                    onEdit={openEditModal}
+                    className="h-full"
                   />
                 ) : (
-                  <ProjectSlot key={`slot-${index}`} position={index + 1} className="w-1/2" />
+                  <ProjectSlot key={`slot-${index}`} position={index + 1} className="h-full" />
                 );
               })}
             </div>
@@ -711,7 +747,7 @@ export default function AdminPage() {
 
         if (secondRowProjects.length > 0) {
           rows.push(
-            <div key={`group-${groupIndex}-row-1`} className="flex gap-4">
+            <div key={`group-${groupIndex}-row-1`} className="grid grid-cols-3 gap-4">
               {secondRowProjects.map((index) => {
                 const project = filteredProjects[index];
                 return project ? (
@@ -720,10 +756,11 @@ export default function AdminPage() {
                     project={project}
                     index={index}
                     onDelete={removeProject}
-                    className="w-1/3"
+                    onEdit={openEditModal}
+                    className="h-full"
                   />
                 ) : (
-                  <ProjectSlot key={`slot-${index}`} position={index + 1} className="w-1/3" />
+                  <ProjectSlot key={`slot-${index}`} position={index + 1} className="h-full" />
                 );
               })}
             </div>
@@ -746,20 +783,20 @@ export default function AdminPage() {
 
         if (thirdRowProjects.length > 0) {
           rows.push(
-            <div key={`group-${groupIndex}-row-2`} className="flex gap-4">
+            <div key={`group-${groupIndex}-row-2`} className="grid grid-cols-2 gap-4">
               {thirdRowProjects.map((index, rowIndex) => {
                 const project = filteredProjects[index];
-                const width = rowIndex === 0 ? 'w-[35%]' : 'w-[65%]';
                 return project ? (
                   <SortableProject
                     key={project.id}
                     project={project}
                     index={index}
                     onDelete={removeProject}
-                    className={width}
+                    onEdit={openEditModal}
+                    className="h-full"
                   />
                 ) : (
-                  <ProjectSlot key={`slot-${index}`} position={index + 1} className={width} />
+                  <ProjectSlot key={`slot-${index}`} position={index + 1} className="h-full" />
                 );
               })}
             </div>
@@ -771,8 +808,282 @@ export default function AdminPage() {
     return <div className="space-y-6">{rows}</div>;
   };
 
+  // Componente modale per editing progetto - memoizzato per evitare re-render
+  const EditProjectModal = React.memo(() => {
+    // Stati interni al modale per evitare re-render
+    const [internalFormData, setInternalFormData] = useState({
+      title: '',
+      description: '',
+      categories: [] as string[],
+      link: '',
+    });
+    const [internalImageFile, setInternalImageFile] = useState<File | null>(null);
+    const [internalImagePreview, setInternalImagePreview] = useState<string | null>(null);
+
+    // Inizializza i dati interni quando il modale si apre
+    useEffect(() => {
+      if (editingProject) {
+        setInternalFormData({
+          title: editingProject.title,
+          description: editingProject.description,
+          categories: [...editingProject.categories],
+          link: editingProject.link || '',
+        });
+        setInternalImageFile(null);
+        setInternalImagePreview(null);
+      }
+    }, [editingProject?.id]); // Solo quando cambia l'ID del progetto
+
+    // Funzioni interne al modale
+    const handleInternalCategoryToggle = (category: string) => {
+      setInternalFormData((prev) => ({
+        ...prev,
+        categories: prev.categories.includes(category)
+          ? prev.categories.filter((c) => c !== category)
+          : [...prev.categories, category],
+      }));
+    };
+
+    const handleInternalImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const file = e.target.files?.[0];
+      if (file && file.type.startsWith('image/')) {
+        setInternalImageFile(file);
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          setInternalImagePreview(e.target?.result as string);
+        };
+        reader.readAsDataURL(file);
+      }
+    };
+
+    const handleInternalSubmit = async () => {
+      if (!editingProject) return;
+
+      try {
+        const updates: any = {
+          title: internalFormData.title,
+          description: internalFormData.description,
+          categories: internalFormData.categories,
+        };
+
+        if (internalFormData.link) {
+          updates.link = internalFormData.link;
+        }
+
+        // Se c'è una nuova immagine, la carica prima
+        if (internalImageFile) {
+          const formData = new FormData();
+          formData.append('file', internalImageFile);
+          
+          const imageResponse = await fetch('/api/projects/upload-image', {
+            method: 'POST',
+            body: formData,
+          });
+
+          if (!imageResponse.ok) {
+            throw new Error('Failed to upload image');
+          }
+
+          const imageData = await imageResponse.json();
+          updates.image_url = imageData.url;
+        }
+
+        await updateProject(editingProject.id, updates);
+        closeEditModal();
+      } catch (error) {
+        console.error('Error updating project:', error);
+        setError('Errore nell\'aggiornamento del progetto');
+      }
+    };
+
+    if (!isEditModalOpen || !editingProject) return null;
+
+    return (
+      <div className="fixed inset-0 z-50 flex items-center justify-center">
+        {/* Backdrop */}
+        <div 
+          className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+          onClick={closeEditModal}
+        />
+        
+        {/* Modale */}
+        <div className="relative bg-bg-card border border-border-primary-20 rounded-[25px] p-6 max-w-3xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+          {/* Header */}
+          <div className="flex items-center justify-between mb-6">
+            <h3 className="text-xl font-figtree font-medium text-text-primary">
+              Modifica Progetto
+            </h3>
+            <button
+              onClick={closeEditModal}
+              className="text-text-primary-60 hover:text-text-primary transition-colors"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+
+          {/* Form - Layout orizzontale */}
+          <div className="grid grid-cols-2 gap-6">
+            {/* Colonna sinistra */}
+            <div className="space-y-4">
+              {/* Titolo */}
+              <div>
+                <label className="block text-sm font-medium mb-2 text-text-primary">Titolo</label>
+                <input
+                  type="text"
+                  value={internalFormData.title}
+                  onChange={(e) => setInternalFormData(prev => ({ ...prev, title: e.target.value }))}
+                  className="w-full px-4 py-3 bg-bg-primary border border-border-primary-20 rounded-lg text-text-primary focus:outline-none focus:border-[#F20352] transition-colors"
+                  placeholder="Nome del progetto"
+                  ref={titleInputRef}
+                />
+              </div>
+
+              {/* Descrizione */}
+              <div>
+                <label className="block text-sm font-medium mb-2 text-text-primary">Descrizione</label>
+                <textarea
+                  value={internalFormData.description}
+                  onChange={(e) => setInternalFormData(prev => ({ ...prev, description: e.target.value }))}
+                  className="w-full px-4 py-3 bg-bg-primary border border-border-primary-20 rounded-lg text-text-primary focus:outline-none focus:border-[#F20352] transition-colors resize-none"
+                  rows={4}
+                  placeholder="Descrizione del progetto"
+                  ref={descriptionInputRef}
+                />
+              </div>
+
+              {/* Link */}
+              <div>
+                <label className="block text-sm font-medium mb-2 text-text-primary">Link</label>
+                <input
+                  type="url"
+                  value={internalFormData.link}
+                  onChange={(e) => setInternalFormData(prev => ({ ...prev, link: e.target.value }))}
+                  className="w-full px-4 py-3 bg-bg-primary border border-border-primary-20 rounded-lg text-text-primary focus:outline-none focus:border-[#F20352] transition-colors"
+                  placeholder="Link del progetto (opzionale)"
+                  ref={linkInputRef}
+                />
+              </div>
+            </div>
+
+            {/* Colonna destra */}
+            <div className="space-y-4">
+              {/* Categorie */}
+              <div>
+                <label className="block text-sm font-medium mb-3 text-text-primary">Categorie</label>
+                <div className="grid grid-cols-1 gap-2 max-h-32 overflow-y-auto">
+                  {categories.map((category) => (
+                    <button
+                      key={category}
+                      onClick={() => handleInternalCategoryToggle(category)}
+                      className={`p-3 rounded-lg border-2 transition-all duration-300 text-left ${
+                        internalFormData.categories.includes(category)
+                          ? 'border-[#F20352] bg-[#F20352]/5 text-[#F20352]'
+                          : 'border-border-primary-20 hover:border-[#F20352]/50 text-text-primary'
+                      }`}
+                    >
+                      <div className="flex items-center gap-3">
+                        <div
+                          className={`w-4 h-4 rounded border-2 flex items-center justify-center ${
+                            internalFormData.categories.includes(category)
+                              ? 'border-[#F20352] bg-[#F20352]'
+                              : 'border-border-primary-20'
+                          }`}
+                        >
+                          {internalFormData.categories.includes(category) && (
+                            <svg
+                              className="w-2 h-2 text-white"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={3}
+                                d="M5 13l4 4L19 7"
+                              />
+                            </svg>
+                          )}
+                        </div>
+                        <span className="font-medium text-sm">{category}</span>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+                {internalFormData.categories.length > 0 && (
+                  <div className="mt-3 p-3 bg-[#F20352]/5 rounded-lg">
+                    <p className="text-sm text-[#F20352] font-medium">
+                      {internalFormData.categories.length} categorie selezionate
+                    </p>
+                  </div>
+                )}
+              </div>
+
+              {/* Immagine */}
+              <div>
+                <label className="block text-sm font-medium mb-3 text-text-primary">Immagine</label>
+                <div className="space-y-4">
+                  {/* Preview immagine attuale */}
+                  <div className="relative w-full aspect-video bg-border-primary-20 rounded-lg overflow-hidden">
+                    <img
+                      src={internalImagePreview || editingProject.image_url}
+                      alt="Preview"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  
+                  {/* Upload nuova immagine */}
+                  <div className="border-2 border-dashed border-border-primary-20 rounded-lg p-4 text-center hover:border-[#F20352]/50 transition-colors cursor-pointer">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleInternalImageChange}
+                      className="hidden"
+                      id="edit-image-upload"
+                    />
+                    <label htmlFor="edit-image-upload" className="cursor-pointer">
+                      <div className="space-y-2">
+                        <div className="w-8 h-8 mx-auto bg-[#F20352]/10 rounded-full flex items-center justify-center">
+                          <svg className="w-4 h-4 text-[#F20352]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                          </svg>
+                        </div>
+                        <p className="text-sm text-text-primary-60">
+                          {internalImageFile ? 'Nuova immagine selezionata' : 'Clicca per cambiare immagine'}
+                        </p>
+                      </div>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Actions */}
+          <div className="flex justify-end gap-3 mt-6 pt-6 border-t border-border-primary-20">
+            <button
+              onClick={closeEditModal}
+              className="px-4 py-3 bg-transparent hover:bg-text-primary-60/10 text-text-primary-60 hover:text-text-primary border border-border-primary-20 hover:border-text-primary-60/30 rounded-lg transition-colors duration-300"
+            >
+              Annulla
+            </button>
+            <button
+              onClick={handleInternalSubmit}
+              disabled={loading || !internalFormData.title || internalFormData.categories.length === 0}
+              className="px-4 py-3 bg-[#F20352] hover:bg-[#F20352]/90 text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300"
+            >
+              {loading ? 'Salvando...' : 'Salva Modifiche'}
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  });
+
   return (
-    <div className="min-h-screen bg-bg-primary text-text-primary transition-colors duration-300">
+    <div className="bg-bg-primary text-text-primary transition-colors duration-300">
       {/* Header */}
       <div className="fixed top-0 left-0 right-0 z-50 border-b border-border-primary-20 bg-bg-primary">
         <div className="max-w-[1650px] mx-auto px-5 md:px-[30px] py-8">
@@ -816,13 +1127,13 @@ export default function AdminPage() {
         </div>
       </div>
 
-      <div className="max-w-[1650px] mx-auto px-5 md:px-[30px] py-8 pt-[180px]">
+      <div className="max-w-[1650px] mx-auto px-5 md:px-[30px] py-8 pt-[180px] min-h-screen">
         {/* Projects Section */}
         {activeSection === 'projects' && (
           <div className="grid grid-cols-1 xl:grid-cols-4 gap-8">
-            {/* Upload Section */}
+            {/* Upload Section - Colonna sinistra sticky */}
             <div className="xl:col-span-1">
-              <div className="bg-bg-card border border-border-primary-20 rounded-[25px] p-6 sticky top-[188px]">
+              <div className="bg-bg-card border border-border-primary-20 rounded-[25px] p-6 sticky top-[188px] z-10 max-h-[70vh] overflow-y-auto" style={{ position: 'sticky', top: '188px' }}>
                 <AnimatedText as="h2" className="text-xl font-figtree font-medium mb-6">
                   Nuovo Progetto
                 </AnimatedText>
@@ -942,7 +1253,7 @@ export default function AdminPage() {
               </div>
             </div>
 
-            {/* Layout Preview Section */}
+            {/* Layout Preview Section - Colonna centrale */}
             <div className="xl:col-span-2">
               <div className="flex items-center justify-between mb-6">
                 <div>
@@ -1084,9 +1395,9 @@ export default function AdminPage() {
               </div>
             </div>
 
-            {/* Layout Selector - Colonna destra */}
-            <div className="xl:col-span-1 sticky top-[188px] self-start">
-              <div className="bg-bg-card border border-border-primary-20 rounded-[25px] p-6">
+            {/* Layout Selector - Colonna destra sticky */}
+            <div className="xl:col-span-1">
+              <div className="bg-bg-card border border-border-primary-20 rounded-[25px] p-6 sticky top-[188px] z-10" style={{ position: 'sticky', top: '188px' }}>
                 <h3 className="text-lg font-figtree font-medium mb-4">Layout Preview</h3>
                 <p className="text-text-primary-60 text-sm mb-6">
                   Visualizza come i progetti appaiono nel portfolio
@@ -1110,23 +1421,21 @@ export default function AdminPage() {
                         <span className="font-medium capitalize">{mode}</span>
                         <span className="text-xs text-text-primary-60 ml-auto">
                           {mode === 'desktop'
-                            ? 'Pattern 7'
+                            ? 'Desktop Layout'
                             : mode === 'tablet'
-                              ? '1 per riga'
+                              ? '2 per riga'
                               : '1 per riga'}
                         </span>
                       </div>
                     </button>
                   ))}
                 </div>
-              </div>
 
-              {/* Upload Section */}
-              <div className="bg-bg-card border border-border-primary-20 rounded-[25px] p-6 mt-6">
-                <h3 className="text-lg font-figtree font-medium mb-4">Upload Immagine</h3>
-                <p className="text-text-primary-60 text-sm mb-6">
-                  Carica l&apos;immagine del progetto
-                </p>
+                <div className="mt-6">
+                  <h3 className="text-lg font-figtree font-medium mb-4">Upload Immagine</h3>
+                  <p className="text-text-primary-60 text-sm mb-6">
+                    Carica l&apos;immagine del progetto
+                  </p>
 
                 {/* Drag & Drop Area */}
                 <div
@@ -1239,6 +1548,7 @@ export default function AdminPage() {
                       : "Compila titolo e almeno una categoria per abilitare l'upload"}
                   </p>
                 ) : null}
+                </div>
               </div>
             </div>
           </div>
@@ -1246,11 +1556,11 @@ export default function AdminPage() {
 
         {/* Highlights Section */}
         {activeSection === 'highlights' && (
-          <div className="space-y-8">
+          <div className="space-y-8 min-h-screen">
             <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
-              {/* Left: Project Selection */}
+              {/* Left: Project Selection - Colonna sinistra sticky */}
               <div className="xl:col-span-1">
-                <div className="bg-bg-card border border-border-primary-20 rounded-[25px] p-6 sticky top-[188px]">
+                <div className="bg-bg-card border border-border-primary-20 rounded-[25px] p-6 sticky top-[188px] z-10" style={{ position: 'sticky', top: '188px' }}>
                   <h3 className="text-lg font-figtree font-medium mb-4">
                     Seleziona Progetti
                     <span className="text-sm text-text-primary-60 ml-2">
@@ -1394,7 +1704,7 @@ export default function AdminPage() {
                 </div>
               </div>
 
-              {/* Right: Configuration for Selected Projects */}
+              {/* Right: Configuration for Selected Projects - Colonna centrale */}
               <div className="xl:col-span-2">
                 <div className="bg-bg-card border border-border-primary-20 rounded-[25px] p-6">
                   <div className="flex items-center justify-between mb-6">
@@ -1742,6 +2052,9 @@ export default function AdminPage() {
           </div>
         )}
       </div>
+
+      {/* Modale di editing - Fuori dal componente principale per evitare re-render */}
+      {isEditModalOpen && editingProject && <EditProjectModal />}
     </div>
   );
 }

@@ -169,7 +169,7 @@ export default function PortfolioProjects() {
             <motion.div key={project.id} {...getProjectAnimationProps(index)}>
               <Project
                 title={project.title}
-                category={project.categories.join(', ')}
+                description={project.description}
                 imageUrl={project.image_url}
                 hasLink={!!project.link}
                 onClick={project.link ? () => handleProjectClick(project) : undefined}
@@ -190,7 +190,7 @@ export default function PortfolioProjects() {
                 >
                   <Project
                     title={project.title}
-                    category={project.categories.join(', ')}
+                    description={project.description}
                     imageUrl={project.image_url}
                     hasLink={!!project.link}
                     onClick={project.link ? () => handleProjectClick(project) : undefined}
@@ -232,7 +232,7 @@ export default function PortfolioProjects() {
               >
                 <Project
                   title={project.title}
-                  category={project.categories.join(', ')}
+                  description={project.description}
                   imageUrl={project.image_url}
                   hasLink={!!project.link}
                   onClick={project.link ? () => handleProjectClick(project) : undefined}
@@ -256,7 +256,7 @@ export default function PortfolioProjects() {
               >
                 <Project
                   title={project.title}
-                  category={project.categories.join(', ')}
+                  description={project.description}
                   imageUrl={project.image_url}
                   hasLink={!!project.link}
                   onClick={project.link ? () => handleProjectClick(project) : undefined}
@@ -280,7 +280,7 @@ export default function PortfolioProjects() {
               >
                 <Project
                   title={project.title}
-                  category={project.categories.join(', ')}
+                  description={project.description}
                   imageUrl={project.image_url}
                   hasLink={!!project.link}
                   onClick={project.link ? () => handleProjectClick(project) : undefined}
