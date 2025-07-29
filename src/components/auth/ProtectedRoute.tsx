@@ -18,7 +18,7 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
 
     if (!session && !isRedirecting) {
       setIsRedirecting(true);
-      router.push('/auth/login');
+      router.push('/login');
     }
   }, [session, status, router, isRedirecting]);
 

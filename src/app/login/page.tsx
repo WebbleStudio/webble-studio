@@ -75,25 +75,7 @@ export default function LoginPage() {
       <div className="w-full max-w-md">
         {/* Logo e titolo */}
         <div className="text-center mb-8">
-          <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-r from-[#F20352] to-[#D91848] rounded-full flex items-center justify-center">
-            <svg
-              className="w-8 h-8 text-white"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-              />
-            </svg>
-          </div>
-          <AnimatedText
-            as="h1"
-            className="text-2xl font-figtree font-medium text-black dark:text-white mb-2"
-          >
+          <AnimatedText as="h1" className="text-2xl font-figtree font-medium text-black dark:text-white mb-2">
             Admin Login
           </AnimatedText>
           <p className="text-neutral-600 dark:text-neutral-400 text-sm">
@@ -106,10 +88,7 @@ export default function LoginPage() {
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Email */}
             <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium mb-2 text-black dark:text-white"
-              >
+              <label htmlFor="email" className="block text-sm font-medium mb-2 text-black dark:text-white">
                 Email
               </label>
               <input
@@ -126,10 +105,7 @@ export default function LoginPage() {
 
             {/* Password */}
             <div>
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium mb-2 text-black dark:text-white"
-              >
+              <label htmlFor="password" className="block text-sm font-medium mb-2 text-black dark:text-white">
                 Password
               </label>
               <input
@@ -148,18 +124,8 @@ export default function LoginPage() {
             {error && (
               <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
                 <div className="flex items-center">
-                  <svg
-                    className="h-5 w-5 text-red-400"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                    />
+                  <svg className="h-5 w-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                   <p className="ml-3 text-sm text-red-700 dark:text-red-200">{error}</p>
                 </div>

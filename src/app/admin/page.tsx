@@ -58,9 +58,6 @@ function SortableProject({
     zIndex: isDragging ? 1000 : 1,
   };
 
-  // Usa sempre aspect-video per uniformità su tutti i dispositivi
-  const aspectRatio = 'aspect-video';
-
   return (
     <div
       ref={setNodeRef}
@@ -71,7 +68,7 @@ function SortableProject({
     >
       <div className="bg-white dark:bg-[#0b0b0b] border border-neutral-200 dark:border-neutral-700 rounded-[25px] overflow-hidden hover:border-[#F20352]/50 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 h-full flex flex-col">
         <div
-          className={`${aspectRatio} bg-neutral-200 dark:bg-neutral-700 relative overflow-hidden flex-shrink-0`}
+          className="h-32 bg-neutral-200 dark:bg-neutral-700 relative overflow-hidden flex-shrink-0"
         >
           <img src={project.image_url} alt={project.title} className="w-full h-full object-cover" />
           {/* Numerazione elegante */}
@@ -711,15 +708,12 @@ export default function AdminPage() {
 
   // Componente Scheletro per mostrare slot vuoti
   const ProjectSlot = ({ position, className = '' }: { position: number; className?: string }) => {
-    // Usa sempre aspect-video per uniformità su tutti i dispositivi
-    const aspectRatio = 'aspect-video';
-
     return (
       <div
         className={`bg-neutral-100 dark:bg-neutral-800 rounded-[25px] border-2 border-dashed border-neutral-300 dark:border-neutral-600 hover:border-neutral-400 dark:hover:border-neutral-500 transition-all duration-300 hover:bg-neutral-200 dark:hover:bg-neutral-700 h-full flex flex-col ${className}`}
       >
         <div
-          className={`${aspectRatio} bg-neutral-200 dark:bg-neutral-700 rounded-t-[23px] flex items-center justify-center relative flex-shrink-0`}
+          className="h-32 bg-neutral-200 dark:bg-neutral-700 rounded-t-[23px] flex items-center justify-center relative flex-shrink-0"
         >
           {/* Numerazione elegante per slot vuoti */}
           <div className="absolute top-3 left-3 bg-gradient-to-r from-neutral-600 dark:from-neutral-400 to-neutral-500 dark:to-neutral-500 text-white text-xs font-semibold w-7 h-7 rounded-full flex items-center justify-center shadow-lg border-2 border-white/20 backdrop-blur-sm">
@@ -909,9 +903,10 @@ export default function AdminPage() {
 
         if (thirdRowProjects.length > 0) {
           rows.push(
-            <div key={`group-${groupIndex}-row-2`} className="grid grid-cols-2 gap-4">
+            <div key={`group-${groupIndex}-row-2`} className="grid grid-cols-12 gap-4">
               {thirdRowProjects.map((index, rowIndex) => {
                 const project = filteredProjects[index];
+                const isFirst = rowIndex === 0;
                 return project ? (
                   <SortableProject
                     key={project.id}
@@ -919,10 +914,10 @@ export default function AdminPage() {
                     index={index}
                     onDelete={removeProject}
                     onEdit={openEditModal}
-                    className="h-full"
+                    className={`h-full ${isFirst ? 'col-span-4' : 'col-span-8'}`}
                   />
                 ) : (
-                  <ProjectSlot key={`slot-${index}`} position={index + 1} className="h-full" />
+                  <ProjectSlot key={`slot-${index}`} position={index + 1} className={`h-full ${isFirst ? 'col-span-4' : 'col-span-8'}`} />
                 );
               })}
             </div>
@@ -1237,9 +1232,9 @@ export default function AdminPage() {
   return (
     <ProtectedRoute>
       <div className="bg-white dark:bg-[#0b0b0b] text-black dark:text-white transition-colors duration-300">
-        {/* Header */}
-        <div className="fixed top-0 left-0 right-0 z-50 border-b border-neutral-200 dark:border-neutral-700 bg-white dark:bg-[#0b0b0b]">
-          <div className="max-w-[1650px] mx-auto px-5 md:px-[30px] py-8">
+              {/* Header */}
+      <div className="fixed top-[75px] left-0 right-0 z-50 border-b border-neutral-200 dark:border-neutral-700 bg-white dark:bg-[#0b0b0b]">
+        <div className="max-w-[1650px] mx-auto px-5 md:px-[30px] py-8">
             <div className="flex items-center justify-between">
               <div>
                 <AnimatedText
@@ -1257,16 +1252,16 @@ export default function AdminPage() {
               <div className="flex items-center gap-4">
                 <div className="text-right">
                   <p className="text-sm font-medium text-black dark:text-white">
-                    {session?.user?.name || session?.user?.email}
+                    Benvenuto
                   </p>
                   <p className="text-xs text-neutral-600 dark:text-neutral-400">
-                    {session?.user?.role}
+                    Webble Studio
                   </p>
                 </div>
-                <button
-                  onClick={() => signOut({ callbackUrl: '/auth/login' })}
-                  className="px-4 py-2 bg-red-50 hover:bg-red-100 dark:bg-red-900/20 dark:hover:bg-red-900/30 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800 hover:border-red-300 dark:hover:border-red-700 rounded-lg transition-all duration-300 flex items-center gap-2"
-                >
+                              <button
+                onClick={() => signOut({ callbackUrl: '/login' })}
+                className="px-4 py-2 bg-red-50 hover:bg-red-100 dark:bg-red-900/20 dark:hover:bg-red-900/30 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800 hover:border-red-300 dark:hover:border-red-700 rounded-lg transition-all duration-300 flex items-center gap-2"
+              >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path
                       strokeLinecap="round"
@@ -1282,8 +1277,8 @@ export default function AdminPage() {
           </div>
         </div>
 
-        {/* Navigation Tabs */}
-        <div className="fixed top-[108px] left-0 right-0 z-50 border-b border-neutral-200 dark:border-neutral-700 bg-white dark:bg-[#0b0b0b]">
+              {/* Navigation Tabs */}
+      <div className="fixed top-[183px] left-0 right-0 z-50 border-b border-neutral-200 dark:border-neutral-700 bg-white dark:bg-[#0b0b0b]">
           <div className="max-w-[1650px] mx-auto px-5 md:px-[30px]">
             <div className="flex space-x-8">
               <button
@@ -1310,15 +1305,15 @@ export default function AdminPage() {
           </div>
         </div>
 
-        <div className="max-w-[1650px] mx-auto px-5 md:px-[30px] py-8 pt-[180px] min-h-screen">
+        <div className="max-w-[1650px] mx-auto px-5 md:px-[30px] py-8 pt-[255px] min-h-screen">
           {/* Projects Section */}
           {activeSection === 'projects' && (
             <div className="grid grid-cols-1 xl:grid-cols-4 gap-8">
               {/* Upload Section - Colonna sinistra sticky */}
               <div className="xl:col-span-1">
                 <div
-                  className="bg-white dark:bg-[#0b0b0b] border border-neutral-200 dark:border-neutral-700 rounded-[25px] p-6 sticky top-[188px] z-10 max-h-[70vh] overflow-y-auto shadow-md"
-                  style={{ position: 'sticky', top: '188px' }}
+                                className="bg-white dark:bg-[#0b0b0b] border border-neutral-200 dark:border-neutral-700 rounded-[25px] p-6 sticky top-[263px] z-10 max-h-[70vh] overflow-y-auto shadow-md"
+              style={{ position: 'sticky', top: '263px' }}
                 >
                   <AnimatedText
                     as="h2"
@@ -1633,8 +1628,8 @@ export default function AdminPage() {
               {/* Layout Selector - Colonna destra sticky */}
               <div className="xl:col-span-1">
                 <div
-                  className="bg-white dark:bg-[#0b0b0b] border border-neutral-200 dark:border-neutral-700 rounded-[25px] p-6 sticky top-[188px] z-10 shadow-md"
-                  style={{ position: 'sticky', top: '188px' }}
+                                className="bg-white dark:bg-[#0b0b0b] border border-neutral-200 dark:border-neutral-700 rounded-[25px] p-6 sticky top-[263px] z-10 shadow-md"
+              style={{ position: 'sticky', top: '263px' }}
                 >
                   <h3 className="text-lg font-figtree font-medium mb-4 text-black dark:text-white">
                     Layout Preview
@@ -1805,8 +1800,8 @@ export default function AdminPage() {
                 {/* Left: Project Selection - Colonna sinistra sticky */}
                 <div className="xl:col-span-1">
                   <div
-                    className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 rounded-[25px] p-6 sticky top-[188px] z-10 shadow-md"
-                    style={{ position: 'sticky', top: '188px' }}
+                                      className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 rounded-[25px] p-6 sticky top-[263px] z-10 shadow-md"
+                  style={{ position: 'sticky', top: '263px' }}
                   >
                     <h3 className="text-lg font-figtree font-medium mb-4 text-black dark:text-white">
                       Seleziona Progetti
