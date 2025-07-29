@@ -12,12 +12,13 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
 
   const pathname = usePathname();
   const isAdminRoute = pathname?.startsWith('/admin');
+  const isAuthRoute = pathname?.startsWith('/auth');
 
   return (
     <>
-      {!isAdminRoute && <Header />}
+      {!isAdminRoute && !isAuthRoute && <Header />}
       {children}
-      {!isAdminRoute && <Footer />}
+      {!isAdminRoute && !isAuthRoute && <Footer />}
     </>
   );
 }

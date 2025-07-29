@@ -41,6 +41,7 @@ Se non hai un video, puoi:
 Se vuoi usare un video diverso:
 
 1. **Modifica il nome del file** in `src/components/sections/Home/KeyPoints.tsx`:
+
    ```tsx
    src={getPublicVideoUrl('tuo-video.mp4')}
    ```
@@ -59,17 +60,20 @@ Se vuoi usare un video diverso:
 ## Configurazione Bucket
 
 Il bucket `videos` deve essere:
+
 - ✅ **Pubblico** (per accesso diretto)
 - ✅ **Con policy RLS** (se necessario)
 
 ## Troubleshooting
 
 ### "Video file not found"
+
 - ✅ Verifica che il file esista nel bucket `videos`
 - ✅ Controlla il nome esatto del file
 - ✅ Assicurati che il bucket sia pubblico
 
 ### "Storage error"
+
 - ✅ Verifica le credenziali Supabase
 - ✅ Controlla che il bucket esista
 - ✅ Verifica i permessi del bucket
@@ -78,4 +82,4 @@ Il bucket `videos` deve essere:
 
 - Il sistema ha un **fallback automatico** che mostra un placeholder se il video non esiste
 - I video vengono **cachati** per 1 anno per performance ottimali
-- Il sistema supporta **range requests** per streaming efficiente 
+- Il sistema supporta **range requests** per streaming efficiente

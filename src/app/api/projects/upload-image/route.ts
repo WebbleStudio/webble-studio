@@ -18,9 +18,10 @@ export async function POST(request: NextRequest) {
     // Genera un nome file unico
     const fileExt = file.name.split('.').pop();
     const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
+    const filePath = `projects/${fileName}`;
 
     // Upload su Supabase Storage
-    const { data, error } = await supabase.storage.from('project-images').upload(fileName, file, {
+    const { data, error } = await supabase.storage.from('projects').upload(filePath, file, {
       cacheControl: '3600',
       upsert: false,
     });
@@ -31,7 +32,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Genera URL pubblico
-    const { data: urlData } = supabase.storage.from('project-images').getPublicUrl(fileName);
+    const { data: urlData } = supabase.storage.from('projects').getPublicUrl(filePath);
 
     return NextResponse.json({ url: urlData.publicUrl });
   } catch (error) {

@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { fontVariables } from './fonts';
 import ClientLayout from './ClientLayout';
+import { SessionProvider } from 'next-auth/react';
+import { auth } from '@/lib/auth';
 
 export const metadata: Metadata = {
   title: 'Webble Studio: Scopri cosa significa essere unici',
@@ -27,7 +29,9 @@ export default function RootLayout({
   return (
     <html lang="it" className={fontVariables}>
       <body className="antialiased">
-        <ClientLayout>{children}</ClientLayout>
+        <SessionProvider>
+          <ClientLayout>{children}</ClientLayout>
+        </SessionProvider>
       </body>
     </html>
   );

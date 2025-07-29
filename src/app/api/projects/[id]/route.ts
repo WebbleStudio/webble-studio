@@ -1,7 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { supabase } from '@/lib/supabaseClient';
+import { createClient } from '@supabase/supabase-js';
 
-// DELETE: Elimina progetto per ID
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+);
+
 export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -9,51 +13,78 @@ export async function DELETE(
   try {
     const { id: projectId } = await params;
 
-    if (!projectId) {
-      return NextResponse.json({ error: 'Project ID is required' }, { status: 400 });
-    }
-
-    // Prima ottieni il progetto per avere l'URL dell'immagine
+    // 1. Recupera il progetto dal database per ottenere l'immagine
     const { data: project, error: fetchError } = await supabase
       .from('projects')
       .select('image_url')
       .eq('id', projectId)
       .single();
 
-    if (fetchError || !project) {
+    if (fetchError) {
+      console.error('Error fetching project:', fetchError);
+      return NextResponse.json(
+        { error: 'Project not found or error fetching project' },
+        { status: 404 }
+      );
+    }
+
+    if (!project) {
       return NextResponse.json({ error: 'Project not found' }, { status: 404 });
     }
 
-    // Estrai il path dell'immagine dall'URL
-    const imageUrl = project.image_url;
-    const urlParts = imageUrl.split('/');
-    const bucketIndex = urlParts.findIndex((part: string) => part === 'projects');
+    // 2. Elimina l'immagine dal bucket se esiste
+    if (project.image_url) {
+      try {
+        // Estrai il path dal URL completo
+        const urlParts = project.image_url.split('/');
+        const projectsIndex = urlParts.findIndex((part: string) => part === 'projects');
+        if (projectsIndex !== -1 && projectsIndex < urlParts.length - 1) {
+          // Estrai il path dopo 'projects'
+          const imagePath = urlParts.slice(projectsIndex + 1).join('/');
 
-    if (bucketIndex !== -1 && bucketIndex < urlParts.length - 1) {
-      const imagePath = urlParts.slice(bucketIndex + 1).join('/');
+          const { error: deleteImageError } = await supabase.storage
+            .from('projects')
+            .remove([imagePath]);
 
-      // Elimina l'immagine dal storage
-      const { error: storageError } = await supabase.storage
-        .from('projects')
-        .remove([`projects/${imagePath}`]);
-
-      if (storageError) {
-        console.warn('Warning: Failed to delete image from storage:', storageError);
+          if (deleteImageError) {
+            console.error('Error deleting image:', deleteImageError);
+            // Non blocchiamo la cancellazione del progetto se l'immagine non esiste
+            console.warn('Image deletion failed, but continuing with project deletion');
+          } else {
+            console.log(`Image deleted successfully: ${imagePath}`);
+          }
+        }
+      } catch (imageError) {
+        console.error('Error during image deletion:', imageError);
+        // Continua con la cancellazione del progetto
       }
     }
 
-    // Elimina il progetto dal database
-    const { error: deleteError } = await supabase.from('projects').delete().eq('id', projectId);
+    // 3. Elimina il progetto dal database
+    const { error: deleteProjectError } = await supabase
+      .from('projects')
+      .delete()
+      .eq('id', projectId);
 
-    if (deleteError) {
-      console.error('Delete error:', deleteError);
-      return NextResponse.json({ error: 'Failed to delete project' }, { status: 500 });
+    if (deleteProjectError) {
+      console.error('Error deleting project:', deleteProjectError);
+      return NextResponse.json(
+        { error: 'Failed to delete project from database' },
+        { status: 500 }
+      );
     }
 
-    return NextResponse.json({ message: 'Project deleted successfully' });
+    return NextResponse.json({
+      success: true,
+      message: 'Project and associated image deleted successfully',
+      deletedProjectId: projectId,
+    });
   } catch (error) {
-    console.error('Unexpected error:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    console.error('Delete project error:', error);
+    return NextResponse.json(
+      { error: 'Internal server error during project deletion' },
+      { status: 500 }
+    );
   }
 }
 

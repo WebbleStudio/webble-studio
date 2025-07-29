@@ -98,7 +98,10 @@ export default function OptimizedVideo({
   // Se deve mostrare il placeholder, non renderizzare il video
   if (showPlaceholder) {
     return (
-      <div className={`${className} flex items-center justify-center bg-gradient-to-br from-[#F20352]/10 to-[#D91848]/10 border-2 border-dashed border-[#F20352]/30 text-gray-600 dark:text-gray-300`} style={style}>
+      <div
+        className={`${className} flex items-center justify-center bg-gradient-to-br from-[#F20352]/10 to-[#D91848]/10 border-2 border-dashed border-[#F20352]/30 text-gray-600 dark:text-gray-300`}
+        style={style}
+      >
         <div className="text-center p-6">
           <div className="relative mb-4">
             <svg
@@ -120,7 +123,9 @@ export default function OptimizedVideo({
           </div>
           <h3 className="font-medium text-sm mb-2">Video non disponibile</h3>
           <p className="text-xs opacity-75 max-w-xs mx-auto">
-            Il video <code className="bg-gray-200 dark:bg-gray-700 px-1 rounded text-xs">1080p.mp4</code> non è stato trovato nel bucket Supabase
+            Il video{' '}
+            <code className="bg-gray-200 dark:bg-gray-700 px-1 rounded text-xs">1080p.mp4</code> non
+            è stato trovato nel bucket Supabase
           </p>
           <div className="mt-3 text-xs opacity-60">
             <div className="flex items-center justify-center gap-1">
