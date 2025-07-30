@@ -955,7 +955,7 @@ export default function AdminPage() {
         setInternalImageFile(null);
         setInternalImagePreview(null);
       }
-    }, [editingProject?.id]); // Solo quando cambia l'ID del progetto
+    }, [editingProject?.id, editingProject?.title, editingProject?.description, editingProject?.categories, editingProject?.link]); // Dipendenze specifiche
 
     // Funzioni interne al modale
     const handleInternalCategoryToggle = (category: string) => {
