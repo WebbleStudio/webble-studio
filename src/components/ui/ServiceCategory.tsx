@@ -4,6 +4,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import AnimatedText from '@/components/ui/AnimatedText';
 import { useServiceCategoryAnimation } from '../animations/useServiceCategoryAnimation';
+import { useServiceImages } from '@/hooks/useServiceImages';
 
 interface ServiceCategoryProps {
   number: string;
@@ -11,6 +12,7 @@ interface ServiceCategoryProps {
   labels: string[];
   paragraph: string;
   className?: string;
+  categorySlug?: string; // Aggiungiamo il slug per identificare la categoria
 }
 
 export default function ServiceCategory({
@@ -19,6 +21,7 @@ export default function ServiceCategory({
   labels,
   paragraph,
   className = '',
+  categorySlug,
 }: ServiceCategoryProps) {
   const {
     isExpanded,
@@ -36,6 +39,10 @@ export default function ServiceCategory({
     rectanglesAnimationProps,
     scrollStyles,
   } = useServiceCategoryAnimation();
+
+  // Ottieni i progetti per questa categoria
+  const { getProjectsForCategory } = useServiceImages();
+  const categoryProjects = categorySlug ? getProjectsForCategory(categorySlug) : [];
 
   return (
     <div className={`flex flex-col items-start ${className}`}>
@@ -59,7 +66,7 @@ export default function ServiceCategory({
           {title}
         </motion.h2>
 
-        {/* Expandable content - always in DOM */}
+        {/* Expandable content - sempre nel DOM ma condizionalmente visibile */}
         <motion.div
           className="w-full flex flex-col gap-4 md:gap-6 mb-[45px]"
           {...containerAnimationProps}
@@ -109,35 +116,61 @@ export default function ServiceCategory({
               </motion.div>
             </div>
 
-            {/* Right column - rectangles */}
-            <motion.div
-              className="w-full md:w-auto relative overflow-x-auto mt-6 md:mt-0"
-              {...rectanglesAnimationProps}
-            >
-              {/* Extract scroll container from rectangles content */}
-              <div
-                ref={rectanglesContainerRef}
-                className="w-full overflow-x-auto"
-                style={scrollStyles}
+            {/* Right column - rectangles (solo se ci sono progetti) */}
+            {categoryProjects.length > 0 && (
+              <motion.div
+                className="w-full md:w-auto relative overflow-x-auto mt-6 md:mt-0"
+                {...rectanglesAnimationProps}
               >
-                <style jsx>{`
-                  div::-webkit-scrollbar {
-                    display: none;
-                  }
-                `}</style>
-                <div className="flex gap-4">
-                  <div className="w-[200px] h-[130px] sm:w-[230px] sm:h-[160px] md:w-[185px] md:h-[115px] xl:w-[200px] xl:h-[130px] bg-bg-secondary rounded-2xl flex-shrink-0"></div>
-                  <div className="w-[200px] h-[130px] sm:w-[230px] sm:h-[160px] md:w-[185px] md:h-[115px] xl:w-[200px] xl:h-[130px] bg-bg-secondary rounded-2xl flex-shrink-0"></div>
-                  <div className="w-[200px] h-[130px] sm:w-[230px] sm:h-[160px] md:w-[185px] md:h-[115px] xl:w-[200px] xl:h-[130px] bg-bg-secondary rounded-2xl flex-shrink-0"></div>
+                {/* Extract scroll container from rectangles content */}
+                <div
+                  ref={rectanglesContainerRef}
+                  className="w-full overflow-x-auto"
+                  style={scrollStyles}
+                >
+                  <style jsx>{`
+                    div::-webkit-scrollbar {
+                      display: none;
+                    }
+                  `}</style>
+                  <div className="flex gap-4">
+                    {categoryProjects.slice(0, 3).map((project, index) => (
+                      <div
+                        key={project.id}
+                        className="w-[200px] h-[130px] sm:w-[230px] sm:h-[160px] md:w-[185px] md:h-[115px] xl:w-[200px] xl:h-[130px] bg-bg-secondary rounded-2xl flex-shrink-0 overflow-hidden cursor-pointer hover:scale-95 transition-transform duration-200"
+                      >
+                        {project.link ? (
+                          <a
+                            href={project.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="block w-full h-full"
+                          >
+                            <img
+                              src={project.image_url}
+                              alt={project.title}
+                              className="w-full h-full object-cover"
+                            />
+                          </a>
+                        ) : (
+                          <img
+                            src={project.image_url}
+                            alt={project.title}
+                            className="w-full h-full object-cover"
+                          />
+                        )}
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
-              {showLeftFadeRectangles && (
-                <div className="absolute inset-y-0 left-0 w-6 bg-gradient-to-r from-[#fafafa] dark:from-[#0b0b0b] to-transparent pointer-events-none transition-opacity duration-200"></div>
-              )}
-              {showRightFadeRectangles && (
-                <div className="absolute inset-y-0 right-0 w-6 bg-gradient-to-l from-[#fafafa] dark:from-[#0b0b0b] to-transparent pointer-events-none transition-opacity duration-200"></div>
-              )}
-            </motion.div>
+                {showLeftFadeRectangles && (
+                  <div className="absolute inset-y-0 left-0 w-6 bg-gradient-to-r from-[#fafafa] dark:from-[#0b0b0b] to-transparent pointer-events-none transition-opacity duration-200"></div>
+                )}
+                {showRightFadeRectangles && (
+                  <div className="absolute inset-y-0 right-0 w-6 bg-gradient-to-l from-[#fafafa] dark:from-[#0b0b0b] to-transparent pointer-events-none transition-opacity duration-200"></div>
+                )}
+              </motion.div>
+            )}
           </div>
         </motion.div>
       </div>

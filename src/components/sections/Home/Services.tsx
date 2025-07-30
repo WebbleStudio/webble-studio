@@ -15,24 +15,28 @@ export default function Services() {
           title={t('services.service01.title')}
           labels={t('services.service01.labels', { returnObjects: true }) as string[]}
           paragraph={t('services.service01.paragraph')}
+          categorySlug="ui-ux-design"
         />
         <ServiceCategory
           number={t('services.service02.number')}
           title={t('services.service02.title')}
           labels={t('services.service02.labels', { returnObjects: true }) as string[]}
           paragraph={t('services.service02.paragraph')}
+          categorySlug="project-management"
         />
         <ServiceCategory
           number={t('services.service03.number')}
           title={t('services.service03.title')}
           labels={t('services.service03.labels', { returnObjects: true }) as string[]}
           paragraph={t('services.service03.paragraph')}
+          categorySlug="advertising"
         />
         <ServiceCategory
           number={t('services.service04.number')}
           title={t('services.service04.title')}
           labels={t('services.service04.labels', { returnObjects: true }) as string[]}
           paragraph={t('services.service04.paragraph')}
+          categorySlug="social-media-design"
         />
       </div>
     </section>

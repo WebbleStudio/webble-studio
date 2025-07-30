@@ -33,7 +33,7 @@ export default function Footer({ className = '' }: FooterProps) {
                 height={100}
                 className="hidden dark:block"
               />
-              <AnimatedText as="p" className="text-[11px] max-w-[275px]">
+              <AnimatedText as="p" className="text-[11px] lg:text-[12px] max-w-[275px]">
                 {t('footer.company_description')}
               </AnimatedText>
               <div className="flex items-center gap-2">
@@ -52,7 +52,7 @@ export default function Footer({ className = '' }: FooterProps) {
                     strokeLinejoin="round"
                   />
                 </svg>
-                <button className="text-[14px]">
+                <button className="text-[14px] lg:text-[15px]">
                   <AnimatedText>
                     <span className="text-[#F20352]">{t('footer.cta_highlight')}</span>{' '}
                     {t('footer.cta').replace(t('footer.cta_highlight'), '').trim()}
@@ -73,7 +73,7 @@ export default function Footer({ className = '' }: FooterProps) {
         </div>
 
         <div className="flex flex-col gap-[40px] md:w-1/2 md:h-full lg:w-3/5">
-          <div className="text-[14px] md:h-full">
+          <div className="text-[14px] lg:text-[16px] md:h-full">
             <div className="flex gap-[75px] xs:gap-[120px] sm:hidden">
               <ul className="flex flex-col gap-[20px]">
                 <li>
@@ -120,8 +120,8 @@ export default function Footer({ className = '' }: FooterProps) {
               alt="mail webble studio agency"
               className="w-[230px] xs:w-[280px] sm:w-full hidden dark:block"
             />
-            <div className="w-full h-[1px] bg-gray-600 md:mb-[35px]"></div>
-            <div className="text-[14px]">
+            <div className="w-full h-[1px] bg-gray-600 md:mb-[35px] lg:mb-[85px]"></div>
+            <div className="text-[14px] lg:text-[15px]">
               <div className="flex gap-[75px] xs:gap-[120px] sm:hidden md:flex md:justify-between min-[870px]:justify-start min-[870px]:gap-[70px] lg:justify-between lg:gap-0">
                 <ul className="flex flex-col gap-[10px]">
                   <li>

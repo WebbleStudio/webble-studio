@@ -5,8 +5,10 @@ import { useTranslation } from '@/hooks/useTranslation';
 import AnimatedText from '@/components/ui/AnimatedText';
 import { useProjects, Project as ProjectType } from '@/hooks/useProjects';
 import { useHeroProjects, HeroProjectConfig } from '@/hooks/useHeroProjects';
+import { useServiceCategories } from '@/hooks/useServiceCategories';
 import ProtectedRoute from '@/components/auth/ProtectedRoute';
 import { signOut, useSession } from 'next-auth/react';
+import ServiceImageManager from '@/components/admin/ServiceImageManager';
 import {
   DndContext,
   closestCenter,
@@ -27,7 +29,7 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
 type LayoutMode = 'desktop' | 'tablet' | 'mobile';
-type AdminSection = 'projects' | 'highlights';
+type AdminSection = 'projects' | 'highlights' | 'services';
 
 const categories = ['Web Design', 'UI/UX', 'Branding', 'Project Management', 'Social Media'];
 
@@ -67,9 +69,7 @@ function SortableProject({
       {...listeners}
     >
       <div className="bg-white dark:bg-[#0b0b0b] border border-neutral-200 dark:border-neutral-700 rounded-[25px] overflow-hidden hover:border-[#F20352]/50 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 h-full flex flex-col">
-        <div
-          className="h-32 bg-neutral-200 dark:bg-neutral-700 relative overflow-hidden flex-shrink-0"
-        >
+        <div className="h-32 bg-neutral-200 dark:bg-neutral-700 relative overflow-hidden flex-shrink-0">
           <img src={project.image_url} alt={project.title} className="w-full h-full object-cover" />
           {/* Numerazione elegante */}
           <div className="absolute top-3 left-3 bg-gradient-to-r from-[#F20352] to-[#D91848] text-white text-xs font-semibold w-7 h-7 rounded-full flex items-center justify-center shadow-lg border-2 border-white/20 backdrop-blur-sm">
@@ -712,9 +712,7 @@ export default function AdminPage() {
       <div
         className={`bg-neutral-100 dark:bg-neutral-800 rounded-[25px] border-2 border-dashed border-neutral-300 dark:border-neutral-600 hover:border-neutral-400 dark:hover:border-neutral-500 transition-all duration-300 hover:bg-neutral-200 dark:hover:bg-neutral-700 h-full flex flex-col ${className}`}
       >
-        <div
-          className="h-32 bg-neutral-200 dark:bg-neutral-700 rounded-t-[23px] flex items-center justify-center relative flex-shrink-0"
-        >
+        <div className="h-32 bg-neutral-200 dark:bg-neutral-700 rounded-t-[23px] flex items-center justify-center relative flex-shrink-0">
           {/* Numerazione elegante per slot vuoti */}
           <div className="absolute top-3 left-3 bg-gradient-to-r from-neutral-600 dark:from-neutral-400 to-neutral-500 dark:to-neutral-500 text-white text-xs font-semibold w-7 h-7 rounded-full flex items-center justify-center shadow-lg border-2 border-white/20 backdrop-blur-sm">
             {position}
@@ -917,7 +915,11 @@ export default function AdminPage() {
                     className={`h-full ${isFirst ? 'col-span-4' : 'col-span-8'}`}
                   />
                 ) : (
-                  <ProjectSlot key={`slot-${index}`} position={index + 1} className={`h-full ${isFirst ? 'col-span-4' : 'col-span-8'}`} />
+                  <ProjectSlot
+                    key={`slot-${index}`}
+                    position={index + 1}
+                    className={`h-full ${isFirst ? 'col-span-4' : 'col-span-8'}`}
+                  />
                 );
               })}
             </div>
@@ -1232,18 +1234,21 @@ export default function AdminPage() {
   return (
     <ProtectedRoute>
       <div className="bg-white dark:bg-[#0b0b0b] text-black dark:text-white transition-colors duration-300">
-              {/* Header */}
-      <div className="fixed top-[75px] left-0 right-0 z-50 border-b border-neutral-200 dark:border-neutral-700 bg-white dark:bg-[#0b0b0b]">
-        <div className="max-w-[1650px] mx-auto px-5 md:px-[30px] py-8">
+        {/* Header */}
+        <div className="fixed top-[75px] left-0 right-0 z-50 border-b border-neutral-200 dark:border-neutral-700 bg-white dark:bg-[#0b0b0b]">
+          <div className="max-w-[1650px] mx-auto px-5 md:px-[30px] py-8">
             <div className="flex items-center justify-between">
               <div>
                 <AnimatedText
                   as="h1"
-                  className="text-3xl md:text-4xl font-figtree font-medium text-black dark:text-white"
+                  className="text-xl md:text-2xl font-figtree font-medium text-black dark:text-white"
                 >
                   Admin Dashboard
                 </AnimatedText>
-                <AnimatedText as="p" className="text-neutral-600 dark:text-neutral-400 mt-2">
+                <AnimatedText
+                  as="p"
+                  className="text-neutral-600 dark:text-neutral-400 text-sm mt-1"
+                >
                   Gestisci i progetti del portfolio e visualizza il layout
                 </AnimatedText>
               </div>
@@ -1251,17 +1256,13 @@ export default function AdminPage() {
               {/* User info and logout */}
               <div className="flex items-center gap-4">
                 <div className="text-right">
-                  <p className="text-sm font-medium text-black dark:text-white">
-                    Benvenuto
-                  </p>
-                  <p className="text-xs text-neutral-600 dark:text-neutral-400">
-                    Webble Studio
-                  </p>
+                  <p className="text-sm font-medium text-black dark:text-white">Benvenuto</p>
+                  <p className="text-xs text-neutral-600 dark:text-neutral-400">Webble Studio</p>
                 </div>
-                              <button
-                onClick={() => signOut({ callbackUrl: '/login' })}
-                className="px-4 py-2 bg-red-50 hover:bg-red-100 dark:bg-red-900/20 dark:hover:bg-red-900/30 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800 hover:border-red-300 dark:hover:border-red-700 rounded-lg transition-all duration-300 flex items-center gap-2"
-              >
+                <button
+                  onClick={() => signOut({ callbackUrl: '/login' })}
+                  className="px-4 py-2 bg-red-50 hover:bg-red-100 dark:bg-red-900/20 dark:hover:bg-red-900/30 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800 hover:border-red-300 dark:hover:border-red-700 rounded-lg transition-all duration-300 flex items-center gap-2"
+                >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path
                       strokeLinecap="round"
@@ -1277,8 +1278,8 @@ export default function AdminPage() {
           </div>
         </div>
 
-              {/* Navigation Tabs */}
-      <div className="fixed top-[183px] left-0 right-0 z-50 border-b border-neutral-200 dark:border-neutral-700 bg-white dark:bg-[#0b0b0b]">
+        {/* Navigation Tabs */}
+        <div className="fixed top-[183px] left-0 right-0 z-50 border-b border-neutral-200 dark:border-neutral-700 bg-white dark:bg-[#0b0b0b]">
           <div className="max-w-[1650px] mx-auto px-5 md:px-[30px]">
             <div className="flex space-x-8">
               <button
@@ -1301,6 +1302,16 @@ export default function AdminPage() {
               >
                 Highlights
               </button>
+              <button
+                onClick={() => setActiveSection('services')}
+                className={`py-4 px-1 border-b-2 font-medium text-sm transition-colors duration-300 ${
+                  activeSection === 'services'
+                    ? 'border-[#F20352] text-[#F20352]'
+                    : 'border-transparent text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white hover:border-neutral-300 dark:hover:border-neutral-600'
+                }`}
+              >
+                Services
+              </button>
             </div>
           </div>
         </div>
@@ -1309,12 +1320,9 @@ export default function AdminPage() {
           {/* Projects Section */}
           {activeSection === 'projects' && (
             <div className="grid grid-cols-1 xl:grid-cols-4 gap-8">
-              {/* Upload Section - Colonna sinistra sticky */}
+              {/* Upload Section - Colonna sinistra */}
               <div className="xl:col-span-1">
-                <div
-                                className="bg-white dark:bg-[#0b0b0b] border border-neutral-200 dark:border-neutral-700 rounded-[25px] p-6 sticky top-[263px] z-10 max-h-[70vh] overflow-y-auto shadow-md"
-              style={{ position: 'sticky', top: '263px' }}
-                >
+                <div className="bg-white dark:bg-[#0b0b0b] border border-neutral-200 dark:border-neutral-700 rounded-[25px] p-6 shadow-md">
                   <AnimatedText
                     as="h2"
                     className="text-xl font-figtree font-medium mb-6 text-black dark:text-white"
@@ -1625,12 +1633,9 @@ export default function AdminPage() {
                 </div>
               </div>
 
-              {/* Layout Selector - Colonna destra sticky */}
+              {/* Layout Selector - Colonna destra */}
               <div className="xl:col-span-1">
-                <div
-                                className="bg-white dark:bg-[#0b0b0b] border border-neutral-200 dark:border-neutral-700 rounded-[25px] p-6 sticky top-[263px] z-10 shadow-md"
-              style={{ position: 'sticky', top: '263px' }}
-                >
+                <div className="bg-white dark:bg-[#0b0b0b] border border-neutral-200 dark:border-neutral-700 rounded-[25px] p-6 shadow-md">
                   <h3 className="text-lg font-figtree font-medium mb-4 text-black dark:text-white">
                     Layout Preview
                   </h3>
@@ -1800,8 +1805,8 @@ export default function AdminPage() {
                 {/* Left: Project Selection - Colonna sinistra sticky */}
                 <div className="xl:col-span-1">
                   <div
-                                      className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 rounded-[25px] p-6 sticky top-[263px] z-10 shadow-md"
-                  style={{ position: 'sticky', top: '263px' }}
+                    className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 rounded-[25px] p-6 sticky top-[263px] z-10 shadow-md"
+                    style={{ position: 'sticky', top: '263px' }}
                   >
                     <h3 className="text-lg font-figtree font-medium mb-4 text-black dark:text-white">
                       Seleziona Progetti
@@ -2302,6 +2307,15 @@ export default function AdminPage() {
                     )}
                   </div>
                 </div>
+              </div>
+            </div>
+          )}
+
+          {/* Services Section */}
+          {activeSection === 'services' && (
+            <div className="space-y-8">
+              <div className="bg-white dark:bg-[#0b0b0b] border border-neutral-200 dark:border-neutral-700 rounded-[25px] p-6 shadow-md">
+                <ServiceImageManager />
               </div>
             </div>
           )}

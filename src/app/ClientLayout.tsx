@@ -20,12 +20,12 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
     <>
       {/* Admin Header per admin e login */}
       {(isAdminRoute || isLoginRoute) && <AdminHeader />}
-      
+
       {/* Normal Header per altre pagine */}
       {!isAdminRoute && !isAuthRoute && !isLoginRoute && <Header />}
-      
+
       {children}
-      
+
       {/* Footer solo per pagine normali */}
       {!isAdminRoute && !isAuthRoute && !isLoginRoute && <Footer />}
     </>

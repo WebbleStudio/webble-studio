@@ -195,14 +195,14 @@ export default function Hero() {
                 alt="Arrow"
                 width={12}
                 height={12}
-                className="hero-arrow-main absolute icon-filter"
+                className="hero-arrow-main absolute icon-filter-white"
               />
               <OptimizedImage
                 src="/icons/diagonal-arrow.svg"
                 alt="Arrow"
                 width={12}
                 height={12}
-                className="hero-arrow-secondary absolute icon-filter"
+                className="hero-arrow-secondary absolute icon-filter-white"
               />
             </div>
           </button>

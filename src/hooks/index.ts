@@ -8,6 +8,8 @@ export { usePerformance } from './usePerformance';
 export { useDarkMode } from './useDarkMode';
 export { useApiCall } from './useApiCall';
 export { useAnimationManager } from './useAnimationManager';
+export { useServiceCategories } from './useServiceCategories';
+export { useServiceImages } from './useServiceImages';
 
 // Lazy loading hooks
 export { useLazyLoad } from './useLazyLoad';

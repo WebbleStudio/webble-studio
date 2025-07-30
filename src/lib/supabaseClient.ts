@@ -38,6 +38,31 @@ export interface Database {
           updated_at?: string;
         };
       };
+      service_categories: {
+        Row: {
+          id: string;
+          slug: string;
+          name: string;
+          images: string[]; // Array di ID dei progetti selezionati
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          slug: string;
+          name: string;
+          images?: string[];
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          slug?: string;
+          name?: string;
+          images?: string[];
+          updated_at?: string;
+        };
+      };
     };
   };
 }

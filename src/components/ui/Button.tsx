@@ -19,14 +19,14 @@ export default function Button({ children = 'Contattaci', className = '', ...pro
           alt="Arrow"
           width={12}
           height={12}
-          className="arrow-main absolute icon-filter"
+          className="arrow-main absolute icon-filter-white"
         />
         <OptimizedImage
           src="/icons/diagonal-arrow.svg"
           alt="Arrow"
           width={12}
           height={12}
-          className="arrow-secondary absolute icon-filter"
+          className="arrow-secondary absolute icon-filter-white"
         />
       </div>
     </button>
