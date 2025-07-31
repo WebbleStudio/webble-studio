@@ -563,7 +563,9 @@ export default function ServiceImageManager({ className = '' }: ServiceImageMana
               ) : (
                 <div className="text-center py-4 text-neutral-600 dark:text-neutral-400">
                   <p className="text-sm">Nessun progetto selezionato</p>
-                  <p className="text-xs mt-1">Clicca &quot;Seleziona&quot; per aggiungere progetti</p>
+                  <p className="text-xs mt-1">
+                    Clicca &quot;Seleziona&quot; per aggiungere progetti
+                  </p>
                 </div>
               )}
             </div>
