@@ -429,6 +429,70 @@ export default function ChiSiamoHero() {
               </motion.div>
             )}
 
+            {/* Pulsanti zoom fissi - solo per dispositivi non touch e schermi > 768px */}
+            {!isTouchDevice && !isMobile && (
+              <motion.div
+                className="absolute bottom-6 right-6 bg-black/20 rounded-full p-1.5 flex flex-col gap-1.5 z-10"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3, duration: 0.3 }}
+              >
+                {/* Pulsante Zoom In */}
+                <motion.button
+                  onClick={() => setIsZoomed(true)}
+                  className={`w-12 h-12 bg-black/70 hover:bg-black/90 text-white rounded-full flex items-center justify-center transition-all duration-200 ${
+                    isZoomed ? 'opacity-50' : 'hover:scale-105'
+                  }`}
+                  disabled={isZoomed}
+                  whileHover={!isZoomed ? { scale: 1.05 } : {}}
+                  whileTap={!isZoomed ? { scale: 0.95 } : {}}
+                  title="Zoom In"
+                >
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M12 5v14M5 12h14"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                    />
+                  </svg>
+                </motion.button>
+
+                {/* Pulsante Zoom Out */}
+                <motion.button
+                  onClick={() => setIsZoomed(false)}
+                  className={`w-12 h-12 bg-black/70 hover:bg-black/90 text-white rounded-full flex items-center justify-center transition-all duration-200 ${
+                    !isZoomed ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105'
+                  }`}
+                  disabled={!isZoomed}
+                  whileHover={isZoomed ? { scale: 1.05 } : {}}
+                  whileTap={isZoomed ? { scale: 0.95 } : {}}
+                  title="Zoom Out"
+                >
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M5 12h14"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                    />
+                  </svg>
+                </motion.button>
+              </motion.div>
+            )}
+
             {/* CV Container */}
             <motion.div
               className="w-full h-full flex items-center justify-center p-6"
@@ -453,13 +517,7 @@ export default function ChiSiamoHero() {
                           }
                         : {}
                     }
-                    className={`w-full h-full flex items-center justify-center rounded-2xl overflow-hidden ${
-                      !isTouchDevice && !isMobile
-                        ? isZoomed
-                          ? 'cursor-zoom-out'
-                          : 'cursor-zoom-in'
-                        : ''
-                    }`}
+                    className="w-full h-full flex items-center justify-center rounded-2xl overflow-hidden"
                     onClick={!isTouchDevice && !isMobile ? () => setIsZoomed(!isZoomed) : undefined}
                     onMouseMove={!isTouchDevice && !isMobile ? handleMouseMove : undefined}
                   >
@@ -489,13 +547,7 @@ export default function ChiSiamoHero() {
                           }
                         : {}
                     }
-                    className={`w-full h-full flex items-center justify-center rounded-2xl overflow-hidden ${
-                      !isTouchDevice && !isMobile
-                        ? isZoomed
-                          ? 'cursor-zoom-out'
-                          : 'cursor-zoom-in'
-                        : ''
-                    }`}
+                    className="w-full h-full flex items-center justify-center rounded-2xl overflow-hidden"
                     onClick={!isTouchDevice && !isMobile ? () => setIsZoomed(!isZoomed) : undefined}
                     onMouseMove={!isTouchDevice && !isMobile ? handleMouseMove : undefined}
                   >
