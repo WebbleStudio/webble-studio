@@ -52,8 +52,8 @@ export const useSplineLazyLoad = ({
           canvas.getContext('webgl') ||
           canvas.getContext('webgl2') ||
           canvas.getContext('experimental-webgl');
-        if (gl) {
-          const loseContextExt = gl.getExtension('WEBGL_lose_context');
+        if (gl && 'getExtension' in gl) {
+          const loseContextExt = (gl as WebGLRenderingContext).getExtension('WEBGL_lose_context');
           if (loseContextExt) {
             loseContextExt.loseContext();
             console.log(`✅ [WebGLCleanup] Lost context for canvas ${index}`);

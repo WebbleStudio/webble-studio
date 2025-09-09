@@ -469,7 +469,6 @@ export default function ChiSiamoHero() {
                       width={800}
                       height={1000}
                       className="max-w-full max-h-full object-contain rounded-2xl"
-                      style={{ borderRadius: '16px' }}
                     />
                   </motion.div>
                 </div>
@@ -506,7 +505,6 @@ export default function ChiSiamoHero() {
                       width={800}
                       height={1000}
                       className="max-w-full max-h-full object-contain rounded-2xl"
-                      style={{ borderRadius: '16px' }}
                     />
                   </motion.div>
                 </div>
