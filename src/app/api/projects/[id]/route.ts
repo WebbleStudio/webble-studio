@@ -93,7 +93,7 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
   try {
     const { id: projectId } = await params;
     const body = await request.json();
-    const { title, categories, description, link } = body;
+    const { title, title_en, categories, description, description_en, link } = body;
 
     if (!projectId) {
       return NextResponse.json({ error: 'Project ID is required' }, { status: 400 });
@@ -104,8 +104,10 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
       .from('projects')
       .update({
         ...(title && { title }),
+        ...(title_en !== undefined && { title_en: title_en || null }),
         ...(categories && { categories }), // Ora gestisce array di categorie
         ...(description !== undefined && { description }),
+        ...(description_en !== undefined && { description_en: description_en || null }),
         ...(link !== undefined && { link: link || null }),
       })
       .eq('id', projectId)

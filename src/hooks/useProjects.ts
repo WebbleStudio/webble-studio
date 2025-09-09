@@ -3,8 +3,10 @@ import { useState, useCallback } from 'react';
 export interface Project {
   id: string;
   title: string;
+  title_en?: string; // Titolo in inglese
   categories: string[]; // Solo il nuovo formato
   description: string;
+  description_en?: string; // Descrizione in inglese
   image_url: string;
   link: string | null;
   order_position: number;
@@ -14,8 +16,10 @@ export interface Project {
 
 export interface CreateProjectData {
   title: string;
+  title_en?: string;
   categories: string[];
   description: string;
+  description_en?: string;
   link?: string;
   file: File;
 }
@@ -89,8 +93,14 @@ export function useProjects() {
     try {
       const formData = new FormData();
       formData.append('title', projectData.title);
+      if (projectData.title_en) {
+        formData.append('title_en', projectData.title_en);
+      }
       formData.append('categories', JSON.stringify(projectData.categories)); // Invia come JSON array
       formData.append('description', projectData.description);
+      if (projectData.description_en) {
+        formData.append('description_en', projectData.description_en);
+      }
       formData.append('file', projectData.file);
       if (projectData.link) {
         formData.append('link', projectData.link);
@@ -144,7 +154,12 @@ export function useProjects() {
   const updateProject = useCallback(
     async (
       projectId: string,
-      updates: Partial<Pick<Project, 'title' | 'categories' | 'description' | 'link'>>
+      updates: Partial<
+        Pick<
+          Project,
+          'title' | 'title_en' | 'categories' | 'description' | 'description_en' | 'link'
+        >
+      >
     ) => {
       setLoading(true);
       setError(null);

@@ -4,6 +4,7 @@
  */
 
 export { useTranslation } from './useTranslation';
+export { useProjectTranslation } from './useProjectTranslation';
 export { usePerformance } from './usePerformance';
 export { useDarkMode } from './useDarkMode';
 export { useApiCall } from './useApiCall';

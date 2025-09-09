@@ -38,6 +38,42 @@ export const useSplineLazyLoad = ({
       cleanupTimeoutRef.current = null;
     }
 
+    // EMERGENCY: Force cleanup ALL WebGL contexts immediately
+    console.warn('🚨 [WebGLEmergency] Force cleaning ALL WebGL contexts');
+
+    // Get ALL canvases in the document
+    const allCanvases = document.querySelectorAll('canvas');
+    console.log(`🧹 [WebGLCleanup] Found ${allCanvases.length} canvases to clean`);
+
+    allCanvases.forEach((canvas, index) => {
+      try {
+        // Force lose context on ALL canvases
+        const gl =
+          canvas.getContext('webgl') ||
+          canvas.getContext('webgl2') ||
+          canvas.getContext('experimental-webgl');
+        if (gl) {
+          const loseContextExt = gl.getExtension('WEBGL_lose_context');
+          if (loseContextExt) {
+            loseContextExt.loseContext();
+            console.log(`✅ [WebGLCleanup] Lost context for canvas ${index}`);
+          }
+        }
+
+        // Remove canvas from DOM if it's not critical
+        if (
+          canvas.parentNode &&
+          !canvas.closest('[class*="critical"]') &&
+          !canvas.id.includes('critical')
+        ) {
+          canvas.parentNode.removeChild(canvas);
+          console.log(`🗑️ [WebGLCleanup] Removed canvas ${index} from DOM`);
+        }
+      } catch (e) {
+        console.warn(`⚠️ [WebGLCleanup] Error cleaning canvas ${index}:`, e);
+      }
+    });
+
     // 1. Rimuovi TUTTI gli elementi spline-viewer dal DOM
     const splineElements = document.querySelectorAll('spline-viewer');
     splineElements.forEach((el) => {
@@ -55,6 +91,16 @@ export const useSplineLazyLoad = ({
     // 2. Cleanup WebGL contexts più aggressivo
     const canvases = document.querySelectorAll('canvas');
     canvases.forEach((canvas) => {
+      // Check canvas dimensions to prevent WebGL errors
+      const rect = canvas.getBoundingClientRect();
+      if (rect.width === 0 || rect.height === 0) {
+        console.warn('⚠️ [WebGLCleanup] Removing canvas with zero dimensions');
+        if (canvas.parentNode) {
+          canvas.parentNode.removeChild(canvas);
+        }
+        return;
+      }
+
       const gl = (canvas.getContext('webgl') ||
         canvas.getContext('webgl2') ||
         canvas.getContext('experimental-webgl')) as WebGLRenderingContext | null;
@@ -128,6 +174,33 @@ export const useSplineLazyLoad = ({
 
   // Load Spline script con gestione cache ottimizzata
   const loadSplineScript = useCallback(() => {
+    // EMERGENCY: Check WebGL context count before loading
+    const canvasCount = document.querySelectorAll('canvas').length;
+    const splineViewerCount = document.querySelectorAll('spline-viewer').length;
+
+    console.log(
+      `🔍 [WebGLCheck] Canvas count: ${canvasCount}, Spline viewers: ${splineViewerCount}`
+    );
+
+    // If too many contexts, skip loading and cleanup first
+    if (canvasCount > 5 || splineViewerCount > 2) {
+      console.warn('🚨 [WebGLEmergency] Too many WebGL contexts detected, cleaning up first');
+      cleanupSpline();
+
+      // Wait a bit then try again
+      setTimeout(() => {
+        const newCanvasCount = document.querySelectorAll('canvas').length;
+        if (newCanvasCount <= 2) {
+          console.log('✅ [WebGLRecovery] Contexts cleaned, retrying load');
+          loadSplineScript();
+        } else {
+          console.error('❌ [WebGLFailure] Still too many contexts, skipping Spline load');
+          return;
+        }
+      }, 1000);
+      return;
+    }
+
     // Check if script already exists (più robust check)
     const existingScript = document.querySelector('script[src*="spline-viewer.js"]');
     if (scriptRef.current || existingScript) {
@@ -137,7 +210,7 @@ export const useSplineLazyLoad = ({
 
     const script = document.createElement('script');
     script.type = 'module';
-    script.src = 'https://unpkg.com/@splinetool/viewer@1.10.35/build/spline-viewer.js';
+    script.src = 'https://unpkg.com/@splinetool/viewer@1.10.57/build/spline-viewer.js';
     script.async = true;
     script.crossOrigin = 'anonymous'; // Security
 
@@ -189,6 +262,16 @@ export const useSplineLazyLoad = ({
           console.log('👁️ [SplineViewer] Left viewport, scheduling cleanup...');
           setIsVisible(false);
 
+          // EMERGENCY: Immediate cleanup if too many contexts
+          const currentCanvasCount = document.querySelectorAll('canvas').length;
+          if (currentCanvasCount > 3) {
+            console.warn(
+              '🚨 [WebGLEmergency] Too many contexts during viewport exit, immediate cleanup'
+            );
+            cleanupSpline();
+            return;
+          }
+
           // Immediate cleanup for performance mode, delayed for normal mode
           const cleanupDelay = shouldSkipAnimation('heavy') ? 500 : 1000; // Ridotto da 2000ms
 
@@ -229,6 +312,18 @@ export const useSplineLazyLoad = ({
   // Set loaded state quando tutto è pronto (con fade-in fluido)
   useEffect(() => {
     if (isScriptLoaded && isVisible && shouldRender && !isCleaningUp) {
+      // Check container dimensions before loading to prevent WebGL errors
+      const container = containerRef.current;
+      if (container) {
+        const rect = container.getBoundingClientRect();
+        const hasValidDimensions = rect.width > 0 && rect.height > 0;
+
+        if (!hasValidDimensions) {
+          console.warn('⚠️ [SplineViewer] Container has invalid dimensions, delaying load');
+          return;
+        }
+      }
+
       // Delay per DOM stabilization + smooth appearance
       const loadTimer = setTimeout(() => {
         setIsLoaded(true);

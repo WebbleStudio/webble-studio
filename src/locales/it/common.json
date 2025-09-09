@@ -49,23 +49,23 @@
     "service03": {
       "number": "03",
       "title": "Advertising",
-      "labels": ["Pubblicità", "Marketing", "Campagne"],
+      "labels": ["Advertising", "Marketing", "Campagne"],
       "paragraph": "Creiamo campagne pubblicitarie che catturano l'attenzione e convertono il pubblico in clienti fedeli."
     },
     "service04": {
       "number": "04",
       "title": "Social Media Design",
       "labels": ["Social Media", "Content Design", "Branding"],
-      "paragraph": "Progettiamo contenuti social che raccontano il tuo brand e coinvolgono la tua community."
+      "paragraph": "Progettiamo contenuti social che raccontano la storia del tuo brand e coinvolgono la tua community."
     }
   },
   "payoff": {
     "title_start": "Progettiamo",
     "title_middle": "esperienze",
     "title_end_normal": "che",
-    "title_end_bold": "lasciano il segno",
-    "subtitle": "Interfacce su misura, pensate per distinguerti, coinvolgere l'utente e generare valore.",
-    "cta": "Prenota una call"
+    "title_end_bold": "fanno la differenza",
+    "subtitle": "Interfacce personalizzate, progettate per farti distinguere, coinvolgere gli utenti e creare valore.",
+    "cta": "Prenota una chiamata"
   },
   "menu": {
     "home": "Home",
@@ -73,29 +73,124 @@
     "portfolio": "Portfolio",
     "contact": "Contatti"
   },
+  "admin": {
+    "backToSite": "Torna al sito",
+    "dashboard": {
+      "title": "Admin Dashboard",
+      "subtitle": "Gestisci i progetti del portfolio e visualizza il layout",
+      "welcome": "Benvenuto",
+      "company": "Webble Studio",
+      "logout": "Logout"
+    },
+    "navigation": {
+      "projects": "Projects",
+      "highlights": "Highlights",
+      "services": "Services"
+    },
+    "projects": {
+      "new_project": "Nuovo Progetto",
+      "title": "Titolo",
+      "title_placeholder": "Nome del progetto",
+      "title_placeholder_en": "Nome del progetto in inglese",
+      "description": "Descrizione",
+      "description_placeholder": "Descrizione del progetto",
+      "description_placeholder_en": "Descrizione del progetto in inglese",
+      "link": "Link",
+      "link_placeholder": "Link del progetto (opzionale)",
+      "category": "Categoria",
+      "categories": "Categorie",
+      "select_all": "Tutte",
+      "reset": "Reset",
+      "categories_selected": "categorie selezionate",
+      "categories_info": "Il progetto apparirà in tutte le categorie selezionate",
+      "upload_image": "Carica Immagine",
+      "drag_drop": "Trascina un'immagine qui",
+      "click_select": "o clicca per selezionare",
+      "add_project": "Aggiungi Progetto",
+      "loading": "Caricamento...",
+      "fill_required": "Compila il titolo e almeno una categoria prima di selezionare l'immagine",
+      "fill_required_upload": "Compila il titolo e almeno una categoria per abilitare l'upload",
+      "portfolio_preview": "Anteprima Layout Portfolio",
+      "portfolio_preview_description": "Visualizza come appaiono i progetti nel portfolio",
+      "layout": "Layout",
+      "projects_count": "progetti",
+      "project_single": "progetto",
+      "unsaved": "Non salvato",
+      "view_portfolio": "Visualizza Portfolio",
+      "save_changes": "Salva Modifiche",
+      "saving": "Salvataggio...",
+      "save_projects": "Salva Progetti",
+      "save_projects_count": "Salva {count} Progetti",
+      "available_slot": "Slot disponibile",
+      "desktop_layout": "Layout Desktop",
+      "tablet_layout": "2 per riga",
+      "mobile_layout": "1 per riga",
+      "upload_image_description": "Carica l'immagine del progetto"
+    },
+    "highlights": {
+      "select_projects": "Seleziona Progetti",
+      "selected_count": "({count}/3)",
+      "remove": "Rimuovi",
+      "available_projects": "Progetti disponibili:",
+      "no_projects_available": "Nessun progetto disponibile",
+      "no_projects_info": "Crea prima i progetti nella sezione Projects",
+      "limit_reached": "Limite raggiunto: massimo 3 progetti selezionabili",
+      "configuration": "Configurazione Highlights",
+      "save": "Salva",
+      "saving": "Salvataggio...",
+      "delete_all": "Elimina Tutto",
+      "descriptions_slides": "Descrizioni Slide",
+      "slide": "Slide",
+      "slide_description": "Descrizione per slide {number}",
+      "slide_description_placeholder": "Descrizione per slide {number}",
+      "background_container": "Sfondo Container",
+      "upload_background": "Carica nuova immagine di sfondo",
+      "navigation_images": "Immagini Navigazione",
+      "images_count": "({count} immagini)",
+      "remove_image": "Rimuovi immagine",
+      "no_projects_selected": "Seleziona almeno un progetto per iniziare la configurazione"
+    },
+    "edit_project": {
+      "title": "Modifica Progetto",
+      "cancel": "Annulla",
+      "save_changes": "Salva Modifiche",
+      "image": "Immagine",
+      "change_image": "Clicca per cambiare immagine",
+      "new_image_selected": "Nuova immagine selezionata"
+    }
+  },
   "contact": {
     "title": "Contattaci",
+    "subtitle": "Raccontaci i tuoi obiettivi e ti aiuteremo a raggiungerli",
     "success": "Messaggio inviato con successo! Ti contatteremo presto.",
+    "hero": {
+      "breadcrumb": "Home / Contatti",
+      "title": "Contattaci"
+    },
+    "section": {
+      "subtitle": "/ Mettiamoci in contatto /",
+      "title": "Siamo sempre pronti a rispondere alle tue domande"
+    },
     "submit": "Invia richiesta",
     "submitting": "Invio in corso...",
     "fields": {
       "name": "Nome",
       "name_placeholder": "Mario Rossi",
       "email": "Email",
-      "email_placeholder": "example@mail.com",
+      "email_placeholder": "esempio@mail.com",
       "phone": "Telefono",
       "phone_placeholder": "+39 123 456 7890",
       "message": "Parlaci del tuo progetto",
       "message_placeholder": "Scrivi qui"
     },
     "privacy": "Acconsento al trattamento dei dati personali ai sensi del GDPR",
-    "marketing": "Accetto di ricevere promozioni e comunicazioni marketing",
+    "marketing": "Accetto di ricevere promozioni e comunicazioni di marketing",
     "errors": {
-      "name": "Il nome è obbligatorio",
-      "email": "L'email è obbligatoria",
+      "name": "Il nome è richiesto",
+      "email": "L'email è richiesta",
       "email_invalid": "Inserisci un'email valida",
-      "phone": "Il telefono è obbligatorio",
-      "message": "Il messaggio è obbligatorio",
+      "phone": "Il telefono è richiesto",
+      "message": "Il messaggio è richiesto",
       "privacy": "Devi accettare il trattamento dei dati"
     }
   },
@@ -122,5 +217,9 @@
       "services": "Servizi"
     },
     "company_description": "Webble Studio è un marchio di proprietà di Vady Solutions LLC, una società a responsabilità limitata costituita e registrata secondo le leggi del Delaware, con sede legale in 16192 Coastal Hwy. Lewes, DE 19958."
+  },
+  "about": {
+    "founder": "Fondatore",
+    "path": "Percorso"
   }
 }

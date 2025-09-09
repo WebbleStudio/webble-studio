@@ -1,4 +1,5 @@
 import React from 'react';
+import AnimatedText from './AnimatedText';
 
 interface ProjectProps {
   title: string;
@@ -66,18 +67,27 @@ export default function Project({
 
       {/* Informazioni progetto */}
       <div className="flex flex-col mb-2">
-        <h3
+        <AnimatedText
+          as="h3"
           className={`font-medium text-[20px] lg:text-[18px] 2xl:text-[20px] transition-colors duration-300 ${
             hasLink
               ? 'text-black dark:text-white group-hover:text-[#F20352] dark:group-hover:text-[#F20352]'
               : 'text-black dark:text-white'
           }`}
+          duration={0.25}
+          animationType="light"
         >
           {title}
-        </h3>
-        <p className="text-black/60 dark:text-white/60 text-[14px] lg:text-[15px] 2xl:text-[16px] transition-colors duration-300 line-clamp-2">
+        </AnimatedText>
+
+        <AnimatedText
+          as="p"
+          className="text-black/60 dark:text-white/60 text-[14px] lg:text-[15px] 2xl:text-[16px] transition-colors duration-300 line-clamp-2"
+          duration={0.3}
+          animationType="light"
+        >
           {description}
-        </p>
+        </AnimatedText>
       </div>
     </div>
   );

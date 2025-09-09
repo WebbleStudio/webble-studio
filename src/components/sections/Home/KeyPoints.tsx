@@ -7,28 +7,42 @@ import OptimizedVideo from '@/components/ui/OptimizedVideo';
 import { useLazyLoad } from '@/hooks/useLazyLoad';
 import { usePerformance } from '@/hooks/usePerformance';
 import { useTranslation } from '@/hooks/useTranslation';
-import { getPublicVideoUrl } from '@/lib/video';
 import '@/css/KeyPointsResponsive.css';
 
 export default function KeyPoints() {
   const { t } = useTranslation();
 
-  // Performance optimization
+  // Performance optimization - meno aggressiva
   const { shouldSkipAnimation } = usePerformance();
 
-  // Lazy loading per questa sezione
+  // Lazy loading ottimizzato per garantire il caricamento
   const {
     ref: sectionRef,
     shouldRender,
     isLoaded,
   } = useLazyLoad({
-    rootMargin: '100px 0px',
-    threshold: 0.1,
-    delay: shouldSkipAnimation('medium') ? 0 : 200,
+    rootMargin: '200px 0px', // Aumentato per caricamento anticipato
+    threshold: 0.05, // Ridotto per trigger più facile
+    delay: shouldSkipAnimation('medium') ? 50 : 100, // Delay ridotto
+    eager: false, // Mantiene lazy loading ma meno aggressivo
   });
 
+  // Fallback per dispositivi con problemi di caricamento
+  const [forceRender, setForceRender] = React.useState(false);
+
+  // Force render dopo un timeout per garantire la visualizzazione
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      if (!shouldRender) {
+        setForceRender(true);
+      }
+    }, 2000); // 2 secondi di timeout
+
+    return () => clearTimeout(timer);
+  }, [shouldRender]);
+
   // Rendering placeholder ottimizzato che rispetta il layout originale
-  if (!shouldRender) {
+  if (!shouldRender && !forceRender) {
     return (
       <section
         ref={sectionRef}
@@ -50,8 +64,8 @@ export default function KeyPoints() {
     <>
       <section
         ref={sectionRef}
-        className={`h-auto md:h-screen w-full flex flex-col md:flex-row items-center justify-center gap-3 transition-opacity duration-500 ${
-          isLoaded ? 'opacity-100' : 'opacity-0'
+        className={`h-auto md:h-screen w-full flex flex-col md:flex-row items-center justify-center gap-3 transition-opacity duration-300 ${
+          isLoaded || forceRender ? 'opacity-100' : 'opacity-0'
         }`}
       >
         {/* Box 01 - Colonna sinistra su MD+ */}
@@ -59,13 +73,13 @@ export default function KeyPoints() {
           className="w-full md:w-1/2 h-[290px] sm:h-[340px] md:h-[450px] xl:h-[510px] 2xl:h-[610px] bg-bg-card keypoint-border border-[0.5px] rounded-[20px] relative overflow-hidden p-[20px] xl:p-[25px] 2xl:p-[30px] flex flex-col justify-between"
           style={{ willChange: 'transform' }}
         >
-          {/* Video per tutti i breakpoint */}
+          {/* Video per tutti i breakpoint - caricamento garantito */}
           <div className="absolute inset-0 overflow-hidden">
             <OptimizedVideo
-              src={getPublicVideoUrl('1080p.mp4')}
-              className="w-full h-full object-contain pointer-events-none mix-blend-screen"
-              lazy={true}
-              preload="metadata"
+              src="https://lvgdhhfbvbvpuxjgasbk.supabase.co/storage/v1/object/public/videos//01-BG-Video-720p.mp4"
+              className="w-full h-full object-contain pointer-events-none mix-blend-lighten"
+              lazy={false} // Disabilitato lazy loading per garantire il caricamento
+              preload="auto" // Preload completo per garantire la riproduzione
               style={{
                 transform: 'translateY(-10%) scale(0.9)',
                 objectPosition: 'center center',

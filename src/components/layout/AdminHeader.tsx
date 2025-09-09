@@ -2,9 +2,12 @@
 
 import Link from 'next/link';
 import { useDarkMode } from '@/hooks/useDarkMode';
+import LanguageToggle from '@/components/ui/LanguageToggle';
+import { useTranslation } from '@/hooks/useTranslation';
 
 export default function AdminHeader() {
   const { theme, toggleTheme, mounted } = useDarkMode();
+  const { t } = useTranslation();
 
   return (
     <div className="fixed top-0 left-0 right-0 z-50 bg-white dark:bg-[#0b0b0b] border-b border-neutral-200 dark:border-neutral-700 h-[75px]">
@@ -23,8 +26,11 @@ export default function AdminHeader() {
           />
         </div>
 
-        {/* Right side - Toggle and Back button */}
+        {/* Right side - Toggles and Back button */}
         <div className="flex items-center gap-4">
+          {/* Language toggle */}
+          <LanguageToggle className="bg-neutral-100 hover:bg-neutral-200 dark:bg-white/10 dark:hover:bg-white/20 text-[#0b0b0b] dark:text-[#fafafa]" />
+
           {/* Dark mode toggle - Custom implementation */}
           {mounted && (
             <button
@@ -79,7 +85,7 @@ export default function AdminHeader() {
                 d="M10 19l-7-7m0 0l7-7m-7 7h18"
               />
             </svg>
-            Torna al sito
+            {t('admin.backToSite')}
           </Link>
         </div>
       </div>

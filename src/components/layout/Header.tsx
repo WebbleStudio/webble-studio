@@ -93,7 +93,7 @@ export default function Header() {
       <div
         className={`fixed top-0 left-0 w-full z-[100] h-[90px] flex items-center px-4 md:px-[30px] xl:px-20 transition-all duration-300 ${
           isScrolled
-            ? 'bg-[#0b0b0b]/70 backdrop-blur-sm md:bg-transparent md:backdrop-blur-none'
+            ? 'bg-[#0b0b0b]/80 backdrop-blur-sm md:bg-transparent md:backdrop-blur-none'
             : ''
         }`}
       >
@@ -295,10 +295,10 @@ export default function Header() {
                   ease: animationState === 'open' ? 'easeOut' : 'easeIn',
                 }}
               >
-                <Link href="/about" onClick={handleLinkClick}>
+                <Link href="/chi-siamo" onClick={handleLinkClick}>
                   <div
                     className={`text-4xl md:text-5xl font-figtree text-auto-inverse cursor-pointer hover:text-[#F20352] transition-colors duration-200 ${
-                      isActivePage('/about') ? 'font-medium' : 'font-light'
+                      isActivePage('/chi-siamo') ? 'font-medium' : 'font-light'
                     }`}
                   >
                     {t('menu.about')}
@@ -349,14 +349,25 @@ export default function Header() {
                   ease: animationState === 'open' ? 'easeOut' : 'easeIn',
                 }}
               >
-                <div
-                  className={`text-4xl md:text-5xl font-figtree text-auto-inverse cursor-pointer hover:text-[#F20352] transition-colors duration-200 ${
-                    isActivePage('/contact') ? 'font-medium' : 'font-light'
-                  }`}
-                >
-                  {t('menu.contact')}
-                </div>
+                <Link href="/contatti" onClick={handleLinkClick}>
+                  <div
+                    className={`text-4xl md:text-5xl font-figtree text-auto-inverse cursor-pointer hover:text-[#F20352] transition-colors duration-200 ${
+                      isActivePage('/contatti') ? 'font-medium' : 'font-light'
+                    }`}
+                  >
+                    {t('menu.contact')}
+                  </div>
+                </Link>
               </motion.div>
+
+              <motion.div
+                variants={separatorVariants}
+                className="w-24 h-[2px] bg-[#fafafa] dark:bg-[#0b0b0b] opacity-40 origin-left my-6"
+                transition={{
+                  duration: animationState === 'open' ? 0.25 : 0.15,
+                  ease: animationState === 'open' ? 'easeOut' : 'easeIn',
+                }}
+              ></motion.div>
             </motion.div>
           </motion.div>
         )}

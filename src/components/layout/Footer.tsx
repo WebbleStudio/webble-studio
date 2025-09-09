@@ -14,7 +14,7 @@ export default function Footer({ className = '' }: FooterProps) {
   const { t } = useTranslation();
 
   return (
-    <footer className="w-full mx-auto">
+    <footer className="w-full mx-auto mt-[30px]">
       <Container>
         <div className="w-full bg-auto-inverse h-auto rounded-t-[25px] p-[25px] lg:p-[40px] text-auto-inverse flex flex-col md:flex-row gap-[40px] md:h-[340px] lg:h-[470px]">
           <div className="flex flex-col gap-[20px] md:w-1/2 lg:w-2/5">
@@ -184,7 +184,7 @@ export default function Footer({ className = '' }: FooterProps) {
           </div>
         </div>
       </Container>
-      <div className="w-full h-[115px] bg-[#F20352] sm:h-[150px] md:h-[180px] lg:h-[230px] xl:h-[430px] relative bg-[url('/img/webble-text.svg')] bg-[length:100%_100%] bg-[position:0_40px] bg-no-repeat sm:bg-[position:0_50px] md:bg-[position:0_65px] lg:bg-[position:0_80px] xl:bg-[position:0_140px]"></div>
+      <div className="w-full h-[90px] bg-[#F20352] sm:h-[150px] md:h-[180px] lg:h-[230px] xl:h-[350px] relative bg-[url('/img/webble-text.svg')] bg-[length:100%_100%] bg-[position:0_30px] bg-no-repeat sm:bg-[position:0_50px] md:bg-[position:0_65px] lg:bg-[position:0_80px] xl:bg-[position:0_95px]"></div>
     </footer>
   );
 }

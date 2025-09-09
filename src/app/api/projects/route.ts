@@ -26,8 +26,10 @@ export async function POST(request: NextRequest) {
   try {
     const formData = await request.formData();
     const title = formData.get('title') as string;
+    const title_en = formData.get('title_en') as string;
     const categoriesJson = formData.get('categories') as string;
     const description = formData.get('description') as string;
+    const description_en = formData.get('description_en') as string;
     const link = formData.get('link') as string;
     const file = formData.get('file') as File;
 
@@ -88,8 +90,10 @@ export async function POST(request: NextRequest) {
     // Salva progetto nel database con categorie multiple e ordine
     console.log('Attempting to insert project with data:', {
       title,
+      title_en,
       categories,
       description,
+      description_en,
       link,
       order_position: nextOrderPosition,
     });
@@ -98,8 +102,10 @@ export async function POST(request: NextRequest) {
       .from('projects')
       .insert({
         title,
+        title_en: title_en || null,
         categories,
         description,
+        description_en: description_en || null,
         image_url: publicUrl,
         link: link || null,
         order_position: nextOrderPosition,

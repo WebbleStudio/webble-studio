@@ -73,9 +73,104 @@
     "portfolio": "Portfolio",
     "contact": "Contact"
   },
+  "admin": {
+    "backToSite": "Back to site",
+    "dashboard": {
+      "title": "Admin Dashboard",
+      "subtitle": "Manage portfolio projects and view layout",
+      "welcome": "Welcome",
+      "company": "Webble Studio",
+      "logout": "Logout"
+    },
+    "navigation": {
+      "projects": "Projects",
+      "highlights": "Highlights",
+      "services": "Services"
+    },
+    "projects": {
+      "new_project": "New Project",
+      "title": "Title",
+      "title_placeholder": "Project name",
+      "title_placeholder_en": "Project name in English",
+      "description": "Description",
+      "description_placeholder": "Project description",
+      "description_placeholder_en": "Project description in English",
+      "link": "Link",
+      "link_placeholder": "Project link (optional)",
+      "category": "Category",
+      "categories": "Categories",
+      "select_all": "All",
+      "reset": "Reset",
+      "categories_selected": "categories selected",
+      "categories_info": "The project will appear in all selected categories",
+      "upload_image": "Upload Image",
+      "drag_drop": "Drag an image here",
+      "click_select": "or click to select",
+      "add_project": "Add Project",
+      "loading": "Loading...",
+      "fill_required": "Fill title and at least one category before selecting image",
+      "fill_required_upload": "Fill title and at least one category to enable upload",
+      "portfolio_preview": "Portfolio Layout Preview",
+      "portfolio_preview_description": "View how projects appear in the portfolio",
+      "layout": "Layout",
+      "projects_count": "projects",
+      "project_single": "project",
+      "unsaved": "Unsaved",
+      "view_portfolio": "View Portfolio",
+      "save_changes": "Save Changes",
+      "saving": "Saving...",
+      "save_projects": "Save Projects",
+      "save_projects_count": "Save {count} Projects",
+      "available_slot": "Available slot",
+      "desktop_layout": "Desktop Layout",
+      "tablet_layout": "2 per row",
+      "mobile_layout": "1 per row",
+      "upload_image_description": "Upload the project image"
+    },
+    "highlights": {
+      "select_projects": "Select Projects",
+      "selected_count": "({count}/3)",
+      "remove": "Remove",
+      "available_projects": "Available projects:",
+      "no_projects_available": "No projects available",
+      "no_projects_info": "Create projects first in the Projects section",
+      "limit_reached": "Limit reached: maximum 3 projects selectable",
+      "configuration": "Highlights Configuration",
+      "save": "Save",
+      "saving": "Saving...",
+      "delete_all": "Delete All",
+      "descriptions_slides": "Slide Descriptions",
+      "slide": "Slide",
+      "slide_description": "Description for slide {number}",
+      "slide_description_placeholder": "Description for slide {number}",
+      "background_container": "Container Background",
+      "upload_background": "Upload new background image",
+      "navigation_images": "Navigation Images",
+      "images_count": "({count} images)",
+      "remove_image": "Remove image",
+      "no_projects_selected": "Select at least one project to start configuration"
+    },
+    "edit_project": {
+      "title": "Edit Project",
+      "cancel": "Cancel",
+      "save_changes": "Save Changes",
+      "image": "Image",
+      "change_image": "Click to change image",
+      "new_image_selected": "New image selected"
+    }
+  },
   "contact": {
     "title": "Contact us",
+    "subtitle": "Tell us about your goals and we'll help you achieve them",
     "success": "Message sent successfully! We will contact you soon.",
+    "hero": {
+      "breadcrumb": "Home / Contact",
+      "title": "Contact us"
+    },
+    "section": {
+      "subtitle": "/ Let's get in touch /",
+      "title": "We're always ready to answer your questions"
+    },
     "submit": "Send request",
     "submitting": "Sending...",
     "fields": {
@@ -122,5 +217,9 @@
       "services": "Services"
     },
     "company_description": "Webble Studio is a trademark owned by Vady Solutions LLC, a limited liability company incorporated and registered under Delaware law, with registered office at 16192 Coastal Hwy. Lewes, DE 19958."
+  },
+  "about": {
+    "founder": "Founder",
+    "path": "Career"
   }
 }

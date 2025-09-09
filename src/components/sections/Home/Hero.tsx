@@ -48,6 +48,8 @@ export default function Hero() {
         className="absolute inset-0 w-full h-full z-0"
         style={{
           contain: 'layout style paint', // Performance optimization
+          minWidth: '1px', // Prevents zero-width WebGL context
+          minHeight: '1px', // Prevents zero-height WebGL context
         }}
       >
         {/* Enhanced Loading placeholder con skeleton più realistico */}

@@ -7,6 +7,7 @@ import FilterButton from '@/components/ui/FilterButton';
 import Project from '@/components/ui/Project';
 import { usePortfolioFiltersAnimation, usePortfolioProjectsAnimation } from '@/hooks';
 import { useProjects } from '@/hooks/useProjects';
+import { useProjectTranslation } from '@/hooks/useProjectTranslation';
 
 const baseMainFilters = ['All', 'Web Design'];
 const smResponsiveFilter = 'Branding';
@@ -66,11 +67,18 @@ export default function PortfolioProjects() {
   } = usePortfolioProjectsAnimation();
 
   const { projects, loading, error, fetchProjects } = useProjects();
+  const { getTranslatedTitle, getTranslatedDescription, currentLanguage } = useProjectTranslation();
 
   // Carica progetti all'avvio
   useEffect(() => {
     fetchProjects();
   }, [fetchProjects]);
+
+  // Trigger re-render when language changes
+  useEffect(() => {
+    // This effect will run whenever currentLanguage changes
+    // forcing the component to re-render with new translations
+  }, [currentLanguage]);
 
   // Filtra i progetti in base ai filtri attivi
   const filteredProjects = projects.filter((project) => {
@@ -168,8 +176,8 @@ export default function PortfolioProjects() {
           {projectsToShow.map((project, index) => (
             <motion.div key={project.id} {...getProjectAnimationProps(index)}>
               <Project
-                title={project.title}
-                description={project.description}
+                title={getTranslatedTitle(project)}
+                description={getTranslatedDescription(project)}
                 imageUrl={project.image_url}
                 hasLink={!!project.link}
                 onClick={project.link ? () => handleProjectClick(project) : undefined}
@@ -189,8 +197,8 @@ export default function PortfolioProjects() {
                   {...getProjectAnimationProps(rowIndex * 2 + index)}
                 >
                   <Project
-                    title={project.title}
-                    description={project.description}
+                    title={getTranslatedTitle(project)}
+                    description={getTranslatedDescription(project)}
                     imageUrl={project.image_url}
                     hasLink={!!project.link}
                     onClick={project.link ? () => handleProjectClick(project) : undefined}
@@ -231,8 +239,8 @@ export default function PortfolioProjects() {
                 {...getXLProjectAnimationProps(groupIndex * 3, index)} // Offset animazioni per gruppo
               >
                 <Project
-                  title={project.title}
-                  description={project.description}
+                  title={getTranslatedTitle(project)}
+                  description={getTranslatedDescription(project)}
                   imageUrl={project.image_url}
                   hasLink={!!project.link}
                   onClick={project.link ? () => handleProjectClick(project) : undefined}
@@ -255,8 +263,8 @@ export default function PortfolioProjects() {
                 {...getXLProjectAnimationProps(groupIndex * 3 + 1, index)} // Offset animazioni per gruppo
               >
                 <Project
-                  title={project.title}
-                  description={project.description}
+                  title={getTranslatedTitle(project)}
+                  description={getTranslatedDescription(project)}
                   imageUrl={project.image_url}
                   hasLink={!!project.link}
                   onClick={project.link ? () => handleProjectClick(project) : undefined}
@@ -279,8 +287,8 @@ export default function PortfolioProjects() {
                 {...getXLProjectAnimationProps(groupIndex * 3 + 2, index)} // Offset animazioni per gruppo
               >
                 <Project
-                  title={project.title}
-                  description={project.description}
+                  title={getTranslatedTitle(project)}
+                  description={getTranslatedDescription(project)}
                   imageUrl={project.image_url}
                   hasLink={!!project.link}
                   onClick={project.link ? () => handleProjectClick(project) : undefined}

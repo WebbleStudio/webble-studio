@@ -143,7 +143,6 @@ export default function Home() {
               })}
         </div>
       </section>
-
       <Container>
         <Contact />
       </Container>

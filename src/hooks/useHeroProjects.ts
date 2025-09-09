@@ -12,8 +12,10 @@ export interface HeroProject {
   projects?: {
     id: string;
     title: string;
+    title_en?: string;
     categories: string[];
     description: string;
+    description_en?: string;
     image_url: string;
     link: string;
   };

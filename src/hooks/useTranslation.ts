@@ -25,6 +25,20 @@ export function useTranslation() {
     }
   }, [i18n]);
 
+  // Ascolta i cambiamenti di lingua di i18next
+  useEffect(() => {
+    const handleLanguageChange = (lng: string) => {
+      const newLanguage = (lng === 'en' ? 'en' : 'it') as Language;
+      setCurrentLanguage(newLanguage);
+    };
+
+    i18n.on('languageChanged', handleLanguageChange);
+
+    return () => {
+      i18n.off('languageChanged', handleLanguageChange);
+    };
+  }, [i18n]);
+
   const changeLanguage = (language: Language) => {
     try {
       setCurrentLanguage(language);

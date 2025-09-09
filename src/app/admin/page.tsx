@@ -117,6 +117,11 @@ function SortableProject({
         </div>
         <div className="p-3 flex-1 flex flex-col justify-center min-h-[32px]">
           <h4 className="font-medium text-sm text-black dark:text-white">{project.title}</h4>
+          {project.title_en && (
+            <p className="text-xs text-neutral-600 dark:text-neutral-400 mt-1">
+              {project.title_en}
+            </p>
+          )}
         </div>
       </div>
     </div>
@@ -190,8 +195,10 @@ export default function AdminPage() {
     Array<{
       id: string;
       title: string;
+      title_en?: string;
       categories: string[];
       description: string;
+      description_en?: string;
       link: string | null;
       image_url: string;
       order_position: number;
@@ -221,8 +228,10 @@ export default function AdminPage() {
   const availableProjects = projects.filter((project) => !selectedHighlights.includes(project.id));
   const [newProject, setNewProject] = useState({
     title: '',
+    title_en: '',
     categories: [] as string[],
     description: '',
+    description_en: '',
     link: '',
   });
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -342,8 +351,10 @@ export default function AdminPage() {
       const localProject = {
         id: `local-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
         title: newProject.title,
+        title_en: newProject.title_en || undefined,
         categories: newProject.categories,
         description: newProject.description,
+        description_en: newProject.description_en || undefined,
         link: newProject.link || null,
         image_url: imagePreview || '',
         order_position: projects.length + newProjects.length,
@@ -356,7 +367,14 @@ export default function AdminPage() {
       setNewProjects((prev) => [...prev, localProject]);
 
       // Reset form dopo successo
-      setNewProject({ title: '', categories: [], description: '', link: '' });
+      setNewProject({
+        title: '',
+        title_en: '',
+        categories: [],
+        description: '',
+        description_en: '',
+        link: '',
+      });
       setSelectedFile(null);
       setImagePreview(null);
       if (fileInputRef.current) {
@@ -441,8 +459,10 @@ export default function AdminPage() {
 
               return {
                 title: project.title,
+                title_en: project.title_en,
                 categories: project.categories,
                 description: project.description,
+                description_en: project.description_en,
                 link: project.link,
                 image_url: uploadData.url,
                 order_position: project.order_position,
@@ -728,7 +748,7 @@ export default function AdminPage() {
                 />
               </svg>
             </div>
-            <p className="text-xs font-medium">Slot disponibile</p>
+            <p className="text-xs font-medium">{t('admin.projects.available_slot')}</p>
           </div>
         </div>
         <div className="p-3 flex-1 flex flex-col justify-center min-h-[32px]">
@@ -936,7 +956,9 @@ export default function AdminPage() {
     // Stati interni al modale per evitare re-render
     const [internalFormData, setInternalFormData] = useState({
       title: '',
+      title_en: '',
       description: '',
+      description_en: '',
       categories: [] as string[],
       link: '',
     });
@@ -948,7 +970,9 @@ export default function AdminPage() {
       if (editingProject) {
         setInternalFormData({
           title: editingProject.title,
+          title_en: editingProject.title_en || '',
           description: editingProject.description,
+          description_en: editingProject.description_en || '',
           categories: [...editingProject.categories],
           link: editingProject.link || '',
         });
@@ -958,7 +982,9 @@ export default function AdminPage() {
     }, [
       editingProject?.id,
       editingProject?.title,
+      editingProject?.title_en,
       editingProject?.description,
+      editingProject?.description_en,
       editingProject?.categories,
       editingProject?.link,
     ]); // Dipendenze specifiche
@@ -991,7 +1017,9 @@ export default function AdminPage() {
       try {
         const updates: any = {
           title: internalFormData.title,
+          title_en: internalFormData.title_en || undefined,
           description: internalFormData.description,
+          description_en: internalFormData.description_en || undefined,
           categories: internalFormData.categories,
         };
 
@@ -1037,7 +1065,7 @@ export default function AdminPage() {
           {/* Header */}
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-xl font-figtree font-medium text-black dark:text-white">
-              Modifica Progetto
+              {t('admin.edit_project.title')}
             </h3>
             <button
               onClick={closeEditModal}
@@ -1058,9 +1086,11 @@ export default function AdminPage() {
           <div className="grid grid-cols-2 gap-6">
             {/* Colonna sinistra */}
             <div className="space-y-4">
-              {/* Titolo */}
+              {/* Titolo IT */}
               <div>
-                <label className="block text-sm font-medium mb-2 text-text-primary">Titolo</label>
+                <label className="block text-sm font-medium mb-2 text-text-primary">
+                  {t('admin.projects.title')} (IT)
+                </label>
                 <input
                   type="text"
                   value={internalFormData.title}
@@ -1068,15 +1098,31 @@ export default function AdminPage() {
                     setInternalFormData((prev) => ({ ...prev, title: e.target.value }))
                   }
                   className="w-full px-4 py-3 bg-bg-primary border border-border-primary-20 rounded-lg text-text-primary focus:outline-none focus:border-[#F20352] transition-colors"
-                  placeholder="Nome del progetto"
+                  placeholder={t('admin.projects.title_placeholder')}
                   ref={titleInputRef}
                 />
               </div>
 
-              {/* Descrizione */}
+              {/* Titolo EN */}
               <div>
                 <label className="block text-sm font-medium mb-2 text-text-primary">
-                  Descrizione
+                  {t('admin.projects.title')} (EN)
+                </label>
+                <input
+                  type="text"
+                  value={internalFormData.title_en}
+                  onChange={(e) =>
+                    setInternalFormData((prev) => ({ ...prev, title_en: e.target.value }))
+                  }
+                  className="w-full px-4 py-3 bg-bg-primary border border-border-primary-20 rounded-lg text-text-primary focus:outline-none focus:border-[#F20352] transition-colors"
+                  placeholder={t('admin.projects.title_placeholder_en')}
+                />
+              </div>
+
+              {/* Descrizione IT */}
+              <div>
+                <label className="block text-sm font-medium mb-2 text-text-primary">
+                  {t('admin.projects.description')} (IT)
                 </label>
                 <textarea
                   value={internalFormData.description}
@@ -1084,15 +1130,33 @@ export default function AdminPage() {
                     setInternalFormData((prev) => ({ ...prev, description: e.target.value }))
                   }
                   className="w-full px-4 py-3 bg-bg-primary border border-border-primary-20 rounded-lg text-text-primary focus:outline-none focus:border-[#F20352] transition-colors resize-none"
-                  rows={4}
-                  placeholder="Descrizione del progetto"
+                  rows={3}
+                  placeholder={t('admin.projects.description_placeholder')}
                   ref={descriptionInputRef}
+                />
+              </div>
+
+              {/* Descrizione EN */}
+              <div>
+                <label className="block text-sm font-medium mb-2 text-text-primary">
+                  {t('admin.projects.description')} (EN)
+                </label>
+                <textarea
+                  value={internalFormData.description_en}
+                  onChange={(e) =>
+                    setInternalFormData((prev) => ({ ...prev, description_en: e.target.value }))
+                  }
+                  className="w-full px-4 py-3 bg-bg-primary border border-border-primary-20 rounded-lg text-text-primary focus:outline-none focus:border-[#F20352] transition-colors resize-none"
+                  rows={3}
+                  placeholder={t('admin.projects.description_placeholder_en')}
                 />
               </div>
 
               {/* Link */}
               <div>
-                <label className="block text-sm font-medium mb-2 text-text-primary">Link</label>
+                <label className="block text-sm font-medium mb-2 text-text-primary">
+                  {t('admin.projects.link')}
+                </label>
                 <input
                   type="url"
                   value={internalFormData.link}
@@ -1100,7 +1164,7 @@ export default function AdminPage() {
                     setInternalFormData((prev) => ({ ...prev, link: e.target.value }))
                   }
                   className="w-full px-4 py-3 bg-bg-primary border border-border-primary-20 rounded-lg text-text-primary focus:outline-none focus:border-[#F20352] transition-colors"
-                  placeholder="Link del progetto (opzionale)"
+                  placeholder={t('admin.projects.link_placeholder')}
                   ref={linkInputRef}
                 />
               </div>
@@ -1111,7 +1175,7 @@ export default function AdminPage() {
               {/* Categorie */}
               <div>
                 <label className="block text-sm font-medium mb-3 text-text-primary">
-                  Categorie
+                  {t('admin.projects.categories')}
                 </label>
                 <div className="grid grid-cols-1 gap-2 max-h-32 overflow-y-auto">
                   {categories.map((category) => (
@@ -1156,7 +1220,7 @@ export default function AdminPage() {
                 {internalFormData.categories.length > 0 && (
                   <div className="mt-3 p-3 bg-[#F20352]/5 rounded-lg">
                     <p className="text-sm text-[#F20352] font-medium">
-                      {internalFormData.categories.length} categorie selezionate
+                      {internalFormData.categories.length} {t('admin.projects.categories_selected')}
                     </p>
                   </div>
                 )}
@@ -1164,7 +1228,9 @@ export default function AdminPage() {
 
               {/* Immagine */}
               <div>
-                <label className="block text-sm font-medium mb-3 text-text-primary">Immagine</label>
+                <label className="block text-sm font-medium mb-3 text-text-primary">
+                  {t('admin.edit_project.image')}
+                </label>
                 <div className="space-y-4">
                   {/* Preview immagine attuale */}
                   <div className="relative w-full aspect-video bg-border-primary-20 rounded-lg overflow-hidden">
@@ -1203,8 +1269,8 @@ export default function AdminPage() {
                         </div>
                         <p className="text-sm text-text-primary-60">
                           {internalImageFile
-                            ? 'Nuova immagine selezionata'
-                            : 'Clicca per cambiare immagine'}
+                            ? t('admin.edit_project.new_image_selected')
+                            : t('admin.edit_project.change_image')}
                         </p>
                       </div>
                     </label>
@@ -1220,7 +1286,7 @@ export default function AdminPage() {
               onClick={closeEditModal}
               className="px-4 py-3 bg-transparent hover:bg-neutral-100 dark:hover:bg-neutral-800 text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white border border-neutral-200 dark:border-neutral-700 hover:border-neutral-300 dark:hover:border-neutral-600 rounded-lg transition-colors duration-300"
             >
-              Annulla
+              {t('admin.edit_project.cancel')}
             </button>
             <button
               onClick={handleInternalSubmit}
@@ -1229,7 +1295,7 @@ export default function AdminPage() {
               }
               className="px-4 py-3 bg-[#F20352] hover:bg-[#F20352]/90 text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300"
             >
-              {loading ? 'Salvando...' : 'Salva Modifiche'}
+              {loading ? t('admin.projects.saving') : t('admin.edit_project.save_changes')}
             </button>
           </div>
         </div>
@@ -1249,21 +1315,25 @@ export default function AdminPage() {
                   as="h1"
                   className="text-xl md:text-2xl font-figtree font-medium text-black dark:text-white"
                 >
-                  Admin Dashboard
+                  {t('admin.dashboard.title')}
                 </AnimatedText>
                 <AnimatedText
                   as="p"
                   className="text-neutral-600 dark:text-neutral-400 text-sm mt-1"
                 >
-                  Gestisci i progetti del portfolio e visualizza il layout
+                  {t('admin.dashboard.subtitle')}
                 </AnimatedText>
               </div>
 
               {/* User info and logout */}
               <div className="flex items-center gap-4">
                 <div className="text-right">
-                  <p className="text-sm font-medium text-black dark:text-white">Benvenuto</p>
-                  <p className="text-xs text-neutral-600 dark:text-neutral-400">Webble Studio</p>
+                  <p className="text-sm font-medium text-black dark:text-white">
+                    {t('admin.dashboard.welcome')}
+                  </p>
+                  <p className="text-xs text-neutral-600 dark:text-neutral-400">
+                    {t('admin.dashboard.company')}
+                  </p>
                 </div>
                 <button
                   onClick={() => signOut({ callbackUrl: '/login' })}
@@ -1277,7 +1347,7 @@ export default function AdminPage() {
                       d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
                     />
                   </svg>
-                  Logout
+                  {t('admin.dashboard.logout')}
                 </button>
               </div>
             </div>
@@ -1296,7 +1366,7 @@ export default function AdminPage() {
                     : 'border-transparent text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white hover:border-neutral-300 dark:hover:border-neutral-600'
                 }`}
               >
-                Projects
+                {t('admin.navigation.projects')}
               </button>
               <button
                 onClick={() => setActiveSection('highlights')}
@@ -1306,7 +1376,7 @@ export default function AdminPage() {
                     : 'border-transparent text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white hover:border-neutral-300 dark:hover:border-neutral-600'
                 }`}
               >
-                Highlights
+                {t('admin.navigation.highlights')}
               </button>
               <button
                 onClick={() => setActiveSection('services')}
@@ -1316,7 +1386,7 @@ export default function AdminPage() {
                     : 'border-transparent text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white hover:border-neutral-300 dark:hover:border-neutral-600'
                 }`}
               >
-                Services
+                {t('admin.navigation.services')}
               </button>
             </div>
           </div>
@@ -1333,14 +1403,15 @@ export default function AdminPage() {
                     as="h2"
                     className="text-xl font-figtree font-medium mb-6 text-black dark:text-white"
                   >
-                    Nuovo Progetto
+                    {t('admin.projects.new_project')}
                   </AnimatedText>
 
                   {/* Form Fields */}
                   <div className="space-y-4 mb-6">
+                    {/* Titolo IT */}
                     <div>
                       <label className="block text-sm font-medium mb-2 text-black dark:text-white">
-                        Titolo
+                        {t('admin.projects.title')} (IT)
                       </label>
                       <input
                         type="text"
@@ -1349,12 +1420,30 @@ export default function AdminPage() {
                           setNewProject((prev) => ({ ...prev, title: e.target.value }))
                         }
                         className="w-full px-4 py-3 bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-600 rounded-lg text-black dark:text-white focus:outline-none focus:border-[#F20352] transition-colors"
-                        placeholder="Nome del progetto"
+                        placeholder={t('admin.projects.title_placeholder')}
                       />
                     </div>
+
+                    {/* Titolo EN */}
                     <div>
                       <label className="block text-sm font-medium mb-2 text-black dark:text-white">
-                        Descrizione
+                        {t('admin.projects.title')} (EN)
+                      </label>
+                      <input
+                        type="text"
+                        value={newProject.title_en}
+                        onChange={(e) =>
+                          setNewProject((prev) => ({ ...prev, title_en: e.target.value }))
+                        }
+                        className="w-full px-4 py-3 bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-600 rounded-lg text-black dark:text-white focus:outline-none focus:border-[#F20352] transition-colors"
+                        placeholder={t('admin.projects.title_placeholder_en')}
+                      />
+                    </div>
+
+                    {/* Descrizione IT */}
+                    <div>
+                      <label className="block text-sm font-medium mb-2 text-black dark:text-white">
+                        {t('admin.projects.description')} (IT)
                       </label>
                       <textarea
                         value={newProject.description}
@@ -1363,12 +1452,28 @@ export default function AdminPage() {
                         }
                         className="w-full px-4 py-3 bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-600 rounded-lg text-black dark:text-white focus:outline-none focus:border-[#F20352] transition-colors resize-none"
                         rows={3}
-                        placeholder="Descrizione del progetto"
+                        placeholder={t('admin.projects.description_placeholder')}
+                      />
+                    </div>
+
+                    {/* Descrizione EN */}
+                    <div>
+                      <label className="block text-sm font-medium mb-2 text-black dark:text-white">
+                        {t('admin.projects.description')} (EN)
+                      </label>
+                      <textarea
+                        value={newProject.description_en}
+                        onChange={(e) =>
+                          setNewProject((prev) => ({ ...prev, description_en: e.target.value }))
+                        }
+                        className="w-full px-4 py-3 bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-600 rounded-lg text-black dark:text-white focus:outline-none focus:border-[#F20352] transition-colors resize-none"
+                        rows={3}
+                        placeholder={t('admin.projects.description_placeholder_en')}
                       />
                     </div>
                     <div>
                       <label className="block text-sm font-medium mb-2 text-black dark:text-white">
-                        Link
+                        {t('admin.projects.link')}
                       </label>
                       <input
                         type="url"
@@ -1377,7 +1482,7 @@ export default function AdminPage() {
                           setNewProject((prev) => ({ ...prev, link: e.target.value }))
                         }
                         className="w-full px-4 py-3 bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-600 rounded-lg text-black dark:text-white focus:outline-none focus:border-[#F20352] transition-colors"
-                        placeholder="Link del progetto (opzionale)"
+                        placeholder={t('admin.projects.link_placeholder')}
                       />
                     </div>
                   </div>
@@ -1386,20 +1491,20 @@ export default function AdminPage() {
                   <div className="space-y-3 mb-6">
                     <div className="flex items-center justify-between">
                       <label className="block text-sm font-medium text-black dark:text-white">
-                        Categoria
+                        {t('admin.projects.category')}
                       </label>
                       <div className="flex gap-2">
                         <button
                           onClick={selectAllCategories}
                           className="text-xs px-3 py-1 bg-[#F20352]/10 text-[#F20352] rounded-full hover:bg-[#F20352]/20 transition-colors"
                         >
-                          Tutti
+                          {t('admin.projects.select_all')}
                         </button>
                         <button
                           onClick={clearAllCategories}
                           className="text-xs px-3 py-1 bg-neutral-200 dark:bg-neutral-700 text-neutral-600 dark:text-neutral-400 rounded-full hover:bg-neutral-300 dark:hover:bg-neutral-600 transition-colors"
                         >
-                          Reset
+                          {t('admin.projects.reset')}
                         </button>
                       </div>
                     </div>
@@ -1450,10 +1555,10 @@ export default function AdminPage() {
                     {newProject.categories.length > 0 && (
                       <div className="mt-3 p-3 bg-[#F20352]/5 rounded-lg">
                         <p className="text-sm text-[#F20352] font-medium">
-                          {newProject.categories.length} categorie selezionate
+                          {newProject.categories.length} {t('admin.projects.categories_selected')}
                         </p>
                         <p className="text-xs text-neutral-600 dark:text-neutral-400 mt-1">
-                          Il progetto apparirà in tutte le categorie selezionate
+                          {t('admin.projects.categories_info')}
                         </p>
                       </div>
                     )}
@@ -1469,16 +1574,18 @@ export default function AdminPage() {
                       as="h2"
                       className="text-xl font-figtree font-medium text-black dark:text-white"
                     >
-                      Portfolio Layout Preview
+                      {t('admin.projects.portfolio_preview')}
                     </AnimatedText>
                     <p className="text-neutral-600 dark:text-neutral-400 text-sm mt-1">
-                      Layout:{' '}
+                      {t('admin.projects.layout')}:{' '}
                       <span className="font-medium text-[#F20352] capitalize">{layoutMode}</span> -
-                      Progetti: {filteredProjects.length}{' '}
-                      {filteredProjects.length === 1 ? 'progetto' : 'progetti'}
+                      {t('admin.projects.projects_count')}: {filteredProjects.length}{' '}
+                      {filteredProjects.length === 1
+                        ? t('admin.projects.project_single')
+                        : t('admin.projects.projects_count')}
                       {localProjectsState.hasChanges && (
                         <span className="ml-2 text-xs bg-orange-500 text-white px-2 py-1 rounded-full">
-                          Non salvato
+                          {t('admin.projects.unsaved')}
                         </span>
                       )}
                     </p>
@@ -1507,7 +1614,7 @@ export default function AdminPage() {
                           d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
                         />
                       </svg>
-                      Visualizza Portfolio
+                      {t('admin.projects.view_portfolio')}
                     </button>
                     {(localProjectsState.hasChanges || newProjects.length > 0) && (
                       <div className="flex gap-2">
@@ -1530,7 +1637,9 @@ export default function AdminPage() {
                                 d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3-3m0 0l-3 3m3-3v12"
                               />
                             </svg>
-                            {loading ? 'Salvando...' : 'Salva Modifiche'}
+                            {loading
+                              ? t('admin.projects.saving')
+                              : t('admin.projects.save_changes')}
                           </button>
                         )}
                         {newProjects.length > 0 && (
@@ -1552,7 +1661,11 @@ export default function AdminPage() {
                                 d="M12 6v6m0 0v6m0-6h6m-6 0H6"
                               />
                             </svg>
-                            {loading ? 'Salvando...' : `Salva ${newProjects.length} Progetti`}
+                            {loading
+                              ? t('admin.projects.saving')
+                              : t('admin.projects.save_projects_count', {
+                                  count: newProjects.length,
+                                })}
                           </button>
                         )}
                       </div>
@@ -1646,7 +1759,7 @@ export default function AdminPage() {
                     Layout Preview
                   </h3>
                   <p className="text-neutral-600 dark:text-neutral-400 text-sm mb-6">
-                    Visualizza come i progetti appaiono nel portfolio
+                    {t('admin.projects.portfolio_preview_description')}
                   </p>
 
                   <div className="space-y-3">
@@ -1667,10 +1780,10 @@ export default function AdminPage() {
                           <span className="font-medium capitalize">{mode}</span>
                           <span className="text-xs text-neutral-600 dark:text-neutral-400 ml-auto">
                             {mode === 'desktop'
-                              ? 'Desktop Layout'
+                              ? t('admin.projects.desktop_layout')
                               : mode === 'tablet'
-                                ? '2 per riga'
-                                : '1 per riga'}
+                                ? t('admin.projects.tablet_layout')
+                                : t('admin.projects.mobile_layout')}
                           </span>
                         </div>
                       </button>
@@ -1679,10 +1792,10 @@ export default function AdminPage() {
 
                   <div className="mt-6">
                     <h3 className="text-lg font-figtree font-medium mb-4 text-black dark:text-white">
-                      Upload Immagine
+                      {t('admin.projects.upload_image')}
                     </h3>
                     <p className="text-neutral-600 dark:text-neutral-400 text-sm mb-6">
-                      Carica l&apos;immagine del progetto
+                      {t('admin.projects.upload_image_description')}
                     </p>
 
                     {/* Drag & Drop Area */}
@@ -1757,10 +1870,10 @@ export default function AdminPage() {
                           </div>
                           <div>
                             <p className="text-black dark:text-white font-medium">
-                              Trascina un&apos;immagine qui
+                              {t('admin.projects.drag_drop')}
                             </p>
                             <p className="text-neutral-600 dark:text-neutral-400 text-sm mt-1">
-                              o clicca per selezionare
+                              {t('admin.projects.click_select')}
                             </p>
                           </div>
                         </div>
@@ -1786,7 +1899,7 @@ export default function AdminPage() {
                             Caricamento...
                           </div>
                         ) : (
-                          'Aggiungi Progetto'
+                          t('admin.projects.add_project')
                         )}
                       </button>
                     )}
@@ -1794,8 +1907,8 @@ export default function AdminPage() {
                     {!newProject.title || newProject.categories.length === 0 ? (
                       <p className="text-neutral-600 dark:text-neutral-400 text-sm mt-4 text-center">
                         {!selectedFile
-                          ? 'Compila titolo e almeno una categoria prima di selezionare l&apos;immagine'
-                          : "Compila titolo e almeno una categoria per abilitare l'upload"}
+                          ? t('admin.projects.fill_required')
+                          : t('admin.projects.fill_required_upload')}
                       </p>
                     ) : null}
                   </div>
@@ -1815,9 +1928,9 @@ export default function AdminPage() {
                     style={{ position: 'sticky', top: '263px' }}
                   >
                     <h3 className="text-lg font-figtree font-medium mb-4 text-black dark:text-white">
-                      Seleziona Progetti
+                      {t('admin.highlights.select_projects')}
                       <span className="text-sm text-neutral-600 dark:text-neutral-400 ml-2">
-                        ({selectedHighlights.length}/3)
+                        {t('admin.highlights.selected_count', { count: selectedHighlights.length })}
                       </span>
                     </h3>
 
@@ -1855,6 +1968,11 @@ export default function AdminPage() {
                               />
                               <div className="flex-1">
                                 <h4 className="font-medium text-sm">{project.title}</h4>
+                                {project.title_en && (
+                                  <p className="text-xs text-neutral-500 dark:text-neutral-500 mt-0.5">
+                                    {project.title_en}
+                                  </p>
+                                )}
                                 <p className="text-xs text-text-primary-60">
                                   {project.categories.join(', ')} • Pos.{' '}
                                   {selectedHighlights.indexOf(projectId) + 1}
@@ -1877,7 +1995,7 @@ export default function AdminPage() {
                                     d="M6 18L18 6M6 6l12 12"
                                   />
                                 </svg>
-                                Rimuovi
+                                {t('admin.highlights.remove')}
                               </button>
                             </div>
                           </div>
@@ -1888,7 +2006,7 @@ export default function AdminPage() {
                       {selectedHighlights.length > 0 && availableProjects.length > 0 && (
                         <div className="border-t border-neutral-200 dark:border-neutral-700 my-4 pt-4">
                           <p className="text-xs text-neutral-600 dark:text-neutral-400 mb-3">
-                            Progetti disponibili:
+                            {t('admin.highlights.available_projects')}
                           </p>
                         </div>
                       )}
@@ -1931,6 +2049,11 @@ export default function AdminPage() {
                               <h4 className="font-medium text-sm text-black dark:text-white">
                                 {project.title}
                               </h4>
+                              {project.title_en && (
+                                <p className="text-xs text-neutral-500 dark:text-neutral-500 mt-0.5">
+                                  {project.title_en}
+                                </p>
+                              )}
                               <p className="text-xs text-neutral-600 dark:text-neutral-400">
                                 {project.categories.join(', ')}
                               </p>
@@ -1942,10 +2065,8 @@ export default function AdminPage() {
                       {/* Messaggio quando non ci sono progetti disponibili */}
                       {availableProjects.length === 0 && selectedHighlights.length < 3 && (
                         <div className="text-center py-8 text-neutral-600 dark:text-neutral-400">
-                          <p className="text-sm">Nessun progetto disponibile</p>
-                          <p className="text-xs mt-1">
-                            Crea prima dei progetti nella sezione Projects
-                          </p>
+                          <p className="text-sm">{t('admin.highlights.no_projects_available')}</p>
+                          <p className="text-xs mt-1">{t('admin.highlights.no_projects_info')}</p>
                         </div>
                       )}
 
@@ -1953,7 +2074,7 @@ export default function AdminPage() {
                       {selectedHighlights.length >= 3 && availableProjects.length > 0 && (
                         <div className="text-center py-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg">
                           <p className="text-sm text-yellow-700 dark:text-yellow-200">
-                            Limite raggiunto: massimo 3 progetti selezionabili
+                            {t('admin.highlights.limit_reached')}
                           </p>
                         </div>
                       )}
@@ -1966,7 +2087,7 @@ export default function AdminPage() {
                   <div className="bg-white dark:bg-[#0b0b0b] border border-neutral-200 dark:border-neutral-700 rounded-[25px] p-6 shadow-md">
                     <div className="flex items-center justify-between mb-6">
                       <h3 className="text-lg font-figtree font-medium text-black dark:text-white">
-                        Configurazione Highlights
+                        {t('admin.highlights.configuration')}
                       </h3>
                       <div className="flex items-center gap-2">
                         {/* Pulsante Salva sempre visibile se ci sono progetti selezionati */}
@@ -1983,7 +2104,7 @@ export default function AdminPage() {
                             {heroLoading ? (
                               <>
                                 <div className="animate-spin rounded-full h-3 w-3 border-b border-white"></div>
-                                <span>Salvando...</span>
+                                <span>{t('admin.highlights.saving')}</span>
                               </>
                             ) : (
                               <>
@@ -2000,7 +2121,7 @@ export default function AdminPage() {
                                     d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3-3m0 0l-3 3m3-3v12"
                                   />
                                 </svg>
-                                Salva
+                                {t('admin.highlights.save')}
                               </>
                             )}
                           </button>
@@ -2024,7 +2145,7 @@ export default function AdminPage() {
                                 d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
                               />
                             </svg>
-                            Elimina Tutto
+                            {t('admin.highlights.delete_all')}
                           </button>
                         )}
                       </div>
@@ -2071,7 +2192,7 @@ export default function AdminPage() {
                           </svg>
                         </div>
                         <p className="text-neutral-600 dark:text-neutral-400">
-                          Seleziona almeno un progetto per iniziare la configurazione
+                          {t('admin.highlights.no_projects_selected')}
                         </p>
                       </div>
                     ) : (
@@ -2124,7 +2245,7 @@ export default function AdminPage() {
                                       d="M6 18L18 6M6 6l12 12"
                                     />
                                   </svg>
-                                  Rimuovi
+                                  {t('admin.highlights.remove')}
                                 </button>
                               </div>
 
@@ -2132,13 +2253,13 @@ export default function AdminPage() {
                                 {/* Descriptions */}
                                 <div>
                                   <label className="block text-sm font-medium mb-3">
-                                    Descrizioni Slides
+                                    {t('admin.highlights.descriptions_slides')}
                                   </label>
                                   <div className="space-y-3">
                                     {currentConfig.descriptions.map((desc, descIndex) => (
                                       <div key={descIndex}>
                                         <label className="block text-xs text-text-primary-60 mb-1">
-                                          Slide {descIndex + 1}
+                                          {t('admin.highlights.slide')} {descIndex + 1}
                                         </label>
                                         <textarea
                                           value={desc}
@@ -2153,7 +2274,10 @@ export default function AdminPage() {
                                           }}
                                           className="w-full px-3 py-2 bg-bg-primary border border-border-primary-20 rounded-lg text-text-primary text-sm focus:outline-none focus:border-[#F20352] transition-colors resize-none"
                                           rows={2}
-                                          placeholder={`Descrizione per slide ${descIndex + 1}`}
+                                          placeholder={t(
+                                            'admin.highlights.slide_description_placeholder',
+                                            { number: descIndex + 1 }
+                                          )}
                                         />
                                       </div>
                                     ))}
@@ -2163,7 +2287,7 @@ export default function AdminPage() {
                                 {/* Background Image */}
                                 <div>
                                   <label className="block text-sm font-medium mb-3">
-                                    Sfondo Container
+                                    {t('admin.highlights.background_container')}
                                   </label>
                                   <div className="space-y-3">
                                     <div className="relative w-full aspect-video bg-border-primary-20 rounded-lg overflow-hidden">
@@ -2216,7 +2340,7 @@ export default function AdminPage() {
                                           />
                                         </svg>
                                         <span className="text-sm">
-                                          Carica nuova immagine di sfondo
+                                          {t('admin.highlights.upload_background')}
                                         </span>
                                       </div>
                                     </div>
@@ -2227,9 +2351,13 @@ export default function AdminPage() {
                               {/* Images Navigation */}
                               <div className="mt-6">
                                 <label className="block text-sm font-medium mb-3">
-                                  Immagini Navigazione
+                                  {t('admin.highlights.navigation_images')}
                                   <span className="text-xs text-text-primary-60 ml-2">
-                                    ({currentConfig.images.length} immagini)
+                                    ({currentConfig.images.length}{' '}
+                                    {t('admin.highlights.images_count', {
+                                      count: currentConfig.images.length,
+                                    })}
+                                    )
                                   </span>
                                 </label>
                                 <div className="flex gap-3 flex-wrap">
@@ -2248,7 +2376,7 @@ export default function AdminPage() {
                                           updateLocalConfig(projectId, 'images', newImages);
                                         }}
                                         className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 hover:bg-red-600 text-white rounded-full text-xs opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center shadow-sm"
-                                        title="Rimuovi immagine"
+                                        title={t('admin.highlights.remove_image')}
                                       >
                                         <svg
                                           className="w-3 h-3"
