@@ -93,7 +93,7 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
   try {
     const { id: projectId } = await params;
     const body = await request.json();
-    const { title, title_en, categories, description, description_en, link } = body;
+    const { title, title_en, categories, description, description_en, link, image_url } = body;
 
     if (!projectId) {
       return NextResponse.json({ error: 'Project ID is required' }, { status: 400 });
@@ -109,6 +109,7 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
         ...(description !== undefined && { description }),
         ...(description_en !== undefined && { description_en: description_en || null }),
         ...(link !== undefined && { link: link || null }),
+        ...(image_url !== undefined && { image_url: image_url || null }),
       })
       .eq('id', projectId)
       .select()

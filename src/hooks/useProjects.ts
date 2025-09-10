@@ -157,7 +157,13 @@ export function useProjects() {
       updates: Partial<
         Pick<
           Project,
-          'title' | 'title_en' | 'categories' | 'description' | 'description_en' | 'link'
+          | 'title'
+          | 'title_en'
+          | 'categories'
+          | 'description'
+          | 'description_en'
+          | 'link'
+          | 'image_url'
         >
       >
     ) => {
