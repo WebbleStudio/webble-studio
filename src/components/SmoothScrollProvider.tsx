@@ -5,15 +5,10 @@ import Lenis from 'lenis';
 
 export default function SmoothScrollProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
-    // Inizializza Lenis
+    // Inizializza Lenis con configurazione semplificata
     const lenis = new Lenis({
       duration: 0.8,
       easing: (t) => 1 - Math.pow(1 - t, 3), // easeOutCubic - più reattivo
-      smooth: true,
-      mouseMultiplier: 1.2,
-      smoothTouch: false,
-      touchMultiplier: 2,
-      infinite: false,
     });
 
     // Espone l'istanza di Lenis globalmente per accesso da altri componenti
