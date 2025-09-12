@@ -100,10 +100,10 @@ export default function ServiceCategory({
                   </div>
                 </div>
                 {showLeftFade && (
-                  <div className="absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-[#fafafa] dark:from-[#0b0b0b] to-transparent pointer-events-none transition-opacity duration-200"></div>
+                  <div className="absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-[#f4f4f4] dark:from-[#0b0b0b] to-transparent pointer-events-none transition-opacity duration-200"></div>
                 )}
                 {showRightFade && (
-                  <div className="absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-[#fafafa] dark:from-[#0b0b0b] to-transparent pointer-events-none transition-opacity duration-200"></div>
+                  <div className="absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-[#f4f4f4] dark:from-[#0b0b0b] to-transparent pointer-events-none transition-opacity duration-200"></div>
                 )}
               </motion.div>
 
@@ -164,10 +164,10 @@ export default function ServiceCategory({
                   </div>
                 </div>
                 {showLeftFadeRectangles && (
-                  <div className="absolute inset-y-0 left-0 w-6 bg-gradient-to-r from-[#fafafa] dark:from-[#0b0b0b] to-transparent pointer-events-none transition-opacity duration-200"></div>
+                  <div className="absolute inset-y-0 left-0 w-6 bg-gradient-to-r from-[#f4f4f4] dark:from-[#0b0b0b] to-transparent pointer-events-none transition-opacity duration-200"></div>
                 )}
                 {showRightFadeRectangles && (
-                  <div className="absolute inset-y-0 right-0 w-6 bg-gradient-to-l from-[#fafafa] dark:from-[#0b0b0b] to-transparent pointer-events-none transition-opacity duration-200"></div>
+                  <div className="absolute inset-y-0 right-0 w-6 bg-gradient-to-l from-[#f4f4f4] dark:from-[#0b0b0b] to-transparent pointer-events-none transition-opacity duration-200"></div>
                 )}
               </motion.div>
             )}

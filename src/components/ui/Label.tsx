@@ -8,7 +8,7 @@ interface LabelProps extends React.HTMLAttributes<HTMLDivElement> {
 export default function Label({ children, className = '', ...props }: LabelProps) {
   return (
     <div
-      className={`px-[20px] py-2 rounded-full font-medium border-[0.5px] border-[#fafafa] text-[#fafafa] bg-black/20 flex items-center gap-2 lg:px-[24px] lg:py-2.5 transition-all duration-300 ${className}`}
+      className={`px-[20px] py-2 rounded-full font-medium border-[0.5px] border-[#f4f4f4] text-[#f4f4f4] bg-black/20 flex items-center gap-2 lg:px-[24px] lg:py-2.5 transition-all duration-300 ${className}`}
       {...props}
     >
       <span className="text-[14px] lg:text-[15px] 2xl:text-[17px]">{children}</span>

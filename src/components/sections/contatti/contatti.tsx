@@ -8,26 +8,26 @@ export default function Contatti() {
     <div className="pt-14">
       <div>
         <div className="text-left">
-          <h3 className="text-[20px] font-figtree font-semibold text-[#0b0b0b] dark:text-[#fafafa] mb-4">
+          <h3 className="text-[20px] font-figtree font-semibold text-[#0b0b0b] dark:text-[#f4f4f4] mb-4">
             Cellulare
           </h3>
           <div className="flex gap-6">
             <a
               href="tel:+393534248308"
-              className="mb-4 pr-6 border-r border-[#0b0b0b]/20 dark:border-[#fafafa]/20"
+              className="mb-4 pr-6 border-r border-[#0b0b0b]/20 dark:border-[#f4f4f4]/20"
             >
-              <h3 className="text-[15px] font-figtree font-bold text-[#0b0b0b] dark:text-[#fafafa]">
+              <h3 className="text-[15px] font-figtree font-bold text-[#0b0b0b] dark:text-[#f4f4f4]">
                 Vadim <span className="text-[14px] font-medium">* Founder</span>
               </h3>
-              <p className="text-[15px] font-figtree font-regular text-[#0b0b0b] dark:text-[#fafafa]">
+              <p className="text-[15px] font-figtree font-regular text-[#0b0b0b] dark:text-[#f4f4f4]">
                 +39 353 424 8308
               </p>
             </a>
             <a href="tel:+393290015646" className="mb-4">
-              <h3 className="text-[15px] font-figtree font-bold text-[#0b0b0b] dark:text-[#fafafa]">
+              <h3 className="text-[15px] font-figtree font-bold text-[#0b0b0b] dark:text-[#f4f4f4]">
                 Gabriele <span className="text-[14px] font-medium">* Founder</span>
               </h3>
-              <p className="text-[15px] font-figtree font-regular text-[#0b0b0b] dark:text-[#fafafa]">
+              <p className="text-[15px] font-figtree font-regular text-[#0b0b0b] dark:text-[#f4f4f4]">
                 +39 329 001 5646
               </p>
             </a>
@@ -35,19 +35,19 @@ export default function Contatti() {
         </div>
 
         <div className="text-left mt-12">
-          <h3 className="text-[20px] font-figtree font-semibold text-[#0b0b0b] dark:text-[#fafafa] mb-4">
+          <h3 className="text-[20px] font-figtree font-semibold text-[#0b0b0b] dark:text-[#f4f4f4] mb-4">
             Email
           </h3>
           <a
             href="mailto:info@webblestudio.com"
-            className="text-[18px] font-figtree font-regular text-[#0b0b0b] dark:text-[#fafafa] hover:opacity-80 transition-opacity"
+            className="text-[18px] font-figtree font-regular text-[#0b0b0b] dark:text-[#f4f4f4] hover:opacity-80 transition-opacity"
           >
             info@webblestudio.com
           </a>
         </div>
 
         <div className="text-left mt-12">
-          <h3 className="text-[20px] font-figtree font-semibold text-[#0b0b0b] dark:text-[#fafafa] mb-4">
+          <h3 className="text-[20px] font-figtree font-semibold text-[#0b0b0b] dark:text-[#f4f4f4] mb-4">
             Social Network
           </h3>
           <div className="flex flex-wrap gap-6 gap-y-3">

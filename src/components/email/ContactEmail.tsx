@@ -15,7 +15,7 @@ export default function ContactEmail({ name, email, phone, message }: ContactEma
         maxWidth: '600px',
         margin: '0 auto',
         padding: '0',
-        backgroundColor: '#fafafa',
+        backgroundColor: '#f4f4f4',
         lineHeight: '1.6',
       }}
     >
@@ -33,7 +33,7 @@ export default function ContactEmail({ name, email, phone, message }: ContactEma
             width: '80px',
             height: '80px',
             borderRadius: '50%',
-            background: 'linear-gradient(135deg, #fafafa 0%, #e5e5e5 100%)',
+            background: 'linear-gradient(135deg, #f4f4f4 0%, #e5e5e5 100%)',
             margin: '0 auto 20px auto',
             display: 'flex',
             alignItems: 'center',
@@ -41,7 +41,7 @@ export default function ContactEmail({ name, email, phone, message }: ContactEma
             fontSize: '28px',
             fontWeight: 'bold',
             color: '#0b0b0b',
-            border: '3px solid #fafafa',
+            border: '3px solid #f4f4f4',
             boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
           }}
         >
@@ -59,7 +59,7 @@ export default function ContactEmail({ name, email, phone, message }: ContactEma
 
         <h1
           style={{
-            color: '#fafafa',
+            color: '#f4f4f4',
             fontSize: '32px',
             margin: '0 0 8px 0',
             fontWeight: '600',
@@ -70,7 +70,7 @@ export default function ContactEmail({ name, email, phone, message }: ContactEma
         </h1>
         <p
           style={{
-            color: '#fafafa',
+            color: '#f4f4f4',
             fontSize: '16px',
             margin: '0',
             opacity: '0.8',
@@ -160,7 +160,7 @@ export default function ContactEmail({ name, email, phone, message }: ContactEma
             <div
               style={{
                 padding: '12px 16px',
-                backgroundColor: '#fafafa',
+                backgroundColor: '#f4f4f4',
                 borderRadius: '6px',
                 fontSize: '15px',
               }}
@@ -171,7 +171,7 @@ export default function ContactEmail({ name, email, phone, message }: ContactEma
             <div
               style={{
                 padding: '12px 16px',
-                backgroundColor: '#fafafa',
+                backgroundColor: '#f4f4f4',
                 borderRadius: '6px',
                 fontSize: '15px',
               }}

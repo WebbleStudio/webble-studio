@@ -22,7 +22,7 @@ export default function DarkModeToggle({ className = '' }: DarkModeToggleProps) 
       {theme === 'light' ? (
         // Moon icon per dark mode
         <svg
-          className="w-4 h-4 text-[#fafafa]"
+          className="w-4 h-4 text-[#f4f4f4]"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -37,7 +37,7 @@ export default function DarkModeToggle({ className = '' }: DarkModeToggleProps) 
       ) : (
         // Sun icon per light mode
         <svg
-          className="w-4 h-4 text-[#fafafa]"
+          className="w-4 h-4 text-[#f4f4f4]"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"

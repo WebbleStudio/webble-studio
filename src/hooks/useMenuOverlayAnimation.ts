@@ -147,7 +147,7 @@ export function useMenuOverlayAnimation(isScrolled: boolean, menuOpen: boolean) 
     };
   }, [headerDimensions, isMounted, animationState]);
 
-  const overlayClassName = `fixed z-[101] text-text-secondary bg-[#0b0b0b]/70 dark:bg-[#fafafa]/70 backdrop-blur-lg rounded-[23px] flex flex-col items-center justify-center border-[0.5px] menu-overlay`;
+  const overlayClassName = `fixed z-[101] text-text-secondary bg-[#0b0b0b]/70 dark:bg-[#f4f4f4]/70 backdrop-blur-lg rounded-[23px] flex flex-col items-center justify-center border-[0.5px] menu-overlay`;
 
   // Get animation variants and transitions
   const transitions = getMenuTransitions(animationState);

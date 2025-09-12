@@ -29,7 +29,7 @@ export default function AdminHeader() {
         {/* Right side - Toggles and Back button */}
         <div className="flex items-center gap-4">
           {/* Language toggle */}
-          <LanguageToggle className="bg-neutral-100 hover:bg-neutral-200 dark:bg-white/10 dark:hover:bg-white/20 text-[#0b0b0b] dark:text-[#fafafa]" />
+          <LanguageToggle className="bg-neutral-100 hover:bg-neutral-200 dark:bg-white/10 dark:hover:bg-white/20 text-[#0b0b0b] dark:text-[#f4f4f4]" />
 
           {/* Dark mode toggle - Custom implementation */}
           {mounted && (
@@ -41,7 +41,7 @@ export default function AdminHeader() {
               {theme === 'light' ? (
                 // Moon icon per dark mode - colore #0b0b0b in white mode
                 <svg
-                  className="w-4 h-4 text-[#0b0b0b] dark:text-[#fafafa]"
+                  className="w-4 h-4 text-[#0b0b0b] dark:text-[#f4f4f4]"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -54,9 +54,9 @@ export default function AdminHeader() {
                   />
                 </svg>
               ) : (
-                // Sun icon per light mode - colore #fafafa in dark mode
+                // Sun icon per light mode - colore #f4f4f4 in dark mode
                 <svg
-                  className="w-4 h-4 text-[#fafafa]"
+                  className="w-4 h-4 text-[#f4f4f4]"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"

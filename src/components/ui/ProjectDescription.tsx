@@ -16,7 +16,7 @@ const ProjectDescription: React.FC<ProjectDescriptionProps> = ({
     <AnimatePresence mode="wait">
       <motion.p
         key={`description-${currentProjectId}-${description}`}
-        className="text-white/80 text-base xs:text-lg sm:text-xl md:text-xl font-light leading-relaxed mb-12 md:mb-16 text-left max-w-[300px] xs:max-w-[340px] sm:max-w-[380px] md:max-w-[500px] transition-colors duration-300"
+        className="text-white/80 text-base xs:text-lg sm:text-xl md:text-xl font-light leading-relaxed mb-12 md:mb-16 text-center max-w-[300px] xs:max-w-[340px] sm:max-w-[380px] md:max-w-[500px] mx-auto transition-colors duration-300"
         initial={{
           opacity: 0,
           y: 20,

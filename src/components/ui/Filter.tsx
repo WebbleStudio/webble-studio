@@ -26,7 +26,7 @@ export default function Filter({
 
   const getClasses = () => {
     if (active) {
-      return 'bg-[#0b0b0b] text-[#fafafa] border-[#0b0b0b] dark:bg-[#fafafa] dark:text-[#0b0b0b] dark:border-[#fafafa]';
+      return 'bg-[#0b0b0b] text-[#f4f4f4] border-[#0b0b0b] dark:bg-[#f4f4f4] dark:text-[#0b0b0b] dark:border-[#f4f4f4]';
     }
 
     if (supportsHover && isHovered) {

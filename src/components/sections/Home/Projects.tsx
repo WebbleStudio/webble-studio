@@ -95,12 +95,12 @@ export default function Projects({ projectData }: ProjectsProps) {
             {/* Center Column: Fixed Title + Animated Description & Image */}
             <div className="flex flex-col items-center" style={{ contain: 'layout style' }}>
               {/* Fixed Title */}
-              <h1 className="text-white text-[48px] 2xl:text-[56px] font-figtree font-medium text-left relative w-[600px] 2xl:w-[750px]">
+              <h1 className="text-white text-[48px] 2xl:text-[56px] font-figtree font-medium text-center relative w-[600px] 2xl:w-[750px]">
                 {project.title}
               </h1>
 
               {/* Animated Project Description */}
-              <div className="w-[600px] 2xl:w-[750px]">
+              <div className="w-[600px] 2xl:w-[750px] text-center mx-auto">
                 <ProjectDescription
                   description={currentSlide.description}
                   currentProjectId={project.id}
@@ -140,7 +140,7 @@ export default function Projects({ projectData }: ProjectsProps) {
                 {project.labels.map((label, index) => (
                   <span
                     key={`${label}-${index}`}
-                    className="text-center py-[11px] px-[17px] bg-transparent text-[#fafafa] border-[1px] border-label-project rounded-full text-sm font-medium whitespace-nowrap"
+                    className="text-center py-[11px] px-[17px] bg-transparent text-[#f4f4f4] border-[1px] border-label-project rounded-full text-sm font-medium whitespace-nowrap"
                   >
                     {label}
                   </span>
@@ -173,16 +173,16 @@ export default function Projects({ projectData }: ProjectsProps) {
 
           {/* Below XL: Standard Layout */}
           <div
-            className="xl:hidden text-center flex flex-col relative z-10"
+            className="xl:hidden text-center flex flex-col items-center relative z-10"
             style={{ contain: 'layout style' }}
           >
             {/* Fixed Title */}
-            <h1 className="text-white text-[32px] xs:text-[36px] sm:text-[40px] md:text-[44px] lg:text-[48px] font-figtree font-medium text-left relative w-[300px] xs:w-[340px] sm:w-[380px] md:w-[500px] lg:w-[600px] mx-auto">
+            <h1 className="text-white text-[32px] xs:text-[36px] sm:text-[40px] md:text-[44px] lg:text-[48px] font-figtree font-medium text-center relative w-[300px] xs:w-[340px] sm:w-[380px] md:w-[500px] lg:w-[600px] mx-auto">
               {project.title}
             </h1>
 
             {/* Animated Project Description */}
-            <div className="w-[300px] xs:w-[340px] sm:w-[380px] md:w-[500px] lg:w-[600px] mx-auto">
+            <div className="w-[300px] xs:w-[340px] sm:w-[380px] md:w-[500px] lg:w-[600px] mx-auto text-center">
               <ProjectDescription
                 description={currentSlide.description}
                 currentProjectId={project.id}
@@ -336,7 +336,7 @@ export default function Projects({ projectData }: ProjectsProps) {
                 return (
                   <span
                     key={`${label}-${index}`}
-                    className="text-center py-[11px] md:px-[17px] bg-transparent text-[#fafafa] border-[1px] border-label-project rounded-full text-sm font-medium md:whitespace-nowrap md-auto-width"
+                    className="text-center py-[11px] md:px-[17px] bg-transparent text-[#f4f4f4] border-[1px] border-label-project rounded-full text-sm font-medium md:whitespace-nowrap md-auto-width"
                     style={{
                       width: getWidthForSmall(label, index),
                     }}

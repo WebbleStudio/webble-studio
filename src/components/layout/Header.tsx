@@ -92,9 +92,7 @@ export default function Header() {
       {/* HEADER */}
       <div
         className={`fixed top-0 left-0 w-full z-[100] h-[90px] flex items-center px-4 md:px-[30px] xl:px-20 transition-all duration-300 ${
-          isScrolled
-            ? 'bg-[#0b0b0b]/80 backdrop-blur-sm md:bg-transparent md:backdrop-blur-none'
-            : ''
+          isScrolled ? 'bg-[#0b0b0b] backdrop-blur-sm md:bg-transparent md:backdrop-blur-none' : ''
         }`}
       >
         {/* Mobile layout: solo logo */}
@@ -281,7 +279,7 @@ export default function Header() {
 
               <motion.div
                 variants={separatorVariants}
-                className="w-24 h-[2px] bg-[#fafafa] dark:bg-[#0b0b0b] opacity-40 origin-left my-6"
+                className="w-24 h-[2px] bg-[#f4f4f4] dark:bg-[#0b0b0b] opacity-40 origin-left my-6"
                 transition={{
                   duration: animationState === 'open' ? 0.25 : 0.15, // Chiusura più veloce
                   ease: animationState === 'open' ? 'easeOut' : 'easeIn',
@@ -308,7 +306,7 @@ export default function Header() {
 
               <motion.div
                 variants={separatorVariants}
-                className="w-24 h-[2px] bg-[#fafafa] dark:bg-[#0b0b0b] opacity-40 origin-left my-6"
+                className="w-24 h-[2px] bg-[#f4f4f4] dark:bg-[#0b0b0b] opacity-40 origin-left my-6"
                 transition={{
                   duration: animationState === 'open' ? 0.25 : 0.15,
                   ease: animationState === 'open' ? 'easeOut' : 'easeIn',
@@ -335,7 +333,7 @@ export default function Header() {
 
               <motion.div
                 variants={separatorVariants}
-                className="w-24 h-[2px] bg-[#fafafa] dark:bg-[#0b0b0b] opacity-40 origin-left my-6"
+                className="w-24 h-[2px] bg-[#f4f4f4] dark:bg-[#0b0b0b] opacity-40 origin-left my-6"
                 transition={{
                   duration: animationState === 'open' ? 0.25 : 0.15,
                   ease: animationState === 'open' ? 'easeOut' : 'easeIn',
@@ -362,7 +360,7 @@ export default function Header() {
 
               <motion.div
                 variants={separatorVariants}
-                className="w-24 h-[2px] bg-[#fafafa] dark:bg-[#0b0b0b] opacity-40 origin-left my-6"
+                className="w-24 h-[2px] bg-[#f4f4f4] dark:bg-[#0b0b0b] opacity-40 origin-left my-6"
                 transition={{
                   duration: animationState === 'open' ? 0.25 : 0.15,
                   ease: animationState === 'open' ? 'easeOut' : 'easeIn',
