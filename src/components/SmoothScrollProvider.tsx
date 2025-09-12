@@ -9,8 +9,6 @@ export default function SmoothScrollProvider({ children }: { children: React.Rea
     const lenis = new Lenis({
       duration: 0.8,
       easing: (t) => 1 - Math.pow(1 - t, 3), // easeOutCubic - più reattivo
-      direction: 'vertical',
-      gestureDirection: 'vertical',
       smooth: true,
       mouseMultiplier: 1.2,
       smoothTouch: false,
