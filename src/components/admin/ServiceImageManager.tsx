@@ -18,8 +18,6 @@ interface ProjectSelectionModalProps {
   availableProjects: Project[];
   selectedProjectIds: string[];
   onProjectToggle: (projectId: string) => void;
-  getProjectAssignments: (projectId: string) => string[];
-  getCategoryName: (slug: string) => string;
 }
 
 // Componente per il popup di selezione progetti
@@ -31,10 +29,10 @@ function ProjectSelectionModal({
   availableProjects,
   selectedProjectIds,
   onProjectToggle,
-  getProjectAssignments,
-  getCategoryName,
 }: ProjectSelectionModalProps) {
   if (!isOpen) return null;
+
+  const isLimitReached = selectedProjectIds.length >= 3;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
@@ -50,7 +48,7 @@ function ProjectSelectionModal({
               Seleziona Progetti per {categoryName}
             </h3>
             <p className="text-neutral-600 dark:text-neutral-400 text-sm mt-1">
-              Progetti selezionati: {selectedProjectIds.length}
+              Progetti selezionati: {selectedProjectIds.length}/3
             </p>
           </div>
           <button
@@ -68,24 +66,38 @@ function ProjectSelectionModal({
           </button>
         </div>
 
+        {/* Messaggio limite raggiunto */}
+        {isLimitReached && (
+          <div className="mb-4 p-3 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg">
+            <p className="text-sm text-yellow-700 dark:text-yellow-200">
+              ⚠️ Limite raggiunto: massimo 3 progetti per categoria
+            </p>
+          </div>
+        )}
+
         {/* Progetti disponibili */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {availableProjects.length > 0 ? (
             availableProjects.map((project) => {
               const isSelected = selectedProjectIds.includes(project.id);
-              const projectAssignments = getProjectAssignments(project.id);
-              const isAssignedElsewhere = projectAssignments.length > 0 && !isSelected;
+              const canSelect = !isLimitReached || isSelected;
 
               return (
                 <div
                   key={project.id}
-                  className={`relative p-4 rounded-lg border-2 transition-all duration-300 cursor-pointer ${
+                  className={`relative p-4 rounded-lg border-2 transition-all duration-300 ${
+                    canSelect ? 'cursor-pointer' : 'cursor-not-allowed opacity-50'
+                  } ${
                     isSelected
                       ? 'border-[#F20352] bg-[#F20352]/5'
-                      : 'border-neutral-200 dark:border-neutral-700 hover:border-[#F20352]/50'
+                      : canSelect
+                        ? 'border-neutral-200 dark:border-neutral-700 hover:border-[#F20352]/50'
+                        : 'border-neutral-200 dark:border-neutral-700'
                   }`}
                   onClick={() => {
-                    onProjectToggle(project.id);
+                    if (canSelect) {
+                      onProjectToggle(project.id);
+                    }
                   }}
                 >
                   {/* Checkbox */}
@@ -115,28 +127,6 @@ function ProjectSelectionModal({
                     </div>
                   </div>
 
-                  {/* Indicatore progetti già assegnati */}
-                  {isAssignedElsewhere && (
-                    <div className="absolute top-3 left-3">
-                      <div className="flex gap-1">
-                        {projectAssignments
-                          .slice(0, 2)
-                          .map((categorySlug: string, index: number) => (
-                            <div
-                              key={categorySlug}
-                              className="w-2 h-2 bg-orange-500 rounded-full"
-                              title={`Assegnato a ${getCategoryName(categorySlug)}`}
-                            />
-                          ))}
-                        {projectAssignments.length > 2 && (
-                          <div className="w-2 h-2 bg-orange-500 rounded-full flex items-center justify-center">
-                            <span className="text-[6px] text-white font-bold">+</span>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  )}
-
                   {/* Immagine progetto */}
                   <div className="aspect-video bg-neutral-200 dark:bg-neutral-700 rounded-lg overflow-hidden mb-3">
                     <img
@@ -154,47 +144,16 @@ function ProjectSelectionModal({
                     <p className="text-xs text-neutral-600 dark:text-neutral-400">
                       {project.categories.join(', ')}
                     </p>
-                    {isAssignedElsewhere && (
-                      <p className="text-xs text-orange-600 dark:text-orange-400 mt-1">
-                        Assegnato a {projectAssignments.length} categoria
-                        {projectAssignments.length > 1 ? 'e' : ''}
-                      </p>
-                    )}
                   </div>
                 </div>
               );
             })
           ) : (
             <div className="col-span-full text-center py-8">
-              <p className="text-neutral-600 dark:text-neutral-400">
-                Nessun progetto disponibile per questa categoria
-              </p>
+              <p className="text-neutral-600 dark:text-neutral-400">Nessun progetto disponibile</p>
             </div>
           )}
         </div>
-
-        {/* Messaggio se non ci sono progetti */}
-        {availableProjects.length === 0 && (
-          <div className="text-center py-12">
-            <div className="w-16 h-16 mx-auto mb-4 bg-neutral-200 dark:bg-neutral-700 rounded-full flex items-center justify-center">
-              <svg
-                className="w-8 h-8 text-neutral-600 dark:text-neutral-400"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                />
-              </svg>
-            </div>
-            <p className="text-neutral-600 dark:text-neutral-400">Nessun progetto disponibile</p>
-            <p className="text-xs mt-1">Crea prima dei progetti nella sezione Projects</p>
-          </div>
-        )}
 
         {/* Actions */}
         <div className="flex justify-end gap-3 mt-6 pt-6 border-t border-neutral-200 dark:border-neutral-700">
@@ -247,14 +206,25 @@ export default function ServiceImageManager({ className = '' }: ServiceImageMana
 
   // Inizializza le modifiche locali quando le categorie vengono caricate
   useEffect(() => {
-    if (serviceCategories.length > 0) {
+    if (serviceCategories.length > 0 && projects.length > 0) {
       const initialChanges: { [slug: string]: string[] } = {};
+      const existingProjectIds = new Set(projects.map((p) => p.id));
+
       serviceCategories.forEach((category) => {
-        initialChanges[category.slug] = [...category.images];
+        // Filtra solo gli ID che corrispondono a progetti esistenti
+        const validImages = category.images.filter((imageId) => existingProjectIds.has(imageId));
+        initialChanges[category.slug] = validImages;
+
+        console.log(`Initializing category: ${category.slug}`, {
+          originalImages: category.images,
+          validImages,
+          removedInvalidIds: category.images.length - validImages.length,
+        });
       });
+      console.log('Setting localChanges:', initialChanges);
       setLocalChanges(initialChanges);
     }
-  }, [serviceCategories]);
+  }, [serviceCategories, projects]);
 
   // Gestisce la selezione/deselezione di un progetto per una categoria
   const handleProjectToggle = (categorySlug: string, projectId: string) => {
@@ -262,17 +232,31 @@ export default function ServiceImageManager({ className = '' }: ServiceImageMana
       const currentImages = prev[categorySlug] || [];
       const isSelected = currentImages.includes(projectId);
 
+      console.log(`Toggle project ${projectId} for category ${categorySlug}`, {
+        currentImages,
+        currentImagesLength: currentImages.length,
+        isSelected,
+      });
+
       if (isSelected) {
         // Rimuovi il progetto
+        const newImages = currentImages.filter((id) => id !== projectId);
+        console.log(`Removing project, new images:`, newImages);
         return {
           ...prev,
-          [categorySlug]: currentImages.filter((id) => id !== projectId),
+          [categorySlug]: newImages,
         };
       } else {
-        // Aggiungi il progetto (senza limite)
+        // Aggiungi il progetto solo se non abbiamo raggiunto il limite di 3
+        if (currentImages.length >= 3) {
+          console.log('Limit reached, not adding project');
+          return prev; // Non aggiungere se già 3 progetti
+        }
+        const newImages = [...currentImages, projectId];
+        console.log(`Adding project, new images:`, newImages);
         return {
           ...prev,
-          [categorySlug]: [...currentImages, projectId],
+          [categorySlug]: newImages,
         };
       }
     });
@@ -282,7 +266,17 @@ export default function ServiceImageManager({ className = '' }: ServiceImageMana
   const saveCategoryChanges = async (categorySlug: string) => {
     try {
       const images = localChanges[categorySlug] || [];
-      await updateServiceCategoryImages(categorySlug, images);
+      // Filtra solo gli ID che corrispondono a progetti esistenti
+      const existingProjectIds = new Set(projects.map((p) => p.id));
+      const validImages = images.filter((imageId) => existingProjectIds.has(imageId));
+
+      console.log(`Saving category ${categorySlug}:`, {
+        originalImages: images,
+        validImages,
+        removedInvalidIds: images.length - validImages.length,
+      });
+
+      await updateServiceCategoryImages(categorySlug, validImages);
     } catch (error) {
       console.error('Error saving category changes:', error);
     }
@@ -312,32 +306,20 @@ export default function ServiceImageManager({ className = '' }: ServiceImageMana
   // Ottiene i progetti selezionati per una categoria
   const getSelectedProjects = (categorySlug: string): Project[] => {
     const selectedIds = localChanges[categorySlug] || [];
-    return projects.filter((project) => selectedIds.includes(project.id));
-  };
+    const selectedProjects = projects.filter((project) => selectedIds.includes(project.id));
 
-  // Ottiene i progetti disponibili per una categoria (tutti i progetti, con indicatori per quelli già assegnati)
-  const getAvailableProjects = (categorySlug: string): Project[] => {
-    // Mostra tutti i progetti, non solo quelli non assegnati
-    return projects;
-  };
-
-  // Ottiene i progetti già assegnati a questa categoria
-  const getSelectedProjectsForCategory = (categorySlug: string): string[] => {
-    return localChanges[categorySlug] || [];
-  };
-
-  // Ottiene tutte le categorie dove un progetto è assegnato
-  const getProjectAssignments = (projectId: string): string[] => {
-    const assignments: string[] = [];
-    Object.keys(localChanges).forEach((categorySlug) => {
-      if (localChanges[categorySlug].includes(projectId)) {
-        assignments.push(categorySlug);
-      }
+    // Debug: log per capire cosa sta succedendo
+    console.log(`Category: ${categorySlug}`, {
+      selectedIds,
+      selectedIdsLength: selectedIds.length,
+      selectedProjectsLength: selectedProjects.length,
+      localChanges: localChanges[categorySlug],
     });
-    return assignments;
+
+    return selectedProjects;
   };
 
-  // Ottiene il nome della categoria dal file di traduzione
+  // Ottiene il nome della categoria
   const getCategoryName = (slug: string): string => {
     const categoryMap: { [key: string]: string } = {
       'ui-ux-design': 'UI/UX Design',
@@ -459,6 +441,35 @@ export default function ServiceImageManager({ className = '' }: ServiceImageMana
             </button>
           )}
 
+          <button
+            onClick={() => {
+              // Pulisce tutti gli ID non validi
+              const existingProjectIds = new Set(projects.map((p) => p.id));
+              const cleanedChanges: { [slug: string]: string[] } = {};
+
+              Object.keys(localChanges).forEach((slug) => {
+                const validImages = localChanges[slug].filter((imageId) =>
+                  existingProjectIds.has(imageId)
+                );
+                cleanedChanges[slug] = validImages;
+              });
+
+              console.log('Cleaning invalid IDs:', { localChanges, cleanedChanges });
+              setLocalChanges(cleanedChanges);
+            }}
+            className="px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg transition-all duration-300 flex items-center gap-2"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+              />
+            </svg>
+            Pulisci ID Non Validi
+          </button>
+
           {hasUnsavedChanges() && (
             <button
               onClick={saveAllChanges}
@@ -482,7 +493,6 @@ export default function ServiceImageManager({ className = '' }: ServiceImageMana
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {categoriesToShow.map((category) => {
           const selectedProjects = getSelectedProjects(category.slug);
-          const availableProjects = getAvailableProjects(category.slug);
           const hasChanges =
             JSON.stringify(category.images?.sort() || []) !==
             JSON.stringify((localChanges[category.slug] || []).sort());
@@ -499,7 +509,7 @@ export default function ServiceImageManager({ className = '' }: ServiceImageMana
                     {getCategoryName(category.slug)}
                   </h3>
                   <p className="text-sm text-neutral-600 dark:text-neutral-400">
-                    {selectedProjects.length} progetti selezionati
+                    {selectedProjects.length}/3 progetti selezionati
                   </p>
                 </div>
 
@@ -579,11 +589,9 @@ export default function ServiceImageManager({ className = '' }: ServiceImageMana
         onClose={closeProjectSelection}
         categorySlug={selectionModal.categorySlug}
         categoryName={selectionModal.categoryName}
-        availableProjects={getAvailableProjects(selectionModal.categorySlug)}
+        availableProjects={projects}
         selectedProjectIds={localChanges[selectionModal.categorySlug] || []}
         onProjectToggle={(projectId) => handleProjectToggle(selectionModal.categorySlug, projectId)}
-        getProjectAssignments={getProjectAssignments}
-        getCategoryName={getCategoryName}
       />
     </div>
   );

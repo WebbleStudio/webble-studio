@@ -43,9 +43,9 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'heroProjects array is required' }, { status: 400 });
     }
 
-    // Valida che ci siano massimo 3 progetti
-    if (heroProjects.length > 3) {
-      return NextResponse.json({ error: 'Maximum 3 hero projects allowed' }, { status: 400 });
+    // Valida che ci siano massimo 4 progetti
+    if (heroProjects.length > 4) {
+      return NextResponse.json({ error: 'Maximum 4 hero projects allowed' }, { status: 400 });
     }
 
     // Prima elimina tutti i record esistenti

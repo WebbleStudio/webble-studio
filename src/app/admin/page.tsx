@@ -597,8 +597,8 @@ export default function AdminPage() {
             };
           });
         await saveHeroProjects(newConfigs);
-      } else if (selectedHighlights.length < 3) {
-        // Aggiungi progetto (max 3)
+      } else if (selectedHighlights.length < 4) {
+        // Aggiungi progetto (max 4)
         const project = projects.find((p) => p.id === projectId);
         if (project) {
           const newConfig: HeroProjectConfig = {
@@ -2016,10 +2016,10 @@ export default function AdminPage() {
                         <div
                           key={project.id}
                           className={`p-4 rounded-lg border-2 cursor-pointer transition-all duration-300 border-neutral-200 dark:border-neutral-700 hover:border-[#F20352]/50 ${
-                            selectedHighlights.length >= 3 ? 'opacity-50 cursor-not-allowed' : ''
+                            selectedHighlights.length >= 4 ? 'opacity-50 cursor-not-allowed' : ''
                           }`}
                           onClick={() => {
-                            if (selectedHighlights.length < 3) {
+                            if (selectedHighlights.length < 4) {
                               handleHighlightSelection(project.id);
                             }
                           }}
@@ -2063,7 +2063,7 @@ export default function AdminPage() {
                       ))}
 
                       {/* Messaggio quando non ci sono progetti disponibili */}
-                      {availableProjects.length === 0 && selectedHighlights.length < 3 && (
+                      {availableProjects.length === 0 && selectedHighlights.length < 4 && (
                         <div className="text-center py-8 text-neutral-600 dark:text-neutral-400">
                           <p className="text-sm">{t('admin.highlights.no_projects_available')}</p>
                           <p className="text-xs mt-1">{t('admin.highlights.no_projects_info')}</p>
@@ -2071,7 +2071,7 @@ export default function AdminPage() {
                       )}
 
                       {/* Messaggio quando hai raggiunto il limite */}
-                      {selectedHighlights.length >= 3 && availableProjects.length > 0 && (
+                      {selectedHighlights.length >= 4 && availableProjects.length > 0 && (
                         <div className="text-center py-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg">
                           <p className="text-sm text-yellow-700 dark:text-yellow-200">
                             {t('admin.highlights.limit_reached')}

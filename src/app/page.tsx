@@ -82,8 +82,8 @@ export default function Home() {
   useEffect(() => {
     const projects: SingleProjectData[] = [];
 
-    // Crea sempre 3 progetti per mantenere l'effetto stacking
-    for (let position = 1; position <= 3; position++) {
+    // Crea sempre 4 progetti per mantenere l'effetto stacking
+    for (let position = 1; position <= 4; position++) {
       const heroProject = heroProjects.find((hp) => hp.position === position);
 
       if (heroProject) {
@@ -118,7 +118,7 @@ export default function Home() {
           {displayProjects.length > 0
             ? displayProjects.map((project, index) => {
                 // Z-index statici per Tailwind CSS
-                const zIndexClasses = ['z-10', 'z-20', 'z-30'];
+                const zIndexClasses = ['z-10', 'z-20', 'z-30', 'z-40'];
                 const zIndexClass = zIndexClasses[index] || 'z-10';
 
                 return (
@@ -127,9 +127,9 @@ export default function Home() {
                   </div>
                 );
               })
-            : // Fallback durante il caricamento - mostra 3 placeholder
-              [1, 2, 3].map((position, index) => {
-                const zIndexClasses = ['z-10', 'z-20', 'z-30'];
+            : // Fallback durante il caricamento - mostra 4 placeholder
+              [1, 2, 3, 4].map((position, index) => {
+                const zIndexClasses = ['z-10', 'z-20', 'z-30', 'z-40'];
                 const zIndexClass = zIndexClasses[index] || 'z-10';
 
                 return (
