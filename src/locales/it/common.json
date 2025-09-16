@@ -148,6 +148,9 @@
       "navigation_images": "Immagini Navigazione",
       "images_count": "({count} immagini)",
       "remove_image": "Rimuovi immagine",
+      "project_date": "Data Progetto",
+      "project_date_placeholder": "es. Settembre 2025",
+      "project_date_help": "Inserisci la data da mostrare per questo progetto (es. Settembre 2025)",
       "no_projects_selected": "Seleziona almeno un progetto per iniziare la configurazione"
     },
     "edit_project": {
@@ -221,5 +224,191 @@
   "about": {
     "founder": "Fondatore",
     "path": "Percorso"
+  },
+  "booking": {
+    "title": "Prenota una chiamata",
+    "steps": {
+      "name": "NOME",
+      "surname": "COGNOME",
+      "email": "EMAIL",
+      "phone": "NUMERO",
+      "services": "SERVIZI",
+      "contact": "CONTATTO"
+    },
+    "placeholders": {
+      "name": "Es. Andrea",
+      "surname": "Es. Bianchi",
+      "email": "webble@web.it",
+      "phone": "123 456 7890",
+      "services_question": "Cosa ti serve?",
+      "contact_question": "Contattatemi..."
+    },
+    "services": {
+      "website": "Sito Web",
+      "advertising": "Advertising",
+      "social_media": "Social Media",
+      "other": "Altro",
+      "custom_placeholder": "Descrivi il servizio che ti serve..."
+    },
+    "contact_methods": {
+      "email": "Per Email",
+      "phone": "Per telefono",
+      "meeting": "Meet/Zoom"
+    },
+    "buttons": {
+      "next": "Avanti",
+      "previous": "Indietro",
+      "submit": "Invia richiesta"
+    },
+    "messages": {
+      "success": "Grazie! La tua richiesta è stata inviata con successo. Ti contatteremo presto!",
+      "error": "Si è verificato un errore. Riprova più tardi.",
+      "loading": "Invio in corso..."
+    },
+    "errors": {
+      "name_required": "Il nome è obbligatorio",
+      "name_no_numbers": "Il nome non può contenere numeri",
+      "surname_required": "Il cognome è obbligatorio",
+      "surname_no_numbers": "Il cognome non può contenere numeri",
+      "email_required": "L'email è obbligatoria",
+      "email_invalid": "Inserisci un indirizzo email valido",
+      "phone_required": "Il numero di telefono è obbligatorio",
+      "phone_no_letters": "Il numero di telefono non può contenere lettere",
+      "phone_invalid": "Formato numero di telefono non valido",
+      "services_required": "Seleziona almeno un servizio",
+      "custom_service_required": "Inserisci il servizio personalizzato",
+      "contact_method_required": "Seleziona un metodo di contatto"
+    }
+  },
+  "admin": {
+    "dashboard": {
+      "title": "Dashboard Admin",
+      "subtitle": "Gestisci progetti, servizi e booking",
+      "welcome": "Benvenuto",
+      "company": "Webble Studio",
+      "logout": "Logout"
+    },
+    "backToSite": "Torna al sito",
+    "navigation": {
+      "projects": "Progetti",
+      "highlights": "In Evidenza",
+      "services": "Servizi",
+      "bookings": "Booking"
+    },
+    "projects": {
+      "title": "Titolo",
+      "description": "Descrizione",
+      "link": "Link",
+      "categories": "Categorie",
+      "category": "Categoria",
+      "new_project": "Nuovo Progetto",
+      "available_slot": "Slot disponibile",
+      "categories_selected": "categorie selezionate",
+      "categories_info": "Seleziona le categorie per questo progetto",
+      "saving": "Salvataggio...",
+      "save_changes": "Salva modifiche",
+      "save_projects_count": "Salva {count} progetti",
+      "title_placeholder": "Inserisci il titolo del progetto",
+      "title_placeholder_en": "Enter project title",
+      "description_placeholder": "Inserisci la descrizione del progetto",
+      "description_placeholder_en": "Enter project description",
+      "link_placeholder": "https://esempio.com",
+      "select_all": "Seleziona tutto",
+      "reset": "Reset",
+      "portfolio_preview": "Anteprima Portfolio",
+      "portfolio_preview_description": "Anteprima di come apparirà il portfolio con i progetti selezionati",
+      "layout": "Layout",
+      "projects_count": "progetti",
+      "project_single": "progetto",
+      "unsaved": "Modifiche non salvate",
+      "view_portfolio": "Visualizza Portfolio",
+      "desktop_layout": "Layout Desktop",
+      "tablet_layout": "Layout Tablet",
+      "mobile_layout": "Layout Mobile",
+      "upload_image": "Carica Immagine",
+      "upload_image_description": "Carica un'immagine per il progetto",
+      "drag_drop": "Trascina e rilascia qui",
+      "click_select": "oppure clicca per selezionare",
+      "add_project": "Aggiungi Progetto",
+      "fill_required": "Compila tutti i campi obbligatori",
+      "fill_required_upload": "Compila tutti i campi obbligatori e carica un'immagine"
+    },
+    "edit_project": {
+      "title": "Modifica Progetto",
+      "image": "Immagine",
+      "new_image_selected": "Nuova immagine selezionata",
+      "change_image": "Cambia immagine",
+      "cancel": "Annulla",
+      "save_changes": "Salva modifiche"
+    },
+    "highlights_projects": {
+      "title": "Progetti in Evidenza",
+      "subtitle": "Gestisci i progetti mostrati nella sezione hero"
+    },
+    "highlights": {
+      "select_projects": "Seleziona Progetti",
+      "selected_count": "{count} selezionati",
+      "remove": "Rimuovi",
+      "available_projects": "Progetti Disponibili",
+      "no_projects_available": "Nessun progetto disponibile",
+      "no_projects_info": "Crea prima alcuni progetti nella sezione Progetti",
+      "limit_reached": "Limite raggiunto (massimo 4 progetti)",
+      "configuration": "Configurazione",
+      "saving": "Salvataggio...",
+      "save": "Salva",
+      "delete_all": "Elimina Tutto",
+      "no_projects_selected": "Nessun progetto selezionato",
+      "descriptions_slides": "Descrizioni e Slide",
+      "slide": "Slide",
+      "background_container": "Container Sfondo",
+      "upload_background": "Carica Sfondo",
+      "project_date": "Data Progetto",
+      "project_date_placeholder": "es. Gennaio 2024",
+      "project_date_help": "Data di completamento o pubblicazione del progetto",
+      "navigation_images": "Immagini di Navigazione",
+      "images_count": "{count} immagini",
+      "remove_image": "Rimuovi immagine"
+    },
+    "service_categories": {
+      "title": "Categorie Servizi",
+      "subtitle": "Gestisci le categorie dei servizi"
+    },
+    "booking_manager": {
+      "title": "Gestione Booking",
+      "loading": "Caricamento booking...",
+      "error": "Errore nel caricamento dei booking",
+      "no_bookings": "Nessun booking trovato",
+      "refresh": "Aggiorna",
+      "selected_count": "selezionati",
+      "delete": "Elimina",
+      "delete_confirm": {
+        "title": "Conferma eliminazione",
+        "message": "Sei sicuro di voler eliminare {count} booking selezionati? Questa azione non può essere annullata.",
+        "cancel": "Annulla",
+        "confirm": "Elimina"
+      },
+      "table": {
+        "select_all": "Seleziona tutto",
+        "client": "Cliente",
+        "service": "Servizio",
+        "contact": "Contatto",
+        "method": "Metodo",
+        "date": "Data",
+        "actions": "Azioni"
+      },
+      "details": {
+        "title": "Dettagli Booking",
+        "client_info": "Informazioni Cliente",
+        "request_details": "Dettagli Richiesta",
+        "name": "Nome",
+        "email": "Email",
+        "phone": "Telefono",
+        "request_date": "Data richiesta",
+        "services_requested": "Servizi richiesti",
+        "preferred_contact": "Metodo di contatto preferito",
+        "reply_email": "Rispondi via Email",
+        "call": "Chiama"
+      }
+    }
   }
 }

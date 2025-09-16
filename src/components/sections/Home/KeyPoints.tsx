@@ -18,10 +18,10 @@ export default function KeyPoints() {
   const { shouldSkipAnimation } = usePerformance();
 
   // Tilt Card effects for each card - configurazioni ottimizzate per forma e dimensione
-  const card1Effect = useTiltCard({ tiltFactor: 4, glareIntensity: 0.1 });
-  const card2Effect = useTiltCard({ tiltFactor: 4, glareIntensity: 0.1 });
-  const card3Effect = useTiltCard({ tiltFactor: 5, glareIntensity: 0.1 }); // Aumentato per card quadrata
-  const card4Effect = useTiltCard({ tiltFactor: 5, glareIntensity: 0.1 }); // Aumentato per card quadrata
+  const card1Effect = useTiltCard({ tiltFactor: 2.4, glareIntensity: 0.1 }); // Intensità mantenuta, solo dimensioni ridotte
+  const card2Effect = useTiltCard({ tiltFactor: 2.4, glareIntensity: 0.1 }); // Intensità mantenuta, solo dimensioni ridotte
+  const card3Effect = useTiltCard({ tiltFactor: 3, glareIntensity: 0.1 }); // Intensità mantenuta, solo dimensioni ridotte
+  const card4Effect = useTiltCard({ tiltFactor: 3, glareIntensity: 0.1 }); // Intensità mantenuta, solo dimensioni ridotte
 
   // Lazy loading ottimizzato per garantire il caricamento
   const {

@@ -11,6 +11,7 @@ export { useApiCall } from './useApiCall';
 export { useAnimationManager } from './useAnimationManager';
 export { useServiceCategories } from './useServiceCategories';
 export { useServiceImages } from './useServiceImages';
+export { useBookings } from './useBookings';
 
 // Lazy loading hooks
 export { useLazyLoad } from './useLazyLoad';

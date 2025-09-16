@@ -7,6 +7,7 @@ export interface HeroProject {
   descriptions: string[];
   images: string[];
   background_image: string;
+  project_date?: string;
   created_at: string;
   updated_at: string;
   projects?: {
@@ -26,6 +27,7 @@ export interface HeroProjectConfig {
   descriptions: string[];
   images: string[];
   backgroundImage: string;
+  projectDate?: string;
 }
 
 export const useHeroProjects = () => {

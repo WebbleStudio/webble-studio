@@ -148,6 +148,9 @@
       "navigation_images": "Navigation Images",
       "images_count": "({count} images)",
       "remove_image": "Remove image",
+      "project_date": "Project Date",
+      "project_date_placeholder": "e.g. September 2025",
+      "project_date_help": "Enter the date to display for this project (e.g. September 2025)",
       "no_projects_selected": "Select at least one project to start configuration"
     },
     "edit_project": {
@@ -221,5 +224,191 @@
   "about": {
     "founder": "Founder",
     "path": "Career"
+  },
+  "booking": {
+    "title": "Book a call",
+    "steps": {
+      "name": "NAME",
+      "surname": "SURNAME",
+      "email": "EMAIL",
+      "phone": "PHONE",
+      "services": "SERVICES",
+      "contact": "CONTACT"
+    },
+    "placeholders": {
+      "name": "E.g. John",
+      "surname": "E.g. Smith",
+      "email": "webble@web.com",
+      "phone": "123 456 7890",
+      "services_question": "What do you need?",
+      "contact_question": "Contact me..."
+    },
+    "services": {
+      "website": "Website",
+      "advertising": "Advertising",
+      "social_media": "Social Media",
+      "other": "Other",
+      "custom_placeholder": "Describe the service you need..."
+    },
+    "contact_methods": {
+      "email": "By Email",
+      "phone": "By Phone",
+      "meeting": "Meet/Zoom"
+    },
+    "buttons": {
+      "next": "Next",
+      "previous": "Previous",
+      "submit": "Send request"
+    },
+    "messages": {
+      "success": "Thank you! Your request has been sent successfully. We will contact you soon!",
+      "error": "An error occurred. Please try again later.",
+      "loading": "Sending..."
+    },
+    "errors": {
+      "name_required": "Name is required",
+      "name_no_numbers": "Name cannot contain numbers",
+      "surname_required": "Surname is required",
+      "surname_no_numbers": "Surname cannot contain numbers",
+      "email_required": "Email is required",
+      "email_invalid": "Enter a valid email address",
+      "phone_required": "Phone number is required",
+      "phone_no_letters": "Phone number cannot contain letters",
+      "phone_invalid": "Invalid phone number format",
+      "services_required": "Select at least one service",
+      "custom_service_required": "Enter the custom service",
+      "contact_method_required": "Select a contact method"
+    }
+  },
+  "admin": {
+    "dashboard": {
+      "title": "Admin Dashboard",
+      "subtitle": "Manage projects, services and bookings",
+      "welcome": "Welcome",
+      "company": "Webble Studio",
+      "logout": "Logout"
+    },
+    "backToSite": "Back to site",
+    "navigation": {
+      "projects": "Projects",
+      "highlights": "Highlights",
+      "services": "Services",
+      "bookings": "Bookings"
+    },
+    "projects": {
+      "title": "Title",
+      "description": "Description",
+      "link": "Link",
+      "categories": "Categories",
+      "category": "Category",
+      "new_project": "New Project",
+      "available_slot": "Available slot",
+      "categories_selected": "categories selected",
+      "categories_info": "Select categories for this project",
+      "saving": "Saving...",
+      "save_changes": "Save changes",
+      "save_projects_count": "Save {count} projects",
+      "title_placeholder": "Enter project title",
+      "title_placeholder_en": "Enter project title",
+      "description_placeholder": "Enter project description",
+      "description_placeholder_en": "Enter project description",
+      "link_placeholder": "https://example.com",
+      "select_all": "Select all",
+      "reset": "Reset",
+      "portfolio_preview": "Portfolio Preview",
+      "portfolio_preview_description": "Preview of how the portfolio will look with selected projects",
+      "layout": "Layout",
+      "projects_count": "projects",
+      "project_single": "project",
+      "unsaved": "Unsaved changes",
+      "view_portfolio": "View Portfolio",
+      "desktop_layout": "Desktop Layout",
+      "tablet_layout": "Tablet Layout",
+      "mobile_layout": "Mobile Layout",
+      "upload_image": "Upload Image",
+      "upload_image_description": "Upload an image for the project",
+      "drag_drop": "Drag and drop here",
+      "click_select": "or click to select",
+      "add_project": "Add Project",
+      "fill_required": "Fill all required fields",
+      "fill_required_upload": "Fill all required fields and upload an image"
+    },
+    "edit_project": {
+      "title": "Edit Project",
+      "image": "Image",
+      "new_image_selected": "New image selected",
+      "change_image": "Change image",
+      "cancel": "Cancel",
+      "save_changes": "Save changes"
+    },
+    "highlights_projects": {
+      "title": "Highlighted Projects",
+      "subtitle": "Manage projects shown in the hero section"
+    },
+    "highlights": {
+      "select_projects": "Select Projects",
+      "selected_count": "{count} selected",
+      "remove": "Remove",
+      "available_projects": "Available Projects",
+      "no_projects_available": "No projects available",
+      "no_projects_info": "Create some projects first in the Projects section",
+      "limit_reached": "Limit reached (maximum 4 projects)",
+      "configuration": "Configuration",
+      "saving": "Saving...",
+      "save": "Save",
+      "delete_all": "Delete All",
+      "no_projects_selected": "No projects selected",
+      "descriptions_slides": "Descriptions and Slides",
+      "slide": "Slide",
+      "background_container": "Background Container",
+      "upload_background": "Upload Background",
+      "project_date": "Project Date",
+      "project_date_placeholder": "e.g. January 2024",
+      "project_date_help": "Project completion or publication date",
+      "navigation_images": "Navigation Images",
+      "images_count": "{count} images",
+      "remove_image": "Remove image"
+    },
+    "service_categories": {
+      "title": "Service Categories",
+      "subtitle": "Manage service categories"
+    },
+    "booking_manager": {
+      "title": "Booking Management",
+      "loading": "Loading bookings...",
+      "error": "Error loading bookings",
+      "no_bookings": "No bookings found",
+      "refresh": "Refresh",
+      "selected_count": "selected",
+      "delete": "Delete",
+      "delete_confirm": {
+        "title": "Confirm deletion",
+        "message": "Are you sure you want to delete {count} selected bookings? This action cannot be undone.",
+        "cancel": "Cancel",
+        "confirm": "Delete"
+      },
+      "table": {
+        "select_all": "Select all",
+        "client": "Client",
+        "service": "Service",
+        "contact": "Contact",
+        "method": "Method",
+        "date": "Date",
+        "actions": "Actions"
+      },
+      "details": {
+        "title": "Booking Details",
+        "client_info": "Client Information",
+        "request_details": "Request Details",
+        "name": "Name",
+        "email": "Email",
+        "phone": "Phone",
+        "request_date": "Request date",
+        "services_requested": "Requested services",
+        "preferred_contact": "Preferred contact method",
+        "reply_email": "Reply via Email",
+        "call": "Call"
+      }
+    }
   }
 }

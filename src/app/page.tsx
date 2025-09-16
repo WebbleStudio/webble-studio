@@ -59,10 +59,12 @@ const convertHeroProjectToSingleProject = (heroProject: HeroProject): SingleProj
     title: project.title,
     backgroundImage: heroProject.background_image || project.image_url,
     labels: project.categories,
-    date: new Date(heroProject.created_at).toLocaleDateString('it-IT', {
-      month: 'long',
-      year: 'numeric',
-    }),
+    date:
+      heroProject.project_date ||
+      new Date(heroProject.created_at).toLocaleDateString('it-IT', {
+        month: 'long',
+        year: 'numeric',
+      }),
     slides,
   };
 };

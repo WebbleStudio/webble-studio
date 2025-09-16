@@ -10,11 +10,11 @@ interface UseTiltCardOptions {
 
 export const useTiltCard = (options: UseTiltCardOptions = {}) => {
   const {
-    tiltFactor = 15,
+    tiltFactor = 9, // Ridotto da 15 a 9 (40% di riduzione)
     transitionDuration = 0.2,
     glareEffect = true,
-    glareIntensity = 0.5,
-    glareSize = 80,
+    glareIntensity = 0.5, // Mantenuto come prima
+    glareSize = 48, // Ridotto da 80 a 48 (40% di riduzione delle dimensioni)
   } = options;
 
   const [isHovered, setIsHovered] = useState(false);

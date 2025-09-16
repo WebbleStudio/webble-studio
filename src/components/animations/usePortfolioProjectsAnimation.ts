@@ -27,12 +27,12 @@ export function usePortfolioProjectsAnimation() {
     },
   };
 
-  // Animation properties per i singoli progetti con stagger effect
+  // Animation properties per i singoli progetti con stagger effect ottimizzato
   const getProjectAnimationProps = (index: number) => ({
     initial: {
       opacity: 0,
-      y: 20,
-      scale: 0.95,
+      y: 15,
+      scale: 0.98,
     },
     animate: {
       opacity: 1,
@@ -41,29 +41,29 @@ export function usePortfolioProjectsAnimation() {
     },
     exit: {
       opacity: 0,
-      y: -10,
-      scale: 0.95,
+      y: -5,
+      scale: 0.98,
     },
     transition: {
-      duration: 0.4,
-      delay: index * 0.1, // Stagger delay
+      duration: 0.3,
+      delay: index * 0.05, // Stagger delay ridotto
       ease: [0.25, 0.46, 0.45, 0.94] as const,
     },
-    layout: true, // Layout animation per smooth repositioning
+    layout: false, // Disabilitato per performance
   });
 
-  // Animation properties per layout XL personalizzato
+  // Animation properties per layout XL semplificato
   const getXLProjectAnimationProps = (rowIndex: number, positionIndex: number) => {
-    // Calcola delay basato sulla posizione nella griglia personalizzata
-    const baseDelay = rowIndex * 0.2; // Delay per riga
-    const positionDelay = positionIndex * 0.08; // Delay per posizione nella riga
+    // Calcola delay basato sulla posizione nella griglia semplificata
+    const baseDelay = rowIndex * 0.1; // Delay per riga ridotto
+    const positionDelay = positionIndex * 0.03; // Delay per posizione ridotto
     const totalDelay = baseDelay + positionDelay;
 
     return {
       initial: {
         opacity: 0,
-        y: 30,
-        scale: 0.92,
+        y: 20,
+        scale: 0.95,
       },
       animate: {
         opacity: 1,
@@ -72,15 +72,15 @@ export function usePortfolioProjectsAnimation() {
       },
       exit: {
         opacity: 0,
-        y: -15,
-        scale: 0.92,
+        y: -10,
+        scale: 0.95,
       },
       transition: {
-        duration: 0.5,
+        duration: 0.3,
         delay: totalDelay,
-        ease: [0.34, 1.56, 0.64, 1] as const, // Elastic easing per effetto bounce
+        ease: [0.25, 0.46, 0.45, 0.94] as const, // Easing semplificato
       },
-      layout: true,
+      layout: false, // Disabilitato per performance
     };
   };
 

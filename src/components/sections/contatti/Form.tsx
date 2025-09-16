@@ -129,7 +129,7 @@ export default function Form() {
   };
 
   return (
-    <section className="h-auto w-full flex items-center justify-center py-20">
+    <section id="contact-form" className="h-auto w-full flex items-center justify-center py-20">
       <div className="w-full bg-[#0b0b0b]/5 dark:bg-[#f4f4f4]/5 rounded-2xl p-6 md:p-8">
         <h2 className="text-[32px] md:text-[36px] lg:text-[40px] font-figtree font-regular text-text-primary text-left">
           <AnimatedText>{t('contact.title')}</AnimatedText>

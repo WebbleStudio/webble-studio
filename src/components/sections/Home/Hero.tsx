@@ -4,6 +4,7 @@ import React from 'react';
 import Label from '@/components/ui/Label';
 import OptimizedImage from '@/components/ui/OptimizedImage';
 import AnimatedText from '@/components/ui/AnimatedText';
+import AnimatedHeroTitle from '@/components/ui/AnimatedHeroTitle';
 import { useSplineLazyLoad } from '@/components/animations/useSplineLazyLoad';
 import { useTranslation } from '@/hooks/useTranslation';
 import { usePerformance } from '@/hooks/usePerformance';
@@ -177,11 +178,9 @@ export default function Hero() {
         {/* Left content section */}
         <div className="gap-4 sm:gap-6 md:gap-3 flex flex-col items-start">
           <h1 className="w-full text-[25px] sm:text-[32px] md:text-[25px] lg:text-[32px] xl:text-[40px] 2xl:text-[50px] font-sans text-main text-left leading-tight">
-            <AnimatedText className="font-normal">{t('hero.title_start')}</AnimatedText>
+            <AnimatedHeroTitle text={t('hero.title_start')} className="font-normal" delay={500} />
             <br />
-            <AnimatedText as="span" className="font-semibold">
-              {t('hero.title_bold')}
-            </AnimatedText>
+            <AnimatedHeroTitle text={t('hero.title_bold')} className="font-semibold" delay={800} />
           </h1>
           <AnimatedText
             as="p"

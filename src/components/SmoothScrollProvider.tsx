@@ -1,10 +1,19 @@
 'use client';
 
 import { useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 import Lenis from 'lenis';
 
 export default function SmoothScrollProvider({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+  const isAdminRoute = pathname?.startsWith('/admin');
+
   useEffect(() => {
+    // Non inizializzare Lenis se siamo in una pagina admin
+    if (isAdminRoute) {
+      return;
+    }
+
     // Inizializza Lenis con configurazione semplificata
     const lenis = new Lenis({
       duration: 0.8,
@@ -27,7 +36,7 @@ export default function SmoothScrollProvider({ children }: { children: React.Rea
       lenis.destroy();
       delete (window as any).lenis;
     };
-  }, []);
+  }, [isAdminRoute]);
 
   return <>{children}</>;
 }

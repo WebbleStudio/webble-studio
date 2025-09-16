@@ -63,18 +63,62 @@ export interface Database {
           updated_at?: string;
         };
       };
+      bookings: {
+        Row: {
+          id: string;
+          name: string;
+          surname: string;
+          email: string;
+          phone: string;
+          services: string[];
+          custom_service?: string;
+          contact_method: string;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          name: string;
+          surname: string;
+          email: string;
+          phone: string;
+          services: string[];
+          custom_service?: string;
+          contact_method: string;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          name?: string;
+          surname?: string;
+          email?: string;
+          phone?: string;
+          services?: string[];
+          custom_service?: string;
+          contact_method?: string;
+        };
+      };
     };
   };
 }
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
 if (!supabaseUrl || !supabaseAnonKey) {
   throw new Error('Missing Supabase environment variables');
 }
 
+// Client pubblico (anonimo) - per operazioni pubbliche
 export const supabase = createClient<Database>(supabaseUrl, supabaseAnonKey, {
   auth: { persistSession: false },
   global: { fetch: fetch },
 });
+
+// Client con service role - per operazioni admin (bypassa RLS)
+export const supabaseAdmin = supabaseServiceKey
+  ? createClient<Database>(supabaseUrl, supabaseServiceKey, {
+      auth: { persistSession: false },
+      global: { fetch: fetch },
+    })
+  : null;

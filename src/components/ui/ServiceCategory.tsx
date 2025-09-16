@@ -3,6 +3,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import AnimatedText from '@/components/ui/AnimatedText';
+import AnimatedServiceTitle from '@/components/ui/AnimatedServiceTitle';
 import { useServiceCategoryAnimation } from '../animations/useServiceCategoryAnimation';
 import { useServiceImages } from '@/hooks/useServiceImages';
 
@@ -13,6 +14,7 @@ interface ServiceCategoryProps {
   paragraph: string;
   className?: string;
   categorySlug?: string; // Aggiungiamo il slug per identificare la categoria
+  index?: number; // Indice per l'animazione stagger
 }
 
 export default function ServiceCategory({
@@ -22,6 +24,7 @@ export default function ServiceCategory({
   paragraph,
   className = '',
   categorySlug,
+  index = 0,
 }: ServiceCategoryProps) {
   const {
     isExpanded,
@@ -56,15 +59,13 @@ export default function ServiceCategory({
 
       {/* Content wrapper */}
       <div className="w-full flex flex-col md:mb-[15px]">
-        {/* Clickable h2 - title principale NON animato come richiesto */}
-        <motion.h2
-          className="text-text-primary-60 data-[expanded=true]:text-text-primary text-[53px] sm:text-[63px] md:text-[68px] xl:text-[78px] 2xl:text-[93px] cursor-pointer w-full leading-tight hover:text-text-primary"
+        {/* Clickable h2 - title principale con animazione di comparsa */}
+        <AnimatedServiceTitle
+          title={title}
+          index={index}
           onClick={toggleExpansion}
-          data-expanded={isExpanded}
-          {...titleAnimationProps}
-        >
-          {title}
-        </motion.h2>
+          isExpanded={isExpanded}
+        />
 
         {/* Expandable content - sempre nel DOM ma condizionalmente visibile */}
         <motion.div

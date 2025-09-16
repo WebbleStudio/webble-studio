@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabaseClient';
 import { Resend } from 'resend';
 import ContactEmail from '@/components/email/ContactEmail';
+import ContactAdminEmail from '@/components/email/ContactAdminEmail';
 import {
   ApplicationError,
   ErrorCode,
@@ -54,7 +55,7 @@ export async function POST(request: NextRequest) {
         );
       }
 
-      // Invio email di conferma
+      // Invio email di conferma al cliente
       try {
         await resend.emails.send({
           from: 'Webble Studio <noreply@contacts.webblestudio.com>',
@@ -69,8 +70,33 @@ export async function POST(request: NextRequest) {
         });
       } catch (emailError) {
         logError(
-          new ApplicationError(ErrorCode.EMAIL_ERROR, "Errore nell'invio email", emailError),
-          'Contact Form Email'
+          new ApplicationError(
+            ErrorCode.EMAIL_ERROR,
+            "Errore nell'invio email cliente",
+            emailError
+          ),
+          'Contact Client Email'
+        );
+        // Non blocchiamo il processo se l'email fallisce
+      }
+
+      // Invio email di notifica all'admin
+      try {
+        await resend.emails.send({
+          from: 'Webble Studio <noreply@contacts.webblestudio.com>',
+          to: ['webblestudio.com@gmail.com'],
+          subject: `${name} ha compilato il form`,
+          react: ContactAdminEmail({
+            name,
+            email,
+            phone: phone || 'Non fornito',
+            message,
+          }),
+        });
+      } catch (emailError) {
+        logError(
+          new ApplicationError(ErrorCode.EMAIL_ERROR, "Errore nell'invio email admin", emailError),
+          'Contact Admin Email'
         );
         // Non blocchiamo il processo se l'email fallisce
       }

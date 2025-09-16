@@ -16,6 +16,7 @@ export default function Services() {
           labels={t('services.service01.labels', { returnObjects: true }) as string[]}
           paragraph={t('services.service01.paragraph')}
           categorySlug="ui-ux-design"
+          index={0}
         />
         <ServiceCategory
           number={t('services.service02.number')}
@@ -23,6 +24,7 @@ export default function Services() {
           labels={t('services.service02.labels', { returnObjects: true }) as string[]}
           paragraph={t('services.service02.paragraph')}
           categorySlug="project-management"
+          index={1}
         />
         <ServiceCategory
           number={t('services.service03.number')}
@@ -30,6 +32,7 @@ export default function Services() {
           labels={t('services.service03.labels', { returnObjects: true }) as string[]}
           paragraph={t('services.service03.paragraph')}
           categorySlug="advertising"
+          index={2}
         />
         <ServiceCategory
           number={t('services.service04.number')}
@@ -37,6 +40,7 @@ export default function Services() {
           labels={t('services.service04.labels', { returnObjects: true }) as string[]}
           paragraph={t('services.service04.paragraph')}
           categorySlug="social-media-design"
+          index={3}
         />
       </div>
     </section>

@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 
 interface PerformanceConfig {
   // Rilevamento dispositivo
@@ -38,6 +38,19 @@ export const usePerformance = (): PerformanceConfig => {
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
   const [forcePerformanceMode, setForcePerformanceMode] = useState<boolean | null>(null);
 
+  // Cache per evitare multiple creazioni di contesti WebGL
+  const webglContextCache = useRef<{
+    canvas: HTMLCanvasElement | null;
+    gl: WebGLRenderingContext | null;
+    gpu: DeviceCapabilities['gpu'];
+    detected: boolean;
+  }>({
+    canvas: null,
+    gl: null,
+    gpu: 'unknown',
+    detected: false,
+  });
+
   // Rileva capacità dispositivo
   const detectDeviceCapabilities = useCallback(async () => {
     try {
@@ -50,28 +63,60 @@ export const usePerformance = (): PerformanceConfig => {
       // Touch device
       const touchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
-      // GPU detection tramite WebGL
+      // GPU detection tramite WebGL - con cache per evitare multiple creazioni
       let gpu: DeviceCapabilities['gpu'] = 'unknown';
-      try {
-        const canvas = document.createElement('canvas');
-        const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
-        if (gl && 'getExtension' in gl) {
-          const webglContext = gl as WebGLRenderingContext;
-          const debugInfo = webglContext.getExtension('WEBGL_debug_renderer_info');
-          if (debugInfo) {
-            const renderer = webglContext.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
-            // Classificazione GPU basilare
-            if (renderer.includes('Intel') && renderer.includes('HD')) {
-              gpu = 'low';
-            } else if (renderer.includes('NVIDIA') || renderer.includes('AMD')) {
-              gpu = 'high';
-            } else {
-              gpu = 'medium';
+
+      if (!webglContextCache.current.detected) {
+        try {
+          // Usa un canvas esistente se disponibile, altrimenti creane uno
+          if (!webglContextCache.current.canvas) {
+            webglContextCache.current.canvas = document.createElement('canvas');
+          }
+
+          if (!webglContextCache.current.gl) {
+            webglContextCache.current.gl =
+              webglContextCache.current.canvas.getContext('webgl') ||
+              webglContextCache.current.canvas.getContext('experimental-webgl');
+          }
+
+          const gl = webglContextCache.current.gl;
+          if (gl && 'getExtension' in gl) {
+            const webglContext = gl as WebGLRenderingContext;
+            const debugInfo = webglContext.getExtension('WEBGL_debug_renderer_info');
+            if (debugInfo) {
+              const renderer = webglContext.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
+              // Classificazione GPU basilare
+              if (renderer.includes('Intel') && renderer.includes('HD')) {
+                gpu = 'low';
+              } else if (renderer.includes('NVIDIA') || renderer.includes('AMD')) {
+                gpu = 'high';
+              } else {
+                gpu = 'medium';
+              }
             }
           }
+
+          // Marca come rilevato e salva il risultato
+          webglContextCache.current.gpu = gpu;
+          webglContextCache.current.detected = true;
+
+          // Cleanup del contesto dopo il rilevamento per liberare risorse
+          if (webglContextCache.current.gl) {
+            const ext = webglContextCache.current.gl.getExtension('WEBGL_lose_context');
+            if (ext) {
+              ext.loseContext();
+            }
+            webglContextCache.current.gl = null;
+          }
+          if (webglContextCache.current.canvas) {
+            webglContextCache.current.canvas = null;
+          }
+        } catch (e) {
+          console.warn('GPU detection failed:', e);
         }
-      } catch (e) {
-        console.warn('GPU detection failed:', e);
+      } else {
+        // Usa il risultato cached
+        gpu = webglContextCache.current.gpu;
       }
 
       setDeviceCapabilities({ cores, memory, gpu, touchDevice });
@@ -132,7 +177,22 @@ export const usePerformance = (): PerformanceConfig => {
     detectConnection();
     const cleanupReducedMotion = detectReducedMotion();
 
-    return cleanupReducedMotion;
+    return () => {
+      // Cleanup del contesto WebGL quando il componente viene smontato
+      if (webglContextCache.current.gl) {
+        const ext = webglContextCache.current.gl.getExtension('WEBGL_lose_context');
+        if (ext) {
+          ext.loseContext();
+        }
+        webglContextCache.current.gl = null;
+      }
+      if (webglContextCache.current.canvas) {
+        webglContextCache.current.canvas = null;
+      }
+      webglContextCache.current.detected = false;
+
+      cleanupReducedMotion?.();
+    };
   }, [detectDeviceCapabilities, detectConnection, detectReducedMotion]);
 
   // Configurazioni derivate

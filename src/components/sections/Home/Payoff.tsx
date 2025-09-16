@@ -1,13 +1,23 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import SecondButton from '@/components/ui/SecondButton';
 import AnimatedText from '@/components/ui/AnimatedText';
+import BookingForm from '@/components/ui/BookingForm';
 import { useTranslation } from '@/hooks/useTranslation';
 import '@/css/Payoff.css';
 
 export default function Payoff() {
   const { t } = useTranslation();
+  const [isFormOpen, setIsFormOpen] = useState(false);
+
+  const handleOpenForm = () => {
+    setIsFormOpen(true);
+  };
+
+  const handleCloseForm = () => {
+    setIsFormOpen(false);
+  };
 
   return (
     <section className="payoff-bg-transition relative h-[700px] md:h-[1000px] lg:h-[1500px] xl:h-[1700px] 2xl:h-[1700px] w-full bg-center bg-no-repeat bg-[length:500px_auto] sm:bg-[length:700px_auto] md:bg-[length:1100px_auto] lg:bg-[length:1300px_auto] xl:bg-[length:1500px_auto] 2xl:bg-[length:1600px_auto] flex items-center justify-center">
@@ -31,11 +41,14 @@ export default function Payoff() {
           {t('payoff.subtitle')}
         </AnimatedText>
         <div className="flex justify-center">
-          <SecondButton>
+          <SecondButton onClick={handleOpenForm}>
             <AnimatedText>{t('payoff.cta')}</AnimatedText>
           </SecondButton>
         </div>
       </div>
+
+      {/* Booking Form Modal */}
+      <BookingForm isOpen={isFormOpen} onClose={handleCloseForm} />
     </section>
   );
 }

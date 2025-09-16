@@ -80,76 +80,74 @@ export default function PortfolioProjects() {
     // forcing the component to re-render with new translations
   }, [currentLanguage]);
 
-  // Filtra i progetti in base ai filtri attivi
-  const filteredProjects = projects.filter((project) => {
-    if (activeFilters.includes('All')) return true;
-    // Controlla se almeno una delle categorie del progetto è nei filtri attivi
-    return project.categories.some((category) => activeFilters.includes(category));
-  });
+  // Filtra i progetti in base ai filtri attivi - ottimizzato con useMemo
+  const filteredProjects = React.useMemo(() => {
+    return projects.filter((project) => {
+      if (activeFilters.includes('All')) return true;
+      // Controlla se almeno una delle categorie del progetto è nei filtri attivi
+      return project.categories.some((category) => activeFilters.includes(category));
+    });
+  }, [projects, activeFilters]);
 
   // Trigger animation quando cambiano i filtri
   useEffect(() => {
     triggerFilterAnimation();
   }, [activeFilters, triggerFilterAnimation]);
 
-  // Chiudi espansione quando si clicca fuori
+  // Chiudi espansione quando si clicca fuori - ottimizzato
   useEffect(() => {
+    if (!isExpanded) return;
+
     function handleClickOutside(event: MouseEvent) {
       if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
-        if (isExpanded) {
-          toggleExpansion();
-        }
+        toggleExpansion();
       }
     }
 
-    if (isExpanded) {
-      document.addEventListener('mousedown', handleClickOutside);
-    }
+    // Usa passive listener per performance
+    document.addEventListener('mousedown', handleClickOutside, { passive: true });
 
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [isExpanded, toggleExpansion]);
 
-  const handleFilterSelect = (filter: string) => {
-    console.log('Selected filter:', filter);
+  // Funzione ottimizzata per gestire i filtri
+  const handleFilterSelect = React.useCallback((filter: string) => {
+    setActiveFilters((prev) => {
+      if (filter === 'All') {
+        return ['All'];
+      }
 
-    if (filter === 'All') {
-      setActiveFilters(['All']);
-    } else {
-      setActiveFilters((prev) => {
-        const withoutAll = prev.filter((f) => f !== 'All');
+      const withoutAll = prev.filter((f) => f !== 'All');
 
-        if (withoutAll.includes(filter)) {
-          const newFilters = withoutAll.filter((f) => f !== filter);
-          return newFilters.length === 0 ? ['All'] : newFilters;
-        } else {
-          return [...withoutAll, filter];
-        }
-      });
-    }
-  };
+      if (withoutAll.includes(filter)) {
+        const newFilters = withoutAll.filter((f) => f !== filter);
+        return newFilters.length === 0 ? ['All'] : newFilters;
+      } else {
+        return [...withoutAll, filter];
+      }
+    });
+  }, []);
 
-  const handleMainFilterSelect = (filter: string) => {
-    if (filter === 'All') {
-      setActiveFilters(['All']);
-    } else {
-      setActiveFilters((prev) => {
-        const withoutAll = prev.filter((f) => f !== 'All');
+  const handleMainFilterSelect = React.useCallback((filter: string) => {
+    setActiveFilters((prev) => {
+      if (filter === 'All') {
+        return ['All'];
+      }
 
-        if (withoutAll.includes(filter)) {
-          const newFilters = withoutAll.filter((f) => f !== filter);
-          return newFilters.length === 0 ? ['All'] : newFilters;
-        } else {
-          return [...withoutAll, filter];
-        }
-      });
-    }
-  };
+      const withoutAll = prev.filter((f) => f !== 'All');
 
-  const handleProjectClick = (project: (typeof projects)[0]) => {
-    console.log('Clicked project:', project.title);
+      if (withoutAll.includes(filter)) {
+        const newFilters = withoutAll.filter((f) => f !== filter);
+        return newFilters.length === 0 ? ['All'] : newFilters;
+      } else {
+        return [...withoutAll, filter];
+      }
+    });
+  }, []);
 
+  const handleProjectClick = React.useCallback((project: (typeof projects)[0]) => {
     // Apri il link del progetto se presente
     if (project.link) {
       // Verifica se il link ha già il protocollo
@@ -159,14 +157,48 @@ export default function PortfolioProjects() {
           : `https://${project.link}`;
 
       window.open(url, '_blank', 'noopener,noreferrer');
-    } else {
-      console.log('Nessun link disponibile per questo progetto');
     }
-  };
+  }, []);
 
-  // Render layout responsivo automatico basato sui breakpoint
-  const renderResponsiveLayout = () => {
-    // Rimuoviamo il limite di 7 progetti per supportare la ripetizione ciclica
+  // Funzione per renderizzare il layout XL semplificato
+  const renderXLLayoutSimplified = React.useCallback(
+    (projects: typeof filteredProjects) => {
+      const rows = [];
+      const projectsPerRow = 3; // Layout fisso: 3 progetti per riga
+
+      // Dividiamo i progetti in righe di 3
+      for (let i = 0; i < projects.length; i += projectsPerRow) {
+        const rowProjects = projects.slice(i, i + projectsPerRow);
+        const rowIndex = Math.floor(i / projectsPerRow);
+
+        rows.push(
+          <div key={`row-${rowIndex}`} className="flex gap-10">
+            {rowProjects.map((project, index) => (
+              <motion.div
+                key={project.id}
+                className="w-1/3"
+                {...getXLProjectAnimationProps(rowIndex, index)}
+              >
+                <Project
+                  title={getTranslatedTitle(project)}
+                  description={getTranslatedDescription(project)}
+                  imageUrl={project.image_url}
+                  hasLink={!!project.link}
+                  onClick={project.link ? () => handleProjectClick(project) : undefined}
+                />
+              </motion.div>
+            ))}
+          </div>
+        );
+      }
+
+      return rows;
+    },
+    [getTranslatedTitle, getTranslatedDescription, handleProjectClick, getXLProjectAnimationProps]
+  );
+
+  // Render layout responsivo automatico basato sui breakpoint - ottimizzato
+  const renderResponsiveLayout = React.useMemo(() => {
     const projectsToShow = filteredProjects;
 
     return (
@@ -209,99 +241,19 @@ export default function PortfolioProjects() {
           ))}
         </div>
 
-        {/* Layout Desktop: ≥ xl (1280px) - Layout complesso con ripetizione ciclica */}
-        <div className="hidden xl:block space-y-10">
-          {renderXLLayoutWithCyclicalPattern(projectsToShow)}
-        </div>
+        {/* Layout Desktop: ≥ xl (1280px) - Layout semplificato */}
+        <div className="hidden xl:block space-y-10">{renderXLLayoutSimplified(projectsToShow)}</div>
       </div>
     );
-  };
-
-  // Funzione per renderizzare il layout XL con pattern ciclico ogni 7 progetti
-  const renderXLLayoutWithCyclicalPattern = (projects: typeof filteredProjects) => {
-    const rows = [];
-    const projectsPerPattern = 7; // Pattern si ripete ogni 7 progetti
-
-    // Dividiamo i progetti in gruppi di 7
-    for (let groupStart = 0; groupStart < projects.length; groupStart += projectsPerPattern) {
-      const currentGroup = projects.slice(groupStart, groupStart + projectsPerPattern);
-      const groupIndex = Math.floor(groupStart / projectsPerPattern);
-
-      // Prima riga del gruppo: primi 2 progetti (se disponibili)
-      if (currentGroup.length >= 1) {
-        const firstRowProjects = currentGroup.slice(0, 2);
-        rows.push(
-          <div key={`group-${groupIndex}-row-0`} className="flex gap-10">
-            {firstRowProjects.map((project, index) => (
-              <motion.div
-                key={project.id}
-                className="w-1/2"
-                {...getXLProjectAnimationProps(groupIndex * 3, index)} // Offset animazioni per gruppo
-              >
-                <Project
-                  title={getTranslatedTitle(project)}
-                  description={getTranslatedDescription(project)}
-                  imageUrl={project.image_url}
-                  hasLink={!!project.link}
-                  onClick={project.link ? () => handleProjectClick(project) : undefined}
-                />
-              </motion.div>
-            ))}
-          </div>
-        );
-      }
-
-      // Seconda riga del gruppo: progetti 3-5 (se disponibili)
-      if (currentGroup.length >= 3) {
-        const secondRowProjects = currentGroup.slice(2, 5);
-        rows.push(
-          <div key={`group-${groupIndex}-row-1`} className="flex gap-10">
-            {secondRowProjects.map((project, index) => (
-              <motion.div
-                key={project.id}
-                className="w-1/3"
-                {...getXLProjectAnimationProps(groupIndex * 3 + 1, index)} // Offset animazioni per gruppo
-              >
-                <Project
-                  title={getTranslatedTitle(project)}
-                  description={getTranslatedDescription(project)}
-                  imageUrl={project.image_url}
-                  hasLink={!!project.link}
-                  onClick={project.link ? () => handleProjectClick(project) : undefined}
-                />
-              </motion.div>
-            ))}
-          </div>
-        );
-      }
-
-      // Terza riga del gruppo: progetti 6-7 (se disponibili)
-      if (currentGroup.length >= 6) {
-        const thirdRowProjects = currentGroup.slice(5, 7);
-        rows.push(
-          <div key={`group-${groupIndex}-row-2`} className="flex gap-10">
-            {thirdRowProjects.map((project, index) => (
-              <motion.div
-                key={project.id}
-                className={index === 0 ? 'w-[35%]' : 'w-[65%]'}
-                {...getXLProjectAnimationProps(groupIndex * 3 + 2, index)} // Offset animazioni per gruppo
-              >
-                <Project
-                  title={getTranslatedTitle(project)}
-                  description={getTranslatedDescription(project)}
-                  imageUrl={project.image_url}
-                  hasLink={!!project.link}
-                  onClick={project.link ? () => handleProjectClick(project) : undefined}
-                />
-              </motion.div>
-            ))}
-          </div>
-        );
-      }
-    }
-
-    return rows;
-  };
+  }, [
+    filteredProjects,
+    getTranslatedTitle,
+    getTranslatedDescription,
+    handleProjectClick,
+    getProjectAnimationProps,
+    getXLProjectAnimationProps,
+    renderXLLayoutSimplified,
+  ]);
 
   return (
     <section className="h-auto min-h-screen flex flex-col py-16">
@@ -421,9 +373,9 @@ export default function PortfolioProjects() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.4 }}
+                transition={{ duration: 0.3 }}
               >
-                {renderResponsiveLayout()}
+                {renderResponsiveLayout}
               </motion.div>
             </AnimatePresence>
           )}

@@ -214,14 +214,7 @@ export default function ServiceImageManager({ className = '' }: ServiceImageMana
         // Filtra solo gli ID che corrispondono a progetti esistenti
         const validImages = category.images.filter((imageId) => existingProjectIds.has(imageId));
         initialChanges[category.slug] = validImages;
-
-        console.log(`Initializing category: ${category.slug}`, {
-          originalImages: category.images,
-          validImages,
-          removedInvalidIds: category.images.length - validImages.length,
-        });
       });
-      console.log('Setting localChanges:', initialChanges);
       setLocalChanges(initialChanges);
     }
   }, [serviceCategories, projects]);
@@ -232,16 +225,9 @@ export default function ServiceImageManager({ className = '' }: ServiceImageMana
       const currentImages = prev[categorySlug] || [];
       const isSelected = currentImages.includes(projectId);
 
-      console.log(`Toggle project ${projectId} for category ${categorySlug}`, {
-        currentImages,
-        currentImagesLength: currentImages.length,
-        isSelected,
-      });
-
       if (isSelected) {
         // Rimuovi il progetto
         const newImages = currentImages.filter((id) => id !== projectId);
-        console.log(`Removing project, new images:`, newImages);
         return {
           ...prev,
           [categorySlug]: newImages,
@@ -249,11 +235,9 @@ export default function ServiceImageManager({ className = '' }: ServiceImageMana
       } else {
         // Aggiungi il progetto solo se non abbiamo raggiunto il limite di 3
         if (currentImages.length >= 3) {
-          console.log('Limit reached, not adding project');
           return prev; // Non aggiungere se già 3 progetti
         }
         const newImages = [...currentImages, projectId];
-        console.log(`Adding project, new images:`, newImages);
         return {
           ...prev,
           [categorySlug]: newImages,
@@ -269,12 +253,6 @@ export default function ServiceImageManager({ className = '' }: ServiceImageMana
       // Filtra solo gli ID che corrispondono a progetti esistenti
       const existingProjectIds = new Set(projects.map((p) => p.id));
       const validImages = images.filter((imageId) => existingProjectIds.has(imageId));
-
-      console.log(`Saving category ${categorySlug}:`, {
-        originalImages: images,
-        validImages,
-        removedInvalidIds: images.length - validImages.length,
-      });
 
       await updateServiceCategoryImages(categorySlug, validImages);
     } catch (error) {
@@ -307,14 +285,6 @@ export default function ServiceImageManager({ className = '' }: ServiceImageMana
   const getSelectedProjects = (categorySlug: string): Project[] => {
     const selectedIds = localChanges[categorySlug] || [];
     const selectedProjects = projects.filter((project) => selectedIds.includes(project.id));
-
-    // Debug: log per capire cosa sta succedendo
-    console.log(`Category: ${categorySlug}`, {
-      selectedIds,
-      selectedIdsLength: selectedIds.length,
-      selectedProjectsLength: selectedProjects.length,
-      localChanges: localChanges[categorySlug],
-    });
 
     return selectedProjects;
   };
@@ -454,7 +424,6 @@ export default function ServiceImageManager({ className = '' }: ServiceImageMana
                 cleanedChanges[slug] = validImages;
               });
 
-              console.log('Cleaning invalid IDs:', { localChanges, cleanedChanges });
               setLocalChanges(cleanedChanges);
             }}
             className="px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg transition-all duration-300 flex items-center gap-2"

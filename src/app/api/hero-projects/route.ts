@@ -75,6 +75,7 @@ export async function POST(request: NextRequest) {
         descriptions: hp.descriptions || ['', '', ''],
         images: hp.images || [],
         background_image: hp.backgroundImage || '',
+        project_date: hp.projectDate || '',
       };
 
       const { data: insertData, error: insertError } = await supabase

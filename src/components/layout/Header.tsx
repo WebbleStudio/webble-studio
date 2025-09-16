@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import OptimizedImage from '@/components/ui/OptimizedImage';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import '@/css/Header.css';
 import Button from '@/components/ui/Button';
 import DarkModeToggle from '@/components/ui/DarkModeToggle';
@@ -18,6 +18,7 @@ export default function Header() {
   const { desktopWrapperClassName, isScrolled } = useHeaderAnimation();
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
   const { overlayStyle, overlayClassName, isVisible, animationState } = useMenuOverlayAnimation(
     isScrolled,
     menuOpen
@@ -27,6 +28,23 @@ export default function Header() {
 
   const handleLinkClick = () => {
     setMenuOpen(false);
+  };
+
+  // Funzione per gestire il click del pulsante "Contattaci"
+  const handleContactClick = () => {
+    if (pathname === '/contatti') {
+      // Se siamo già sulla pagina contatti, scrolla al form
+      const formElement = document.getElementById('contact-form');
+      if (formElement && (window as any).lenis) {
+        (window as any).lenis.scrollTo(formElement, {
+          duration: 1.2,
+          easing: (t: number) => 1 - Math.pow(1 - t, 3), // easeOutCubic
+        });
+      }
+    } else {
+      // Se non siamo sulla pagina contatti, naviga alla pagina
+      router.push('/contatti');
+    }
   };
 
   // Funzione per determinare se una voce è attiva
@@ -152,7 +170,9 @@ export default function Header() {
           <div className="flex items-center gap-3">
             <LanguageToggle className="hidden md:block" />
             <DarkModeToggle className="hidden md:block" />
-            <Button className="hidden md:inline-flex">Contattaci</Button>
+            <Button className="hidden md:inline-flex" onClick={handleContactClick}>
+              Contattaci
+            </Button>
           </div>
         </div>
       </div>
@@ -347,15 +367,17 @@ export default function Header() {
                   ease: animationState === 'open' ? 'easeOut' : 'easeIn',
                 }}
               >
-                <Link href="/contatti" onClick={handleLinkClick}>
-                  <div
-                    className={`text-4xl md:text-5xl font-figtree text-auto-inverse cursor-pointer hover:text-[#F20352] transition-colors duration-200 ${
-                      isActivePage('/contatti') ? 'font-medium' : 'font-light'
-                    }`}
-                  >
-                    {t('menu.contact')}
-                  </div>
-                </Link>
+                <div
+                  onClick={() => {
+                    handleLinkClick();
+                    handleContactClick();
+                  }}
+                  className={`text-4xl md:text-5xl font-figtree text-auto-inverse cursor-pointer hover:text-[#F20352] transition-colors duration-200 ${
+                    isActivePage('/contatti') ? 'font-medium' : 'font-light'
+                  }`}
+                >
+                  {t('menu.contact')}
+                </div>
               </motion.div>
 
               <motion.div

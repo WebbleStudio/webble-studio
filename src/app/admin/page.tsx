@@ -9,6 +9,7 @@ import { useServiceCategories } from '@/hooks/useServiceCategories';
 import ProtectedRoute from '@/components/auth/ProtectedRoute';
 import { signOut, useSession } from 'next-auth/react';
 import ServiceImageManager from '@/components/admin/ServiceImageManager';
+import BookingManager from '@/components/admin/BookingManager';
 import {
   DndContext,
   closestCenter,
@@ -29,7 +30,7 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
 type LayoutMode = 'desktop' | 'tablet' | 'mobile';
-type AdminSection = 'projects' | 'highlights' | 'services';
+type AdminSection = 'projects' | 'highlights' | 'services' | 'bookings';
 
 const categories = ['Web Design', 'UI/UX', 'Branding', 'Project Management', 'Social Media'];
 
@@ -175,6 +176,7 @@ export default function AdminPage() {
       descriptions: string[];
       images: string[];
       backgroundImage: string;
+      projectDate: string;
       hasChanges: boolean;
     };
   }>({});
@@ -216,11 +218,17 @@ export default function AdminPage() {
         descriptions: hp.descriptions,
         images: hp.images,
         backgroundImage: hp.background_image,
+        projectDate: hp.project_date || '',
       };
       return acc;
     },
     {} as {
-      [projectId: string]: { descriptions: string[]; images: string[]; backgroundImage: string };
+      [projectId: string]: {
+        descriptions: string[];
+        images: string[];
+        backgroundImage: string;
+        projectDate: string;
+      };
     }
   );
 
@@ -574,6 +582,7 @@ export default function AdminPage() {
         descriptions: [...hp.descriptions],
         images: [...hp.images],
         backgroundImage: hp.background_image,
+        projectDate: hp.project_date || '',
         hasChanges: false,
       };
     });
@@ -606,6 +615,7 @@ export default function AdminPage() {
             descriptions: ['', '', ''], // 3 descrizioni per 3 slide
             images: [project.image_url], // Inizia con l'immagine principale
             backgroundImage: project.image_url, // Usa l'immagine principale come sfondo di default
+            projectDate: '', // Data vuota di default
           };
 
           const existingConfigs = selectedHighlights.map((id) => {
@@ -615,6 +625,7 @@ export default function AdminPage() {
               descriptions: config.descriptions,
               images: config.images,
               backgroundImage: config.backgroundImage,
+              projectDate: config.projectDate,
             };
           });
 
@@ -627,6 +638,7 @@ export default function AdminPage() {
               descriptions: newConfig.descriptions,
               images: newConfig.images,
               backgroundImage: newConfig.backgroundImage,
+              projectDate: newConfig.projectDate || '',
               hasChanges: false,
             },
           }));
@@ -640,7 +652,7 @@ export default function AdminPage() {
   // Aggiorna le configurazioni locali (senza salvare)
   const updateLocalConfig = (
     projectId: string,
-    field: 'descriptions' | 'images' | 'backgroundImage',
+    field: 'descriptions' | 'images' | 'backgroundImage' | 'projectDate',
     value: any
   ) => {
     setLocalConfigs((prev) => ({
@@ -669,6 +681,7 @@ export default function AdminPage() {
           descriptions: configData.descriptions,
           images: configData.images,
           backgroundImage: configData.backgroundImage,
+          projectDate: configData.projectDate,
         };
       });
 
@@ -1387,6 +1400,16 @@ export default function AdminPage() {
                 }`}
               >
                 {t('admin.navigation.services')}
+              </button>
+              <button
+                onClick={() => setActiveSection('bookings')}
+                className={`py-4 px-1 border-b-2 font-medium text-sm transition-colors duration-300 ${
+                  activeSection === 'bookings'
+                    ? 'border-[#F20352] text-[#F20352]'
+                    : 'border-transparent text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white hover:border-neutral-300 dark:hover:border-neutral-600'
+                }`}
+              >
+                Booking
               </button>
             </div>
           </div>
@@ -2348,6 +2371,25 @@ export default function AdminPage() {
                                 </div>
                               </div>
 
+                              {/* Project Date */}
+                              <div>
+                                <label className="block text-sm font-medium mb-3">
+                                  {t('admin.highlights.project_date')}
+                                </label>
+                                <input
+                                  type="text"
+                                  value={currentConfig.projectDate}
+                                  onChange={(e) =>
+                                    updateLocalConfig(projectId, 'projectDate', e.target.value)
+                                  }
+                                  placeholder={t('admin.highlights.project_date_placeholder')}
+                                  className="w-full px-4 py-3 border border-border-primary-20 rounded-lg bg-white dark:bg-neutral-800 text-black dark:text-white placeholder-text-primary-60 focus:outline-none focus:ring-2 focus:ring-[#F20352]/20 focus:border-[#F20352] transition-colors"
+                                />
+                                <p className="text-xs text-text-primary-60 mt-2">
+                                  {t('admin.highlights.project_date_help')}
+                                </p>
+                              </div>
+
                               {/* Images Navigation */}
                               <div className="mt-6">
                                 <label className="block text-sm font-medium mb-3">
@@ -2450,6 +2492,15 @@ export default function AdminPage() {
             <div className="space-y-8">
               <div className="bg-white dark:bg-[#0b0b0b] border border-neutral-200 dark:border-neutral-700 rounded-[25px] p-6 shadow-md">
                 <ServiceImageManager />
+              </div>
+            </div>
+          )}
+
+          {/* Bookings Section */}
+          {activeSection === 'bookings' && (
+            <div className="space-y-8">
+              <div className="bg-white dark:bg-[#0b0b0b] border border-neutral-200 dark:border-neutral-700 rounded-[25px] p-6 shadow-md">
+                <BookingManager />
               </div>
             </div>
           )}
