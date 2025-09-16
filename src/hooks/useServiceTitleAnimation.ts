@@ -32,7 +32,7 @@ function useInView(ref: React.RefObject<HTMLElement>, options?: IntersectionObse
 // Hook principale per l'animazione completa dei titoli delle service categories
 export function useServiceTitleScrollAnimation(index: number = 0) {
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, {
+  const isInView = useInView(ref as React.RefObject<HTMLElement>, {
     threshold: 0.2,
     rootMargin: '-150px 0px',
   });

@@ -34,11 +34,6 @@ export default function AnimatedServiceTitle({
       y: 0,
       scale: isExpanded ? 1.02 : 1,
       filter: 'blur(0px)',
-      transition: {
-        duration: 0.4,
-        ease: [0.25, 0.46, 0.45, 0.94],
-        staggerChildren: 0.03, // Delay tra ogni lettera
-      },
     },
   };
 
@@ -53,10 +48,6 @@ export default function AnimatedServiceTitle({
       opacity: 1,
       y: 0,
       filter: 'blur(0px)',
-      transition: {
-        duration: 0.3,
-        ease: [0.25, 0.46, 0.45, 0.94],
-      },
     },
   };
 
@@ -69,6 +60,11 @@ export default function AnimatedServiceTitle({
       variants={containerVariants}
       initial="hidden"
       animate={isVisible ? 'visible' : 'hidden'}
+      transition={{ 
+        duration: 0.4,
+        ease: 'easeOut',
+        staggerChildren: 0.03 
+      }}
       whileHover={{
         scale: isExpanded ? 1.02 : 1.03,
         opacity: isExpanded ? 1 : 0.6,

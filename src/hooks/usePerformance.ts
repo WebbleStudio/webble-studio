@@ -75,8 +75,8 @@ export const usePerformance = (): PerformanceConfig => {
 
           if (!webglContextCache.current.gl) {
             webglContextCache.current.gl =
-              webglContextCache.current.canvas.getContext('webgl') ||
-              webglContextCache.current.canvas.getContext('experimental-webgl');
+              (webglContextCache.current.canvas.getContext('webgl') as WebGLRenderingContext) ||
+              (webglContextCache.current.canvas.getContext('experimental-webgl') as WebGLRenderingContext);
           }
 
           const gl = webglContextCache.current.gl;

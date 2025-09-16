@@ -3,7 +3,10 @@ import { supabaseAdmin } from '@/lib/supabaseClient';
 import { auth } from '@/lib/auth';
 import { ApplicationError, ErrorCode, createErrorResponse, logError } from '@/lib/errors';
 
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
     // Verifica autenticazione admin
     const session = await auth();
@@ -19,7 +22,7 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
       throw new ApplicationError(ErrorCode.DATABASE_ERROR, 'Service role key non configurata');
     }
 
-    const { id } = params;
+    const { id } = await params;
 
     if (!id) {
       return createErrorResponse(

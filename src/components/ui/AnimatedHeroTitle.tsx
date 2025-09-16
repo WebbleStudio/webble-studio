@@ -38,11 +38,6 @@ export default function AnimatedHeroTitle({
       y: 0,
       scale: 1,
       filter: 'blur(0px)',
-      transition: {
-        duration: 0.6,
-        ease: [0.25, 0.46, 0.45, 0.94],
-        staggerChildren: 0.04, // Delay tra ogni lettera
-      },
     },
   };
 
@@ -57,10 +52,6 @@ export default function AnimatedHeroTitle({
       opacity: 1,
       y: 0,
       filter: 'blur(0px)',
-      transition: {
-        duration: 0.4,
-        ease: [0.25, 0.46, 0.45, 0.94],
-      },
     },
   };
 
@@ -70,6 +61,11 @@ export default function AnimatedHeroTitle({
       variants={containerVariants}
       initial="hidden"
       animate={isVisible ? 'visible' : 'hidden'}
+      transition={{ 
+        duration: 0.6,
+        ease: 'easeOut',
+        staggerChildren: 0.04 
+      }}
       style={{
         willChange: 'transform, opacity, filter',
         transformOrigin: 'left',

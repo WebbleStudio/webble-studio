@@ -33,7 +33,6 @@ const Project = React.memo(function Project({
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
             className={`object-cover transition-transform duration-200 ${hasLink ? 'group-hover:scale-105' : ''}`}
-            loading="lazy"
           />
         ) : (
           // Placeholder rettangolo rosso

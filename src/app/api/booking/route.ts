@@ -95,8 +95,7 @@ export async function POST(request: NextRequest) {
             surname,
             email,
             phone,
-            services,
-            customService,
+            service: customService || services.join(', '),
             contactMethod,
           }),
         });
@@ -122,8 +121,7 @@ export async function POST(request: NextRequest) {
             surname,
             email,
             phone,
-            services,
-            customService,
+            service: customService || services.join(', '),
             contactMethod,
           }),
         });
