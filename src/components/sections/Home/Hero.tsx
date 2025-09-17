@@ -30,7 +30,7 @@ export default function Hero() {
     if (lenis) {
       lenis.scrollTo(payoffTitle, {
         offset: -window.innerHeight / 2 + payoffTitle.offsetHeight / 2,
-        duration: 1.0,
+        duration: 0.4, // Ridotto ulteriormente per massima reattività
         easing: (t: number) => 1 - Math.pow(1 - t, 3), // easeOutCubic - più reattivo
       });
     } else {

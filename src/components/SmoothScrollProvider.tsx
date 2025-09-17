@@ -16,7 +16,7 @@ export default function SmoothScrollProvider({ children }: { children: React.Rea
 
     // Inizializza Lenis con configurazione semplificata
     const lenis = new Lenis({
-      duration: 0.8,
+      duration: 0.35, // Ridotto ulteriormente per massima reattività
       easing: (t) => 1 - Math.pow(1 - t, 3), // easeOutCubic - più reattivo
     });
 

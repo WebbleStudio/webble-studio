@@ -14,6 +14,24 @@ export const metadata: Metadata = {
     title: 'Webble Studio: Scopri cosa significa essere unici',
     description: 'Trova i professionisti giusti per il tuo progetto digitale.',
     type: 'website',
+    url: 'https://webble.studio',
+    siteName: 'Webble Studio',
+    images: [
+      {
+        url: '/img/thumbnails/webble-thumbnail.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Webble Studio - Featured Image',
+      },
+    ],
+    locale: 'it_IT',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Webble Studio: Scopri cosa significa essere unici',
+    description: 'Trova i professionisti giusti per il tuo progetto digitale.',
+    images: ['/img/thumbnails/webble-thumbnail.jpg'],
+    creator: '@webblestudio',
   },
   robots: {
     index: true,
