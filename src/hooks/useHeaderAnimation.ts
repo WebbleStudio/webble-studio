@@ -62,14 +62,19 @@ export function useHeaderAnimation() {
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('resize', handleResize);
 
-      if (scrollTimeoutRef.current !== null) {
-        clearTimeout(scrollTimeoutRef.current);
+      // Copy ref values to avoid stale closure issues
+      const scrollTimeout = scrollTimeoutRef.current;
+      const resizeTimeout = resizeTimeoutRef.current;
+      const rafId = rafRef.current;
+
+      if (scrollTimeout !== null) {
+        clearTimeout(scrollTimeout);
       }
-      if (resizeTimeoutRef.current !== null) {
-        clearTimeout(resizeTimeoutRef.current);
+      if (resizeTimeout !== null) {
+        clearTimeout(resizeTimeout);
       }
-      if (rafRef.current !== null) {
-        cancelAnimationFrame(rafRef.current);
+      if (rafId !== null) {
+        cancelAnimationFrame(rafId);
       }
     };
   }, [handleScroll, handleResize]);

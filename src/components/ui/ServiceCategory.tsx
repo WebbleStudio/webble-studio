@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import AnimatedText from '@/components/ui/AnimatedText';
 import AnimatedServiceTitle from '@/components/ui/AnimatedServiceTitle';
 import { useServiceCategoryAnimation } from '../animations/useServiceCategoryAnimation';
@@ -147,16 +148,20 @@ export default function ServiceCategory({
                             rel="noopener noreferrer"
                             className="block w-full h-full"
                           >
-                            <img
+                            <Image
                               src={project.image_url}
                               alt={project.title}
+                              width={200}
+                              height={130}
                               className="w-full h-full object-cover"
                             />
                           </a>
                         ) : (
-                          <img
+                          <Image
                             src={project.image_url}
                             alt={project.title}
+                            width={200}
+                            height={130}
                             className="w-full h-full object-cover"
                           />
                         )}

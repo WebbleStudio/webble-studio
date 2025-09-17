@@ -307,7 +307,7 @@ export const useSplineLazyLoad = ({
         clearTimeout(cleanupTimeoutRef.current);
       }
     };
-  }, [loadSplineScript, delay, cleanupSpline, shouldSkipAnimation]);
+  }, [loadSplineScript, delay, shouldSkipAnimation]);
 
   // Set loaded state quando tutto è pronto (con fade-in fluido)
   useEffect(() => {

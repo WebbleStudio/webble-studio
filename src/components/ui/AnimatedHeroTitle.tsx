@@ -61,10 +61,10 @@ export default function AnimatedHeroTitle({
       variants={containerVariants}
       initial="hidden"
       animate={isVisible ? 'visible' : 'hidden'}
-      transition={{ 
+      transition={{
         duration: 0.6,
         ease: 'easeOut',
-        staggerChildren: 0.04 
+        staggerChildren: 0.04,
       }}
       style={{
         willChange: 'transform, opacity, filter',

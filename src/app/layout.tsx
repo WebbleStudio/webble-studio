@@ -6,6 +6,7 @@ import { SessionProvider } from 'next-auth/react';
 import { auth } from '@/lib/auth';
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://webble.studio'),
   title: 'Webble Studio: Scopri cosa significa essere unici',
   description:
     'Trova i professionisti giusti per il tuo progetto digitale. Designer, sviluppatori, copywriter e marketer pronti a trasformare le tue idee in realtà, garantendo risultati di alta qualità e un servizio personalizzato per ogni esigenza.',

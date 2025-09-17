@@ -37,8 +37,8 @@ export default function AnimatedServiceTitle({
     },
   };
 
-  // Varianti per ogni lettera
-  const letterVariants = {
+  // Varianti per ogni parola
+  const wordVariants = {
     hidden: {
       opacity: 0,
       y: 20,
@@ -60,10 +60,10 @@ export default function AnimatedServiceTitle({
       variants={containerVariants}
       initial="hidden"
       animate={isVisible ? 'visible' : 'hidden'}
-      transition={{ 
+      transition={{
         duration: 0.4,
         ease: 'easeOut',
-        staggerChildren: 0.03 
+        staggerChildren: 0.08,
       }}
       whileHover={{
         scale: isExpanded ? 1.02 : 1.03,
@@ -79,17 +79,17 @@ export default function AnimatedServiceTitle({
         transformOrigin: 'left',
       }}
     >
-      {/* Dividi il titolo in lettere per l'animazione */}
-      {title.split('').map((letter, letterIndex) => (
+      {/* Dividi il titolo in parole per l'animazione */}
+      {title.split(' ').map((word, wordIndex) => (
         <motion.span
-          key={letterIndex}
-          variants={letterVariants}
-          className="inline-block"
+          key={wordIndex}
+          variants={wordVariants}
+          className="inline-block mr-2 last:mr-0"
           style={{
             willChange: 'transform, opacity, filter',
           }}
         >
-          {letter === ' ' ? '\u00A0' : letter}
+          {word}
         </motion.span>
       ))}
     </motion.h2>

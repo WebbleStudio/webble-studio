@@ -76,7 +76,9 @@ export const usePerformance = (): PerformanceConfig => {
           if (!webglContextCache.current.gl) {
             webglContextCache.current.gl =
               (webglContextCache.current.canvas.getContext('webgl') as WebGLRenderingContext) ||
-              (webglContextCache.current.canvas.getContext('experimental-webgl') as WebGLRenderingContext);
+              (webglContextCache.current.canvas.getContext(
+                'experimental-webgl'
+              ) as WebGLRenderingContext);
           }
 
           const gl = webglContextCache.current.gl;
@@ -179,14 +181,17 @@ export const usePerformance = (): PerformanceConfig => {
 
     return () => {
       // Cleanup del contesto WebGL quando il componente viene smontato
-      if (webglContextCache.current.gl) {
-        const ext = webglContextCache.current.gl.getExtension('WEBGL_lose_context');
+      // Copy ref values to avoid stale closure issues
+      const webglContext = webglContextCache.current.gl;
+      const canvas = webglContextCache.current.canvas;
+      if (webglContext) {
+        const ext = webglContext.getExtension('WEBGL_lose_context');
         if (ext) {
           ext.loseContext();
         }
         webglContextCache.current.gl = null;
       }
-      if (webglContextCache.current.canvas) {
+      if (canvas) {
         webglContextCache.current.canvas = null;
       }
       webglContextCache.current.detected = false;
