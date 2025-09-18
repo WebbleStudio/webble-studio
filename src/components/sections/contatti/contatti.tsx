@@ -19,7 +19,7 @@ export default function Contatti() {
               <h3 className="text-[15px] font-figtree font-bold text-[#0b0b0b] dark:text-[#f4f4f4]">
                 Vadim <span className="text-[14px] font-medium">* Founder</span>
               </h3>
-              <p className="text-[15px] font-figtree font-regular text-[#0b0b0b] dark:text-[#f4f4f4]">
+              <p className="text-[15px] font-figtree font-light text-[#0b0b0b] dark:text-[#f4f4f4]">
                 +39 353 424 8308
               </p>
             </a>
@@ -27,7 +27,7 @@ export default function Contatti() {
               <h3 className="text-[15px] font-figtree font-bold text-[#0b0b0b] dark:text-[#f4f4f4]">
                 Gabriele <span className="text-[14px] font-medium">* Founder</span>
               </h3>
-              <p className="text-[15px] font-figtree font-regular text-[#0b0b0b] dark:text-[#f4f4f4]">
+              <p className="text-[15px] font-figtree font-light text-[#0b0b0b] dark:text-[#f4f4f4]">
                 +39 329 001 5646
               </p>
             </a>
@@ -40,7 +40,7 @@ export default function Contatti() {
           </h3>
           <a
             href="mailto:info@webblestudio.com"
-            className="text-[18px] font-figtree font-regular text-[#0b0b0b] dark:text-[#f4f4f4] hover:opacity-80 transition-opacity"
+            className="text-[18px] font-figtree font-light text-[#0b0b0b] dark:text-[#f4f4f4] hover:opacity-80 transition-opacity"
           >
             info@webblestudio.com
           </a>

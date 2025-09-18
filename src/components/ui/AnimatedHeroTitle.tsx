@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface AnimatedHeroTitleProps {
   text: string;
@@ -41,8 +41,8 @@ export default function AnimatedHeroTitle({
     },
   };
 
-  // Varianti per ogni lettera
-  const letterVariants = {
+  // Varianti per ogni parola
+  const wordVariants = {
     hidden: {
       opacity: 0,
       y: 20,
@@ -56,34 +56,38 @@ export default function AnimatedHeroTitle({
   };
 
   return (
-    <motion.span
-      className={className}
-      variants={containerVariants}
-      initial="hidden"
-      animate={isVisible ? 'visible' : 'hidden'}
-      transition={{
-        duration: 0.6,
-        ease: 'easeOut',
-        staggerChildren: 0.04,
-      }}
-      style={{
-        willChange: 'transform, opacity, filter',
-        transformOrigin: 'left',
-      }}
-    >
-      {/* Dividi il testo in lettere per l'animazione */}
-      {text.split('').map((letter, letterIndex) => (
-        <motion.span
-          key={letterIndex}
-          variants={letterVariants}
-          className="inline-block"
-          style={{
-            willChange: 'transform, opacity, filter',
-          }}
-        >
-          {letter === ' ' ? '\u00A0' : letter}
-        </motion.span>
-      ))}
-    </motion.span>
+    <AnimatePresence mode="wait">
+      <motion.span
+        key={text} // Key importante: cambia quando il testo cambia per il cambio lingua
+        className={className}
+        variants={containerVariants}
+        initial="hidden"
+        animate={isVisible ? 'visible' : 'hidden'}
+        exit="hidden"
+        transition={{
+          duration: 0.6,
+          ease: 'easeOut',
+          staggerChildren: 0.08,
+        }}
+        style={{
+          willChange: 'transform, opacity, filter',
+          transformOrigin: 'left',
+        }}
+      >
+        {/* Dividi il testo in parole per l'animazione */}
+        {text.split(' ').map((word, wordIndex) => (
+          <motion.span
+            key={wordIndex}
+            variants={wordVariants}
+            className="inline-block mr-2 last:mr-0"
+            style={{
+              willChange: 'transform, opacity, filter',
+            }}
+          >
+            {word}
+          </motion.span>
+        ))}
+      </motion.span>
+    </AnimatePresence>
   );
 }

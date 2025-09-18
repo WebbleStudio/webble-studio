@@ -131,7 +131,7 @@ export default function Contact() {
   return (
     <section className="h-auto w-full flex items-center justify-center py-20">
       <div className="w-full">
-        <h2 className="text-[50px] md:text-[50px] lg:text-[60px] font-figtree font-regular text-text-primary text-left">
+        <h2 className="text-[50px] md:text-[50px] lg:text-[60px] font-figtree font-light text-text-primary text-left">
           <AnimatedText>{t('contact.title')}</AnimatedText>
         </h2>
 
@@ -152,7 +152,7 @@ export default function Contact() {
             <div>
               <label
                 htmlFor="name"
-                className="block text-[20px] font-figtree font-regular text-text-primary mb-3 text-left"
+                className="block text-[20px] font-figtree font-light text-text-primary mb-3 text-left"
               >
                 <AnimatedText>{t('contact.fields.name')}</AnimatedText>
               </label>
@@ -179,7 +179,7 @@ export default function Contact() {
             <div>
               <label
                 htmlFor="email"
-                className="block text-[20px] font-figtree font-regular text-text-primary mb-3 text-left"
+                className="block text-[20px] font-figtree font-light text-text-primary mb-3 text-left"
               >
                 <AnimatedText>{t('contact.fields.email')}</AnimatedText>
               </label>
@@ -209,7 +209,7 @@ export default function Contact() {
           <div>
             <label
               htmlFor="phone"
-              className="block text-[20px] font-figtree font-regular text-text-primary mb-3 text-left"
+              className="block text-[20px] font-figtree font-light text-text-primary mb-3 text-left"
             >
               <AnimatedText>{t('contact.fields.phone')}</AnimatedText>
             </label>
@@ -236,7 +236,7 @@ export default function Contact() {
           <div>
             <label
               htmlFor="message"
-              className="block text-[20px] font-figtree font-regular text-text-primary mb-3 text-left"
+              className="block text-[20px] font-figtree font-light text-text-primary mb-3 text-left"
             >
               <AnimatedText>{t('contact.fields.message')}</AnimatedText>
             </label>

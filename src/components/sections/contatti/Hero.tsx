@@ -53,7 +53,7 @@ export default function Hero() {
             <AnimatePresence mode="wait">
               <motion.h1
                 key={`title-${t('contact.hero.title')}`}
-                className="text-[35px] md:text-[50px] lg:text-[60px] font-figtree font-regular text-white"
+                className="text-[35px] md:text-[50px] lg:text-[60px] font-figtree font-light text-white"
                 initial={{
                   opacity: 0,
                   y: 20,

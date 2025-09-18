@@ -177,8 +177,8 @@ export default function Hero() {
       >
         {/* Left content section */}
         <div className="gap-4 sm:gap-6 md:gap-3 flex flex-col items-start">
-          <h1 className="w-full text-[25px] sm:text-[32px] md:text-[25px] lg:text-[32px] xl:text-[40px] 2xl:text-[50px] font-sans text-main text-left leading-tight">
-            <AnimatedHeroTitle text={t('hero.title_start')} className="font-normal" delay={500} />
+          <h1 className="w-full text-[25px] sm:text-[32px] md:text-[25px] lg:text-[32px] xl:text-[40px] 2xl:text-[50px] font-figtree text-main text-left leading-tight">
+            <AnimatedHeroTitle text={t('hero.title_start')} className="font-light" delay={500} />
             <br />
             <AnimatedHeroTitle text={t('hero.title_bold')} className="font-semibold" delay={800} />
           </h1>
