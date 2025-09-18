@@ -25,7 +25,7 @@ export default function Payoff() {
         <div id="payoff-title">
           <AnimatedText
             as="h1"
-            className="text-center text-[25px] sm:text-[32px] md:text-[45px] lg:text-[55px] xl:text-[75px] font-figtree font-medium text-text-primary leading-[1.1]"
+            className="text-center text-[25px] xs:text-[28px] sm:text-[32px] md:text-[45px] lg:text-[55px] xl:text-[75px] font-figtree font-medium text-text-primary leading-[1.1]"
           >
             <span className="font-semibold">{t('payoff.title_start')}</span>{' '}
             {t('payoff.title_middle')}
@@ -36,7 +36,7 @@ export default function Payoff() {
         </div>
         <AnimatedText
           as="p"
-          className="text-center text-[14px] sm:text-[16px] md:text-[20px] font-figtree font-light text-text-primary w-[300px] sm:w-[400px] md:w-[500px] mx-auto"
+          className="text-center text-[14px] xs:text-[15px] sm:text-[16px] md:text-[20px] font-figtree font-light text-text-primary w-[300px] xs:w-[350px] sm:w-[400px] md:w-[500px] mx-auto"
         >
           {t('payoff.subtitle')}
         </AnimatedText>
