@@ -177,14 +177,14 @@ export default function Hero() {
       >
         {/* Left content section */}
         <div className="gap-4 sm:gap-6 md:gap-3 flex flex-col items-start">
-          <h1 className="w-full text-[25px] sm:text-[32px] md:text-[25px] lg:text-[32px] xl:text-[40px] 2xl:text-[50px] font-figtree text-main text-left leading-tight">
+          <h1 className="w-full text-[25px] xs:text-[30px] sm:text-[32px] md:text-[25px] lg:text-[32px] xl:text-[40px] 2xl:text-[50px] font-figtree text-main text-left leading-tight">
             <AnimatedHeroTitle text={t('hero.title_start')} className="font-light" delay={500} />
             <br />
             <AnimatedHeroTitle text={t('hero.title_bold')} className="font-semibold" delay={800} />
           </h1>
           <AnimatedText
             as="p"
-            className="w-[280px] sm:w-[320px] md:w-[280px] lg:w-[320px] xl:w-[400px] 2xl:w-[500px] text-[14px] sm:text-[16px] md:text-[14px] lg:text-[16px] xl:text-[18px] 2xl:text-[22px] font-medium font-figtree text-left leading-[1.2] md:leading-[1.5] mb-[5px]"
+            className="w-[280px] xs:w-[300px] sm:w-[320px] md:w-[280px] lg:w-[320px] xl:w-[400px] 2xl:w-[500px] text-[14px] xs:text-[17px] sm:text-[16px] md:text-[14px] lg:text-[16px] xl:text-[18px] 2xl:text-[22px] font-medium font-figtree text-left leading-[1.2] md:leading-[1.5] mb-[5px]"
             style={{ color: '#989898' }}
           >
             {t('hero.subtitle_left')}
