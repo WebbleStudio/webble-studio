@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { headers } from 'next/headers';
 import './globals.css';
 import { fontVariables } from './fonts';
 import ClientLayout from './ClientLayout';
@@ -39,6 +40,35 @@ export const metadata: Metadata = {
     follow: true,
   },
 };
+
+// Ensure absolute URLs for previews across environments (prod, preview, local)
+export async function generateMetadata(): Promise<Metadata> {
+  const requestHeaders = await headers();
+  const forwardedHost = requestHeaders.get('x-forwarded-host');
+  const host = requestHeaders.get('host');
+  const proto = requestHeaders.get('x-forwarded-proto') || 'https';
+  const domain = forwardedHost || host || 'webble.studio';
+  const base = new URL(`${proto}://${domain}`);
+
+  const imagePath = '/img/thumbnails/webble-thumbnail.jpg';
+
+  return {
+    metadataBase: base,
+    openGraph: {
+      images: [
+        {
+          url: imagePath,
+          width: 1200,
+          height: 630,
+          alt: 'Webble Studio - Featured Image',
+        },
+      ],
+    },
+    twitter: {
+      images: [imagePath],
+    },
+  };
+}
 
 export default function RootLayout({
   children,
