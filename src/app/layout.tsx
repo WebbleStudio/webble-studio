@@ -9,6 +9,8 @@ import { auth } from '@/lib/auth';
 const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL ||
   (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000');
+// Force absolute OG/Twitter image to primary domain to avoid preview/redirect content-type issues
+const ogImageAbs = 'https://webblestudio.com/img/thumbnails/webble-thumbnail.jpg';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -24,7 +26,7 @@ export const metadata: Metadata = {
     siteName: 'Webble Studio',
     images: [
       {
-        url: '/img/thumbnails/webble-thumbnail.jpg',
+        url: ogImageAbs,
         width: 1200,
         height: 630,
         alt: 'Webble Studio - Featured Image',
@@ -36,7 +38,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Webble Studio: Scopri cosa significa essere unici',
     description: 'Trova i professionisti giusti per il tuo progetto digitale.',
-    images: ['/img/thumbnails/webble-thumbnail.jpg'],
+    images: [ogImageAbs],
     creator: '@webblestudio',
   },
   robots: {
