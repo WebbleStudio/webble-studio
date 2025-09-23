@@ -192,7 +192,10 @@ export default function BookingClientEmail({
                 textAlign: 'left',
               }}
             >
-              {contactMethod?.toLowerCase() === 'email' ? 'Contatto via mail' :
+              {contactMethod?.toLowerCase() === 'per email' ? 'Contatto via mail' :
+               contactMethod?.toLowerCase() === 'per telefono' ? 'Contatto telefonico' :
+               contactMethod?.toLowerCase() === 'meet/zoom' ? 'Chiamata Meet/Zoom' :
+               contactMethod?.toLowerCase() === 'email' ? 'Contatto via mail' :
                contactMethod?.toLowerCase() === 'phone' ? 'Contatto telefonico' :
                contactMethod?.toLowerCase() === 'meet' ? 'Chiamata Meet/Zoom' :
                contactMethod?.toLowerCase() === 'telefono' ? 'Contatto telefonico' :
