@@ -402,7 +402,7 @@ export default function BookingClientEmail({
               color: 'rgba(250, 250, 250, 0.60)',
               fontSize: '14px',
               fontWeight: 'normal',
-              margin: '0 0 2px 0',
+              margin: '0 0 4px 0',
               fontFamily: 'Arial, Helvetica, sans-serif',
               textAlign: 'center',
             }}
@@ -415,7 +415,7 @@ export default function BookingClientEmail({
               color: '#fafafa',
               fontSize: '14px',
               fontWeight: 'normal',
-              margin: '0 0 2px 0',
+              margin: '0 0 4px 0',
               fontFamily: 'Arial, Helvetica, sans-serif',
               textAlign: 'center',
               textDecoration: 'underline',
