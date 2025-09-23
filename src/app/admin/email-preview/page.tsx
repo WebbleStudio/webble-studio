@@ -12,22 +12,20 @@ const sampleContactData = {
   email: 'mario.rossi@example.com',
   company: 'Acme Corp',
   phone: '+39 123 456 7890',
-  message: 'Siamo interessati ai vostri servizi di web design. Potreste contattarci per una consulenza?',
+  message:
+    'Siamo interessati ai vostri servizi di web design. Potreste contattarci per una consulenza?',
   services: ['Web Design', 'Digital Marketing'],
   budget: '€5.000 - €10.000',
-  timeline: '3-6 mesi'
+  timeline: '3-6 mesi',
 };
 
 const sampleBookingData = {
-  name: 'Giulia Bianchi',
+  name: 'Giulia',
+  surname: 'Bianchi',
   email: 'giulia.bianchi@example.com',
-  company: 'TechStart SRL',
   phone: '+39 987 654 3210',
   service: 'Sviluppo E-commerce',
-  date: '2024-02-15',
-  time: '14:30',
-  message: 'Vorremmo discutere lo sviluppo di una piattaforma e-commerce per la nostra azienda.',
-  budget: '€15.000 - €25.000'
+  contactMethod: 'Email',
 };
 
 export default function EmailPreview() {

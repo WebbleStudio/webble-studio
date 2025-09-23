@@ -32,37 +32,41 @@ export default function BookingClientEmail({
       }}
     >
       {/* Logo */}
-      <div style={{ 
-        marginBottom: '40px',
-        textAlign: 'center',
-        width: '100%'
-      }}>
-        <img 
-          src="https://webblestudio.com/img/mail/logo-red.svg" 
-          alt="Webble Studio" 
+      <div
+        style={{
+          marginBottom: '40px',
+          textAlign: 'center',
+          width: '100%',
+        }}
+      >
+        <img
+          src="https://webblestudio.com/img/mail/logo-red.svg"
+          alt="Webble Studio"
           style={{
             maxWidth: '90px',
             height: 'auto',
             display: 'block',
-            margin: '0 auto'
+            margin: '0 auto',
           }}
         />
       </div>
 
       {/* Envelope */}
-      <div style={{ 
-        marginBottom: '40px',
-        textAlign: 'center',
-        width: '100%'
-      }}>
-        <img 
-          src="https://webblestudio.com/img/mail/envelope.svg" 
-          alt="Email" 
+      <div
+        style={{
+          marginBottom: '40px',
+          textAlign: 'center',
+          width: '100%',
+        }}
+      >
+        <img
+          src="https://webblestudio.com/img/mail/envelope.svg"
+          alt="Email"
           style={{
             maxWidth: '100%',
             height: 'auto',
             display: 'block',
-            margin: '0 auto'
+            margin: '0 auto',
           }}
         />
       </div>
