@@ -57,7 +57,7 @@ export default function BookingClientEmail({
             width: '100%',
             height: 'auto',
             display: 'block',
-            marginTop: '0',
+            marginTop: '20px',
             marginBottom: '0',
             marginLeft: 'auto',
             marginRight: 'auto',
@@ -71,7 +71,7 @@ export default function BookingClientEmail({
         style={{
           width: '100%',
           backgroundColor: '#050505',
-          padding: '40px 0',
+          padding: '20px 0',
           textAlign: 'center',
         }}
       >
