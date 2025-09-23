@@ -24,8 +24,9 @@ const sampleBookingData = {
   surname: 'Bianchi',
   email: 'giulia.bianchi@example.com',
   phone: '+39 987 654 3210',
-  service: 'Sviluppo E-commerce',
-  contactMethod: 'Email',
+  service: 'Sito Web',
+  contactMethod: 'email',
+  date: '23/09/2025',
 };
 
 export default function EmailPreview() {

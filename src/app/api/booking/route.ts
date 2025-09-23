@@ -97,6 +97,7 @@ export async function POST(request: NextRequest) {
             phone,
             service: customService || services.join(', '),
             contactMethod,
+            date: new Date().toLocaleDateString('it-IT'),
           }),
         });
       } catch (emailError) {

@@ -7,6 +7,7 @@ interface BookingClientEmailProps {
   phone: string;
   service: string;
   contactMethod: string;
+  date?: string;
 }
 
 export default function BookingClientEmail({
@@ -16,6 +17,7 @@ export default function BookingClientEmail({
   phone,
   service,
   contactMethod,
+  date,
 }: BookingClientEmailProps) {
 
   return (
@@ -31,36 +33,16 @@ export default function BookingClientEmail({
         boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
         padding: '0px',
         textAlign: 'center',
+        colorScheme: 'light',
+        // Forza la modalità chiara per prevenire l'inversione in dark mode
+        color: '#fafafa',
       }}
     >
-      {/* Logo */}
-      <div
-        style={{
-          marginBottom: '40px',
-          textAlign: 'center',
-          width: '100%',
-          paddingTop: '40px',
-        }}
-      >
-        <img
-          src="https://webblestudio.com/img/mail/logo-red.png"
-          alt="Webble Studio"
-          width="90"
-          height="auto"
-          style={{
-            maxWidth: '90px',
-            height: 'auto',
-            display: 'block',
-            margin: '10px auto 0 auto',
-            border: 'none',
-          }}
-        />
-      </div>
 
       {/* Envelope */}
       <div
         style={{
-          marginBottom: '40px',
+          marginBottom: '10px',
           textAlign: 'center',
           width: '100%',
         }}
@@ -68,14 +50,16 @@ export default function BookingClientEmail({
         <img
           src="https://webblestudio.com/img/mail/envelope.png"
           alt="Email"
-          width="100%"
+          width="110%"
           height="auto"
           style={{
-            width: '100%',
+            width: '110%',
             height: 'auto',
             display: 'block',
             margin: '0 auto',
             border: 'none',
+            marginLeft: '-5%',
+            marginRight: '-5%',
           }}
         />
       </div>
@@ -85,7 +69,7 @@ export default function BookingClientEmail({
         style={{
           width: '100%',
           backgroundColor: '#050505',
-          padding: '40px 20px',
+          padding: '40px 0',
           textAlign: 'center',
         }}
       >
@@ -94,8 +78,11 @@ export default function BookingClientEmail({
             color: '#fafafa',
             fontSize: '28px',
             fontWeight: 'normal',
-            margin: '0 0 20px 0',
+            margin: '0 auto 10px auto',
             fontFamily: 'Arial, Helvetica, sans-serif',
+            display: 'block',
+            width: '100%',
+            textAlign: 'center',
           }}
         >
           <span style={{ fontFamily: 'Arial, Helvetica, sans-serif', fontWeight: 'normal' }}>Ciao </span>
@@ -112,12 +99,398 @@ export default function BookingClientEmail({
             fontFamily: 'Arial, Helvetica, sans-serif',
             fontWeight: 'normal',
             maxWidth: '390px',
+            display: 'block',
+            textAlign: 'center',
+            padding: '0 20px',
           }}
         >
           Grazie per aver scelto Webble Studio!<br />
           Abbiamo ricevuto la tua richiesta e siamo entusiasti di
           trasformare la tua visione in realtà digitale.
         </p>
+      </div>
+
+      {/* New Container Section */}
+      <div
+        style={{
+          width: '100%',
+          backgroundColor: '#050505',
+          padding: '20px',
+          textAlign: 'center',
+          boxSizing: 'border-box',
+        }}
+      >
+        <div
+          style={{
+            width: '100%',
+            border: '1px solid rgba(250, 250, 250, 0.20)',
+            borderRadius: '16px',
+            backgroundColor: 'transparent',
+            margin: '0 auto',
+            boxSizing: 'border-box',
+            padding: '20px',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <h2
+            style={{
+              color: '#fafafa',
+              fontSize: '18px',
+              fontWeight: '600',
+              margin: '0 0 20px 0',
+              fontFamily: 'Arial, Helvetica, sans-serif',
+              textAlign: 'center',
+            }}
+          >
+            Dettagli richiesta:
+          </h2>
+
+          {/* Full width container - 50px height */}
+          <div
+            style={{
+              width: '100%',
+              height: '50px',
+              border: '1px solid rgba(250, 250, 250, 0.20)',
+              borderRadius: '12px',
+              backgroundColor: 'rgba(217, 217, 217, 0.05)',
+              margin: '10px 0',
+              boxSizing: 'border-box',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'flex-start',
+              paddingLeft: '15px',
+            }}
+          >
+            <h3
+              style={{
+                color: '#fafafa',
+                fontSize: '14px',
+                fontWeight: '500',
+                margin: '0',
+                fontFamily: 'Arial, Helvetica, sans-serif',
+                textAlign: 'left',
+              }}
+            >
+              {contactMethod?.toLowerCase() === 'email' && 'Contatto via mail'}
+              {contactMethod?.toLowerCase() === 'phone' && 'Contatto telefonico'}
+              {contactMethod?.toLowerCase() === 'meet' && 'Chiamata Meet/Zoom'}
+              {contactMethod?.toLowerCase() === 'telefono' && 'Contatto telefonico'}
+              {contactMethod?.toLowerCase() === 'chiamata' && 'Chiamata Meet/Zoom'}
+            </h3>
+          </div>
+
+          {/* Two 50% width containers - 50px height each */}
+          <div
+            style={{
+              display: 'flex',
+              gap: '10px',
+              width: '100%',
+            }}
+          >
+            <div
+              style={{
+                width: '50%',
+                height: '50px',
+                border: '1px solid rgba(250, 250, 250, 0.20)',
+                borderRadius: '12px',
+                backgroundColor: 'rgba(217, 217, 217, 0.05)',
+                boxSizing: 'border-box',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'flex-start',
+                paddingLeft: '15px',
+              }}
+            >
+              <h3
+                style={{
+                  color: '#fafafa',
+                  fontSize: '14px',
+                  fontWeight: '500',
+                  margin: '0',
+                  fontFamily: 'Arial, Helvetica, sans-serif',
+                  textAlign: 'left',
+                }}
+              >
+                {
+                  service?.toLowerCase() === 'sito web' && 'Sito Web'
+                  || service?.toLowerCase() === 'advertising' && 'Advertising'
+                  || service?.toLowerCase() === 'social media' && 'Social Media'
+                  || service?.toLowerCase() === 'altro' && 'Altro'
+                  || service
+                }
+              </h3>
+            </div>
+            <div
+              style={{
+                width: '50%',
+                height: '50px',
+                border: '1px solid rgba(250, 250, 250, 0.20)',
+                borderRadius: '12px',
+                backgroundColor: 'rgba(217, 217, 217, 0.05)',
+                boxSizing: 'border-box',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'flex-start',
+                paddingLeft: '15px',
+              }}
+            >
+              <h3
+                style={{
+                  color: '#fafafa',
+                  fontSize: '14px',
+                  fontWeight: '500',
+                  margin: '0',
+                  fontFamily: 'Arial, Helvetica, sans-serif',
+                  textAlign: 'left',
+                }}
+              >
+                {date || new Date().toLocaleDateString('it-IT')}
+              </h3>
+            </div>
+          </div>
+        </div>
+
+        {/* Second Container Section - Duplicate */}
+        <div
+          style={{
+            width: '100%',
+            border: '1px solid rgba(250, 250, 250, 0.20)',
+            borderRadius: '16px',
+            backgroundColor: 'transparent',
+            margin: '20px auto 0 auto',
+            boxSizing: 'border-box',
+            padding: '20px',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <h2
+            style={{
+              color: '#fafafa',
+              fontSize: '18px',
+              fontWeight: '600',
+              margin: '0 0 20px 0',
+              fontFamily: 'Arial, Helvetica, sans-serif',
+              textAlign: 'center',
+            }}
+          >
+            Dati Personali:
+          </h2>
+
+          {/* Two 100% width containers */}
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '10px',
+              width: '100%',
+            }}
+          >
+            <div
+              style={{
+                width: '100%',
+                height: '50px',
+                border: '1px solid rgba(250, 250, 250, 0.20)',
+                borderRadius: '12px',
+                backgroundColor: 'rgba(217, 217, 217, 0.05)',
+                boxSizing: 'border-box',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'flex-start',
+                paddingLeft: '15px',
+              }}
+            >
+              <h3
+                style={{
+                  color: '#fafafa',
+                  fontSize: '14px',
+                  fontWeight: '500',
+                  margin: '0',
+                  fontFamily: 'Arial, Helvetica, sans-serif',
+                  textAlign: 'left',
+                }}
+              >
+                {email}
+              </h3>
+            </div>
+            <div
+              style={{
+                width: '100%',
+                height: '50px',
+                border: '1px solid rgba(250, 250, 250, 0.20)',
+                borderRadius: '12px',
+                backgroundColor: 'rgba(217, 217, 217, 0.05)',
+                boxSizing: 'border-box',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'flex-start',
+                paddingLeft: '15px',
+              }}
+            >
+              <h3
+                style={{
+                  color: '#fafafa',
+                  fontSize: '14px',
+                  fontWeight: '500',
+                  margin: '0',
+                  fontFamily: 'Arial, Helvetica, sans-serif',
+                  textAlign: 'left',
+                }}
+              >
+                {phone}
+              </h3>
+            </div>
+          </div>
+        </div>
+
+        {/* Third Container Section - I prossimi passi */}
+        <div
+          style={{
+            width: '100%',
+            border: '1px solid rgba(250, 250, 250, 0.20)',
+            borderRadius: '16px',
+            backgroundColor: 'transparent',
+            margin: '20px auto 0 auto',
+            boxSizing: 'border-box',
+            padding: '20px',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'flex-start',
+            alignItems: 'flex-start',
+          }}
+        >
+          <div style={{ width: '100%', textAlign: 'center', marginBottom: '20px' }}>
+            <h2
+              style={{
+                color: '#fafafa',
+                fontSize: '18px',
+                fontWeight: '600',
+                margin: '0',
+                fontFamily: 'Arial, Helvetica, sans-serif',
+                textAlign: 'center',
+              }}
+            >
+              I prossimi passi!
+            </h2>
+          </div>
+          
+          <h3
+            style={{
+              color: '#fafafa',
+              fontSize: '14px',
+              fontWeight: '500',
+              margin: '0 0 15px 0',
+              fontFamily: 'Arial, Helvetica, sans-serif',
+              textAlign: 'left',
+            }}
+          >
+            <span style={{ opacity: '1' }}>Entro 24 ore</span> <span style={{ opacity: '0.6' }}>il nostro team ti contatterà per:</span>
+          </h3>
+          
+          <ul
+            style={{
+              color: '#fafafa',
+              fontSize: '14px',
+              lineHeight: '1.6',
+              margin: '0',
+              padding: '0',
+              fontFamily: 'Arial, Helvetica, sans-serif',
+              textAlign: 'left',
+              listStyleType: 'none',
+            }}
+          >
+            <li style={{ marginBottom: '8px', display: 'flex', alignItems: 'flex-start' }}>
+              <span style={{ color: '#fafafa', marginRight: '8px', fontSize: '16px' }}>•</span>
+              <span>Analizzare in dettaglio il tuo progetto</span>
+            </li>
+            <li style={{ marginBottom: '8px', display: 'flex', alignItems: 'flex-start' }}>
+              <span style={{ color: '#fafafa', marginRight: '8px', fontSize: '16px' }}>•</span>
+              <span>Definire la strategia migliore</span>
+            </li>
+            <li style={{ marginBottom: '8px', display: 'flex', alignItems: 'flex-start' }}>
+              <span style={{ color: '#fafafa', marginRight: '8px', fontSize: '16px' }}>•</span>
+              <span>Prepararti un preventivo personalizzato</span>
+            </li>
+            <li style={{ marginBottom: '8px', display: 'flex', alignItems: 'flex-start' }}>
+              <span style={{ color: '#fafafa', marginRight: '8px', fontSize: '16px' }}>•</span>
+              <span>Pianificare i tempi di realizzazione</span>
+            </li>
+          </ul>
+        </div>
+
+        {/* Footer Section */}
+        <div
+          style={{
+            width: '100%',
+            backgroundColor: '#050505',
+            padding: '80px 20px 10px 20px',
+            textAlign: 'center',
+            boxSizing: 'border-box',
+          }}
+        >
+          <p
+            style={{
+              color: 'rgba(250, 250, 250, 0.60)',
+              fontSize: '14px',
+              fontWeight: 'normal',
+              fontFamily: 'Arial, Helvetica, sans-serif',
+              textAlign: 'center',
+            }}
+          >
+            Hai domande? Siamo qui per te!
+          </p>
+          
+          <p
+            style={{
+              color: '#fafafa',
+              fontSize: '14px',
+              fontWeight: 'normal',
+              margin: '0 0 4px 0',
+              fontFamily: 'Arial, Helvetica, sans-serif',
+              textAlign: 'center',
+              textDecoration: 'underline',
+            }}
+          >
+            <a 
+              href="https://webblestudio.com/contatti" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              style={{
+                color: '#fafafa',
+                textDecoration: 'underline',
+                textDecorationColor: '#fafafa',
+              }}
+            >
+              webblestudio.com/contatti
+            </a>
+          </p>
+          
+          <p
+            style={{
+              color: '#fafafa',
+              fontSize: '14px',
+              fontWeight: 'normal',
+              margin: '0',
+              fontFamily: 'Arial, Helvetica, sans-serif',
+              textAlign: 'center',
+            }}
+          >
+            <a 
+              href="tel:+393534248308"
+              style={{
+                color: '#fafafa',
+                textDecoration: 'none',
+              }}
+            >
+              +39 353 424 8308
+            </a>
+          </p>
+        </div>
       </div>
 
     </div>
