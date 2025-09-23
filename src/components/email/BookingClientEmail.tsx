@@ -37,7 +37,25 @@ export default function BookingClientEmail({
         // Forza la modalità chiara per prevenire l'inversione in dark mode
         color: '#fafafa',
       }}
+      data-color-scheme="light"
+      data-ogsc="light"
     >
+      {/* CSS to prevent dark mode color inversion */}
+      <style dangerouslySetInnerHTML={{
+        __html: `
+          @media (prefers-color-scheme: dark) {
+            * {
+              color-scheme: light !important;
+              -webkit-color-scheme: light !important;
+            }
+          }
+          * {
+            color-scheme: light !important;
+            -webkit-color-scheme: light !important;
+          }
+        `
+      }} />
+      
       {/* Preview text for Gmail - hidden but helps with truncation */}
       <div style={{ display: 'none', fontSize: '0', lineHeight: '0', maxHeight: '0', overflow: 'hidden' }}>
         Grazie per aver scelto Webble Studio! Abbiamo ricevuto la tua richiesta e siamo entusiasti di trasformare la tua visione in realtà digitale.
