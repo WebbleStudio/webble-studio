@@ -183,74 +183,74 @@ export default function BookingClientEmail({
           </div>
 
           {/* Two 50% width containers - 50px height each */}
-          <div
-            style={{
-              display: 'flex',
-              gap: '10px',
-              width: '100%',
-            }}
-          >
-            <div
-              style={{
-                width: '50%',
-                height: '50px',
-                border: '1px solid rgba(250, 250, 250, 0.20)',
-                borderRadius: '12px',
-                backgroundColor: 'rgba(217, 217, 217, 0.05)',
-                boxSizing: 'border-box',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'flex-start',
-                paddingLeft: '15px',
-              }}
-            >
-              <h3
-                style={{
-                  color: '#fafafa',
-                  fontSize: '14px',
-                  fontWeight: '500',
-                  margin: '0',
-                  fontFamily: 'Arial, Helvetica, sans-serif',
-                  textAlign: 'left',
-                }}
-              >
-                {
-                  service?.toLowerCase() === 'sito web' && 'Sito Web'
-                  || service?.toLowerCase() === 'advertising' && 'Advertising'
-                  || service?.toLowerCase() === 'social media' && 'Social Media'
-                  || service?.toLowerCase() === 'altro' && 'Altro'
-                  || service
-                }
-              </h3>
-            </div>
-            <div
-              style={{
-                width: '50%',
-                height: '50px',
-                border: '1px solid rgba(250, 250, 250, 0.20)',
-                borderRadius: '12px',
-                backgroundColor: 'rgba(217, 217, 217, 0.05)',
-                boxSizing: 'border-box',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'flex-start',
-                paddingLeft: '15px',
-              }}
-            >
-              <h3
-                style={{
-                  color: '#fafafa',
-                  fontSize: '14px',
-                  fontWeight: '500',
-                  margin: '0',
-                  fontFamily: 'Arial, Helvetica, sans-serif',
-                  textAlign: 'left',
-                }}
-              >
-                {date || new Date().toLocaleDateString('it-IT')}
-              </h3>
-            </div>
-          </div>
+          <table width="100%" cellPadding="0" cellSpacing="0" style={{ marginTop: '10px' }}>
+            <tr>
+              <td width="50%" style={{ paddingRight: '5px' }}>
+                <div
+                  style={{
+                    width: '100%',
+                    height: '50px',
+                    border: '1px solid rgba(250, 250, 250, 0.20)',
+                    borderRadius: '12px',
+                    backgroundColor: 'rgba(217, 217, 217, 0.05)',
+                    boxSizing: 'border-box',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'flex-start',
+                    paddingLeft: '15px',
+                  }}
+                >
+                  <h3
+                    style={{
+                      color: '#fafafa',
+                      fontSize: '14px',
+                      fontWeight: '500',
+                      margin: '0',
+                      fontFamily: 'Arial, Helvetica, sans-serif',
+                      textAlign: 'left',
+                    }}
+                  >
+                    {
+                      service?.toLowerCase() === 'sito web' && 'Sito Web'
+                      || service?.toLowerCase() === 'advertising' && 'Advertising'
+                      || service?.toLowerCase() === 'social media' && 'Social Media'
+                      || service?.toLowerCase() === 'altro' && 'Altro'
+                      || service
+                    }
+                  </h3>
+                </div>
+              </td>
+              <td width="50%" style={{ paddingLeft: '5px' }}>
+                <div
+                  style={{
+                    width: '100%',
+                    height: '50px',
+                    border: '1px solid rgba(250, 250, 250, 0.20)',
+                    borderRadius: '12px',
+                    backgroundColor: 'rgba(217, 217, 217, 0.05)',
+                    boxSizing: 'border-box',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'flex-start',
+                    paddingLeft: '15px',
+                  }}
+                >
+                  <h3
+                    style={{
+                      color: '#fafafa',
+                      fontSize: '14px',
+                      fontWeight: '500',
+                      margin: '0',
+                      fontFamily: 'Arial, Helvetica, sans-serif',
+                      textAlign: 'left',
+                    }}
+                  >
+                    {date || new Date().toLocaleDateString('it-IT')}
+                  </h3>
+                </div>
+              </td>
+            </tr>
+          </table>
         </div>
 
         {/* Second Container Section - Duplicate */}
@@ -283,69 +283,70 @@ export default function BookingClientEmail({
           </h2>
 
           {/* Two 100% width containers */}
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '10px',
-              width: '100%',
-            }}
-          >
-            <div
-              style={{
-                width: '100%',
-                height: '50px',
-                border: '1px solid rgba(250, 250, 250, 0.20)',
-                borderRadius: '12px',
-                backgroundColor: 'rgba(217, 217, 217, 0.05)',
-                boxSizing: 'border-box',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'flex-start',
-                paddingLeft: '15px',
-              }}
-            >
-              <h3
-                style={{
-                  color: '#fafafa',
-                  fontSize: '14px',
-                  fontWeight: '500',
-                  margin: '0',
-                  fontFamily: 'Arial, Helvetica, sans-serif',
-                  textAlign: 'left',
-                }}
-              >
-                {email}
-              </h3>
-            </div>
-            <div
-              style={{
-                width: '100%',
-                height: '50px',
-                border: '1px solid rgba(250, 250, 250, 0.20)',
-                borderRadius: '12px',
-                backgroundColor: 'rgba(217, 217, 217, 0.05)',
-                boxSizing: 'border-box',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'flex-start',
-                paddingLeft: '15px',
-              }}
-            >
-              <h3
-                style={{
-                  color: '#fafafa',
-                  fontSize: '14px',
-                  fontWeight: '500',
-                  margin: '0',
-                  fontFamily: 'Arial, Helvetica, sans-serif',
-                  textAlign: 'left',
-                }}
-              >
-                {phone}
-              </h3>
-            </div>
-          </div>
+          <table width="100%" cellPadding="0" cellSpacing="0">
+            <tr>
+              <td width="100%" style={{ paddingBottom: '10px' }}>
+                <div
+                  style={{
+                    width: '100%',
+                    height: '50px',
+                    border: '1px solid rgba(250, 250, 250, 0.20)',
+                    borderRadius: '12px',
+                    backgroundColor: 'rgba(217, 217, 217, 0.05)',
+                    boxSizing: 'border-box',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'flex-start',
+                    paddingLeft: '15px',
+                  }}
+                >
+                  <h3
+                    style={{
+                      color: '#fafafa',
+                      fontSize: '14px',
+                      fontWeight: '500',
+                      margin: '0',
+                      fontFamily: 'Arial, Helvetica, sans-serif',
+                      textAlign: 'left',
+                    }}
+                  >
+                    {email}
+                  </h3>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td width="100%">
+                <div
+                  style={{
+                    width: '100%',
+                    height: '50px',
+                    border: '1px solid rgba(250, 250, 250, 0.20)',
+                    borderRadius: '12px',
+                    backgroundColor: 'rgba(217, 217, 217, 0.05)',
+                    boxSizing: 'border-box',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'flex-start',
+                    paddingLeft: '15px',
+                  }}
+                >
+                  <h3
+                    style={{
+                      color: '#fafafa',
+                      fontSize: '14px',
+                      fontWeight: '500',
+                      margin: '0',
+                      fontFamily: 'Arial, Helvetica, sans-serif',
+                      textAlign: 'left',
+                    }}
+                  >
+                    {phone}
+                  </h3>
+                </div>
+              </td>
+            </tr>
+          </table>
         </div>
 
         {/* Third Container Section - I prossimi passi */}
