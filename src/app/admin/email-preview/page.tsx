@@ -32,6 +32,7 @@ const sampleBookingData = {
 export default function EmailPreview() {
   const [selectedEmail, setSelectedEmail] = useState('contact-client');
   const [viewMode, setViewMode] = useState<'desktop' | 'mobile'>('desktop');
+  const [emailClient, setEmailClient] = useState<'gmail' | 'outlook' | 'apple'>('gmail');
 
   const emails = {
     'contact-client': {
@@ -55,6 +56,7 @@ export default function EmailPreview() {
   return (
     <>
       <style jsx global>{`
+        /* Email Client Simulation - Disable modern CSS */
         .email-preview-container * {
           all: unset;
           display: block;
@@ -74,13 +76,50 @@ export default function EmailPreview() {
         .email-preview-container td {
           display: table-cell;
         }
+        
+        /* Disable flexbox and modern CSS for email simulation */
+        .email-preview-container * {
+          display: block !important;
+          flex: none !important;
+          flexbox: none !important;
+          grid: none !important;
+          position: static !important;
+          transform: none !important;
+          transition: none !important;
+          animation: none !important;
+        }
+        
+        .email-preview-container table,
+        .email-preview-container tr,
+        .email-preview-container td {
+          display: table !important;
+        }
+        
+        .email-preview-container tr {
+          display: table-row !important;
+        }
+        
+        .email-preview-container td {
+          display: table-cell !important;
+        }
+        
+        .email-preview-container span {
+          display: inline !important;
+        }
+        
+        /* Force email-like rendering */
+        .email-preview-container {
+          font-family: Arial, sans-serif !important;
+          line-height: 1.4 !important;
+          color: #000 !important;
+        }
       `}</style>
       <div className="min-h-screen bg-gray-100 p-8">
         <div className="max-w-6xl mx-auto">
           <h1 className="text-3xl font-bold mb-8">Email Preview</h1>
           
           {/* Selectors */}
-          <div className="mb-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="mb-6 grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
               <label className="block text-sm font-medium mb-2">Seleziona Email:</label>
               <select 
@@ -119,22 +158,35 @@ export default function EmailPreview() {
                 </button>
               </div>
             </div>
+            
+            <div>
+              <label className="block text-sm font-medium mb-2">Simula Client Email:</label>
+              <select 
+                value={emailClient} 
+                onChange={(e) => setEmailClient(e.target.value as 'gmail' | 'outlook' | 'apple')}
+                className="border border-gray-300 rounded-md px-3 py-2 w-full"
+              >
+                <option value="gmail">Gmail</option>
+                <option value="outlook">Outlook</option>
+                <option value="apple">Apple Mail</option>
+              </select>
+            </div>
           </div>
 
           {/* Preview Container */}
           <div className="bg-white rounded-lg shadow-lg p-6">
             <h2 className="text-xl font-semibold mb-4">
-              {emails[selectedEmail as keyof typeof emails].title} - {viewMode === 'desktop' ? 'Desktop' : 'Mobile'}
+              {emails[selectedEmail as keyof typeof emails].title} - {viewMode === 'desktop' ? 'Desktop' : 'Mobile'} - {emailClient.toUpperCase()}
             </h2>
             
             {/* Email Preview */}
             <div className="border border-gray-200 rounded-lg overflow-hidden">
               <div className="bg-gray-50 px-4 py-2 border-b flex justify-between items-center">
                 <span className="text-sm text-gray-600">
-                  Preview Email (come apparirà nella mail)
+                  Preview Email (simulazione {emailClient.toUpperCase()})
                 </span>
                 <span className="text-xs text-gray-500">
-                  {viewMode === 'desktop' ? '🖥️ Desktop View' : '📱 Mobile View'}
+                  {viewMode === 'desktop' ? '🖥️ Desktop' : '📱 Mobile'} - {emailClient.toUpperCase()}
                 </span>
               </div>
               

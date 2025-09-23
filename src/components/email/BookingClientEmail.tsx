@@ -45,21 +45,23 @@ export default function BookingClientEmail({
           marginBottom: '10px',
           textAlign: 'center',
           width: '100%',
+          overflow: 'hidden',
         }}
       >
         <img
           src="https://webblestudio.com/img/mail/envelope.png"
           alt="Email"
-          width="110%"
+          width="100%"
           height="auto"
           style={{
-            width: '110%',
+            width: '100%',
             height: 'auto',
             display: 'block',
-            margin: '0 auto',
+            marginTop: '0',
+            marginBottom: '0',
+            marginLeft: 'auto',
+            marginRight: 'auto',
             border: 'none',
-            marginLeft: '-5%',
-            marginRight: '-5%',
           }}
         />
       </div>
@@ -135,7 +137,7 @@ export default function BookingClientEmail({
             style={{
               color: '#fafafa',
               fontSize: '18px',
-              fontWeight: '600',
+              fontWeight: '500',
               margin: '0 0 20px 0',
               fontFamily: 'Arial, Helvetica, sans-serif',
               textAlign: 'center',
@@ -168,18 +170,19 @@ export default function BookingClientEmail({
                 textAlign: 'left',
               }}
             >
-              {contactMethod?.toLowerCase() === 'email' && 'Contatto via mail'}
-              {contactMethod?.toLowerCase() === 'phone' && 'Contatto telefonico'}
-              {contactMethod?.toLowerCase() === 'meet' && 'Chiamata Meet/Zoom'}
-              {contactMethod?.toLowerCase() === 'telefono' && 'Contatto telefonico'}
-              {contactMethod?.toLowerCase() === 'chiamata' && 'Chiamata Meet/Zoom'}
+              {contactMethod?.toLowerCase() === 'email' ? 'Contatto via mail' :
+               contactMethod?.toLowerCase() === 'phone' ? 'Contatto telefonico' :
+               contactMethod?.toLowerCase() === 'meet' ? 'Chiamata Meet/Zoom' :
+               contactMethod?.toLowerCase() === 'telefono' ? 'Contatto telefonico' :
+               contactMethod?.toLowerCase() === 'chiamata' ? 'Chiamata Meet/Zoom' :
+               'Contatto via mail'}
             </h3>
           </div>
 
           {/* Two containers in row - 50px height each */}
           <table width="100%" cellPadding="0" cellSpacing="0" style={{ marginTop: '10px' }}>
             <tr>
-              <td width="50%" style={{ width: '50%', verticalAlign: 'top' }}>
+              <td width="50%" style={{ width: '50%', verticalAlign: 'top', paddingRight: '5px' }}>
                 <div
                   style={{
                     width: '100%',
@@ -212,7 +215,7 @@ export default function BookingClientEmail({
                   </h3>
                 </div>
               </td>
-              <td width="50%" style={{ width: '50%', verticalAlign: 'top' }}>
+              <td width="50%" style={{ width: '50%', verticalAlign: 'top', paddingLeft: '5px' }}>
                 <div
                   style={{
                     width: '100%',
@@ -259,13 +262,13 @@ export default function BookingClientEmail({
             style={{
               color: '#fafafa',
               fontSize: '18px',
-              fontWeight: '600',
+              fontWeight: '500',
               margin: '0 0 20px 0',
               fontFamily: 'Arial, Helvetica, sans-serif',
               textAlign: 'center',
             }}
           >
-            Dati Personali:
+            Dati personali:
           </h2>
 
           {/* Two 100% width containers */}
@@ -341,7 +344,7 @@ export default function BookingClientEmail({
               style={{
                 color: '#fafafa',
                 fontSize: '18px',
-                fontWeight: '600',
+                fontWeight: '500',
                 margin: '0',
                 fontFamily: 'Arial, Helvetica, sans-serif',
                 textAlign: 'center',
@@ -364,32 +367,24 @@ export default function BookingClientEmail({
             <span style={{ opacity: '1' }}>Entro 24 ore</span> <span style={{ opacity: '0.6' }}>il nostro team ti contatterà per:</span>
           </h3>
           
-          <table width="100%" cellPadding="0" cellSpacing="0">
-            <tr>
-              <td style={{ padding: '0', verticalAlign: 'top' }}>
-                <span style={{ color: '#fafafa', marginRight: '8px', fontSize: '16px', float: 'left' }}>•</span>
-                <span style={{ color: '#fafafa', fontSize: '14px', lineHeight: '1.6', fontFamily: 'Arial, Helvetica, sans-serif', display: 'block', marginBottom: '8px' }}>Analizzare in dettaglio il tuo progetto</span>
-              </td>
-            </tr>
-            <tr>
-              <td style={{ padding: '0', verticalAlign: 'top' }}>
-                <span style={{ color: '#fafafa', marginRight: '8px', fontSize: '16px', float: 'left' }}>•</span>
-                <span style={{ color: '#fafafa', fontSize: '14px', lineHeight: '1.6', fontFamily: 'Arial, Helvetica, sans-serif', display: 'block', marginBottom: '8px' }}>Definire la strategia migliore</span>
-              </td>
-            </tr>
-            <tr>
-              <td style={{ padding: '0', verticalAlign: 'top' }}>
-                <span style={{ color: '#fafafa', marginRight: '8px', fontSize: '16px', float: 'left' }}>•</span>
-                <span style={{ color: '#fafafa', fontSize: '14px', lineHeight: '1.6', fontFamily: 'Arial, Helvetica, sans-serif', display: 'block', marginBottom: '8px' }}>Prepararti un preventivo personalizzato</span>
-              </td>
-            </tr>
-            <tr>
-              <td style={{ padding: '0', verticalAlign: 'top' }}>
-                <span style={{ color: '#fafafa', marginRight: '8px', fontSize: '16px', float: 'left' }}>•</span>
-                <span style={{ color: '#fafafa', fontSize: '14px', lineHeight: '1.6', fontFamily: 'Arial, Helvetica, sans-serif', display: 'block', marginBottom: '8px' }}>Pianificare i tempi di realizzazione</span>
-              </td>
-            </tr>
-          </table>
+          <div style={{ textAlign: 'left' }}>
+            <div style={{ marginBottom: '8px', overflow: 'hidden' }}>
+              <span style={{ color: '#fafafa', marginRight: '8px', fontSize: '16px', float: 'left' }}>•</span>
+              <span style={{ color: '#fafafa', fontSize: '14px', lineHeight: '1.6', fontFamily: 'Arial, Helvetica, sans-serif' }}>Analizzare in dettaglio il tuo progetto</span>
+            </div>
+            <div style={{ marginBottom: '8px', overflow: 'hidden' }}>
+              <span style={{ color: '#fafafa', marginRight: '8px', fontSize: '16px', float: 'left' }}>•</span>
+              <span style={{ color: '#fafafa', fontSize: '14px', lineHeight: '1.6', fontFamily: 'Arial, Helvetica, sans-serif' }}>Definire la strategia migliore</span>
+            </div>
+            <div style={{ marginBottom: '8px', overflow: 'hidden' }}>
+              <span style={{ color: '#fafafa', marginRight: '8px', fontSize: '16px', float: 'left' }}>•</span>
+              <span style={{ color: '#fafafa', fontSize: '14px', lineHeight: '1.6', fontFamily: 'Arial, Helvetica, sans-serif' }}>Prepararti un preventivo personalizzato</span>
+            </div>
+            <div style={{ marginBottom: '8px', overflow: 'hidden' }}>
+              <span style={{ color: '#fafafa', marginRight: '8px', fontSize: '16px', float: 'left' }}>•</span>
+              <span style={{ color: '#fafafa', fontSize: '14px', lineHeight: '1.6', fontFamily: 'Arial, Helvetica, sans-serif' }}>Pianificare i tempi di realizzazione</span>
+            </div>
+          </div>
         </div>
 
         {/* Footer Section */}
@@ -407,6 +402,7 @@ export default function BookingClientEmail({
               color: 'rgba(250, 250, 250, 0.60)',
               fontSize: '14px',
               fontWeight: 'normal',
+              margin: '0 0 2px 0',
               fontFamily: 'Arial, Helvetica, sans-serif',
               textAlign: 'center',
             }}
@@ -419,7 +415,7 @@ export default function BookingClientEmail({
               color: '#fafafa',
               fontSize: '14px',
               fontWeight: 'normal',
-              margin: '0 0 4px 0',
+              margin: '0 0 2px 0',
               fontFamily: 'Arial, Helvetica, sans-serif',
               textAlign: 'center',
               textDecoration: 'underline',
