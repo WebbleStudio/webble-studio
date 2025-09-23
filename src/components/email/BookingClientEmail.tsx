@@ -38,6 +38,10 @@ export default function BookingClientEmail({
         color: '#fafafa',
       }}
     >
+      {/* Preview text for Gmail - hidden but helps with truncation */}
+      <div style={{ display: 'none', fontSize: '0', lineHeight: '0', maxHeight: '0', overflow: 'hidden' }}>
+        Grazie per aver scelto Webble Studio! Abbiamo ricevuto la tua richiesta e siamo entusiasti di trasformare la tua visione in realtà digitale.
+      </div>
 
       {/* Envelope */}
       <div
