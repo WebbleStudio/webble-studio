@@ -30,6 +30,7 @@ const sampleBookingData = {
 
 export default function EmailPreview() {
   const [selectedEmail, setSelectedEmail] = useState('contact-client');
+  const [viewMode, setViewMode] = useState<'desktop' | 'mobile'>('desktop');
 
   const emails = {
     'contact-client': {
@@ -77,42 +78,95 @@ export default function EmailPreview() {
         <div className="max-w-6xl mx-auto">
           <h1 className="text-3xl font-bold mb-8">Email Preview</h1>
           
-          {/* Selector */}
-          <div className="mb-6">
-            <label className="block text-sm font-medium mb-2">Seleziona Email:</label>
-            <select 
-              value={selectedEmail} 
-              onChange={(e) => setSelectedEmail(e.target.value)}
-              className="border border-gray-300 rounded-md px-3 py-2"
-            >
-              {Object.entries(emails).map(([key, email]) => (
-                <option key={key} value={key}>{email.title}</option>
-              ))}
-            </select>
+          {/* Selectors */}
+          <div className="mb-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium mb-2">Seleziona Email:</label>
+              <select 
+                value={selectedEmail} 
+                onChange={(e) => setSelectedEmail(e.target.value)}
+                className="border border-gray-300 rounded-md px-3 py-2 w-full"
+              >
+                {Object.entries(emails).map(([key, email]) => (
+                  <option key={key} value={key}>{email.title}</option>
+                ))}
+              </select>
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium mb-2">Modalità Visualizzazione:</label>
+              <div className="flex space-x-2">
+                <button
+                  onClick={() => setViewMode('desktop')}
+                  className={`px-4 py-2 rounded-md text-sm font-medium ${
+                    viewMode === 'desktop'
+                      ? 'bg-blue-600 text-white'
+                      : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                  }`}
+                >
+                  🖥️ Desktop
+                </button>
+                <button
+                  onClick={() => setViewMode('mobile')}
+                  className={`px-4 py-2 rounded-md text-sm font-medium ${
+                    viewMode === 'mobile'
+                      ? 'bg-blue-600 text-white'
+                      : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                  }`}
+                >
+                  📱 Mobile
+                </button>
+              </div>
+            </div>
           </div>
 
           {/* Preview Container */}
           <div className="bg-white rounded-lg shadow-lg p-6">
-            <h2 className="text-xl font-semibold mb-4">{emails[selectedEmail as keyof typeof emails].title}</h2>
+            <h2 className="text-xl font-semibold mb-4">
+              {emails[selectedEmail as keyof typeof emails].title} - {viewMode === 'desktop' ? 'Desktop' : 'Mobile'}
+            </h2>
             
             {/* Email Preview */}
             <div className="border border-gray-200 rounded-lg overflow-hidden">
-              <div className="bg-gray-50 px-4 py-2 border-b">
-                <span className="text-sm text-gray-600">Preview Email (come apparirà nella mail)</span>
+              <div className="bg-gray-50 px-4 py-2 border-b flex justify-between items-center">
+                <span className="text-sm text-gray-600">
+                  Preview Email (come apparirà nella mail)
+                </span>
+                <span className="text-xs text-gray-500">
+                  {viewMode === 'desktop' ? '🖥️ Desktop View' : '📱 Mobile View'}
+                </span>
               </div>
+              
+              {/* Responsive Container */}
               <div 
-                className="email-preview-container"
+                className={`${
+                  viewMode === 'mobile' 
+                    ? 'max-w-sm mx-auto' 
+                    : 'w-full'
+                } transition-all duration-300`}
                 style={{
                   backgroundColor: '#f4f4f4',
-                  padding: '0',
+                  padding: viewMode === 'mobile' ? '10px' : '0',
                   margin: '0',
                   fontFamily: 'Arial, sans-serif',
-                  all: 'unset',
-                  display: 'block'
                 }}
               >
-                <div style={{ all: 'unset', display: 'block' }}>
-                  {emails[selectedEmail as keyof typeof emails].component}
+                <div 
+                  className="email-preview-container"
+                  style={{
+                    backgroundColor: '#f4f4f4',
+                    padding: '0',
+                    margin: '0',
+                    fontFamily: 'Arial, sans-serif',
+                    all: 'unset',
+                    display: 'block',
+                    maxWidth: viewMode === 'mobile' ? '375px' : '100%',
+                    width: '100%',
+                  }}
+                >
+                  <div style={{ all: 'unset', display: 'block' }}>
+                    {emails[selectedEmail as keyof typeof emails].component}
+                  </div>
                 </div>
               </div>
             </div>
