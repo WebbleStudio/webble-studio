@@ -74,29 +74,31 @@ export default function BookingClientEmail({
         />
       </div>
 
-      {/* Responsive CSS */}
-      <style jsx>{`
-        @media (max-width: 480px) {
-          .logo-mobile {
-            max-width: 45px !important;
+      {/* Responsive CSS - Inline styles for email compatibility */}
+      <style dangerouslySetInnerHTML={{
+        __html: `
+          @media (max-width: 480px) {
+            .logo-mobile {
+              max-width: 45px !important;
+            }
+            .envelope-mobile {
+              max-width: 150% !important;
+              margin-left: -25% !important;
+              margin-right: -25% !important;
+            }
+            .mobile-container {
+              padding: 20px !important;
+            }
           }
-          .envelope-mobile {
-            max-width: 150% !important;
-            margin-left: -25% !important;
-            margin-right: -25% !important;
+          @media (min-width: 481px) {
+            .envelope-desktop {
+              max-width: 110% !important;
+              margin-left: -5% !important;
+              margin-right: -5% !important;
+            }
           }
-          .mobile-container {
-            padding: 20px !important;
-          }
-        }
-        @media (min-width: 481px) {
-          .envelope-desktop {
-            max-width: 110% !important;
-            margin-left: -5% !important;
-            margin-right: -5% !important;
-          }
-        }
-      `}</style>
+        `
+      }} />
     </div>
   );
 }
