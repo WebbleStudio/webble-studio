@@ -49,7 +49,7 @@ export default function BookingClientEmail({
         }}
       >
         <img
-          src="https://webblestudio.com/img/mail/envelope.png"
+          src={`https://webblestudio.com/img/mail/envelope.png?v=${Date.now()}`}
           alt="Email"
           width="100%"
           height="auto"
