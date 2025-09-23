@@ -129,10 +129,6 @@ export default function BookingClientEmail({
             margin: '0 auto',
             boxSizing: 'border-box',
             padding: '20px',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
           }}
         >
           <h2
@@ -158,10 +154,8 @@ export default function BookingClientEmail({
               backgroundColor: 'rgba(217, 217, 217, 0.05)',
               margin: '10px 0',
               boxSizing: 'border-box',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'flex-start',
-              paddingLeft: '15px',
+              padding: '15px',
+              lineHeight: '20px',
             }}
           >
             <h3
@@ -182,10 +176,10 @@ export default function BookingClientEmail({
             </h3>
           </div>
 
-          {/* Two 50% width containers - 50px height each */}
+          {/* Two containers in row - 50px height each */}
           <table width="100%" cellPadding="0" cellSpacing="0" style={{ marginTop: '10px' }}>
             <tr>
-              <td width="50%" style={{ paddingRight: '5px' }}>
+              <td width="50%" style={{ width: '50%', verticalAlign: 'top' }}>
                 <div
                   style={{
                     width: '100%',
@@ -194,10 +188,8 @@ export default function BookingClientEmail({
                     borderRadius: '12px',
                     backgroundColor: 'rgba(217, 217, 217, 0.05)',
                     boxSizing: 'border-box',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'flex-start',
-                    paddingLeft: '15px',
+                    padding: '15px',
+                    lineHeight: '20px',
                   }}
                 >
                   <h3
@@ -220,7 +212,7 @@ export default function BookingClientEmail({
                   </h3>
                 </div>
               </td>
-              <td width="50%" style={{ paddingLeft: '5px' }}>
+              <td width="50%" style={{ width: '50%', verticalAlign: 'top' }}>
                 <div
                   style={{
                     width: '100%',
@@ -229,10 +221,8 @@ export default function BookingClientEmail({
                     borderRadius: '12px',
                     backgroundColor: 'rgba(217, 217, 217, 0.05)',
                     boxSizing: 'border-box',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'flex-start',
-                    paddingLeft: '15px',
+                    padding: '15px',
+                    lineHeight: '20px',
                   }}
                 >
                   <h3
@@ -263,10 +253,6 @@ export default function BookingClientEmail({
             margin: '20px auto 0 auto',
             boxSizing: 'border-box',
             padding: '20px',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
           }}
         >
           <h2
@@ -283,70 +269,59 @@ export default function BookingClientEmail({
           </h2>
 
           {/* Two 100% width containers */}
-          <table width="100%" cellPadding="0" cellSpacing="0">
-            <tr>
-              <td width="100%" style={{ paddingBottom: '10px' }}>
-                <div
-                  style={{
-                    width: '100%',
-                    height: '50px',
-                    border: '1px solid rgba(250, 250, 250, 0.20)',
-                    borderRadius: '12px',
-                    backgroundColor: 'rgba(217, 217, 217, 0.05)',
-                    boxSizing: 'border-box',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'flex-start',
-                    paddingLeft: '15px',
-                  }}
-                >
-                  <h3
-                    style={{
-                      color: '#fafafa',
-                      fontSize: '14px',
-                      fontWeight: '500',
-                      margin: '0',
-                      fontFamily: 'Arial, Helvetica, sans-serif',
-                      textAlign: 'left',
-                    }}
-                  >
-                    {email}
-                  </h3>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td width="100%">
-                <div
-                  style={{
-                    width: '100%',
-                    height: '50px',
-                    border: '1px solid rgba(250, 250, 250, 0.20)',
-                    borderRadius: '12px',
-                    backgroundColor: 'rgba(217, 217, 217, 0.05)',
-                    boxSizing: 'border-box',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'flex-start',
-                    paddingLeft: '15px',
-                  }}
-                >
-                  <h3
-                    style={{
-                      color: '#fafafa',
-                      fontSize: '14px',
-                      fontWeight: '500',
-                      margin: '0',
-                      fontFamily: 'Arial, Helvetica, sans-serif',
-                      textAlign: 'left',
-                    }}
-                  >
-                    {phone}
-                  </h3>
-                </div>
-              </td>
-            </tr>
-          </table>
+          <div style={{ width: '100%' }}>
+            <div
+              style={{
+                width: '100%',
+                height: '50px',
+                border: '1px solid rgba(250, 250, 250, 0.20)',
+                borderRadius: '12px',
+                backgroundColor: 'rgba(217, 217, 217, 0.05)',
+                boxSizing: 'border-box',
+                padding: '15px',
+                lineHeight: '20px',
+                marginBottom: '10px',
+              }}
+            >
+              <h3
+                style={{
+                  color: '#fafafa',
+                  fontSize: '14px',
+                  fontWeight: '500',
+                  margin: '0',
+                  fontFamily: 'Arial, Helvetica, sans-serif',
+                  textAlign: 'left',
+                }}
+              >
+                {email}
+              </h3>
+            </div>
+            <div
+              style={{
+                width: '100%',
+                height: '50px',
+                border: '1px solid rgba(250, 250, 250, 0.20)',
+                borderRadius: '12px',
+                backgroundColor: 'rgba(217, 217, 217, 0.05)',
+                boxSizing: 'border-box',
+                padding: '15px',
+                lineHeight: '20px',
+              }}
+            >
+              <h3
+                style={{
+                  color: '#fafafa',
+                  fontSize: '14px',
+                  fontWeight: '500',
+                  margin: '0',
+                  fontFamily: 'Arial, Helvetica, sans-serif',
+                  textAlign: 'left',
+                }}
+              >
+                {phone}
+              </h3>
+            </div>
+          </div>
         </div>
 
         {/* Third Container Section - I prossimi passi */}
@@ -359,10 +334,6 @@ export default function BookingClientEmail({
             margin: '20px auto 0 auto',
             boxSizing: 'border-box',
             padding: '20px',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'flex-start',
-            alignItems: 'flex-start',
           }}
         >
           <div style={{ width: '100%', textAlign: 'center', marginBottom: '20px' }}>
@@ -393,35 +364,32 @@ export default function BookingClientEmail({
             <span style={{ opacity: '1' }}>Entro 24 ore</span> <span style={{ opacity: '0.6' }}>il nostro team ti contatterà per:</span>
           </h3>
           
-          <ul
-            style={{
-              color: '#fafafa',
-              fontSize: '14px',
-              lineHeight: '1.6',
-              margin: '0',
-              padding: '0',
-              fontFamily: 'Arial, Helvetica, sans-serif',
-              textAlign: 'left',
-              listStyleType: 'none',
-            }}
-          >
-            <li style={{ marginBottom: '8px', display: 'flex', alignItems: 'flex-start' }}>
-              <span style={{ color: '#fafafa', marginRight: '8px', fontSize: '16px' }}>•</span>
-              <span>Analizzare in dettaglio il tuo progetto</span>
-            </li>
-            <li style={{ marginBottom: '8px', display: 'flex', alignItems: 'flex-start' }}>
-              <span style={{ color: '#fafafa', marginRight: '8px', fontSize: '16px' }}>•</span>
-              <span>Definire la strategia migliore</span>
-            </li>
-            <li style={{ marginBottom: '8px', display: 'flex', alignItems: 'flex-start' }}>
-              <span style={{ color: '#fafafa', marginRight: '8px', fontSize: '16px' }}>•</span>
-              <span>Prepararti un preventivo personalizzato</span>
-            </li>
-            <li style={{ marginBottom: '8px', display: 'flex', alignItems: 'flex-start' }}>
-              <span style={{ color: '#fafafa', marginRight: '8px', fontSize: '16px' }}>•</span>
-              <span>Pianificare i tempi di realizzazione</span>
-            </li>
-          </ul>
+          <table width="100%" cellPadding="0" cellSpacing="0">
+            <tr>
+              <td style={{ padding: '0', verticalAlign: 'top' }}>
+                <span style={{ color: '#fafafa', marginRight: '8px', fontSize: '16px', float: 'left' }}>•</span>
+                <span style={{ color: '#fafafa', fontSize: '14px', lineHeight: '1.6', fontFamily: 'Arial, Helvetica, sans-serif', display: 'block', marginBottom: '8px' }}>Analizzare in dettaglio il tuo progetto</span>
+              </td>
+            </tr>
+            <tr>
+              <td style={{ padding: '0', verticalAlign: 'top' }}>
+                <span style={{ color: '#fafafa', marginRight: '8px', fontSize: '16px', float: 'left' }}>•</span>
+                <span style={{ color: '#fafafa', fontSize: '14px', lineHeight: '1.6', fontFamily: 'Arial, Helvetica, sans-serif', display: 'block', marginBottom: '8px' }}>Definire la strategia migliore</span>
+              </td>
+            </tr>
+            <tr>
+              <td style={{ padding: '0', verticalAlign: 'top' }}>
+                <span style={{ color: '#fafafa', marginRight: '8px', fontSize: '16px', float: 'left' }}>•</span>
+                <span style={{ color: '#fafafa', fontSize: '14px', lineHeight: '1.6', fontFamily: 'Arial, Helvetica, sans-serif', display: 'block', marginBottom: '8px' }}>Prepararti un preventivo personalizzato</span>
+              </td>
+            </tr>
+            <tr>
+              <td style={{ padding: '0', verticalAlign: 'top' }}>
+                <span style={{ color: '#fafafa', marginRight: '8px', fontSize: '16px', float: 'left' }}>•</span>
+                <span style={{ color: '#fafafa', fontSize: '14px', lineHeight: '1.6', fontFamily: 'Arial, Helvetica, sans-serif', display: 'block', marginBottom: '8px' }}>Pianificare i tempi di realizzazione</span>
+              </td>
+            </tr>
+          </table>
         </div>
 
         {/* Footer Section */}
