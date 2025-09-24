@@ -30,6 +30,12 @@ const nextConfig: NextConfig = {
   //   enabled: process.env.ANALYZE === 'true',
   // },
 
+  // Ottimizzazioni per PageSpeed Insights
+  swcMinify: true,
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production',
+  },
+
   // Compression
   compress: true,
 

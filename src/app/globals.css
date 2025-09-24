@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Import performance optimizations */
+@import '../css/Performance.css';
+
 /* ========================================
    SISTEMA COMPLETO DI COLORI PER DARK MODE
    ======================================== */

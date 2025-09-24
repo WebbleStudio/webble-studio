@@ -5,6 +5,7 @@ import ClientLayout from './ClientLayout';
 import { SessionProvider } from 'next-auth/react';
 import { auth } from '@/lib/auth';
 import GoogleAnalytics from '@/components/analytics/GoogleAnalytics';
+import PerformanceOptimizer from '@/components/analytics/PerformanceOptimizer';
 
 // Build absolute base URL from env for all environments (prod/preview/local)
 const siteUrl =
@@ -57,9 +58,11 @@ export default function RootLayout({
     <html lang="it" className={fontVariables}>
       <body className="antialiased">
         <GoogleAnalytics />
-        <SessionProvider>
-          <ClientLayout>{children}</ClientLayout>
-        </SessionProvider>
+        <PerformanceOptimizer>
+          <SessionProvider>
+            <ClientLayout>{children}</ClientLayout>
+          </SessionProvider>
+        </PerformanceOptimizer>
       </body>
     </html>
   );
