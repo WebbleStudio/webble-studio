@@ -31,7 +31,6 @@ const nextConfig: NextConfig = {
   // },
 
   // Ottimizzazioni per PageSpeed Insights
-  swcMinify: true,
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
   },

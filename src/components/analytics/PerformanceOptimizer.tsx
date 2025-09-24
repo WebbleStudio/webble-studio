@@ -22,7 +22,7 @@ export default function PerformanceOptimizer({ children }: PerformanceOptimizerP
     }
 
     // Rileva device a bassa potenza
-    const isLowEnd = navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 2;
+    const isLowEnd = navigator.hardwareConcurrency ? navigator.hardwareConcurrency <= 2 : false;
     setIsLowEndDevice(isLowEnd);
 
     // Aggiungi classi CSS per ottimizzazioni
