@@ -80,35 +80,29 @@ export const projectAnimationVariants = {
     },
   } as Variants,
 
-  // Ottimizzato: meno blur, transizioni più veloci
+  // Ottimizzato: rimosso blur per performance massima
   titleChar: {
     initial: {
       opacity: 0,
-      y: 15, // Ridotto da 20
-      scale: 0.5, // Ridotto da 0.3 per essere meno aggressivo
-      filter: `blur(${ANIMATION_CONFIG.performance.maxBlur}px)`, // Ridotto blur
+      y: 10, // Ridotto ulteriormente
+      scale: 0.8, // Ridotto da 0.5 per essere meno aggressivo
+      // Rimosso blur completamente
     },
     animate: {
       opacity: 1,
       y: 0,
       scale: 1,
-      filter: 'blur(0px)',
       transition: {
-        duration: 0.4, // Ridotto da 0.5
+        duration: 0.3, // Ridotto da 0.4
         ease: ANIMATION_CONFIG.easing,
-        // Ottimizzazione: transizioni separate più performanti
-        opacity: { duration: 0.25, ease: 'easeOut' }, // Ridotto
-        scale: { duration: 0.3, ease: 'backOut' }, // Ridotto
-        filter: { duration: 0.3, ease: 'easeOut' }, // Ridotto
       },
     },
     exit: {
       opacity: 0,
-      y: -8, // Ridotto da -10
-      scale: 0.9, // Meno aggressivo da 0.8
-      filter: `blur(${ANIMATION_CONFIG.performance.maxBlur / 2}px)`, // Blur ridotto
+      y: -5, // Ridotto da -8
+      scale: 0.95, // Meno aggressivo
       transition: {
-        duration: 0.15, // Ridotto da 0.2
+        duration: 0.1, // Ridotto da 0.15
         ease: 'easeIn',
       },
     },

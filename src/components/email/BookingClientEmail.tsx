@@ -6,6 +6,7 @@ interface BookingClientEmailProps {
   email: string;
   phone: string;
   service: string;
+  services?: string[];
   contactMethod: string;
   date?: string;
 }
@@ -16,6 +17,7 @@ export default function BookingClientEmail({
   email,
   phone,
   service,
+  services,
   contactMethod,
   date,
 }: BookingClientEmailProps) {
@@ -40,21 +42,6 @@ export default function BookingClientEmail({
       data-color-scheme="light"
       data-ogsc="light"
     >
-      {/* CSS to prevent dark mode color inversion */}
-      <style dangerouslySetInnerHTML={{
-        __html: `
-          @media (prefers-color-scheme: dark) {
-            * {
-              color-scheme: light !important;
-              -webkit-color-scheme: light !important;
-            }
-          }
-          * {
-            color-scheme: light !important;
-            -webkit-color-scheme: light !important;
-          }
-        `
-      }} />
       
       {/* Preview text for Gmail - hidden but helps with truncation */}
       <div style={{ display: 'none', fontSize: '0', lineHeight: '0', maxHeight: '0', overflow: 'hidden' }}>
@@ -206,68 +193,82 @@ export default function BookingClientEmail({
 
           {/* Two containers in row - 50px height each */}
           <table width="100%" cellPadding="0" cellSpacing="0" style={{ marginTop: '10px' }}>
-            <tr>
-              <td width="50%" style={{ width: '50%', verticalAlign: 'top', paddingRight: '5px' }}>
-                <div
-                  style={{
-                    width: '100%',
-                    height: '50px',
-                    border: '1px solid rgba(250, 250, 250, 0.20)',
-                    borderRadius: '12px',
-                    backgroundColor: 'rgba(217, 217, 217, 0.05)',
-                    boxSizing: 'border-box',
-                    padding: '15px',
-                    lineHeight: '20px',
-                  }}
-                >
-                  <h3
+            <tbody>
+              <tr>
+                <td width="50%" style={{ width: '50%', verticalAlign: 'top', paddingRight: '5px' }}>
+                  <div
                     style={{
-                      color: '#fafafa',
-                      fontSize: '14px',
-                      fontWeight: '500',
-                      margin: '0',
-                      fontFamily: 'Arial, Helvetica, sans-serif',
-                      textAlign: 'left',
+                      width: '100%',
+                      height: '50px',
+                      border: '1px solid rgba(250, 250, 250, 0.20)',
+                      borderRadius: '12px',
+                      backgroundColor: 'rgba(217, 217, 217, 0.05)',
+                      boxSizing: 'border-box',
+                      padding: '15px',
+                      lineHeight: '20px',
                     }}
                   >
-                    {
-                      service?.toLowerCase() === 'sito web' && 'Sito Web'
-                      || service?.toLowerCase() === 'advertising' && 'Advertising'
-                      || service?.toLowerCase() === 'social media' && 'Social Media'
-                      || service?.toLowerCase() === 'altro' && 'Altro'
-                      || service
-                    }
-                  </h3>
-                </div>
-              </td>
-              <td width="50%" style={{ width: '50%', verticalAlign: 'top', paddingLeft: '5px' }}>
-                <div
-                  style={{
-                    width: '100%',
-                    height: '50px',
-                    border: '1px solid rgba(250, 250, 250, 0.20)',
-                    borderRadius: '12px',
-                    backgroundColor: 'rgba(217, 217, 217, 0.05)',
-                    boxSizing: 'border-box',
-                    padding: '15px',
-                    lineHeight: '20px',
-                  }}
-                >
-                  <h3
+                    <h3
+                      style={{
+                        color: '#fafafa',
+                        fontSize: '14px',
+                        fontWeight: '500',
+                        margin: '0',
+                        fontFamily: 'Arial, Helvetica, sans-serif',
+                        textAlign: 'left',
+                      }}
+                    >
+                      {(() => {
+                        if (services && services.length > 1) {
+                          const firstService = services[0];
+                          const additionalCount = services.length - 1;
+                          const formattedFirstService = 
+                            firstService?.toLowerCase() === 'sito web' && 'Sito Web'
+                            || firstService?.toLowerCase() === 'advertising' && 'Advertising'
+                            || firstService?.toLowerCase() === 'social media' && 'Social Media'
+                            || firstService?.toLowerCase() === 'altro' && 'Altro'
+                            || firstService;
+                          return `${formattedFirstService} (+${additionalCount})`;
+                        } else {
+                          return service?.toLowerCase() === 'sito web' && 'Sito Web'
+                            || service?.toLowerCase() === 'advertising' && 'Advertising'
+                            || service?.toLowerCase() === 'social media' && 'Social Media'
+                            || service?.toLowerCase() === 'altro' && 'Altro'
+                            || service;
+                        }
+                      })()}
+                    </h3>
+                  </div>
+                </td>
+                <td width="50%" style={{ width: '50%', verticalAlign: 'top', paddingLeft: '5px' }}>
+                  <div
                     style={{
-                      color: '#fafafa',
-                      fontSize: '14px',
-                      fontWeight: '500',
-                      margin: '0',
-                      fontFamily: 'Arial, Helvetica, sans-serif',
-                      textAlign: 'left',
+                      width: '100%',
+                      height: '50px',
+                      border: '1px solid rgba(250, 250, 250, 0.20)',
+                      borderRadius: '12px',
+                      backgroundColor: 'rgba(217, 217, 217, 0.05)',
+                      boxSizing: 'border-box',
+                      padding: '15px',
+                      lineHeight: '20px',
                     }}
                   >
-                    {date || new Date().toLocaleDateString('it-IT')}
-                  </h3>
-                </div>
-              </td>
-            </tr>
+                    <h3
+                      style={{
+                        color: '#fafafa',
+                        fontSize: '14px',
+                        fontWeight: '500',
+                        margin: '0',
+                        fontFamily: 'Arial, Helvetica, sans-serif',
+                        textAlign: 'left',
+                      }}
+                    >
+                      {date || new Date().toLocaleDateString('it-IT')}
+                    </h3>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
           </table>
         </div>
 

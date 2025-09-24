@@ -13,40 +13,30 @@ export function useServiceCategoryAnimation() {
   const scrollRafRef = useRef<number | null>(null);
   const rectanglesRafRef = useRef<number | null>(null);
 
-  // Throttled scroll handler con RAF per labels
+  // Scroll handler ottimizzato - senza RAF per evitare conflitti con Lenis
   const handleScroll = useCallback(() => {
-    if (scrollRafRef.current !== null) return;
+    const scrollContainer = scrollContainerRef.current;
+    if (scrollContainer) {
+      const { scrollLeft, scrollWidth, clientWidth } = scrollContainer;
+      const isAtStart = scrollLeft <= 0;
+      const isAtEnd = scrollLeft >= scrollWidth - clientWidth - 1;
 
-    scrollRafRef.current = requestAnimationFrame(() => {
-      const scrollContainer = scrollContainerRef.current;
-      if (scrollContainer) {
-        const { scrollLeft, scrollWidth, clientWidth } = scrollContainer;
-        const isAtStart = scrollLeft <= 0;
-        const isAtEnd = scrollLeft >= scrollWidth - clientWidth - 1;
-
-        setShowLeftFade(!isAtStart);
-        setShowRightFade(!isAtEnd);
-      }
-      scrollRafRef.current = null;
-    });
+      setShowLeftFade(!isAtStart);
+      setShowRightFade(!isAtEnd);
+    }
   }, []);
 
-  // Throttled scroll handler con RAF per rectangles
+  // Scroll handler ottimizzato per rectangles
   const handleRectanglesScroll = useCallback(() => {
-    if (rectanglesRafRef.current !== null) return;
+    const rectanglesContainer = rectanglesContainerRef.current;
+    if (rectanglesContainer) {
+      const { scrollLeft, scrollWidth, clientWidth } = rectanglesContainer;
+      const isAtStart = scrollLeft <= 0;
+      const isAtEnd = scrollLeft >= scrollWidth - clientWidth - 1;
 
-    rectanglesRafRef.current = requestAnimationFrame(() => {
-      const rectanglesContainer = rectanglesContainerRef.current;
-      if (rectanglesContainer) {
-        const { scrollLeft, scrollWidth, clientWidth } = rectanglesContainer;
-        const isAtStart = scrollLeft <= 0;
-        const isAtEnd = scrollLeft >= scrollWidth - clientWidth - 1;
-
-        setShowLeftFadeRectangles(!isAtStart);
-        setShowRightFadeRectangles(!isAtEnd);
-      }
-      rectanglesRafRef.current = null;
-    });
+      setShowLeftFadeRectangles(!isAtStart);
+      setShowRightFadeRectangles(!isAtEnd);
+    }
   }, []);
 
   useEffect(() => {
@@ -65,7 +55,7 @@ export function useServiceCategoryAnimation() {
           rectanglesContainer.addEventListener('scroll', handleRectanglesScroll, { passive: true });
           handleRectanglesScroll(); // Check initial state
         }
-      }, 100); // Ridotto da 200ms per responsiveness migliore
+      }, 50); // Ridotto ulteriormente per responsiveness
 
       return () => {
         clearTimeout(setupTimer);
@@ -76,16 +66,6 @@ export function useServiceCategoryAnimation() {
         }
         if (rectanglesContainer) {
           rectanglesContainer.removeEventListener('scroll', handleRectanglesScroll);
-        }
-
-        // Cancel RAF se pending
-        if (scrollRafRef.current !== null) {
-          cancelAnimationFrame(scrollRafRef.current);
-          scrollRafRef.current = null;
-        }
-        if (rectanglesRafRef.current !== null) {
-          cancelAnimationFrame(rectanglesRafRef.current);
-          rectanglesRafRef.current = null;
         }
       };
     }
@@ -140,44 +120,44 @@ export function useServiceCategoryAnimation() {
 
   const labelsAnimationProps = {
     animate: {
-      y: isExpanded ? 0 : -15,
+      y: isExpanded ? 0 : -10, // Ridotto movimento
       opacity: isExpanded ? 1 : 0,
-      filter: isExpanded ? 'blur(0px)' : 'blur(8px)',
+      // Rimosso blur per performance
     },
     transition: {
       delay: isExpanded ? 0.1 : 0,
-      duration: 0.4,
+      duration: 0.3, // Ridotto da 0.4
       ease: [0.25, 0.46, 0.45, 0.94] as const,
     },
-    style: { willChange: 'transform, opacity, filter' }, // GPU optimization
+    style: { willChange: 'transform, opacity' }, // Rimosso filter
   };
 
   const paragraphAnimationProps = {
     animate: {
-      y: isExpanded ? 0 : -15,
+      y: isExpanded ? 0 : -10, // Ridotto movimento
       opacity: isExpanded ? 0.6 : 0,
-      filter: isExpanded ? 'blur(0px)' : 'blur(8px)',
+      // Rimosso blur per performance
     },
     transition: {
       delay: isExpanded ? 0.2 : 0.1,
-      duration: 0.4,
+      duration: 0.3, // Ridotto da 0.4
       ease: [0.25, 0.46, 0.45, 0.94] as const,
     },
-    style: { willChange: 'transform, opacity, filter' }, // GPU optimization
+    style: { willChange: 'transform, opacity' }, // Rimosso filter
   };
 
   const rectanglesAnimationProps = {
     animate: {
-      y: isExpanded ? 0 : -15,
+      y: isExpanded ? 0 : -10, // Ridotto movimento
       opacity: isExpanded ? 1 : 0,
-      filter: isExpanded ? 'blur(0px)' : 'blur(8px)',
+      // Rimosso blur per performance
     },
     transition: {
       delay: isExpanded ? 0.3 : 0.05,
-      duration: 0.4,
+      duration: 0.3, // Ridotto da 0.4
       ease: [0.25, 0.46, 0.45, 0.94] as const,
     },
-    style: { willChange: 'transform, opacity, filter' }, // GPU optimization
+    style: { willChange: 'transform, opacity' }, // Rimosso filter
   };
 
   const scrollStyles = {

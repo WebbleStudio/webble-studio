@@ -14,12 +14,14 @@ export function useHeaderAnimation() {
   const resizeTimeoutRef = useRef<number | null>(null);
   const rafRef = useRef<number | null>(null);
 
-  // Throttled scroll handler con RAF
+  // Throttled scroll handler ottimizzato per Lenis
   const handleScroll = useCallback(() => {
     if (rafRef.current !== null) return;
 
     rafRef.current = requestAnimationFrame(() => {
-      const scrollTop = window.scrollY;
+      // Usa Lenis scroll se disponibile, altrimenti fallback a window.scrollY
+      const lenis = (window as any).lenis;
+      const scrollTop = lenis ? lenis.scroll : window.scrollY;
       setIsScrolled(scrollTop > 0);
       rafRef.current = null;
     });

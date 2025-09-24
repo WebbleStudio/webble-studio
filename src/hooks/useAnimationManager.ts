@@ -195,11 +195,11 @@ export const useAnimationManager = (): UseAnimationManagerReturn => {
     };
   }, [cleanupAnimations]);
 
-  // Setup performance monitoring
+  // Setup performance monitoring ridotto per performance
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
-    const monitoringInterval = setInterval(checkPerformance, 1000); // Every 1s
+    const monitoringInterval = setInterval(checkPerformance, 3000); // Ridotto da 1s a 3s
 
     return () => {
       clearInterval(monitoringInterval);

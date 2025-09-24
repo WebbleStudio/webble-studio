@@ -10,7 +10,7 @@ import '@fontsource/poppins/400.css';
 import '@fontsource/poppins/500.css';
 import '@fontsource/poppins/600.css';
 
-// Font family configurations
+// Font family configurations ciaooo
 export const figtree = {
   style: {
     fontFamily: 'Figtree, system-ui, sans-serif',

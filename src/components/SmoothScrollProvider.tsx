@@ -14,25 +14,35 @@ export default function SmoothScrollProvider({ children }: { children: React.Rea
       return;
     }
 
-    // Inizializza Lenis con configurazione semplificata
+    // Inizializza Lenis con configurazione ottimizzata per performance
     const lenis = new Lenis({
-      duration: 0.35, // Ridotto ulteriormente per massima reattività
-      easing: (t) => 1 - Math.pow(1 - t, 3), // easeOutCubic - più reattivo
+      duration: 0.8, // Aumentato per smoothness
+      easing: (t) => t * (2 - t), // easeOutQuad - più performante
+      orientation: 'vertical',
+      gestureOrientation: 'vertical',
+      smoothWheel: true,
+      wheelMultiplier: 1,
+      touchMultiplier: 2,
+      infinite: false,
     });
 
     // Espone l'istanza di Lenis globalmente per accesso da altri componenti
     (window as any).lenis = lenis;
 
-    // Funzione di animazione
+    // Funzione di animazione ottimizzata
+    let rafId: number;
     function raf(time: number) {
       lenis.raf(time);
-      requestAnimationFrame(raf);
+      rafId = requestAnimationFrame(raf);
     }
 
-    requestAnimationFrame(raf);
+    rafId = requestAnimationFrame(raf);
 
     // Cleanup
     return () => {
+      if (rafId) {
+        cancelAnimationFrame(rafId);
+      }
       lenis.destroy();
       delete (window as any).lenis;
     };

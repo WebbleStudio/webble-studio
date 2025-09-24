@@ -95,7 +95,8 @@ export async function POST(request: NextRequest) {
             surname,
             email,
             phone,
-            service: customService || services.join(', '),
+            service: services.includes('altro') ? 'Altro' : services.join(', '),
+            services: services,
             contactMethod,
             date: new Date().toLocaleDateString('it-IT'),
           }),
@@ -116,13 +117,14 @@ export async function POST(request: NextRequest) {
         await resend.emails.send({
           from: 'Webble Studio <noreply@contacts.webblestudio.com>',
           to: ['webblestudio.com@gmail.com'], // Email admin corretta
-          subject: `Nuova richiesta di contatto da ${name} ${surname}`,
+          subject: ` ${name} ${surname} richiesta appuntamento`,
           react: BookingAdminEmail({
             name,
             surname,
             email,
             phone,
-            service: customService || services.join(', '),
+            service: services.includes('altro') ? 'Altro' : services.join(', '),
+            services: services,
             contactMethod,
           }),
         });

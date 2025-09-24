@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useApiCall } from '@/hooks/useApiCall';
 import { useTranslation } from '@/hooks/useTranslation';
+import PhoneInput from './PhoneInput';
 
 interface FormData {
   name: string;
@@ -108,8 +109,8 @@ export default function BookingForm({ isOpen, onClose }: BookingFormProps) {
       case 'phone':
         if (!value || typeof value !== 'string' || !value.trim())
           return t('booking.errors.phone_required');
-        if (/[a-zA-Z]/.test(value)) return t('booking.errors.phone_no_letters');
-        if (!/^[\d\s\-\+\(\)]+$/.test(value)) return t('booking.errors.phone_invalid');
+        // Validazione semplice: deve contenere almeno 8 caratteri (prefisso + numero)
+        if (value.length < 8) return t('booking.errors.phone_invalid');
         return undefined;
 
       case 'services':
@@ -452,14 +453,11 @@ export default function BookingForm({ isOpen, onClose }: BookingFormProps) {
                           </motion.div>
                         )}
                       </div>
-                      <input
-                        type="tel"
+                      <PhoneInput
                         value={formData.phone}
-                        onChange={(e) => handleInputChange('phone', e.target.value)}
+                        onChange={(value) => handleInputChange('phone', value)}
                         placeholder={t('booking.placeholders.phone')}
-                        className={`w-full text-2xl md:text-3xl bg-transparent border-none outline-none text-white text-left placeholder-gray-400 ${
-                          errors.phone ? 'border-b border-red-500' : ''
-                        }`}
+                        error={!!errors.phone}
                         autoFocus
                       />
                     </>
