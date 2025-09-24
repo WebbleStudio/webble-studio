@@ -25,7 +25,7 @@ export default function SplineOptimized({
   const { shouldReduceAnimations, shouldSkipAnimation } = usePerformance();
 
   // Determina se caricare Spline o usare fallback
-  const shouldUseSpline = !shouldSkipAnimation('high') && !hasError;
+  const shouldUseSpline = !shouldSkipAnimation('heavy') && !hasError;
 
   useEffect(() => {
     if (!containerRef.current) return;
