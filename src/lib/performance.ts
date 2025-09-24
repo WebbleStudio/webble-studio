@@ -43,7 +43,7 @@ export const isSlowConnection = (): boolean => {
 export const isLowEndDevice = (): boolean => {
   if (typeof window === 'undefined') return false;
   
-  return navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 2;
+  return navigator.hardwareConcurrency ? navigator.hardwareConcurrency <= 2 : false;
 };
 
 // Strategia di caricamento basata su performance
