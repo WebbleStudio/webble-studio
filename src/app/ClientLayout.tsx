@@ -3,7 +3,6 @@
 import Header from '@/components/layout/Header';
 import AdminHeader from '@/components/layout/AdminHeader';
 import Footer from '@/components/layout/Footer';
-import SmoothScrollProvider from '@/components/SmoothScrollProvider';
 import { useDarkMode } from '@/hooks/useDarkMode';
 import { usePathname } from 'next/navigation';
 import { HeaderProvider, useHeader } from '@/contexts/HeaderContext';
@@ -59,10 +58,8 @@ function ClientLayoutContent({ children }: { children: React.ReactNode }) {
 
 export default function ClientLayout({ children }: { children: React.ReactNode }) {
   return (
-    <SmoothScrollProvider>
-      <HeaderProvider>
-        <ClientLayoutContent>{children}</ClientLayoutContent>
-      </HeaderProvider>
-    </SmoothScrollProvider>
+    <HeaderProvider>
+      <ClientLayoutContent>{children}</ClientLayoutContent>
+    </HeaderProvider>
   );
 }

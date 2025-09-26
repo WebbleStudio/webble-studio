@@ -51,7 +51,6 @@ Open [http://localhost:3000](http://localhost:3000) to view the website.
 - **Email**: Resend API
 - **Animations**: Framer Motion 12.23.6
 - **3D Graphics**: Spline (lazy-loaded)
-- **Smooth Scrolling**: Lenis 1.3.11
 - **Drag & Drop**: @dnd-kit
 - **Internationalization**: i18next
 - **Performance**: Custom optimization hooks
@@ -159,7 +158,6 @@ src/
 #### **Technical Features**
 - **Responsive Design**: Mobile-first approach with Tailwind CSS
 - **Dark/Light Mode**: Complete theme system with CSS variables
-- **Smooth Scrolling**: Lenis integration with optimized performance
 - **Internationalization**: Italian/English support with i18next
 - **Performance Optimized**: Advanced caching, lazy loading, and network optimization
 - **Accessibility**: WCAG compliant with keyboard navigation
@@ -638,7 +636,6 @@ For support and questions:
 - 🎭 **Spline** for interactive 3D graphics
 - 🎯 **@dnd-kit** for intuitive drag-and-drop interfaces
 - 🌐 **i18next** for internationalization
-- ⚡ **Lenis** for smooth scrolling experiences
 
 ---
 

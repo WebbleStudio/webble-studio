@@ -20,32 +20,12 @@ export default function Hero() {
       delay: shouldReduceAnimations ? 100 : 300,
     });
 
-  // Funzione di scroll smooth ottimizzata con Lenis
+  // Funzione di scroll smooth
   const scrollToPayoff = () => {
     const payoffTitle = document.getElementById('payoff-title');
     if (!payoffTitle) return;
 
-    // Usa Lenis per lo smooth scroll
-    const lenis = (window as any).lenis;
-    if (lenis) {
-      lenis.scrollTo(payoffTitle, {
-        offset: -window.innerHeight / 2 + payoffTitle.offsetHeight / 2,
-        duration: 0.4, // Ridotto ulteriormente per massima reattività
-        easing: (t: number) => 1 - Math.pow(1 - t, 3), // easeOutCubic - più reattivo
-      });
-    } else {
-      // Fallback al scroll nativo se Lenis non è disponibile
-      const titleRect = payoffTitle.getBoundingClientRect();
-      const titleCenter = titleRect.top + titleRect.height / 2;
-      const viewportCenter = window.innerHeight / 2;
-      const currentScrollY = window.scrollY;
-      const targetScrollY = currentScrollY + titleCenter - viewportCenter;
-
-      window.scrollTo({
-        top: Math.max(0, targetScrollY),
-        behavior: 'smooth',
-      });
-    }
+    payoffTitle.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (

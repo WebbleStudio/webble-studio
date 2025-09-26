@@ -35,11 +35,8 @@ export default function Header() {
     if (pathname === '/contatti') {
       // Se siamo già sulla pagina contatti, scrolla al form
       const formElement = document.getElementById('contact-form');
-      if (formElement && (window as any).lenis) {
-        (window as any).lenis.scrollTo(formElement, {
-          duration: 1.2,
-          easing: (t: number) => 1 - Math.pow(1 - t, 3), // easeOutCubic
-        });
+      if (formElement) {
+        formElement.scrollIntoView({ behavior: 'smooth' });
       }
     } else {
       // Se non siamo sulla pagina contatti, naviga alla pagina

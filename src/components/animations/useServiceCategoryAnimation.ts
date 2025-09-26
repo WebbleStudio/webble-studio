@@ -185,7 +185,6 @@ export function useServiceCategoryAnimation() {
     msOverflowStyle: 'none' as const,
     // Aggiunte ottimizzazioni scroll
     overflowX: 'auto' as const,
-    WebkitOverflowScrolling: 'touch' as const, // iOS smooth scrolling
   };
 
   return {

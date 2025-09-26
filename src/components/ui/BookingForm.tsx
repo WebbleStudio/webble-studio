@@ -290,21 +290,15 @@ export default function BookingForm({ isOpen, onClose }: BookingFormProps) {
 
     if (isOpen) {
       document.addEventListener('keydown', handleKeyDown);
-      // Blocca lo scroll disabilitando Lenis
-      const lenis = (window as any).lenis;
-      if (lenis) {
-        lenis.stop();
-      }
+      // Blocca lo scroll
+      document.body.style.overflow = 'hidden';
       document.body.style.overflow = 'hidden';
     }
 
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
-      // Ripristina lo scroll riabilitando Lenis
-      const lenis = (window as any).lenis;
-      if (lenis) {
-        lenis.start();
-      }
+      // Ripristina lo scroll
+      document.body.style.overflow = '';
       document.body.style.overflow = '';
     };
   }, [isOpen, onClose, currentStep, totalSteps, handleNext, handleSubmit]);

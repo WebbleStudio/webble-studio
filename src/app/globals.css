@@ -195,7 +195,6 @@ body {
 
 /* Base layer improvements - Global resets */
 @layer base {
-  /* Smooth scroll removed per request */
 
   *,
   *::before,
