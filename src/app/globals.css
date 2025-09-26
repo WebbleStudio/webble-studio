@@ -5,72 +5,22 @@
    MOBILE FLICKER FIXES
    ======================================== */
 
-/* Safari-specific fixes for image flicker */
-@supports (-webkit-touch-callout: none) {
-  /* Safari only - fix image flicker during scroll */
-  img {
-    -webkit-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0);
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
-    -webkit-perspective: 1000px;
-    perspective: 1000px;
-    will-change: auto;
-  }
-  
-  /* Prevent Safari from shifting content during scroll */
-  html {
-    -webkit-text-size-adjust: 100%;
-    -webkit-tap-highlight-color: transparent;
-  }
-  
-  body {
-    -webkit-overflow-scrolling: touch;
-  }
-  
-  /* Fix for Safari mobile viewport issues */
-  @media screen and (max-width: 768px) {
-    /* Force hardware acceleration for all images on Safari mobile */
-    img {
-      -webkit-transform: translate3d(0, 0, 0);
-      transform: translate3d(0, 0, 0);
-      -webkit-backface-visibility: hidden;
-      backface-visibility: hidden;
-      -webkit-perspective: 1000px;
-      perspective: 1000px;
-      will-change: auto;
-      -webkit-will-change: auto;
-    }
-    
-    /* Prevent layout shifts during scroll */
-    * {
-      -webkit-transform: translate3d(0, 0, 0);
-      transform: translate3d(0, 0, 0);
-    }
-  }
-}
-
 /* Reduce flicker on mobile devices */
 @media (max-width: 768px) {
-  /* Aggressive Safari mobile flicker prevention */
   img {
     will-change: auto;
     backface-visibility: hidden;
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
     -webkit-backface-visibility: hidden;
-    -webkit-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0);
-    -webkit-perspective: 1000px;
+    -webkit-perspective: 1000;
     perspective: 1000px;
-    -webkit-will-change: auto;
-    contain: layout;
   }
   
   /* Optimize image loading */
   img[loading="lazy"] {
-    transition: none; /* Remove transitions that cause flicker */
-    opacity: 1; /* Full opacity to prevent flicker */
-    -webkit-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0);
+    transition: opacity 0.1s ease-in-out;
+    opacity: 0.99; /* Prevents flicker during load */
   }
   
   /* Prevent layout shifts */
@@ -79,18 +29,14 @@
     contain: layout;
     will-change: auto;
     backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-    -webkit-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0);
+    transform: translateZ(0);
   }
   
   /* Additional flicker prevention */
   [data-lazy-load] {
     will-change: auto;
     backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-    -webkit-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0);
+    transform: translateZ(0);
   }
 }
 

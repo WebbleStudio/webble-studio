@@ -48,12 +48,10 @@ export default function OptimizedImage({
           objectFit: 'cover',
           willChange: 'auto',
           backfaceVisibility: 'hidden',
+          transform: 'translateZ(0)',
           WebkitBackfaceVisibility: 'hidden',
-          WebkitTransform: 'translate3d(0, 0, 0)',
-          transform: 'translate3d(0, 0, 0)',
-          WebkitPerspective: '1000px',
-          perspective: '1000px',
-          opacity: 1
+          WebkitTransform: 'translateZ(0)',
+          opacity: 0.99
         }}
       />
     );
@@ -73,12 +71,10 @@ export default function OptimizedImage({
       style={{
         willChange: 'auto',
         backfaceVisibility: 'hidden',
+        transform: 'translateZ(0)',
         WebkitBackfaceVisibility: 'hidden',
-        WebkitTransform: 'translate3d(0, 0, 0)',
-        transform: 'translate3d(0, 0, 0)',
-        WebkitPerspective: '1000px',
-        perspective: '1000px',
-        opacity: 1
+        WebkitTransform: 'translateZ(0)',
+        opacity: 0.99
       }}
     />
   );

@@ -20,12 +20,6 @@ export const metadata: Metadata = {
   description:
     'Trova i professionisti giusti per il tuo progetto digitale. Designer, sviluppatori, copywriter e marketer pronti a trasformare le tue idee in realtà, garantendo risultati di alta qualità e un servizio personalizzato per ogni esigenza.',
   keywords: ['web design', 'sviluppo web', 'digital marketing', 'UI/UX design'],
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 1,
-    userScalable: false,
-  },
   openGraph: {
     title: 'Webble Studio: Scopri cosa significa essere unici',
     description: 'Trova i professionisti giusti per il tuo progetto digitale.',
