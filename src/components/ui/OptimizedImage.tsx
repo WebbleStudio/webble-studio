@@ -38,7 +38,12 @@ export default function OptimizedImage({
         priority={priority}
         sizes={sizes || '100vw'}
         quality={quality}
-        style={{ objectFit: 'cover' }}
+        style={{ 
+          objectFit: 'cover',
+          willChange: 'auto',
+          backfaceVisibility: 'hidden',
+          transform: 'translateZ(0)'
+        }}
       />
     );
   }
@@ -53,6 +58,11 @@ export default function OptimizedImage({
       priority={priority}
       quality={quality}
       sizes={sizes}
+      style={{
+        willChange: 'auto',
+        backfaceVisibility: 'hidden',
+        transform: 'translateZ(0)'
+      }}
     />
   );
 }

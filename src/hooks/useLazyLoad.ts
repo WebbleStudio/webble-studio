@@ -33,8 +33,8 @@ interface UseLazyLoadReturn {
 
 export const useLazyLoad = (options: UseLazyLoadOptions = {}): UseLazyLoadReturn => {
   const {
-    rootMargin = '50px 0px 100px 0px',
-    threshold = [0, 0.1, 0.25],
+    rootMargin = '200px 0px 200px 0px',
+    threshold = 0.1,
     delay = 0,
     once = true,
     eager = false,
@@ -106,11 +106,10 @@ export const useLazyLoad = (options: UseLazyLoadOptions = {}): UseLazyLoadReturn
         const intersectionRatio = entry.intersectionRatio;
         const boundingRect = entry.boundingClientRect;
 
-        // More sophisticated visibility detection
-        const isVisible = isIntersecting && intersectionRatio > 0.1;
-        const isComingIntoView = boundingRect.top < window.innerHeight && boundingRect.bottom > 0;
+        // Simplified visibility detection to reduce flicker
+        const isVisible = isIntersecting && intersectionRatio > 0.05;
 
-        if (isVisible && isComingIntoView) {
+        if (isVisible) {
           console.log(`👁️ [LazyLoad] Element entering viewport`);
 
           // Se already triggered e once=true, non ri-triggerare
@@ -134,11 +133,6 @@ export const useLazyLoad = (options: UseLazyLoadOptions = {}): UseLazyLoadReturn
             setIsLoaded(true);
             hasTriggeredRef.current = true;
           }
-        } else if (!isIntersecting && !once) {
-          // Se once=false, può re-triggerare quando esce dal viewport
-          console.log(`👁️ [LazyLoad] Element left viewport`);
-          setIsVisible(false);
-          // Mantieni shouldRender e isLoaded per evitare flickering
         }
       },
       {

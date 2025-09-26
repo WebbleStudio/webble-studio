@@ -40,7 +40,7 @@ export default function Title() {
         <AnimatePresence mode="wait">
           <motion.h2
             key={`title-${t('contact.section.title')}`}
-            className="text-[28px] font-figtree font-light text-[#0b0b0b] dark:text-[#f4f4f4] leading-tight"
+            className="text-[28px] font-figtree font-light text-[#0b0b0b] dark:text-[#f4f4f4] leading-tight w-[350px]"
             initial={{
               opacity: 0,
               y: 20,

@@ -227,7 +227,7 @@ export default function ChiSiamoHero() {
             }}
           >
             <div>
-              <h2 className="text-white text-2xl md:text-3xl font-medium -mb-1 leading-none">Vadim</h2>
+              <h2 className="text-white text-2xl md:text-3xl font-medium mb-2 leading-none">Vadim</h2>
               <AnimatedText as="h4" className="text-white text-lg md:text-xl opacity-80 leading-none">
                 {t('about.founder')}
               </AnimatedText>
@@ -309,7 +309,7 @@ export default function ChiSiamoHero() {
             }}
           >
             <div>
-              <h2 className="text-white text-2xl md:text-3xl font-medium -mb-1 leading-none">Gabriele</h2>
+              <h2 className="text-white text-2xl md:text-3xl font-medium mb-2 leading-none">Gabriele</h2>
               <AnimatedText as="h4" className="text-white text-lg md:text-xl opacity-80 leading-none">
                 {t('about.founder')}
               </AnimatedText>
