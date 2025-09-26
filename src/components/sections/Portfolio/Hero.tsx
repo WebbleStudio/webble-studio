@@ -4,27 +4,7 @@ import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from '@/hooks/useTranslation';
 
-interface HeroProps {
-  breadcrumb?: string;
-  title?: string;
-  backgroundImage?: string;
-  className?: string;
-}
-
-// Esempio di utilizzo:
-// <Hero 
-//   breadcrumb="Home / Servizi"
-//   title="I Nostri Servizi"
-//   backgroundImage="/img/services-hero.jpg"
-//   className="custom-class"
-// />
-
-export default function Hero({ 
-  breadcrumb, 
-  title, 
-  backgroundImage = '/img/contact-background.jpg',
-  className = ''
-}: HeroProps) {
+export default function Hero() {
   const { t } = useTranslation();
 
   return (
@@ -32,8 +12,8 @@ export default function Hero({
        <div className="pt-[90px] bg-[#0b0b0b] w-full 2xl:max-w-[1890px] mx-auto px-5 md:px-[30px] pb-[20px] md:pb-[30px] rounded-b-[20px]">
         <div className="relative">
         <div
-          className={`w-full h-[210px] md:h-[260px] lg:h-[310px] bg-cover bg-left bg-no-repeat rounded-[20px] bg-black flex items-center justify-start px-6 relative overflow-hidden ${className}`}
-          style={{ backgroundImage: `url(${backgroundImage})` }}
+          className="w-full h-[210px] md:h-[260px] lg:h-[310px] bg-cover bg-left bg-no-repeat rounded-[20px] bg-black flex items-center justify-start px-6 relative overflow-hidden"
+          style={{ backgroundImage: 'url(/img/hero-projects.jpg?v=1)' }}
         >
           {/* Gradient overlay from black to transparent */}
           <div
@@ -46,7 +26,7 @@ export default function Hero({
           <div className="flex flex-col items-start justify-center h-full relative z-10">
             <AnimatePresence mode="wait">
               <motion.h4
-                key={`breadcrumb-${breadcrumb || t('contact.hero.breadcrumb')}`}
+                key={`breadcrumb-${t('portfolio.hero.breadcrumb')}`}
                 className="text-sm text-white/70 font-medium"
                 initial={{
                   opacity: 0,
@@ -68,13 +48,13 @@ export default function Hero({
                   ease: [0.25, 0.46, 0.45, 0.94],
                 }}
               >
-                {breadcrumb || t('contact.hero.breadcrumb')}
+                {t('portfolio.hero.breadcrumb')}
               </motion.h4>
             </AnimatePresence>
             <AnimatePresence mode="wait">
               <motion.h1
-                key={`title-${title || t('contact.hero.title')}`}
-                className="text-[35px] md:text-[50px] lg:text-[60px] font-figtree font-light text-white"
+                key={`title-${t('portfolio.hero.title')}`}
+                className="text-[35px] md:text-[50px] lg:text-[60px] font-figtree font-light text-white leading-none"
                 initial={{
                   opacity: 0,
                   y: 20,
@@ -95,7 +75,8 @@ export default function Hero({
                   ease: [0.25, 0.46, 0.45, 0.94],
                 }}
               >
-                {title || t('contact.hero.title')}
+                Dove la <span className="font-medium">creatività</span> <br />
+                incontra la <span className="font-medium">strategia</span>
               </motion.h1>
             </AnimatePresence>
           </div>

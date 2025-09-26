@@ -2,13 +2,13 @@
 
 import React from 'react';
 import Container from '@/components/layout/Container';
-import PortfolioHero from '@/components/sections/Portfolio/PortfolioHero';
+import Hero from '@/components/sections/portfolio/Hero';
 import PortfolioProjects from '@/components/sections/Portfolio/PortfolioProjects';
 
 export default function PortfolioPage() {
   return (
     <main>
-      <PortfolioHero />
+      <Hero />
       <Container>
         <PortfolioProjects />
       </Container>

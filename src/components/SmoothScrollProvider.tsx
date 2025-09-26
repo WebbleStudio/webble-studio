@@ -9,6 +9,9 @@ export default function SmoothScrollProvider({ children }: { children: React.Rea
   const isAdminRoute = pathname?.startsWith('/admin');
 
   useEffect(() => {
+    // LENIS DISABILITATO TEMPORANEAMENTE PER TEST CURSORE
+    return;
+    
     // Non inizializzare Lenis se siamo in una pagina admin
     if (isAdminRoute) {
       return;

@@ -73,95 +73,6 @@
     "portfolio": "Portfolio",
     "contact": "Contact"
   },
-  "admin": {
-    "backToSite": "Back to site",
-    "dashboard": {
-      "title": "Admin Dashboard",
-      "subtitle": "Manage portfolio projects and view layout",
-      "welcome": "Welcome",
-      "company": "Webble Studio",
-      "logout": "Logout"
-    },
-    "navigation": {
-      "projects": "Projects",
-      "highlights": "Highlights",
-      "services": "Services"
-    },
-    "projects": {
-      "new_project": "New Project",
-      "title": "Title",
-      "title_placeholder": "Project name",
-      "title_placeholder_en": "Project name in English",
-      "description": "Description",
-      "description_placeholder": "Project description",
-      "description_placeholder_en": "Project description in English",
-      "link": "Link",
-      "link_placeholder": "Project link (optional)",
-      "category": "Category",
-      "categories": "Categories",
-      "select_all": "All",
-      "reset": "Reset",
-      "categories_selected": "categories selected",
-      "categories_info": "The project will appear in all selected categories",
-      "upload_image": "Upload Image",
-      "drag_drop": "Drag an image here",
-      "click_select": "or click to select",
-      "add_project": "Add Project",
-      "loading": "Loading...",
-      "fill_required": "Fill title and at least one category before selecting image",
-      "fill_required_upload": "Fill title and at least one category to enable upload",
-      "portfolio_preview": "Portfolio Layout Preview",
-      "portfolio_preview_description": "View how projects appear in the portfolio",
-      "layout": "Layout",
-      "projects_count": "projects",
-      "project_single": "project",
-      "unsaved": "Unsaved",
-      "view_portfolio": "View Portfolio",
-      "save_changes": "Save Changes",
-      "saving": "Saving...",
-      "save_projects": "Save Projects",
-      "save_projects_count": "Save {count} Projects",
-      "available_slot": "Available slot",
-      "desktop_layout": "Desktop Layout",
-      "tablet_layout": "2 per row",
-      "mobile_layout": "1 per row",
-      "upload_image_description": "Upload the project image"
-    },
-    "highlights": {
-      "select_projects": "Select Projects",
-      "selected_count": "({count}/4)",
-      "remove": "Remove",
-      "available_projects": "Available projects:",
-      "no_projects_available": "No projects available",
-      "no_projects_info": "Create projects first in the Projects section",
-      "limit_reached": "Limit reached: maximum 4 projects selectable",
-      "configuration": "Highlights Configuration",
-      "save": "Save",
-      "saving": "Saving...",
-      "delete_all": "Delete All",
-      "descriptions_slides": "Slide Descriptions",
-      "slide": "Slide",
-      "slide_description": "Description for slide {number}",
-      "slide_description_placeholder": "Description for slide {number}",
-      "background_container": "Container Background",
-      "upload_background": "Upload new background image",
-      "navigation_images": "Navigation Images",
-      "images_count": "({count} images)",
-      "remove_image": "Remove image",
-      "project_date": "Project Date",
-      "project_date_placeholder": "e.g. September 2025",
-      "project_date_help": "Enter the date to display for this project (e.g. September 2025)",
-      "no_projects_selected": "Select at least one project to start configuration"
-    },
-    "edit_project": {
-      "title": "Edit Project",
-      "cancel": "Cancel",
-      "save_changes": "Save Changes",
-      "image": "Image",
-      "change_image": "Click to change image",
-      "new_image_selected": "New image selected"
-    }
-  },
   "contact": {
     "title": "Contact us",
     "subtitle": "Tell us about your goals and we'll help you achieve them",
@@ -183,7 +94,7 @@
       "email_placeholder": "example@mail.com",
       "phone": "Phone",
       "phone_placeholder": "+1 123 456 7890",
-      "message": "Tell us about your project",
+      "message": "What do you need?",
       "message_placeholder": "Write here"
     },
     "privacy": "I consent to the processing of personal data pursuant to the GDPR",
@@ -409,6 +320,12 @@
         "reply_email": "Reply via Email",
         "call": "Call"
       }
+    }
+  },
+  "portfolio": {
+    "hero": {
+      "breadcrumb": "Home / Portfolio",
+      "title": "Where creativity meets strategy"
     }
   }
 }

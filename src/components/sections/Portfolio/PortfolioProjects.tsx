@@ -197,6 +197,107 @@ export default function PortfolioProjects() {
     [getTranslatedTitle, getTranslatedDescription, handleProjectClick, getXLProjectAnimationProps]
   );
 
+  // Layout personalizzato con pattern alternato
+  const renderCustomLayout = React.useMemo(() => {
+    const projectsToShow = filteredProjects;
+    const rows = [];
+
+    for (let i = 0; i < projectsToShow.length; i += 3) {
+      const rowProjects = projectsToShow.slice(i, i + 3);
+      const rowIndex = Math.floor(i / 3);
+
+      if (rowIndex % 3 === 0) {
+        // Prima riga: 2 progetti 50% width
+        if (rowProjects.length >= 2) {
+          rows.push(
+            <div key={`row-${rowIndex}`} className="flex gap-6 mb-6">
+              {rowProjects.slice(0, 2).map((project, index) => (
+                <motion.div
+                  key={project.id}
+                  className="w-1/2"
+                  {...getProjectAnimationProps(i + index)}
+                >
+                  <Project
+                    title={getTranslatedTitle(project)}
+                    description={getTranslatedDescription(project)}
+                    imageUrl={project.image_url}
+                    hasLink={!!project.link}
+                    onClick={project.link ? () => handleProjectClick(project) : undefined}
+                  />
+                </motion.div>
+              ))}
+            </div>
+          );
+        }
+      } else if (rowIndex % 3 === 1) {
+        // Seconda riga: 3 progetti 33% width
+        if (rowProjects.length >= 3) {
+          rows.push(
+            <div key={`row-${rowIndex}`} className="flex gap-4 mb-6">
+              {rowProjects.slice(0, 3).map((project, index) => (
+                <motion.div
+                  key={project.id}
+                  className="w-1/3"
+                  {...getProjectAnimationProps(i + index)}
+                >
+                  <Project
+                    title={getTranslatedTitle(project)}
+                    description={getTranslatedDescription(project)}
+                    imageUrl={project.image_url}
+                    hasLink={!!project.link}
+                    onClick={project.link ? () => handleProjectClick(project) : undefined}
+                  />
+                </motion.div>
+              ))}
+            </div>
+          );
+        }
+      } else {
+        // Terza riga: 2 progetti - uno 33% l'altro 67%
+        if (rowProjects.length >= 2) {
+          rows.push(
+            <div key={`row-${rowIndex}`} className="flex gap-4 mb-6">
+              <motion.div
+                key={rowProjects[0].id}
+                className="w-1/3"
+                {...getProjectAnimationProps(i)}
+              >
+                <Project
+                  title={getTranslatedTitle(rowProjects[0])}
+                  description={getTranslatedDescription(rowProjects[0])}
+                  imageUrl={rowProjects[0].image_url}
+                  hasLink={!!rowProjects[0].link}
+                  onClick={rowProjects[0].link ? () => handleProjectClick(rowProjects[0]) : undefined}
+                />
+              </motion.div>
+              <motion.div
+                key={rowProjects[1].id}
+                className="w-2/3"
+                {...getProjectAnimationProps(i + 1)}
+              >
+                <Project
+                  title={getTranslatedTitle(rowProjects[1])}
+                  description={getTranslatedDescription(rowProjects[1])}
+                  imageUrl={rowProjects[1].image_url}
+                  hasLink={!!rowProjects[1].link}
+                  onClick={rowProjects[1].link ? () => handleProjectClick(rowProjects[1]) : undefined}
+                />
+              </motion.div>
+            </div>
+          );
+        }
+      }
+    }
+
+    return rows;
+  }, [
+    filteredProjects,
+    getTranslatedTitle,
+    getTranslatedDescription,
+    handleProjectClick,
+    getProjectAnimationProps,
+  ]);
+
   // Render layout responsivo automatico basato sui breakpoint - ottimizzato
   const renderResponsiveLayout = React.useMemo(() => {
     const projectsToShow = filteredProjects;
@@ -241,8 +342,8 @@ export default function PortfolioProjects() {
           ))}
         </div>
 
-        {/* Layout Desktop: ≥ xl (1280px) - Layout semplificato */}
-        <div className="hidden xl:block space-y-10">{renderXLLayoutSimplified(projectsToShow)}</div>
+        {/* Layout Desktop: ≥ xl (1280px) - Layout personalizzato */}
+        <div className="hidden xl:block">{renderCustomLayout}</div>
       </div>
     );
   }, [
@@ -251,8 +352,7 @@ export default function PortfolioProjects() {
     getTranslatedDescription,
     handleProjectClick,
     getProjectAnimationProps,
-    getXLProjectAnimationProps,
-    renderXLLayoutSimplified,
+    renderCustomLayout,
   ]);
 
   return (

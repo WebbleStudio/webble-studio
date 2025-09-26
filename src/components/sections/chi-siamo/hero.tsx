@@ -180,10 +180,10 @@ export default function ChiSiamoHero() {
 
   return (
     <section className="w-full flex flex-col md:flex-row relative overflow-hidden">
-      <div className="w-full max-w-[1370px] mx-auto flex flex-col md:flex-row min-h-[screen] pt-[90px] px-[15px] pb-[15px] bg-[#0b0b0b] gap-[15px] rounded-b-[32px] border border-[#f4f4f4]/10">
+      <div className="w-full mx-auto flex flex-col md:flex-row pt-[90px] px-[15px] pb-[15px] md:px-[25px] md:pb-[25px] md:pt-[100px] bg-[#0b0b0b] gap-[15px] md:gap-[25px] rounded-b-[32px] border border-[#f4f4f4]/10">
         {/* Container Vadim */}
         <motion.div
-          className="w-full md:w-1/2 relative cursor-pointer rounded-3xl overflow-hidden"
+          className="w-full md:w-1/2 relative cursor-pointer rounded-3xl overflow-hidden pb-[15px] md:pb-[25px]"
           onClick={() => !isDebouncing && handlePercorsoClick('vadim')}
           animate={{
             height: isMobile
@@ -227,8 +227,8 @@ export default function ChiSiamoHero() {
             }}
           >
             <div>
-              <h2 className="text-white text-2xl md:text-3xl font-medium -mb-1">Vadim</h2>
-              <AnimatedText as="h4" className="text-white text-lg md:text-xl opacity-80">
+              <h2 className="text-white text-2xl md:text-3xl font-medium -mb-1 leading-none">Vadim</h2>
+              <AnimatedText as="h4" className="text-white text-lg md:text-xl opacity-80 leading-none">
                 {t('about.founder')}
               </AnimatedText>
             </div>
@@ -265,7 +265,7 @@ export default function ChiSiamoHero() {
 
         {/* Container Gabriele */}
         <motion.div
-          className="w-full md:w-1/2 relative cursor-pointer rounded-3xl overflow-hidden"
+          className="w-full md:w-1/2 relative cursor-pointer rounded-3xl overflow-hidden pb-[15px] md:pb-[25px]"
           onClick={() => !isDebouncing && handlePercorsoClick('gabriele')}
           animate={{
             height: isMobile
@@ -309,8 +309,8 @@ export default function ChiSiamoHero() {
             }}
           >
             <div>
-              <h2 className="text-white text-2xl md:text-3xl font-medium -mb-1">Gabriele</h2>
-              <AnimatedText as="h4" className="text-white text-lg md:text-xl opacity-80">
+              <h2 className="text-white text-2xl md:text-3xl font-medium -mb-1 leading-none">Gabriele</h2>
+              <AnimatedText as="h4" className="text-white text-lg md:text-xl opacity-80 leading-none">
                 {t('about.founder')}
               </AnimatedText>
             </div>
