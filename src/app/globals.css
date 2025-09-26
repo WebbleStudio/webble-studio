@@ -5,6 +5,26 @@
    MOBILE FLICKER FIXES
    ======================================== */
 
+/* Safari viewport fixes and mobile optimizations */
+@supports (-webkit-touch-callout: none) {
+  /* Safari-specific fixes */
+  html {
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  body {
+    -webkit-overflow-scrolling: touch;
+    position: relative;
+  }
+  
+  /* Prevent Safari header shifting */
+  .fixed, .absolute {
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+  }
+}
+
 /* Reduce flicker on mobile devices */
 @media (max-width: 768px) {
   img {
