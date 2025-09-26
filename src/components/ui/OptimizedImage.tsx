@@ -49,7 +49,11 @@ export default function OptimizedImage({
           willChange: 'auto',
           backfaceVisibility: 'hidden',
           WebkitBackfaceVisibility: 'hidden',
-          opacity: 0.99
+          WebkitTransform: 'translate3d(0, 0, 0)',
+          transform: 'translate3d(0, 0, 0)',
+          WebkitPerspective: '1000px',
+          perspective: '1000px',
+          opacity: 1
         }}
       />
     );
@@ -70,7 +74,11 @@ export default function OptimizedImage({
         willChange: 'auto',
         backfaceVisibility: 'hidden',
         WebkitBackfaceVisibility: 'hidden',
-        opacity: 0.99
+        WebkitTransform: 'translate3d(0, 0, 0)',
+        transform: 'translate3d(0, 0, 0)',
+        WebkitPerspective: '1000px',
+        perspective: '1000px',
+        opacity: 1
       }}
     />
   );

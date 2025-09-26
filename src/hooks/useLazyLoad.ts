@@ -33,8 +33,8 @@ interface UseLazyLoadReturn {
 
 export const useLazyLoad = (options: UseLazyLoadOptions = {}): UseLazyLoadReturn => {
   const {
-    rootMargin = '300px 0px 300px 0px', // Aumentato per ridurre flicker
-    threshold = 0.05, // Ridotto per triggerare prima
+    rootMargin = '500px 0px 500px 0px', // Aumentato ulteriormente per Safari
+    threshold = 0.01, // Ridotto ulteriormente per Safari
     delay = 0,
     once = true,
     eager = false,
@@ -111,8 +111,8 @@ export const useLazyLoad = (options: UseLazyLoadOptions = {}): UseLazyLoadReturn
         const intersectionRatio = entry.intersectionRatio;
         const boundingRect = entry.boundingClientRect;
 
-        // Simplified visibility detection to reduce flicker
-        const isVisible = isIntersecting && intersectionRatio > 0.01;
+        // Simplified visibility detection to reduce flicker on Safari
+        const isVisible = isIntersecting && intersectionRatio > 0.001;
 
         if (isVisible) {
           console.log(`👁️ [LazyLoad] Element entering viewport`);
