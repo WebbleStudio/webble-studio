@@ -11,6 +11,7 @@ interface OptimizedImageProps {
   fill?: boolean;
   sizes?: string;
   quality?: number;
+  loading?: 'lazy' | 'eager';
 }
 
 /**
@@ -27,7 +28,11 @@ export default function OptimizedImage({
   fill = false,
   sizes,
   quality = 85,
+  loading,
 }: OptimizedImageProps) {
+  // Determina loading strategy: se priority=true, non usare loading='lazy'
+  const loadingStrategy = priority ? undefined : (loading || 'lazy');
+
   if (fill) {
     return (
       <Image
@@ -36,13 +41,17 @@ export default function OptimizedImage({
         fill
         className={className}
         priority={priority}
+        loading={loadingStrategy}
         sizes={sizes || '100vw'}
         quality={quality}
         style={{ 
           objectFit: 'cover',
           willChange: 'auto',
           backfaceVisibility: 'hidden',
-          transform: 'translateZ(0)'
+          transform: 'translateZ(0)',
+          WebkitBackfaceVisibility: 'hidden',
+          WebkitTransform: 'translateZ(0)',
+          opacity: 0.99
         }}
       />
     );
@@ -56,12 +65,16 @@ export default function OptimizedImage({
       height={height}
       className={className}
       priority={priority}
+      loading={loadingStrategy}
       quality={quality}
       sizes={sizes}
       style={{
         willChange: 'auto',
         backfaceVisibility: 'hidden',
-        transform: 'translateZ(0)'
+        transform: 'translateZ(0)',
+        WebkitBackfaceVisibility: 'hidden',
+        WebkitTransform: 'translateZ(0)',
+        opacity: 0.99
       }}
     />
   );

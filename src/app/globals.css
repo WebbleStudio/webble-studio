@@ -12,17 +12,31 @@
     backface-visibility: hidden;
     transform: translateZ(0);
     -webkit-transform: translateZ(0);
+    -webkit-backface-visibility: hidden;
+    -webkit-perspective: 1000;
+    perspective: 1000px;
   }
   
   /* Optimize image loading */
   img[loading="lazy"] {
-    transition: opacity 0.2s ease-in-out;
+    transition: opacity 0.1s ease-in-out;
+    opacity: 0.99; /* Prevents flicker during load */
   }
   
   /* Prevent layout shifts */
   .aspect-video,
   .aspect-square {
     contain: layout;
+    will-change: auto;
+    backface-visibility: hidden;
+    transform: translateZ(0);
+  }
+  
+  /* Additional flicker prevention */
+  [data-lazy-load] {
+    will-change: auto;
+    backface-visibility: hidden;
+    transform: translateZ(0);
   }
 }
 

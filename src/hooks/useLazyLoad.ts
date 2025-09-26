@@ -33,8 +33,8 @@ interface UseLazyLoadReturn {
 
 export const useLazyLoad = (options: UseLazyLoadOptions = {}): UseLazyLoadReturn => {
   const {
-    rootMargin = '200px 0px 200px 0px',
-    threshold = 0.1,
+    rootMargin = '300px 0px 300px 0px', // Aumentato per ridurre flicker
+    threshold = 0.05, // Ridotto per triggerare prima
     delay = 0,
     once = true,
     eager = false,
@@ -48,6 +48,7 @@ export const useLazyLoad = (options: UseLazyLoadOptions = {}): UseLazyLoadReturn
   const observerRef = useRef<IntersectionObserver | null>(null);
   const timeoutRef = useRef<number | null>(null);
   const hasTriggeredRef = useRef(eager);
+  const debounceTimeoutRef = useRef<number | null>(null);
 
   // Performance hook per adaptive loading
   const { shouldReduceAnimations, isLowEndDevice } = usePerformance();
@@ -57,6 +58,10 @@ export const useLazyLoad = (options: UseLazyLoadOptions = {}): UseLazyLoadReturn
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
       timeoutRef.current = null;
+    }
+    if (debounceTimeoutRef.current) {
+      clearTimeout(debounceTimeoutRef.current);
+      debounceTimeoutRef.current = null;
     }
   }, []);
 
@@ -107,7 +112,7 @@ export const useLazyLoad = (options: UseLazyLoadOptions = {}): UseLazyLoadReturn
         const boundingRect = entry.boundingClientRect;
 
         // Simplified visibility detection to reduce flicker
-        const isVisible = isIntersecting && intersectionRatio > 0.05;
+        const isVisible = isIntersecting && intersectionRatio > 0.01;
 
         if (isVisible) {
           console.log(`👁️ [LazyLoad] Element entering viewport`);
@@ -115,24 +120,27 @@ export const useLazyLoad = (options: UseLazyLoadOptions = {}): UseLazyLoadReturn
           // Se already triggered e once=true, non ri-triggerare
           if (hasTriggeredRef.current && once) return;
 
-          setIsVisible(true);
-          setShouldRender(true);
+          // Debounce per ridurre flicker durante scroll
+          clearLoadingTimeout();
+          debounceTimeoutRef.current = window.setTimeout(() => {
+            setIsVisible(true);
+            setShouldRender(true);
 
-          // Adaptive delay based on performance
-          const effectiveDelay = shouldReduceAnimations
-            ? Math.min(delay, 50) // Ridotto delay per modalità performance
-            : delay;
+            // Adaptive delay based on performance
+            const effectiveDelay = shouldReduceAnimations
+              ? Math.min(delay, 50) // Ridotto delay per modalità performance
+              : delay;
 
-          if (effectiveDelay > 0) {
-            clearLoadingTimeout();
-            timeoutRef.current = window.setTimeout(() => {
+            if (effectiveDelay > 0) {
+              timeoutRef.current = window.setTimeout(() => {
+                setIsLoaded(true);
+                hasTriggeredRef.current = true;
+              }, effectiveDelay);
+            } else {
               setIsLoaded(true);
               hasTriggeredRef.current = true;
-            }, effectiveDelay);
-          } else {
-            setIsLoaded(true);
-            hasTriggeredRef.current = true;
-          }
+            }
+          }, 50); // Debounce di 50ms per ridurre flicker
         }
       },
       {
