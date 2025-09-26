@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Container from '@/components/layout/Container';
-import Hero from '@/components/sections/portfolio/Hero';
+import Hero from '@/components/sections/Portfolio/Hero';
 import PortfolioProjects from '@/components/sections/Portfolio/PortfolioProjects';
 
 export default function PortfolioPage() {
