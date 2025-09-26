@@ -305,10 +305,10 @@ export default function ContactEmail({ name, email, phone, message }: ContactEma
           >
             📧{' '}
             <a
-              href="mailto:info@webblestudio.com"
+              href="mailto:webblestudio.com@gmail.com"
               style={{ color: '#0b0b0b', textDecoration: 'none' }}
             >
-              info@webblestudio.com
+              webblestudio.com@gmail.com
             </a>
           </p>
           <p

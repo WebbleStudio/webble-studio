@@ -39,10 +39,10 @@ export default function Contatti() {
             Email
           </h3>
           <a
-            href="mailto:info@webblestudio.com"
+            href="mailto:webblestudio.com@gmail.com"
             className="text-[18px] font-figtree font-light text-[#0b0b0b] dark:text-[#f4f4f4] hover:opacity-80 transition-opacity"
           >
-            info@webblestudio.com
+            webblestudio.com@gmail.com
           </a>
         </div>
 

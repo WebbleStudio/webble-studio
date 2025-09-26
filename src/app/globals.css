@@ -5,16 +5,47 @@
    MOBILE FLICKER FIXES
    ======================================== */
 
+/* Safari-specific fixes */
+@supports (-webkit-touch-callout: none) {
+  /* Safari only */
+  body {
+    -webkit-overflow-scrolling: touch;
+    position: relative;
+  }
+  
+  /* Fix header positioning on Safari */
+  .fixed {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -webkit-perspective: 1000;
+    perspective: 1000px;
+  }
+  
+  /* Prevent Safari from shifting content during scroll */
+  html {
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  /* Fix for Safari mobile viewport issues */
+  @media screen and (max-width: 768px) {
+    body {
+      position: relative;
+      -webkit-transform: translate3d(0, 0, 0);
+      transform: translate3d(0, 0, 0);
+    }
+  }
+}
+
 /* Reduce flicker on mobile devices */
 @media (max-width: 768px) {
   img {
     will-change: auto;
     backface-visibility: hidden;
-    transform: translateZ(0);
-    -webkit-transform: translateZ(0);
     -webkit-backface-visibility: hidden;
-    -webkit-perspective: 1000;
-    perspective: 1000px;
+    /* Removed translateZ(0) as it can cause Safari issues */
   }
   
   /* Optimize image loading */
@@ -29,14 +60,14 @@
     contain: layout;
     will-change: auto;
     backface-visibility: hidden;
-    transform: translateZ(0);
+    -webkit-backface-visibility: hidden;
   }
   
   /* Additional flicker prevention */
   [data-lazy-load] {
     will-change: auto;
     backface-visibility: hidden;
-    transform: translateZ(0);
+    -webkit-backface-visibility: hidden;
   }
 }
 

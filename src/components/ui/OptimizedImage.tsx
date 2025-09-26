@@ -48,9 +48,7 @@ export default function OptimizedImage({
           objectFit: 'cover',
           willChange: 'auto',
           backfaceVisibility: 'hidden',
-          transform: 'translateZ(0)',
           WebkitBackfaceVisibility: 'hidden',
-          WebkitTransform: 'translateZ(0)',
           opacity: 0.99
         }}
       />
@@ -71,9 +69,7 @@ export default function OptimizedImage({
       style={{
         willChange: 'auto',
         backfaceVisibility: 'hidden',
-        transform: 'translateZ(0)',
         WebkitBackfaceVisibility: 'hidden',
-        WebkitTransform: 'translateZ(0)',
         opacity: 0.99
       }}
     />

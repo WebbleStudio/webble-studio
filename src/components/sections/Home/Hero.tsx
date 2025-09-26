@@ -25,7 +25,17 @@ export default function Hero() {
     const payoffTitle = document.getElementById('payoff-title');
     if (!payoffTitle) return;
 
-    payoffTitle.scrollIntoView({ behavior: 'smooth' });
+    // Calcola la posizione per centrare verticalmente il titolo
+    const titleRect = payoffTitle.getBoundingClientRect();
+    const titleCenter = titleRect.top + titleRect.height / 2;
+    const viewportCenter = window.innerHeight / 2;
+    const currentScrollY = window.scrollY;
+    const targetScrollY = currentScrollY + titleCenter - viewportCenter;
+
+    window.scrollTo({
+      top: Math.max(0, targetScrollY),
+      behavior: 'smooth',
+    });
   };
 
   return (
