@@ -1,0 +1,630 @@
+'use client';
+
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import OptimizedImage from '@/components/ui/OptimizedImage';
+import AnimatedText from '@/components/ui/AnimatedText';
+import { useHeader } from '@/contexts/HeaderContext';
+import { useTranslation } from '@/hooks/useTranslation';
+
+export default function ChiSiamoHero() {
+  const [expandedPerson, setExpandedPerson] = useState<string | null>(null);
+  const [showCV, setShowCV] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [isZoomed, setIsZoomed] = useState(false);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
+  const [isDebouncing, setIsDebouncing] = useState(false);
+  const { hideHeader, showHeader } = useHeader();
+  const { t } = useTranslation();
+
+  // Rileva se è mobile e se è un dispositivo touch
+  React.useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    const checkTouchDevice = () => {
+      setIsTouchDevice('ontouchstart' in window || navigator.maxTouchPoints > 0);
+    };
+
+    checkMobile();
+    checkTouchDevice();
+    window.addEventListener('resize', checkMobile);
+
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Gestione tasto ESC per accessibilità
+  React.useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        if (isZoomed) {
+          // Se siamo in zoom, disattiva SOLO lo zoom (non chiudere il container)
+          setIsZoomed(false);
+          setMousePosition({ x: 0, y: 0 });
+        } else if (expandedPerson && !isDebouncing) {
+          // Se abbiamo un container aperto ma NON siamo in zoom e NON siamo in debounce, chiudilo
+          handleCloseExpansion();
+        }
+      }
+    };
+
+    // Aggiungi listener solo quando abbiamo un container aperto
+    if (expandedPerson) {
+      document.addEventListener('keydown', handleKeyDown);
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [expandedPerson, isZoomed, isDebouncing]);
+
+  // Cleanup per evitare problemi WebGL
+  React.useEffect(() => {
+    return () => {
+      // Cleanup quando il componente viene smontato
+      if (expandedPerson) {
+        setExpandedPerson(null);
+        setShowCV(false);
+        // Riabilita lo scroll completamente con timing sincronizzato
+        setTimeout(() => {
+          const scrollY = document.body.style.top;
+          document.body.style.overflow = 'auto';
+          document.body.style.position = '';
+          document.body.style.width = '';
+          document.body.style.top = '';
+          if (scrollY) {
+            window.scrollTo(0, parseInt(scrollY || '0') * -1);
+          }
+          // Mostra l'header dopo il cleanup
+          showHeader();
+        }, 50);
+      }
+    };
+  }, [expandedPerson, showHeader]);
+
+  // Gestione scroll quando si espande
+  React.useEffect(() => {
+    if (expandedPerson) {
+      // Disabilita lo scroll quando si espande
+      document.body.style.overflow = 'hidden';
+      document.body.style.position = 'fixed';
+      document.body.style.width = '100%';
+      document.body.style.top = `-${window.scrollY}px`;
+    } else {
+      // Riabilita lo scroll quando si chiude
+      const scrollY = document.body.style.top;
+      document.body.style.overflow = 'auto';
+      document.body.style.position = '';
+      document.body.style.width = '';
+      document.body.style.top = '';
+      if (scrollY) {
+        window.scrollTo(0, parseInt(scrollY || '0') * -1);
+      }
+    }
+  }, [expandedPerson]);
+
+  const handlePercorsoClick = (person: string) => {
+    // Se è in corso un debounce, ignora il click
+    if (isDebouncing) {
+      return;
+    }
+
+    // Attiva il debounce per 0.7 secondi
+    setIsDebouncing(true);
+    setTimeout(() => {
+      setIsDebouncing(false);
+    }, 700);
+
+    // Reset stato precedente se necessario
+    if (expandedPerson) {
+      setShowCV(false);
+      setIsZoomed(false);
+    }
+
+    setExpandedPerson(person);
+    // Nascondi tutto l'header
+    hideHeader();
+
+    // Mostra il CV dopo l'animazione di espansione
+    const timer = setTimeout(() => {
+      setShowCV(true);
+    }, 800);
+
+    // Cleanup timer se il componente viene smontato
+    return () => clearTimeout(timer);
+  };
+
+  const handleCloseExpansion = () => {
+    // Se è in corso un debounce, ignora il click
+    if (isDebouncing) {
+      return;
+    }
+
+    // Attiva il debounce per 0.7 secondi
+    setIsDebouncing(true);
+    setTimeout(() => {
+      setIsDebouncing(false);
+    }, 700);
+
+    setShowCV(false);
+    setExpandedPerson(null);
+    setIsZoomed(false);
+    setMousePosition({ x: 0, y: 0 });
+
+    // Sincronizza il ripristino dello scroll con la fine dell'animazione (0.8s)
+    setTimeout(() => {
+      // Riabilita lo scroll dopo che l'animazione è completata
+      const scrollY = document.body.style.top;
+      document.body.style.overflow = 'auto';
+      document.body.style.position = '';
+      document.body.style.width = '';
+      document.body.style.top = '';
+      if (scrollY) {
+        window.scrollTo(0, parseInt(scrollY || '0') * -1);
+      }
+      
+      // Mostra l'header subito dopo il ripristino dello scroll
+      showHeader();
+    }, 800); // Sincronizzato con la durata dell'animazione
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (isZoomed) {
+      const rect = e.currentTarget.getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / rect.width - 0.5) * 2; // -1 to 1
+      const y = ((e.clientY - rect.top) / rect.height - 0.5) * 2; // -1 to 1
+      setMousePosition({ x, y });
+    }
+  };
+
+  return (
+    <section className="w-full flex flex-col md:flex-row relative overflow-hidden">
+      <div className="w-full mx-auto pt-[90px] px-[15px] pb-[15px] md:px-[25px] md:pb-[25px] md:pt-[100px] bg-[#0b0b0b] rounded-b-[32px] border border-[#f4f4f4]/10">
+        <div className="flex flex-col md:flex-row gap-[15px] md:gap-[25px]">
+        {/* Container Vadim */}
+        <motion.div
+          className="relative cursor-pointer rounded-3xl overflow-hidden"
+          onClick={() => !isDebouncing && handlePercorsoClick('vadim')}
+          style={{ 
+            willChange: 'height, flex', 
+            boxSizing: 'border-box',
+            minWidth: 0,
+            minHeight: 0,
+          }}
+          animate={{
+            height: isMobile
+              ? expandedPerson === 'vadim'
+                ? '70vh'
+                : expandedPerson === 'gabriele'
+                  ? '0vh'
+                  : '35vh'
+              : '70vh',
+            width: isMobile
+              ? '100%'
+              : expandedPerson === 'vadim'
+                ? '100%'
+                : expandedPerson === 'gabriele'
+                  ? '0%'
+                  : '50%',
+            opacity: isMobile
+              ? expandedPerson === 'vadim'
+                ? 1
+                : expandedPerson === 'gabriele'
+                  ? 0
+                  : 1
+              : 1,
+          }}
+          transition={{
+            duration: 0.8,
+            ease: [0.25, 0.46, 0.45, 0.94],
+            type: "tween",
+          }}
+        >
+          <motion.div
+            className="absolute inset-0"
+            animate={{
+              scale: expandedPerson === 'vadim' ? 1.05 : 1,
+              filter: expandedPerson === 'vadim' ? 'blur(4px)' : 'blur(0px)',
+            }}
+            transition={{
+              duration: 0.8,
+              ease: [0.25, 0.46, 0.45, 0.94],
+            }}
+          >
+            <OptimizedImage
+              src="/img/vadim.png"
+              alt="Vadim"
+              fill
+              sizes="(max-width: 768px) 100vw, 50vw"
+              className="object-cover"
+            />
+          </motion.div>
+          {/* Nome e ruolo Vadim */}
+          <motion.div
+            className="absolute bottom-0 left-0 p-6 w-full flex items-end justify-between"
+            animate={{
+              opacity: expandedPerson === 'vadim' ? 0 : expandedPerson === 'gabriele' ? 0 : 1,
+            }}
+            transition={{
+              duration: 0.4,
+              delay: expandedPerson === 'vadim' ? 0.1 : expandedPerson === 'gabriele' ? 0.1 : 0.5,
+              ease: [0.25, 0.46, 0.45, 0.94],
+            }}
+          >
+            <div>
+              <h2 className="text-white text-2xl md:text-3xl font-medium mb-2 leading-none">Vadim</h2>
+              <AnimatedText as="h4" className="text-white text-lg md:text-xl opacity-80 leading-none">
+                {t('about.founder')}
+              </AnimatedText>
+            </div>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                handlePercorsoClick('vadim');
+              }}
+              className={`text-sm md:text-lg font-medium transition-colors flex items-center gap-2 pb-1 ${
+                isDebouncing ? 'text-gray-500' : 'text-white hover:text-gray-300'
+              }`}
+              disabled={isDebouncing}
+              title={isDebouncing ? 'Attendere...' : t('about.path')}
+            >
+              <AnimatedText as="span">{t('about.path')}</AnimatedText>
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M5 12H19M19 12L12 5M19 12L12 19"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </button>
+          </motion.div>
+        </motion.div>
+
+        {/* Container Gabriele */}
+        <motion.div
+          className="relative cursor-pointer rounded-3xl overflow-hidden"
+          onClick={() => !isDebouncing && handlePercorsoClick('gabriele')}
+          style={{ 
+            willChange: 'height, flex', 
+            boxSizing: 'border-box',
+            minWidth: 0,
+            minHeight: 0,
+          }}
+          animate={{
+            height: isMobile
+              ? expandedPerson === 'gabriele'
+                ? '70vh'
+                : expandedPerson === 'vadim'
+                  ? '0vh'
+                  : '35vh'
+              : '70vh',
+            width: isMobile
+              ? '100%'
+              : expandedPerson === 'gabriele'
+                ? '100%'
+                : expandedPerson === 'vadim'
+                  ? '0%'
+                  : '50%',
+            opacity: isMobile
+              ? expandedPerson === 'gabriele'
+                ? 1
+                : expandedPerson === 'vadim'
+                  ? 0
+                  : 1
+              : 1,
+          }}
+          transition={{
+            duration: 0.8,
+            ease: [0.25, 0.46, 0.45, 0.94],
+            type: "tween",
+          }}
+        >
+          <motion.div
+            className="absolute inset-0"
+            animate={{
+              scale: expandedPerson === 'gabriele' ? 1.05 : 1,
+              filter: expandedPerson === 'gabriele' ? 'blur(4px)' : 'blur(0px)',
+            }}
+            transition={{
+              duration: 0.8,
+              ease: [0.25, 0.46, 0.45, 0.94],
+            }}
+          >
+            <OptimizedImage
+              src="/img/gabriele.png"
+              alt="Gabriele"
+              fill
+              sizes="(max-width: 768px) 100vw, 50vw"
+              className="object-cover"
+            />
+          </motion.div>
+          {/* Nome e ruolo Gabriele */}
+          <motion.div
+            className="absolute bottom-0 left-0 p-6 w-full flex items-end justify-between"
+            animate={{
+              opacity: expandedPerson === 'gabriele' ? 0 : expandedPerson === 'vadim' ? 0 : 1,
+            }}
+            transition={{
+              duration: 0.4,
+              delay: expandedPerson === 'gabriele' ? 0.1 : expandedPerson === 'vadim' ? 0.1 : 0.5,
+              ease: [0.25, 0.46, 0.45, 0.94],
+            }}
+          >
+            <div>
+              <h2 className="text-white text-2xl md:text-3xl font-medium mb-2 leading-none">Gabriele</h2>
+              <AnimatedText as="h4" className="text-white text-lg md:text-xl opacity-80 leading-none">
+                {t('about.founder')}
+              </AnimatedText>
+            </div>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                handlePercorsoClick('gabriele');
+              }}
+              className={`text-sm md:text-lg font-medium transition-colors flex items-center gap-2 pb-1 ${
+                isDebouncing ? 'text-gray-500' : 'text-white hover:text-gray-300'
+              }`}
+              disabled={isDebouncing}
+              title={isDebouncing ? 'Attendere...' : t('about.path')}
+            >
+              <AnimatedText as="span">{t('about.path')}</AnimatedText>
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M5 12H19M19 12L12 5M19 12L12 19"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </button>
+          </motion.div>
+        </motion.div>
+        </div>
+      </div>
+
+      {/* Overlay scuro - appare dopo l'espansione */}
+      <AnimatePresence>
+        {expandedPerson && (
+          <motion.div
+            className="fixed inset-0 z-30 bg-black bg-opacity-50"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.4, ease: 'easeOut' }}
+          />
+        )}
+      </AnimatePresence>
+
+      {/* CV Overlay - appare dopo l'animazione */}
+      <AnimatePresence>
+        {showCV && (
+          <motion.div
+            className="fixed inset-0 z-50 flex items-center justify-center"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.4, ease: 'easeOut' }}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="cv-title"
+            tabIndex={-1}
+          >
+            {/* Titolo nascosto per accessibilità */}
+            <h2 id="cv-title" className="sr-only">
+              CV di {expandedPerson === 'gabriele' ? 'Gabriele' : 'Vadim'}
+            </h2>
+
+            {/* Close button */}
+            <motion.button
+              onClick={handleCloseExpansion}
+              className={`absolute top-6 right-6 text-2xl transition-colors z-10 ${
+                isDebouncing ? 'text-gray-500' : 'text-white hover:text-gray-300'
+              }`}
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.2, duration: 0.3 }}
+              aria-label="Chiudi CV"
+              title={isDebouncing ? 'Attendere...' : 'Chiudi CV'}
+              disabled={isDebouncing}
+            >
+              ✕
+            </motion.button>
+
+            {/* Indicatore zoom - solo per dispositivi non touch e schermi > 768px */}
+            {!isTouchDevice && !isMobile && (
+              <motion.div
+                className="absolute top-6 left-6 text-white text-sm bg-black/50 px-3 py-1 rounded-full z-10 flex items-center gap-2"
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3, duration: 0.3 }}
+              >
+                {/* Icona lente elegante */}
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="flex-shrink-0"
+                >
+                  <circle cx="11" cy="11" r="8" stroke="currentColor" strokeWidth="2" />
+                  <path
+                    d="m21 21-4.35-4.35"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  {isZoomed && (
+                    <path d="M8 11h6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                  )}
+                </svg>
+                <span>
+                  {isZoomed
+                    ? 'Zoom attivo - Muovi il mouse per esplorare • ESC per disattivare zoom'
+                    : 'Clicca per zoommare'}
+                </span>
+              </motion.div>
+            )}
+
+            {/* Pulsanti zoom fissi - solo per dispositivi non touch e schermi > 768px */}
+            {!isTouchDevice && !isMobile && (
+              <motion.div
+                className="absolute bottom-6 right-6 bg-black/20 rounded-full p-1.5 flex flex-col gap-1.5 z-10"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3, duration: 0.3 }}
+              >
+                {/* Pulsante Zoom In */}
+                <motion.button
+                  onClick={() => setIsZoomed(true)}
+                  className={`w-12 h-12 bg-black/70 hover:bg-black/90 text-white rounded-full flex items-center justify-center transition-all duration-200 ${
+                    isZoomed ? 'opacity-50' : 'hover:scale-105'
+                  }`}
+                  disabled={isZoomed}
+                  whileHover={!isZoomed ? { scale: 1.05 } : {}}
+                  whileTap={!isZoomed ? { scale: 0.95 } : {}}
+                  title="Zoom In"
+                >
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M12 5v14M5 12h14"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                    />
+                  </svg>
+                </motion.button>
+
+                {/* Pulsante Zoom Out */}
+                <motion.button
+                  onClick={() => setIsZoomed(false)}
+                  className={`w-12 h-12 bg-black/70 hover:bg-black/90 text-white rounded-full flex items-center justify-center transition-all duration-200 ${
+                    !isZoomed ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105'
+                  }`}
+                  disabled={!isZoomed}
+                  whileHover={isZoomed ? { scale: 1.05 } : {}}
+                  whileTap={isZoomed ? { scale: 0.95 } : {}}
+                  title="Zoom Out"
+                >
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M5 12h14"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                    />
+                  </svg>
+                </motion.button>
+              </motion.div>
+            )}
+
+            {/* CV Container */}
+            <motion.div
+              className="w-full h-full flex items-center justify-center p-6"
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ delay: 0.1, duration: 0.4, ease: 'easeOut' }}
+            >
+              {expandedPerson === 'gabriele' ? (
+                <div className="w-full h-full flex items-center justify-center p-4">
+                  <motion.div
+                    animate={
+                      !isTouchDevice && !isMobile
+                        ? {
+                            scale: isZoomed ? 1.5 : 1,
+                            x: isZoomed ? Math.max(-200, Math.min(200, -mousePosition.x * 250)) : 0,
+                            y: isZoomed ? Math.max(-200, Math.min(200, -mousePosition.y * 250)) : 0,
+                            transition: {
+                              scale: { duration: 0.3, ease: 'easeOut' },
+                              x: { duration: 0.1, ease: 'linear' },
+                              y: { duration: 0.1, ease: 'linear' },
+                            },
+                          }
+                        : {}
+                    }
+                    className="w-full h-full flex items-center justify-center rounded-2xl overflow-hidden"
+                    onClick={!isTouchDevice && !isMobile ? () => setIsZoomed(!isZoomed) : undefined}
+                    onMouseMove={!isTouchDevice && !isMobile ? handleMouseMove : undefined}
+                  >
+                    <OptimizedImage
+                      src="/img/cv-gabriele.png"
+                      alt="CV Gabriele"
+                      width={800}
+                      height={1000}
+                      className="max-w-full max-h-full object-contain rounded-2xl"
+                    />
+                  </motion.div>
+                </div>
+              ) : expandedPerson === 'vadim' ? (
+                <div className="w-full h-full flex items-center justify-center p-4">
+                  <motion.div
+                    animate={
+                      !isTouchDevice && !isMobile
+                        ? {
+                            scale: isZoomed ? 1.5 : 1,
+                            x: isZoomed ? Math.max(-200, Math.min(200, -mousePosition.x * 250)) : 0,
+                            y: isZoomed ? Math.max(-200, Math.min(200, -mousePosition.y * 250)) : 0,
+                            transition: {
+                              scale: { duration: 0.3, ease: 'easeOut' },
+                              x: { duration: 0.1, ease: 'linear' },
+                              y: { duration: 0.1, ease: 'linear' },
+                            },
+                          }
+                        : {}
+                    }
+                    className="w-full h-full flex items-center justify-center rounded-2xl overflow-hidden"
+                    onClick={!isTouchDevice && !isMobile ? () => setIsZoomed(!isZoomed) : undefined}
+                    onMouseMove={!isTouchDevice && !isMobile ? handleMouseMove : undefined}
+                  >
+                    <OptimizedImage
+                      src="/img/cv-vadim.png"
+                      alt="CV Vadim"
+                      width={800}
+                      height={1000}
+                      className="max-w-full max-h-full object-contain rounded-2xl"
+                    />
+                  </motion.div>
+                </div>
+              ) : (
+                <div className="text-white text-center">
+                  <h3 className="text-2xl mb-4">CV non disponibile</h3>
+                  <p>CV non ancora disponibile</p>
+                </div>
+              )}
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </section>
+  );
+}

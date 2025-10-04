@@ -1,0 +1,60 @@
+/* Ottimizzazioni CSS per PageSpeed Insights */
+
+/* Performance mode per connessioni lente */
+.performance-mode * {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+}
+
+.performance-mode .spline-container {
+  display: none !important;
+}
+
+.performance-mode .fallback-image {
+  display: block !important;
+}
+
+/* Ottimizzazioni per immagini */
+img {
+  content-visibility: auto;
+  contain-intrinsic-size: 300px;
+}
+
+/* Ottimizzazioni per video */
+video {
+  content-visibility: auto;
+  contain-intrinsic-size: 300px;
+}
+
+/* Riduci blur e effetti per dispositivi a bassa potenza */
+.performance-mode .blur-effect {
+  filter: none !important;
+  backdrop-filter: none !important;
+}
+
+/* Ottimizzazioni per animazioni */
+.performance-mode .motion-reduce {
+  animation: none !important;
+  transition: none !important;
+}
+
+/* Preload critico */
+.preload-critical {
+  font-display: swap;
+}
+
+/* Lazy loading ottimizzato */
+.lazy-load {
+  content-visibility: auto;
+  contain-intrinsic-size: 300px;
+}
+
+/* Riduci complessità 3D */
+.performance-mode .spline-3d {
+  display: none !important;
+}
+
+.performance-mode .spline-fallback {
+  display: block !important;
+}

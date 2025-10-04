@@ -1,0 +1,82 @@
+/* KeyPointsResponsive.css */
+
+.keypoint-border {
+  border-color: rgba(250, 250, 250, 0.2);
+}
+
+.dark .keypoint-border {
+  border-color: #434343;
+}
+
+.webble-image {
+  background-size: 170px;
+}
+
+.figma-image {
+  background-size: 90px;
+}
+
+@media (min-width: 480px) {
+  .webble-image {
+    background-size: 220px;
+  }
+
+  .figma-image {
+    background-size: 120px;
+  }
+}
+
+/* Comportamento frecce responsive */
+.icon-servizi {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+.icon-servizi-desktop {
+  display: none;
+}
+
+/* Sotto i 560px: mostro freccia in alto, nascondo quella in basso */
+@media (max-width: 559px) {
+  .icon-servizi {
+    display: block;
+  }
+
+  .icon-servizi-desktop {
+    display: none;
+  }
+}
+
+/* 560px - 767px: nascondo freccia in alto, mostro quella in basso */
+@media (min-width: 560px) and (max-width: 767px) {
+  .icon-servizi {
+    display: none;
+  }
+
+  .icon-servizi-desktop {
+    display: block;
+  }
+}
+
+/* Da 768px a 1109px: mostro freccia in alto, nascondo quella in basso */
+@media (min-width: 768px) and (max-width: 1109px) {
+  .icon-servizi {
+    display: block;
+  }
+
+  .icon-servizi-desktop {
+    display: none;
+  }
+}
+
+/* Da 1110px in su: nascondo freccia in alto, mostro quella in basso */
+@media (min-width: 1110px) {
+  .icon-servizi {
+    display: none;
+  }
+
+  .icon-servizi-desktop {
+    display: block;
+  }
+}

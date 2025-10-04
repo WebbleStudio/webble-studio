@@ -1,0 +1,89 @@
+/* Safari viewport fixes for header */
+@supports (-webkit-touch-callout: none) {
+  .header-container {
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    will-change: transform;
+  }
+  
+  .header-container.fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.logo-compact {
+  display: block;
+}
+.logo-extended {
+  display: none;
+}
+
+@media (min-width: 400px) {
+  .logo-compact {
+    display: none;
+  }
+  .logo-extended {
+    display: block;
+  }
+}
+
+/* Mobile Safari header stability fix - only affects mobile */
+@media screen and (max-width: 767px) {
+  .fixed {
+    -webkit-transform: translate3d(0, 0, 0) !important;
+    transform: translate3d(0, 0, 0) !important;
+    -webkit-backface-visibility: hidden !important;
+    backface-visibility: hidden !important;
+  }
+}
+
+/* Desktop header backdrop blur fixes */
+@media screen and (min-width: 768px) {
+  .desktop-wrapper {
+    /* Ensure backdrop blur works across all browsers */
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    
+    /* Fallback for browsers that don't support backdrop-filter */
+    background-color: rgba(11, 11, 11, 0.3);
+    
+    /* Ensure proper stacking context */
+    isolation: isolate;
+    
+    /* Force hardware acceleration for better performance */
+    will-change: backdrop-filter, background-color, width, max-width;
+    
+    /* Ensure smooth transitions for all properties */
+    transition: backdrop-filter 0.3s ease, background-color 0.3s ease, width 0.5s ease, max-width 0.5s ease;
+  }
+  
+  /* When scrolled, make background more opaque */
+  .desktop-wrapper.scrolled {
+    background-color: rgba(11, 11, 11, 0.8);
+  }
+  
+  /* Override performance mode for header backdrop blur */
+  .performance-mode .desktop-wrapper {
+    -webkit-backdrop-filter: blur(8px) !important;
+    backdrop-filter: blur(8px) !important;
+    background-color: rgba(11, 11, 11, 0.3) !important;
+  }
+  
+  .performance-mode .desktop-wrapper.scrolled {
+    background-color: rgba(11, 11, 11, 0.8) !important;
+  }
+  
+  /* Ensure blur effect persists during width animations */
+  .desktop-wrapper.transition-all {
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+  }
+}
