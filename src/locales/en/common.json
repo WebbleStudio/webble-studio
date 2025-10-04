@@ -330,46 +330,46 @@
   },
   "cookies": {
     "banner": {
-      "title": "We value your privacy",
-      "description": "We use cookies to improve your browsing experience and analyze site traffic. With your consent, we use Google Analytics to better understand how you use our site.",
+      "title": "We use cookies to improve your experience",
+      "description": "We use technical and analytics cookies to provide you with the best possible experience. You can manage your preferences or accept all cookies.",
       "accept_all": "Accept all",
       "reject": "Reject",
-      "manage": "Manage preferences",
-      "privacy_text": "For more information, read our",
+      "manage": "Manage",
+      "privacy_text": "Read our",
       "privacy_policy": "Privacy Policy",
       "cookie_policy": "Cookie Policy"
     },
     "modal": {
-      "title": "Cookie Preferences",
+      "title": "Cookie Management",
       "mandatory": {
-        "title": "Necessary Cookies",
-        "status": "Always Active",
-        "description": "These cookies are essential for the website to function properly. They cannot be disabled.",
+        "title": "Mandatory Cookies",
+        "status": "Always active",
+        "description": "These cookies are necessary for the website to function and cannot be disabled.",
         "vercel": {
-          "name": "Vercel Analytics",
+          "name": "Vercel Session Cookies",
           "provider": "Vercel Inc.",
-          "purpose": "Purpose",
-          "purpose_text": "Performance monitoring and website optimization",
-          "data_collected": "Data Collected",
-          "data_text": "Page load time, performance metrics, errors",
-          "description": "Description",
-          "description_text": "Technical cookies necessary for monitoring website performance and ensuring optimal functioning"
+          "purpose": "Purpose:",
+          "purpose_text": "User session maintenance and website security",
+          "data_collected": "Data collected:",
+          "data_text": "Session ID, security information",
+          "description": "Description:",
+          "description_text": "Essential technical cookies for proper website functionality"
         }
       },
       "analytics": {
         "title": "Analytics Cookies",
-        "description": "These cookies help us understand how visitors interact with the website by collecting and reporting information anonymously.",
+        "description": "These cookies help us understand how users interact with our website by collecting anonymous information.",
         "ga4": {
           "name": "Google Analytics 4",
           "provider": "Google LLC",
-          "purpose": "Purpose",
-          "purpose_text": "Analysis of site usage and user behavior",
-          "data_collected": "Data Collected",
-          "data_text": "Pages visited, time spent, interactions, anonymized IP address",
-          "description": "Description",
-          "description_text": "Allows us to collect anonymous statistics to improve user experience",
-          "privacy": "Privacy",
-          "privacy_text": "Data is anonymized and used solely for statistical purposes"
+          "purpose": "Purpose:",
+          "purpose_text": "Web traffic analysis and user behavior tracking",
+          "data_collected": "Data collected:",
+          "data_text": "Pages visited, time spent, traffic source (anonymous)",
+          "description": "Description:",
+          "description_text": "Web analytics service that helps us improve user experience",
+          "privacy": "Privacy:",
+          "privacy_text": "Data is anonymized and used only for statistical purposes"
         }
       },
       "buttons": {

@@ -3,6 +3,7 @@
 import { useRef, useEffect, useState } from 'react';
 import Container from '@/components/layout/Container';
 import Hero from '@/components/sections/Home/Hero';
+import Hero2 from '@/components/sections/Home/Hero2';
 import Payoff from '@/components/sections/Home/Payoff';
 import KeyPoints from '@/components/sections/Home/KeyPoints';
 import Services from '@/components/sections/Home/Services';
@@ -102,12 +103,8 @@ export default function Home() {
 
   return (
     <main>
-      <div ref={heroRef}>
         <Hero />
-      </div>
-      <div ref={payoffRef}>
         <Payoff />
-      </div>
       <Container>
         <KeyPoints />
         <Services />
