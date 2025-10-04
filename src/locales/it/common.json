@@ -327,5 +327,55 @@
       "breadcrumb": "Home / Portfolio",
       "title": "Dove la creatività incontra la strategia"
     }
+  },
+  "cookies": {
+    "banner": {
+      "title": "Rispettiamo la tua privacy",
+      "description": "Utilizziamo cookie per migliorare la tua esperienza di navigazione e analizzare il traffico del sito. Con il tuo consenso, utilizziamo Google Analytics per comprendere meglio come utilizzi il nostro sito.",
+      "accept_all": "Accetta tutto",
+      "reject": "Rifiuta",
+      "manage": "Gestisci preferenze",
+      "privacy_text": "Per maggiori informazioni, leggi la nostra",
+      "privacy_policy": "Privacy Policy",
+      "cookie_policy": "Cookie Policy"
+    },
+    "modal": {
+      "title": "Preferenze Cookie",
+      "mandatory": {
+        "title": "Cookie Necessari",
+        "status": "Sempre Attivi",
+        "description": "Questi cookie sono essenziali per il corretto funzionamento del sito web. Non possono essere disabilitati.",
+        "vercel": {
+          "name": "Vercel Analytics",
+          "provider": "Vercel Inc.",
+          "purpose": "Scopo",
+          "purpose_text": "Monitoraggio delle prestazioni e ottimizzazione del sito web",
+          "data_collected": "Dati Raccolti",
+          "data_text": "Tempo di caricamento pagine, metriche di prestazione, errori",
+          "description": "Descrizione",
+          "description_text": "Cookie tecnici necessari per monitorare le prestazioni del sito e garantire il funzionamento ottimale"
+        }
+      },
+      "analytics": {
+        "title": "Cookie Analitici",
+        "description": "Questi cookie ci aiutano a capire come i visitatori interagiscono con il sito web raccogliendo e riportando informazioni in forma anonima.",
+        "ga4": {
+          "name": "Google Analytics 4",
+          "provider": "Google LLC",
+          "purpose": "Scopo",
+          "purpose_text": "Analisi dell'utilizzo del sito e del comportamento degli utenti",
+          "data_collected": "Dati Raccolti",
+          "data_text": "Pagine visitate, tempo trascorso, interazioni, indirizzo IP anonimizzato",
+          "description": "Descrizione",
+          "description_text": "Permette di raccogliere statistiche anonime per migliorare l'esperienza utente",
+          "privacy": "Privacy",
+          "privacy_text": "I dati sono anonimizzati e utilizzati esclusivamente per scopi statistici"
+        }
+      },
+      "buttons": {
+        "reject_all": "Rifiuta tutto",
+        "save_preferences": "Salva preferenze"
+      }
+    }
   }
 }

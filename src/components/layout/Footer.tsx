@@ -16,7 +16,7 @@ export default function Footer({ className = '' }: FooterProps) {
   return (
     <footer className="w-full mx-auto mt-[30px]">
       <Container>
-        <div className="w-full bg-auto-inverse h-auto rounded-t-[25px] p-[25px] lg:p-[40px] text-auto-inverse flex flex-col md:flex-row gap-[40px] md:h-[340px] lg:h-[470px]">
+        <div className="w-full bg-auto h-auto rounded-t-[25px] p-[25px] lg:p-[40px] text-auto flex flex-col md:flex-row gap-[40px] md:h-[340px] lg:h-[470px] border border-black border-opacity-20 dark:border-[#fafafa] dark:border-opacity-20">
           <div className="flex flex-col gap-[20px] md:w-1/2 lg:w-2/5">
             <div className="flex flex-col min-[550px]:flex-row min-[550px]:justify-between md:flex-col lg:flex-col gap-[20px] md:h-full">
               <div className="flex flex-col gap-[20px]">
@@ -26,14 +26,14 @@ export default function Footer({ className = '' }: FooterProps) {
                   alt="Footer Background"
                   width={162}
                   height={100}
-                  className="block dark:hidden"
+                  className="hidden dark:block"
                 />
                 <Image
                   src="/img/logo-webble-esteso-nero.svg"
                   alt="Footer Background"
                   width={162}
                   height={100}
-                  className="hidden dark:block"
+                  className="block dark:hidden"
                 />
                 <AnimatedText as="p" className="text-[11px] lg:text-[12px] max-w-[275px]">
                   {t('footer.company_description')}
@@ -115,12 +115,12 @@ export default function Footer({ className = '' }: FooterProps) {
               <img
                 src="/img/mail.svg"
                 alt="mail webble studio agency"
-                className="w-[230px] xs:w-[280px] sm:w-full block dark:hidden"
+                className="w-[230px] xs:w-[280px] sm:w-full hidden dark:block"
               />
               <img
                 src="/img/mail-nera.svg"
                 alt="mail webble studio agency"
-                className="w-[230px] xs:w-[280px] sm:w-full hidden dark:block"
+                className="w-[230px] xs:w-[280px] sm:w-full block dark:hidden"
               />
               <div className="w-full h-[1px] bg-gray-600 md:mb-[35px] lg:mb-[85px]"></div>
               <div className="text-[14px] lg:text-[15px]">

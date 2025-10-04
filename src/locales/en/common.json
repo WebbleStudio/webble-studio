@@ -327,5 +327,55 @@
       "breadcrumb": "Home / Portfolio",
       "title": "Where creativity meets strategy"
     }
+  },
+  "cookies": {
+    "banner": {
+      "title": "We value your privacy",
+      "description": "We use cookies to improve your browsing experience and analyze site traffic. With your consent, we use Google Analytics to better understand how you use our site.",
+      "accept_all": "Accept all",
+      "reject": "Reject",
+      "manage": "Manage preferences",
+      "privacy_text": "For more information, read our",
+      "privacy_policy": "Privacy Policy",
+      "cookie_policy": "Cookie Policy"
+    },
+    "modal": {
+      "title": "Cookie Preferences",
+      "mandatory": {
+        "title": "Necessary Cookies",
+        "status": "Always Active",
+        "description": "These cookies are essential for the website to function properly. They cannot be disabled.",
+        "vercel": {
+          "name": "Vercel Analytics",
+          "provider": "Vercel Inc.",
+          "purpose": "Purpose",
+          "purpose_text": "Performance monitoring and website optimization",
+          "data_collected": "Data Collected",
+          "data_text": "Page load time, performance metrics, errors",
+          "description": "Description",
+          "description_text": "Technical cookies necessary for monitoring website performance and ensuring optimal functioning"
+        }
+      },
+      "analytics": {
+        "title": "Analytics Cookies",
+        "description": "These cookies help us understand how visitors interact with the website by collecting and reporting information anonymously.",
+        "ga4": {
+          "name": "Google Analytics 4",
+          "provider": "Google LLC",
+          "purpose": "Purpose",
+          "purpose_text": "Analysis of site usage and user behavior",
+          "data_collected": "Data Collected",
+          "data_text": "Pages visited, time spent, interactions, anonymized IP address",
+          "description": "Description",
+          "description_text": "Allows us to collect anonymous statistics to improve user experience",
+          "privacy": "Privacy",
+          "privacy_text": "Data is anonymized and used solely for statistical purposes"
+        }
+      },
+      "buttons": {
+        "reject_all": "Reject all",
+        "save_preferences": "Save preferences"
+      }
+    }
   }
 }

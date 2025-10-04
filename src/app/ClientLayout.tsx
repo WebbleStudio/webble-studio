@@ -3,7 +3,9 @@
 import Header from '@/components/layout/Header';
 import AdminHeader from '@/components/layout/AdminHeader';
 import Footer from '@/components/layout/Footer';
-import { useDarkMode } from '@/hooks/useDarkMode';
+import CookieBanner from '@/components/ui/CookieBanner';
+import CookieManagerButton from '@/components/ui/CookieManagerButton';
+import { useDarkMode, useCookieConsent, useCookieManager, usePageTracking } from '@/hooks';
 import { usePathname } from 'next/navigation';
 import { HeaderProvider, useHeader } from '@/contexts/HeaderContext';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -13,6 +15,13 @@ function ClientLayoutContent({ children }: { children: React.ReactNode }) {
   // Inizializza il theme system (il hook gestisce automaticamente l'applicazione delle classi)
   useDarkMode();
   const { isHeaderVisible, refreshKey } = useHeader();
+  
+  // Cookie consent management
+  const { acceptCookies, rejectCookies } = useCookieConsent();
+  const { isManagerOpen, openManager, closeManager } = useCookieManager();
+  
+  // Page tracking (si attiva automaticamente solo se c'è consenso)
+  usePageTracking();
 
   const pathname = usePathname();
   const isAdminRoute = pathname?.startsWith('/admin');
@@ -52,6 +61,17 @@ function ClientLayoutContent({ children }: { children: React.ReactNode }) {
 
       {/* Footer solo per pagine normali */}
       {!isAdminRoute && !isAuthRoute && !isLoginRoute && <Footer />}
+      
+      {/* Cookie Banner - mostra su tutte le pagine */}
+      <CookieBanner 
+        onAccept={acceptCookies}
+        onReject={rejectCookies}
+        forceShow={isManagerOpen}
+        onClose={closeManager}
+      />
+      
+      {/* Cookie Manager Button - mostra su tutte le pagine */}
+      <CookieManagerButton onOpenManager={openManager} />
     </>
   );
 }

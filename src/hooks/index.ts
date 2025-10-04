@@ -12,6 +12,9 @@ export { useAnimationManager } from './useAnimationManager';
 export { useServiceCategories } from './useServiceCategories';
 export { useServiceImages } from './useServiceImages';
 export { useBookings } from './useBookings';
+export { useCookieConsent } from './useCookieConsent';
+export { useCookieManager } from './useCookieManager';
+export { usePageTracking } from './usePageTracking';
 
 // Lazy loading hooks
 export { useLazyLoad } from './useLazyLoad';
