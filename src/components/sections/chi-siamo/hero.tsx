@@ -193,7 +193,9 @@ export default function ChiSiamoHero() {
             minWidth: 0,
             minHeight: 0,
           }}
+          initial={{ opacity: 0, y: -50 }}
           animate={{
+            y: 0,
             height: isMobile
               ? expandedPerson === 'vadim'
                 ? '70vh'
@@ -220,6 +222,8 @@ export default function ChiSiamoHero() {
             duration: 0.8,
             ease: [0.25, 0.46, 0.45, 0.94],
             type: "tween",
+            opacity: { duration: 0.6, ease: "easeOut" },
+            y: { duration: 0.6, ease: "easeOut" }
           }}
         >
           <motion.div
@@ -300,7 +304,9 @@ export default function ChiSiamoHero() {
             minWidth: 0,
             minHeight: 0,
           }}
+          initial={{ opacity: 0, y: -50 }}
           animate={{
+            y: 0,
             height: isMobile
               ? expandedPerson === 'gabriele'
                 ? '70vh'
@@ -327,6 +333,8 @@ export default function ChiSiamoHero() {
             duration: 0.8,
             ease: [0.25, 0.46, 0.45, 0.94],
             type: "tween",
+            opacity: { duration: 0.6, ease: "easeOut", delay: 0.1 },
+            y: { duration: 0.6, ease: "easeOut", delay: 0.1 }
           }}
         >
           <motion.div
