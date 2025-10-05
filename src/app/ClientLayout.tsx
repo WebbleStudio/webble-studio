@@ -5,23 +5,16 @@ import AdminHeader from '@/components/layout/AdminHeader';
 import Footer from '@/components/layout/Footer';
 import CookieBanner from '@/components/ui/CookieBanner';
 import CookieManagerButton from '@/components/ui/CookieManagerButton';
-import { useDarkMode, useCookieConsent, useCookieManager, usePageTracking, useFixedElementFix, useInnerHeightOverride } from '@/hooks';
+import { useDarkMode, useCookieConsent, useCookieManager, usePageTracking } from '@/hooks';
 import { usePathname } from 'next/navigation';
 import { HeaderProvider, useHeader } from '@/contexts/HeaderContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import '@/lib/i18n/config'; // Inizializza i18n
 
 function ClientLayoutContent({ children }: { children: React.ReactNode }) {
-  // CRITICAL FIX: Override window.innerHeight to always match visualViewport.height
-  // This MUST be first to fix the value before any other code reads it
-  useInnerHeightOverride();
-  
   // Inizializza il theme system (il hook gestisce automaticamente l'applicazione delle classi)
   useDarkMode();
   const { isHeaderVisible, refreshKey } = useHeader();
-  
-  // CRITICAL FIX: Force repaint fixed elements when Chrome toolbar appears/disappears
-  useFixedElementFix();
   
   // Cookie consent management
   const { acceptCookies, rejectCookies } = useCookieConsent();

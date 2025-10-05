@@ -15,9 +15,6 @@ export { useBookings } from './useBookings';
 export { useCookieConsent } from './useCookieConsent';
 export { useCookieManager } from './useCookieManager';
 export { usePageTracking } from './usePageTracking';
-export { useViewportHeight } from './useViewportHeight';
-export { useFixedElementFix } from './useFixedElementFix';
-export { useInnerHeightOverride } from './useInnerHeightOverride';
 
 // Lazy loading hooks
 export { useLazyLoad } from './useLazyLoad';

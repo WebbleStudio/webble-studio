@@ -20,6 +20,7 @@ export const viewport = {
   maximumScale: 5,
   userScalable: true,
   viewportFit: 'cover',
+  interactiveWidget: 'resizes-visual', // Impedisce a Chrome di nascondere la toolbar durante lo scroll
 };
 
 export const metadata: Metadata = {

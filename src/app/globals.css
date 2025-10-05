@@ -25,19 +25,8 @@
   }
 }
 
-/* Mobile fixes - Force GPU acceleration on fixed elements */
+/* Reduce flicker on mobile devices */
 @media (max-width: 768px) {
-  /* Force GPU compositing on ALL fixed elements to prevent Chrome bug */
-  .fixed,
-  [style*="position: fixed"],
-  [style*="position:fixed"] {
-    will-change: transform;
-    transform: translate3d(0, 0, 0);
-    -webkit-transform: translate3d(0, 0, 0);
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-  }
-  
   img {
     will-change: auto;
     backface-visibility: hidden;
