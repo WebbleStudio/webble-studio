@@ -198,11 +198,11 @@ export default function ChiSiamoHero() {
             y: 0,
             height: isMobile
               ? expandedPerson === 'vadim'
-                ? '70vh'
+                ? 'calc(var(--vh, 1vh) * 70)'
                 : expandedPerson === 'gabriele'
                   ? '0vh'
-                  : '35vh'
-              : '70vh',
+                  : 'calc(var(--vh, 1vh) * 35)'
+              : 'calc(var(--vh, 1vh) * 70)',
             width: isMobile
               ? '100%'
               : expandedPerson === 'vadim'
@@ -309,11 +309,11 @@ export default function ChiSiamoHero() {
             y: 0,
             height: isMobile
               ? expandedPerson === 'gabriele'
-                ? '70vh'
+                ? 'calc(var(--vh, 1vh) * 70)'
                 : expandedPerson === 'vadim'
                   ? '0vh'
-                  : '35vh'
-              : '70vh',
+                  : 'calc(var(--vh, 1vh) * 35)'
+              : 'calc(var(--vh, 1vh) * 70)',
             width: isMobile
               ? '100%'
               : expandedPerson === 'gabriele'

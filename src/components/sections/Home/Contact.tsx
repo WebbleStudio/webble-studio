@@ -168,6 +168,7 @@ export default function Contact() {
                     ? 'border-red-400 focus:border-red-500'
                     : 'border-line-fixed focus:border-line-fixed-focus'
                 }`}
+                suppressHydrationWarning
               />
               {errors.name && (
                 <AnimatedText as="p" className="text-red-400 text-sm mt-2 font-medium">
@@ -195,6 +196,7 @@ export default function Contact() {
                     ? 'border-red-400 focus:border-red-500'
                     : 'border-line-fixed focus:border-line-fixed-focus'
                 }`}
+                suppressHydrationWarning
               />
               {errors.email && (
                 <AnimatedText as="p" className="text-red-400 text-sm mt-2 font-medium">
@@ -225,6 +227,7 @@ export default function Contact() {
                   ? 'border-red-400 focus:border-red-500'
                   : 'border-line-fixed focus:border-line-fixed-focus'
               }`}
+              suppressHydrationWarning
             />
             {errors.phone && (
               <AnimatedText as="p" className="text-red-400 text-sm mt-2 font-medium">
@@ -252,6 +255,7 @@ export default function Contact() {
                   ? 'border-red-400 focus:border-red-500'
                   : 'border-line-fixed focus:border-line-fixed-focus'
               }`}
+              suppressHydrationWarning
             />
             {errors.message && (
               <AnimatedText as="p" className="text-red-400 text-sm mt-2 font-medium">
@@ -274,6 +278,7 @@ export default function Contact() {
                       ? 'border-red-400 focus:ring-red-400/40'
                       : 'border-main/20 focus:ring-main/40'
                   }`}
+                  suppressHydrationWarning
                 />
                 <label
                   htmlFor="privacyConsent"
@@ -298,6 +303,7 @@ export default function Contact() {
                   checked={formData.marketingConsent}
                   onChange={handleInputChange}
                   className="mt-1 w-4 h-4 text-main bg-transparent border-main/20 rounded focus:ring-main/40 focus:ring-2"
+                  suppressHydrationWarning
                 />
                 <label
                   htmlFor="marketingConsent"

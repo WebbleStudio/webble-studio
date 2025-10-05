@@ -32,7 +32,12 @@ export function useHeaderAnimation() {
     }
 
     resizeTimeoutRef.current = window.setTimeout(() => {
-      const height = window.innerHeight;
+      // Use visualViewport on mobile for more accurate height (excludes dynamic toolbars)
+      const isMobile = window.innerWidth < 768;
+      const height = isMobile && window.visualViewport 
+        ? window.visualViewport.height 
+        : window.innerHeight;
+      
       setWindowHeight(height);
 
       // Check if we're at XL breakpoint (1280px+) and if conditions disable bouncy animation
@@ -46,21 +51,35 @@ export function useHeaderAnimation() {
   }, []);
 
   useEffect(() => {
-    // Check initial state with a small delay to ensure DOM is ready
+    // Check initial state with a delay to ensure DOM and viewport are ready
+    // On mobile browsers, the toolbar needs time to stabilize on first load
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+    const initDelay = isMobile ? 300 : 50; // Longer delay on mobile to wait for toolbar stabilization
+    
     const initTimer = setTimeout(() => {
       handleScroll();
       handleResize();
-    }, 50);
+    }, initDelay);
 
     // Add event listeners con passive per performance
     window.addEventListener('scroll', handleScroll, { passive: true });
     window.addEventListener('resize', handleResize, { passive: true });
+    
+    // Listen to visualViewport resize on mobile for more accurate toolbar detection
+    if (isMobile && window.visualViewport) {
+      window.visualViewport.addEventListener('resize', handleResize);
+    }
 
     return () => {
       // Cleanup
       clearTimeout(initTimer);
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('resize', handleResize);
+      
+      // Cleanup visualViewport listener
+      if (isMobile && window.visualViewport) {
+        window.visualViewport.removeEventListener('resize', handleResize);
+      }
 
       // Copy ref values to avoid stale closure issues
       const scrollTimeout = scrollTimeoutRef.current;
