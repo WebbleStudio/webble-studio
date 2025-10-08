@@ -27,11 +27,6 @@ video {
   contain-intrinsic-size: 300px;
 }
 
-/* Riduci blur e effetti per dispositivi a bassa potenza */
-.performance-mode .blur-effect {
-  filter: none !important;
-  backdrop-filter: none !important;
-}
 
 /* Ottimizzazioni per animazioni */
 .performance-mode .motion-reduce {

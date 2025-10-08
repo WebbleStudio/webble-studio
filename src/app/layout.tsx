@@ -20,18 +20,17 @@ export const viewport = {
   maximumScale: 5,
   userScalable: true,
   viewportFit: 'cover',
-  interactiveWidget: 'resizes-visual', // Impedisce a Chrome di nascondere la toolbar durante lo scroll
 };
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: 'Webble Studio: Scopri cosa significa essere unici',
   description:
-    'Trova i professionisti giusti per il tuo progetto digitale. Designer, sviluppatori, copywriter e marketer pronti a trasformare le tue idee in realtà, garantendo risultati di alta qualità e un servizio personalizzato per ogni esigenza.',
-  keywords: ['web design', 'sviluppo web', 'digital marketing', 'UI/UX design'],
+    'Web design, social e advertising: Webble Studio trasforma idee in strategie digitali creative e ad alte prestazioni.',
+  keywords: ['web design', 'social media', 'advertising', 'UI/UX design'],
   openGraph: {
     title: 'Webble Studio: Scopri cosa significa essere unici',
-    description: 'Trova i professionisti giusti per il tuo progetto digitale.',
+    description: 'Web design, social e advertising: Webble Studio trasforma idee in strategie digitali creative e ad alte prestazioni.',
     type: 'website',
     url: siteUrl,
     siteName: 'Webble Studio',
@@ -48,7 +47,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Webble Studio: Scopri cosa significa essere unici',
-    description: 'Trova i professionisti giusti per il tuo progetto digitale.',
+    description: 'Web design, social e advertising: Webble Studio trasforma idee in strategie digitali creative e ad alte prestazioni.',
     images: [ogImageAbs],
     creator: '@webblestudio',
   },

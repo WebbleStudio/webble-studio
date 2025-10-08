@@ -106,8 +106,8 @@ export default function Header() {
     <>
       {/* HEADER */}
       <div
-        className={`fixed top-0 left-0 w-full z-[100] h-[90px] flex items-center px-4 md:px-[30px] xl:px-20 transition-all duration-300 ${
-          isScrolled ? 'bg-[#0b0b0b] md:bg-transparent' : ''
+        className={`fixed top-0 left-0 w-full z-[100] h-[90px] flex items-center px-4 md:px-[30px] xl:px-20 transition-all duration-300 mobile-header-container ${
+          isScrolled ? 'scrolled' : ''
         }`}
       >
         {/* Mobile layout: solo logo */}

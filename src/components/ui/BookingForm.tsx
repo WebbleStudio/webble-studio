@@ -48,6 +48,7 @@ export default function BookingForm({ isOpen, onClose }: BookingFormProps) {
 
   const totalSteps = 6;
 
+
   // Reset form when popup opens
   useEffect(() => {
     if (isOpen) {
@@ -311,7 +312,7 @@ export default function BookingForm({ isOpen, onClose }: BookingFormProps) {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.2 }}
-      className="fixed inset-0 z-[9999] bg-black/90 backdrop-blur-lg"
+      className="fixed inset-0 z-[9999] bg-black/90 backdrop-blur-lg overflow-y-auto"
       style={{ willChange: 'opacity' }}
       onClick={onClose}
     >
@@ -320,7 +321,7 @@ export default function BookingForm({ isOpen, onClose }: BookingFormProps) {
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.95, opacity: 0 }}
         transition={{ duration: 0.2, ease: 'easeOut' }}
-        className="w-full h-full flex flex-col items-center justify-center px-4 relative"
+        className="min-h-screen w-full flex flex-col items-center justify-center px-4 py-20 relative"
         style={{ willChange: 'transform, opacity' }}
         onClick={(e) => e.stopPropagation()}
       >

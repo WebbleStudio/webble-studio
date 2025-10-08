@@ -76,7 +76,7 @@ export function useHeaderAnimation() {
     isScrolled
       ? 'max-w-[1240px] xl:max-w-[1240px] 2xl:max-w-[1590px]'
       : 'max-w-[1240px] xl:max-w-full 2xl:max-w-[1840px]'
-  } mx-auto h-[65px] rounded-[23px] hidden md:flex items-center justify-between ${transitionClass} border border-[rgba(250,250,250,0.1)] dark:border-[rgba(250,250,250,0.2)] pl-[12px] pr-[12px] desktop-wrapper ${
+  } mx-auto h-[65px] rounded-[23px] hidden md:flex items-center justify-between ${transitionClass} border border-[rgba(250,250,250,0.1)] pl-[12px] pr-[12px] desktop-wrapper ${
     isScrolled ? 'scrolled' : ''
   }`;
 

@@ -12,6 +12,12 @@
       "strategy": "Strategy"
     }
   },
+  "hero2": {
+    "title": "We Bring to Life Brands that Grow and Inspire",
+    "description": "We create custom identities, optimized for the user and designed to grow your business.",
+    "button_contact": "Get in touch",
+    "button_services": "Explore"
+  },
   "keypoints": {
     "box01": {
       "number": "01",
@@ -135,6 +141,28 @@
   "about": {
     "founder": "Founder",
     "path": "Career"
+  },
+  "team": {
+    "matias": {
+      "name": "Matias Plaza",
+      "role": "SMM and Digital Strategist",
+      "quote": "Digital strategy is the art of turning vision into concrete results."
+    },
+    "victor": {
+      "name": "Victor Sirbu",
+      "role": "Photographer and Videomaker",
+      "quote": "Every frame tells a story, every shot captures an emotion."
+    },
+    "anselmo": {
+      "name": "Anselmo D. G. Vicente",
+      "role": "Full Stack Developer",
+      "quote": "Code is modern poetry: elegant, functional, and constantly evolving."
+    },
+    "imane": {
+      "name": "Imane Eshakhi",
+      "role": "Graphic and Motion Designer",
+      "quote": "Design in motion brings ideas to life and makes them unforgettable."
+    }
   },
   "booking": {
     "title": "Book a call",
@@ -346,14 +374,14 @@
         "status": "Always active",
         "description": "These cookies are necessary for the website to function and cannot be disabled.",
         "vercel": {
-          "name": "Vercel Session Cookies",
+          "name": "Vercel",
           "provider": "Vercel Inc.",
-          "purpose": "Purpose:",
-          "purpose_text": "User session maintenance and website security",
-          "data_collected": "Data collected:",
-          "data_text": "Session ID, security information",
-          "description": "Description:",
-          "description_text": "Essential technical cookies for proper website functionality"
+          "purpose": "Purpose",
+          "purpose_text": "Hosting and backend infrastructure",
+          "data_collected": "Personal data collected",
+          "data_text": "Usage data, Various types of data as specified in the service privacy policy",
+          "description": "Description",
+          "description_text": "Vercel is a hosting and backend service provided by Vercel Inc."
         }
       },
       "analytics": {

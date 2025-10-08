@@ -147,7 +147,7 @@ export default function Contact() {
           </AnimatedText>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-12 mt-12">
+        <form onSubmit={handleSubmit} className="space-y-12 mt-12" suppressHydrationWarning={true}>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
             <div>
               <label
@@ -168,7 +168,7 @@ export default function Contact() {
                     ? 'border-red-400 focus:border-red-500'
                     : 'border-line-fixed focus:border-line-fixed-focus'
                 }`}
-                suppressHydrationWarning
+                suppressHydrationWarning={true}
               />
               {errors.name && (
                 <AnimatedText as="p" className="text-red-400 text-sm mt-2 font-medium">
@@ -196,7 +196,7 @@ export default function Contact() {
                     ? 'border-red-400 focus:border-red-500'
                     : 'border-line-fixed focus:border-line-fixed-focus'
                 }`}
-                suppressHydrationWarning
+                suppressHydrationWarning={true}
               />
               {errors.email && (
                 <AnimatedText as="p" className="text-red-400 text-sm mt-2 font-medium">
@@ -227,7 +227,7 @@ export default function Contact() {
                   ? 'border-red-400 focus:border-red-500'
                   : 'border-line-fixed focus:border-line-fixed-focus'
               }`}
-              suppressHydrationWarning
+              suppressHydrationWarning={true}
             />
             {errors.phone && (
               <AnimatedText as="p" className="text-red-400 text-sm mt-2 font-medium">
@@ -255,7 +255,7 @@ export default function Contact() {
                   ? 'border-red-400 focus:border-red-500'
                   : 'border-line-fixed focus:border-line-fixed-focus'
               }`}
-              suppressHydrationWarning
+              suppressHydrationWarning={true}
             />
             {errors.message && (
               <AnimatedText as="p" className="text-red-400 text-sm mt-2 font-medium">
@@ -278,7 +278,7 @@ export default function Contact() {
                       ? 'border-red-400 focus:ring-red-400/40'
                       : 'border-main/20 focus:ring-main/40'
                   }`}
-                  suppressHydrationWarning
+                  suppressHydrationWarning={true}
                 />
                 <label
                   htmlFor="privacyConsent"
@@ -303,7 +303,7 @@ export default function Contact() {
                   checked={formData.marketingConsent}
                   onChange={handleInputChange}
                   className="mt-1 w-4 h-4 text-main bg-transparent border-main/20 rounded focus:ring-main/40 focus:ring-2"
-                  suppressHydrationWarning
+                  suppressHydrationWarning={true}
                 />
                 <label
                   htmlFor="marketingConsent"
@@ -323,6 +323,7 @@ export default function Contact() {
                 ? 'bg-gray-400 text-gray-600 cursor-not-allowed'
                 : 'bg-bg-secondary text-text-inverse hover:hover-bg-secondary'
             }`}
+            suppressHydrationWarning={true}
           >
             <AnimatedText>
               {isSubmitting ? t('contact.submitting') : t('contact.submit')}

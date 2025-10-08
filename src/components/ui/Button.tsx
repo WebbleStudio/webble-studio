@@ -1,5 +1,4 @@
 import React from 'react';
-import OptimizedImage from './OptimizedImage';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children?: React.ReactNode;
@@ -13,17 +12,17 @@ export default function Button({ children = 'Contattaci', className = '', ...pro
       {...props}
     >
       <span className="text-[15px]">{children}</span>
-      <div className="relative w-3 h-3 overflow-hidden">
-        <OptimizedImage
+      <div className="relative w-[14px] h-[14px] overflow-hidden flex items-center justify-center">
+        <img
           src="/icons/diagonal-arrow.svg"
-          alt="Arrow"
+          alt=""
           width={12}
           height={12}
           className="arrow-main absolute icon-filter-white"
         />
-        <OptimizedImage
+        <img
           src="/icons/diagonal-arrow.svg"
-          alt="Arrow"
+          alt=""
           width={12}
           height={12}
           className="arrow-secondary absolute icon-filter-white"

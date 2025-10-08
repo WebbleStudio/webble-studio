@@ -168,18 +168,21 @@ export default function CookieBanner({ onAccept, onReject, forceShow = false, on
 
                 {/* Pulsanti di azione */}
                 <div className="flex flex-col sm:flex-row gap-3 md:ml-6">
-                  <button
-                    onClick={handleReject}
-                    className="w-full sm:w-auto px-6 py-3 rounded-[12px] font-medium border border-gray-300 dark:border-[rgba(250,250,250,0.3)] text-gray-700 dark:text-[#fafafa] hover:bg-gray-50 dark:hover:bg-[rgba(250,250,250,0.1)] transition-colors duration-500 ease-out"
-                  >
-                    {t('cookies.banner.reject')}
-                  </button>
-                  <button
-                    onClick={handleManage}
-                    className="w-full sm:w-auto px-6 py-3 rounded-[12px] font-medium border border-gray-300 dark:border-[rgba(250,250,250,0.3)] text-gray-700 dark:text-[#fafafa] hover:bg-gray-50 dark:hover:bg-[rgba(250,250,250,0.1)] transition-colors duration-500 ease-out"
-                  >
-                    {t('cookies.banner.manage')}
-                  </button>
+                  {/* Wrapper per Rifiuta e Gestisci - affiancati su mobile */}
+                  <div className="flex gap-3 sm:contents">
+                    <button
+                      onClick={handleReject}
+                      className="w-1/2 sm:w-auto px-4 sm:px-6 py-3 rounded-[12px] font-medium border border-gray-300 dark:border-[rgba(250,250,250,0.3)] text-gray-700 dark:text-[#fafafa] hover:bg-gray-50 dark:hover:bg-[rgba(250,250,250,0.1)] transition-colors duration-500 ease-out"
+                    >
+                      {t('cookies.banner.reject')}
+                    </button>
+                    <button
+                      onClick={handleManage}
+                      className="w-1/2 sm:w-auto px-4 sm:px-6 py-3 rounded-[12px] font-medium border border-gray-300 dark:border-[rgba(250,250,250,0.3)] text-gray-700 dark:text-[#fafafa] hover:bg-gray-50 dark:hover:bg-[rgba(250,250,250,0.1)] transition-colors duration-500 ease-out"
+                    >
+                      {t('cookies.banner.manage')}
+                    </button>
+                  </div>
                   <button
                     onClick={handleAccept}
                     className="w-full sm:w-auto px-6 py-3 rounded-[12px] font-medium bg-[#F20352] hover:bg-[#d90247] text-white transition-all duration-200 ease-out"

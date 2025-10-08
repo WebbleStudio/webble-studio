@@ -12,6 +12,12 @@
       "strategy": "Strategia"
     }
   },
+  "hero2": {
+    "title": "Diamo Vita a Brand che Crescono ed Emozionano",
+    "description": "Creiamo identità personalizzate, ottimizzate per l'utente e pensate per far crescere il tuo business.",
+    "button_contact": "Prenota call",
+    "button_services": "Esplora"
+  },
   "keypoints": {
     "box01": {
       "number": "01",
@@ -135,6 +141,28 @@
   "about": {
     "founder": "Fondatore",
     "path": "Percorso"
+  },
+  "team": {
+    "matias": {
+      "name": "Matias Plaza",
+      "role": "SMM e Digital Strategist",
+      "quote": "La strategia digitale è l'arte di trasformare la visione in risultati concreti."
+    },
+    "victor": {
+      "name": "Victor Sirbu",
+      "role": "Fotografo e Videomaker",
+      "quote": "Ogni frame racconta una storia, ogni scatto cattura un'emozione."
+    },
+    "anselmo": {
+      "name": "Anselmo D. G. Vicente",
+      "role": "Full Stack Developer",
+      "quote": "Il codice è poesia moderna: elegante, funzionale e in continua evoluzione."
+    },
+    "imane": {
+      "name": "Imane Eshakhi",
+      "role": "Graphic e Motion Designer",
+      "quote": "Il design in movimento dà vita alle idee e le rende indimenticabili."
+    }
   },
   "booking": {
     "title": "Prenota una chiamata",
@@ -334,7 +362,7 @@
       "description": "Utilizziamo cookie per migliorare la tua esperienza di navigazione e analizzare il traffico del sito. Con il tuo consenso, utilizziamo Google Analytics per comprendere meglio come utilizzi il nostro sito.",
       "accept_all": "Accetta tutto",
       "reject": "Rifiuta",
-      "manage": "Gestisci preferenze",
+      "manage": "Gestisci",
       "privacy_text": "Per maggiori informazioni, leggi la nostra",
       "privacy_policy": "Privacy Policy",
       "cookie_policy": "Cookie Policy"
@@ -346,14 +374,14 @@
         "status": "Sempre Attivi",
         "description": "Questi cookie sono essenziali per il corretto funzionamento del sito web. Non possono essere disabilitati.",
         "vercel": {
-          "name": "Vercel Analytics",
+          "name": "Vercel",
           "provider": "Vercel Inc.",
-          "purpose": "Scopo",
-          "purpose_text": "Monitoraggio delle prestazioni e ottimizzazione del sito web",
-          "data_collected": "Dati Raccolti",
-          "data_text": "Tempo di caricamento pagine, metriche di prestazione, errori",
+          "purpose": "Finalità",
+          "purpose_text": "Hosting ed infrastruttura backend",
+          "data_collected": "Dati personali raccolti",
+          "data_text": "Dati di utilizzo, Varie tipologie di dati secondo quanto specificato dalla privacy policy del servizio",
           "description": "Descrizione",
-          "description_text": "Cookie tecnici necessari per monitorare le prestazioni del sito e garantire il funzionamento ottimale"
+          "description_text": "Vercel è un servizio di hosting e backend fornito da Vercel Inc."
         }
       },
       "analytics": {

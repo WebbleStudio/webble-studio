@@ -370,48 +370,50 @@ export default function BookingAdminEmail({
         >
           {/* Contact Buttons */}
           <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '15px' }}>
-            <tr>
-              <td style={{ width: '50%', padding: '0 5px 0 0' }}>
-                <a
-                  href={`mailto:${email}`}
-                  style={{
-                    display: 'block',
-                    backgroundColor: 'transparent',
-                    color: '#fafafa',
-                    padding: '12px 20px',
-                    textDecoration: 'none',
-                    borderRadius: '12px',
-                    fontWeight: 'normal',
-                    fontSize: '14px',
-                    textAlign: 'center',
-                    border: '1px solid #ffffff',
-                    textTransform: 'uppercase',
-                  }}
-                >
-                  CONTATTA
-                </a>
-              </td>
-              <td style={{ width: '50%', padding: '0 0 0 5px' }}>
-                <a
-                  href={`tel:${phone.replace(/\s/g, '')}`}
-                  style={{
-                    display: 'block',
-                    backgroundColor: 'transparent',
-                    color: '#fafafa',
-                    padding: '12px 20px',
-                    textDecoration: 'none',
-                    borderRadius: '12px',
-                    fontWeight: 'normal',
-                    fontSize: '14px',
-                    textAlign: 'center',
-                    border: '1px solid #ffffff',
-                    textTransform: 'uppercase',
-                  }}
-                >
-                  CHIAMA
-                </a>
-              </td>
-            </tr>
+            <tbody>
+              <tr>
+                <td style={{ width: '50%', padding: '0 5px 0 0' }}>
+                  <a
+                    href={`mailto:${email}`}
+                    style={{
+                      display: 'block',
+                      backgroundColor: 'transparent',
+                      color: '#fafafa',
+                      padding: '12px 20px',
+                      textDecoration: 'none',
+                      borderRadius: '12px',
+                      fontWeight: 'normal',
+                      fontSize: '14px',
+                      textAlign: 'center',
+                      border: '1px solid #ffffff',
+                      textTransform: 'uppercase',
+                    }}
+                  >
+                    CONTATTA
+                  </a>
+                </td>
+                <td style={{ width: '50%', padding: '0 0 0 5px' }}>
+                  <a
+                    href={`tel:${phone.replace(/\s/g, '')}`}
+                    style={{
+                      display: 'block',
+                      backgroundColor: 'transparent',
+                      color: '#fafafa',
+                      padding: '12px 20px',
+                      textDecoration: 'none',
+                      borderRadius: '12px',
+                      fontWeight: 'normal',
+                      fontSize: '14px',
+                      textAlign: 'center',
+                      border: '1px solid #ffffff',
+                      textTransform: 'uppercase',
+                    }}
+                  >
+                    CHIAMA
+                  </a>
+                </td>
+              </tr>
+            </tbody>
           </table>
           
           <a

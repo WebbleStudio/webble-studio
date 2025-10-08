@@ -3,7 +3,6 @@
 import React from 'react';
 import AnimatedText from '@/components/ui/AnimatedText';
 import OptimizedImage from '@/components/ui/OptimizedImage';
-import OptimizedVideo from '@/components/ui/OptimizedVideo';
 import { useLazyLoad } from '@/hooks/useLazyLoad';
 import { usePerformance } from '@/hooks/usePerformance';
 import { useTranslation } from '@/hooks/useTranslation';
@@ -91,23 +90,20 @@ export default function KeyPoints() {
         >
           {/* Effetto glare */}
           <div className={`keypoint-glare-overlay ${card1Effect.isHovered ? 'active' : ''}`} />
-          {/* Video per tutti i breakpoint - caricamento garantito */}
+          {/* Video YouTube - caricamento garantito */}
           <div className="absolute inset-0 overflow-hidden">
-            <OptimizedVideo
-              src="https://lvgdhhfbvbvpuxjgasbk.supabase.co/storage/v1/object/public/videos//01-BG-Video-720p.mp4"
-              className="w-full h-full object-contain pointer-events-none mix-blend-lighten"
-              lazy={false} // Disabilitato lazy loading per garantire il caricamento
-              preload="auto" // Preload completo per garantire la riproduzione
+            <iframe
+              src="https://www.youtube.com/embed/eOrn_1bqTc4?autoplay=1&mute=1&loop=1&controls=0&disablekb=1&fs=0&modestbranding=1&playsinline=1&rel=0&showinfo=0&iv_load_policy=3&enablejsapi=1&playlist=eOrn_1bqTc4"
+              className="w-full h-full pointer-events-none mix-blend-lighten"
               style={{
                 transform: 'translateY(-10%) scale(0.9)',
                 objectPosition: 'center center',
                 willChange: 'transform',
+                border: 'none',
               }}
-              autoPlay
-              loop
-              muted
-              controls={false}
-              playsInline
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerPolicy="strict-origin-when-cross-origin"
+              title="YouTube video player"
             />
           </div>
 

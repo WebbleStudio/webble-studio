@@ -103,7 +103,7 @@ export default function Home() {
 
   return (
     <main>
-        <Hero />
+        <Hero2 />
         <Payoff />
       <Container>
         <KeyPoints />
