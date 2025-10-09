@@ -11,6 +11,7 @@ import Projects from '@/components/sections/Home/Projects';
 import Contact from '@/components/sections/Home/Contact';
 import { SingleProjectData } from '@/components/animations/useProjectSwitch';
 import { useHeroProjects, HeroProject } from '@/hooks/useHeroProjects';
+import { useProjects } from '@/hooks/useProjects';
 
 // Funzione per creare placeholder vuoti
 const createPlaceholderProject = (position: number): SingleProjectData => ({
@@ -39,8 +40,14 @@ const createPlaceholderProject = (position: number): SingleProjectData => ({
 });
 
 // Funzione per convertire HeroProject in SingleProjectData
-const convertHeroProjectToSingleProject = (heroProject: HeroProject): SingleProjectData => {
-  const project = heroProject.projects;
+// Ottimizzato: riceve il progetto come parametro invece di usare il JOIN
+const convertHeroProjectToSingleProject = (
+  heroProject: HeroProject,
+  allProjects: any[]
+): SingleProjectData => {
+  // Trova il progetto corrispondente dalla lista già caricata
+  const project = allProjects.find((p) => p.id === heroProject.project_id);
+  
   if (!project) {
     return createPlaceholderProject(heroProject.position);
   }
@@ -74,32 +81,34 @@ export default function Home() {
   const heroRef = useRef<HTMLDivElement>(null);
   const payoffRef = useRef<HTMLDivElement>(null);
   const { heroProjects, fetchHeroProjects } = useHeroProjects();
+  const { projects, fetchProjects } = useProjects();
   const [displayProjects, setDisplayProjects] = useState<SingleProjectData[]>([]);
 
-  // Carica hero projects all'avvio
+  // Carica hero projects e projects all'avvio (riusa cache se disponibile)
   useEffect(() => {
     fetchHeroProjects();
-  }, [fetchHeroProjects]);
+    fetchProjects();
+  }, [fetchHeroProjects, fetchProjects]);
 
-  // Aggiorna i progetti da mostrare quando cambiano i hero projects
+  // Aggiorna i progetti da mostrare quando cambiano hero projects o projects
   useEffect(() => {
-    const projects: SingleProjectData[] = [];
+    const projectsToDisplay: SingleProjectData[] = [];
 
     // Crea sempre 4 progetti per mantenere l'effetto stacking
     for (let position = 1; position <= 4; position++) {
       const heroProject = heroProjects.find((hp) => hp.position === position);
 
       if (heroProject) {
-        // Usa il progetto configurato
-        projects.push(convertHeroProjectToSingleProject(heroProject));
+        // Usa il progetto configurato, combinando con i dati dalla cache projects
+        projectsToDisplay.push(convertHeroProjectToSingleProject(heroProject, projects));
       } else {
         // Usa placeholder
-        projects.push(createPlaceholderProject(position));
+        projectsToDisplay.push(createPlaceholderProject(position));
       }
     }
 
-    setDisplayProjects(projects);
-  }, [heroProjects]);
+    setDisplayProjects(projectsToDisplay);
+  }, [heroProjects, projects]);
 
   return (
     <main>

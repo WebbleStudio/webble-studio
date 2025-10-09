@@ -96,7 +96,7 @@ export default function KeyPoints() {
               src="https://www.youtube.com/embed/eOrn_1bqTc4?autoplay=1&mute=1&loop=1&controls=0&disablekb=1&fs=0&modestbranding=1&playsinline=1&rel=0&showinfo=0&iv_load_policy=3&enablejsapi=1&playlist=eOrn_1bqTc4&cc_load_policy=0&color=white&widget_referrer=0"
               className="w-full h-full pointer-events-none mix-blend-lighten"
               style={{
-                transform: 'translateY(-10%) scale(1.2)',
+                transform: 'translateY(-10%) scale(0.9)',
                 objectPosition: 'center center',
                 willChange: 'transform',
                 border: 'none',
@@ -105,6 +105,9 @@ export default function KeyPoints() {
               referrerPolicy="strict-origin-when-cross-origin"
               title="YouTube video player"
             />
+            {/* Overlay per nascondere HUD YouTube ai bordi */}
+            <div className="absolute inset-x-0 top-0 h-12 bg-gradient-to-b from-black to-transparent pointer-events-none" style={{ mixBlendMode: 'multiply' }} />
+            <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black to-transparent pointer-events-none" style={{ mixBlendMode: 'multiply' }} />
           </div>
 
           <h4 className="text-[14px] sm:text-[16px] xl:text-[19px] 2xl:text-[21px] text-[#EF2D56] relative z-10 font-poppins font-medium">

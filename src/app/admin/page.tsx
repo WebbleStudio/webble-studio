@@ -6,6 +6,7 @@ import AnimatedText from '@/components/ui/AnimatedText';
 import { useProjects, Project as ProjectType } from '@/hooks/useProjects';
 import { useHeroProjects, HeroProjectConfig } from '@/hooks/useHeroProjects';
 import { useServiceCategories } from '@/hooks/useServiceCategories';
+import { useRevalidate } from '@/hooks/useRevalidate';
 import ProtectedRoute from '@/components/auth/ProtectedRoute';
 import { signOut, useSession } from 'next-auth/react';
 import ServiceImageManager from '@/components/admin/ServiceImageManager';
@@ -155,6 +156,8 @@ export default function AdminPage() {
     clearHeroProjects,
     setError: setHeroError,
   } = useHeroProjects();
+
+  const { revalidateAll, loading: revalidateLoading } = useRevalidate();
 
   const [dragActive, setDragActive] = useState(false);
   const [layoutMode, setLayoutMode] = useState<LayoutMode>('desktop');
@@ -1338,8 +1341,8 @@ export default function AdminPage() {
                 </AnimatedText>
               </div>
 
-              {/* User info and logout */}
-              <div className="flex items-center gap-4">
+              {/* User info and actions */}
+              <div className="flex items-center gap-3">
                 <div className="text-right">
                   <p className="text-sm font-medium text-black dark:text-white">
                     {t('admin.dashboard.welcome')}
@@ -1348,6 +1351,41 @@ export default function AdminPage() {
                     {t('admin.dashboard.company')}
                   </p>
                 </div>
+                {/* Revalidate Button */}
+                <button
+                  onClick={async () => {
+                    try {
+                      await revalidateAll();
+                      alert('✅ Pagine aggiornate con successo! I visitatori vedranno i nuovi contenuti.');
+                    } catch (error) {
+                      alert('❌ Errore durante l\'aggiornamento delle pagine');
+                    }
+                  }}
+                  disabled={revalidateLoading}
+                  className="px-4 py-2 bg-green-50 hover:bg-green-100 dark:bg-green-900/20 dark:hover:bg-green-900/30 text-green-600 dark:text-green-400 border border-green-200 dark:border-green-800 hover:border-green-300 dark:hover:border-green-700 rounded-lg transition-all duration-300 flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                  title="Aggiorna i contenuti delle pagine pubbliche"
+                >
+                  {revalidateLoading ? (
+                    <>
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-current"></div>
+                      <span className="text-sm">Aggiornamento...</span>
+                    </>
+                  ) : (
+                    <>
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                        />
+                      </svg>
+                      <span className="text-sm hidden sm:inline">Aggiorna Sito</span>
+                      <span className="text-sm sm:hidden">↻</span>
+                    </>
+                  )}
+                </button>
+                {/* Logout Button */}
                 <button
                   onClick={() => signOut({ callbackUrl: '/login' })}
                   className="px-4 py-2 bg-red-50 hover:bg-red-100 dark:bg-red-900/20 dark:hover:bg-red-900/30 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800 hover:border-red-300 dark:hover:border-red-700 rounded-lg transition-all duration-300 flex items-center gap-2"
@@ -1360,7 +1398,7 @@ export default function AdminPage() {
                       d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
                     />
                   </svg>
-                  {t('admin.dashboard.logout')}
+                  <span className="hidden sm:inline">{t('admin.dashboard.logout')}</span>
                 </button>
               </div>
             </div>

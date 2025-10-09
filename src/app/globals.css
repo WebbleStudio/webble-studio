@@ -430,6 +430,23 @@ body {
     opacity: 1;
   }
 
+  /* Fade-in animation for buttons */
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 0, 0) scale(0.98);
+    }
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+  }
+
+  .animate-fade-in {
+    animation: fade-in 0.2s ease-out forwards;
+    opacity: 0;
+  }
+
   /* Animated Border Button */
   @keyframes spin-slow {
     from {

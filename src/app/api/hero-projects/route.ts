@@ -1,24 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabaseClient';
+import { revalidatePath } from 'next/cache';
 
 // GET - Recupera tutti i hero projects
+// Ottimizzato: non fa JOIN con projects (i dati vengono già caricati separatamente con cache)
 export async function GET() {
   try {
     const { data: heroProjects, error } = await supabase
       .from('hero-projects')
-      .select(
-        `
-        *,
-        projects:project_id (
-          id,
-          title,
-          categories,
-          description,
-          image_url,
-          link
-        )
-      `
-      )
+      .select('*')
       .order('position', { ascending: true });
 
     if (error) {
@@ -26,7 +16,12 @@ export async function GET() {
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
-    return NextResponse.json(heroProjects);
+    // Cache per 24 ore (86400 secondi) - i dati sono statici e vengono aggiornati solo dall'admin
+    return NextResponse.json(heroProjects, {
+      headers: {
+        'Cache-Control': 'public, s-maxage=86400, stale-while-revalidate=604800, immutable',
+      },
+    });
   } catch (error) {
     console.error('Error in GET /api/hero-projects:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
@@ -96,6 +91,10 @@ export async function POST(request: NextRequest) {
 
     const data = insertedData;
 
+    // Revalida le pagine che mostrano gli hero projects per aggiornare la cache
+    revalidatePath('/');
+    revalidatePath('/api/hero-projects');
+
     return NextResponse.json({
       message: 'Hero projects saved successfully',
       data,
@@ -118,6 +117,10 @@ export async function DELETE() {
       console.error('Error deleting hero projects:', error);
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
+
+    // Revalida le pagine che mostrano gli hero projects per aggiornare la cache
+    revalidatePath('/');
+    revalidatePath('/api/hero-projects');
 
     return NextResponse.json({ message: 'All hero projects deleted successfully' });
   } catch (error) {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, forwardRef } from 'react';
 import { motion } from 'framer-motion';
 
 interface CountryCode {
@@ -90,14 +90,14 @@ interface PhoneInputProps {
   autoFocus?: boolean;
 }
 
-export default function PhoneInput({
+const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(function PhoneInput({
   value,
   onChange,
   placeholder = "123 456 7890",
   className = "",
   error = false,
   autoFocus = false,
-}: PhoneInputProps) {
+}, ref) {
   const [selectedCountry, setSelectedCountry] = useState<CountryCode>(countryCodes[0]);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -198,6 +198,7 @@ export default function PhoneInput({
 
         {/* Phone Number Input */}
         <input
+          ref={ref}
           type="tel"
           value={phoneNumber}
           onChange={handleNumberChange}
@@ -219,4 +220,6 @@ export default function PhoneInput({
       )}
     </div>
   );
-}
+});
+
+export default PhoneInput;

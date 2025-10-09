@@ -3,9 +3,12 @@
 import React from 'react';
 import ServiceCategory from '@/components/ui/ServiceCategory';
 import { useTranslation } from '@/hooks/useTranslation';
+import { useServiceImages } from '@/hooks/useServiceImages';
 
 export default function Services() {
   const { t } = useTranslation();
+  // Chiamata unica a useServiceImages per tutti i ServiceCategory
+  const { getProjectsForCategory } = useServiceImages();
 
   return (
     <section className="section-scroll h-auto w-full flex items-start mt-0 py-[75px]">
@@ -16,6 +19,7 @@ export default function Services() {
           labels={t('services.service01.labels', { returnObjects: true }) as string[]}
           paragraph={t('services.service01.paragraph')}
           categorySlug="ui-ux-design"
+          categoryProjects={getProjectsForCategory('ui-ux-design')}
           index={0}
         />
         <ServiceCategory
@@ -24,6 +28,7 @@ export default function Services() {
           labels={t('services.service02.labels', { returnObjects: true }) as string[]}
           paragraph={t('services.service02.paragraph')}
           categorySlug="project-management"
+          categoryProjects={getProjectsForCategory('project-management')}
           index={1}
         />
         <ServiceCategory
@@ -32,6 +37,7 @@ export default function Services() {
           labels={t('services.service03.labels', { returnObjects: true }) as string[]}
           paragraph={t('services.service03.paragraph')}
           categorySlug="advertising"
+          categoryProjects={getProjectsForCategory('advertising')}
           index={2}
         />
         <ServiceCategory
@@ -40,6 +46,7 @@ export default function Services() {
           labels={t('services.service04.labels', { returnObjects: true }) as string[]}
           paragraph={t('services.service04.paragraph')}
           categorySlug="social-media-design"
+          categoryProjects={getProjectsForCategory('social-media-design')}
           index={3}
         />
       </div>

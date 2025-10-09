@@ -6,7 +6,7 @@ import Image from 'next/image';
 import AnimatedText from '@/components/ui/AnimatedText';
 import AnimatedServiceTitle from '@/components/ui/AnimatedServiceTitle';
 import { useServiceCategoryAnimation } from '../animations/useServiceCategoryAnimation';
-import { useServiceImages } from '@/hooks/useServiceImages';
+import { Project } from '@/hooks/useProjects';
 
 interface ServiceCategoryProps {
   number: string;
@@ -14,7 +14,8 @@ interface ServiceCategoryProps {
   labels: string[];
   paragraph: string;
   className?: string;
-  categorySlug?: string; // Aggiungiamo il slug per identificare la categoria
+  categorySlug?: string; // Slug per identificare la categoria
+  categoryProjects?: Project[]; // Progetti passati come props
   index?: number; // Indice per l'animazione stagger
 }
 
@@ -25,6 +26,7 @@ export default function ServiceCategory({
   paragraph,
   className = '',
   categorySlug,
+  categoryProjects = [],
   index = 0,
 }: ServiceCategoryProps) {
   const {
@@ -43,10 +45,6 @@ export default function ServiceCategory({
     rectanglesAnimationProps,
     scrollStyles,
   } = useServiceCategoryAnimation();
-
-  // Ottieni i progetti per questa categoria
-  const { getProjectsForCategory } = useServiceImages();
-  const categoryProjects = categorySlug ? getProjectsForCategory(categorySlug) : [];
 
   return (
     <div className={`flex flex-col items-start ${className}`}>

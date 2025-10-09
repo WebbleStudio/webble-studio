@@ -67,7 +67,10 @@ export default function RootLayout({
       <body className="antialiased">
         <GoogleAnalytics />
         <PerformanceOptimizer>
-          <SessionProvider>
+          <SessionProvider
+            refetchInterval={0}
+            refetchOnWindowFocus={false}
+          >
             <ClientLayout>{children}</ClientLayout>
           </SessionProvider>
         </PerformanceOptimizer>

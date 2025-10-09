@@ -15,8 +15,8 @@ export default function SecondButton({
 }: ButtonProps) {
   return (
     <button
-      className={`group px-6 py-2.5 xs:px-7 xs:py-3 rounded-xl font-medium bg-bg-secondary text-text-inverse flex items-center gap-2 btn-secondary transition-all duration-300 ${
-        !noHoverEffect ? 'hover:bg-gradient-to-r hover:from-[#ef2d56] hover:to-[#f4f4f4]' : ''
+      className={`group px-6 py-2.5 xs:px-7 xs:py-3 rounded-xl font-medium bg-bg-secondary text-text-inverse flex items-center gap-2 btn-secondary ${
+        !noHoverEffect ? 'transition-all duration-300 hover:bg-gradient-to-r hover:from-[#ef2d56] hover:to-[#f4f4f4]' : 'transition-transform duration-300 ease-out hover:scale-95'
       } ${className}`}
       {...props}
     >

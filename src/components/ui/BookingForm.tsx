@@ -526,6 +526,7 @@ export default function BookingForm({ isOpen, onClose }: BookingFormProps) {
                         )}
                       </div>
                       <PhoneInput
+                        ref={phoneInputRef}
                         value={formData.phone}
                         onChange={(value) => handleInputChange('phone', value)}
                         placeholder={t('booking.placeholders.phone')}
@@ -592,9 +593,9 @@ export default function BookingForm({ isOpen, onClose }: BookingFormProps) {
               {currentStep > 1 && (
                 <button
                   onClick={handlePrevious}
-                  className="flex items-center justify-center w-12 h-12 text-white hover:bg-white/10 rounded-full transition-all duration-200"
+                  className="flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 text-white hover:bg-white/10 rounded-full transition-all duration-200"
                 >
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -607,13 +608,13 @@ export default function BookingForm({ isOpen, onClose }: BookingFormProps) {
               <button
                 onClick={currentStep === totalSteps ? handleSubmit : handleNext}
                 disabled={isSubmitting || apiLoading}
-                className="flex items-center justify-center w-12 h-12 rounded-full text-white transition-all duration-200 hover:opacity-80 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-full text-white transition-all duration-200 hover:opacity-80 disabled:opacity-50 disabled:cursor-not-allowed"
                 style={{ backgroundColor: '#F30D52' }}
               >
                 {isSubmitting || apiLoading ? (
-                  <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  <div className="w-5 h-5 sm:w-6 sm:h-6 border-2 border-white border-t-transparent rounded-full animate-spin" />
                 ) : currentStep === totalSteps ? (
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -622,7 +623,7 @@ export default function BookingForm({ isOpen, onClose }: BookingFormProps) {
                     />
                   </svg>
                 ) : (
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -649,7 +650,13 @@ export default function BookingForm({ isOpen, onClose }: BookingFormProps) {
 
         {/* Selection Buttons - Absolute Position Below Progress Bar */}
         {currentStep === 5 && (
-          <div className="absolute top-1/2 left-1/2 transform translate-x-[-50%] translate-y-[70px] w-full max-w-4xl">
+          <div 
+            className="absolute top-1/2 left-1/2 w-[calc(100%-40px)] sm:w-[calc(100%-60px)] max-w-4xl"
+            style={{
+              transform: 'translate3d(-50%, 70px, 0)',
+              willChange: 'auto',
+            }}
+          >
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {[
                 t('booking.services.website'),
@@ -657,15 +664,8 @@ export default function BookingForm({ isOpen, onClose }: BookingFormProps) {
                 t('booking.services.social_media'),
                 t('booking.services.other'),
               ].map((service, index) => (
-                <motion.button
+                <button
                   key={service}
-                  initial={{ opacity: 0, y: 30, scale: 0.8 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  transition={{
-                    duration: 0.3,
-                    delay: index * 0.05,
-                    ease: 'easeOut',
-                  }}
                   onClick={() => handleServiceToggle(service)}
                   onKeyDown={(e) => {
                     if (e.key === 'Enter') {
@@ -673,20 +673,21 @@ export default function BookingForm({ isOpen, onClose }: BookingFormProps) {
                       handleServiceToggle(service);
                     }
                   }}
-                  className={`px-6 py-4 rounded-full font-medium transition-all duration-200 backdrop-blur-sm cursor-pointer ${
+                  className={`px-4 py-3 sm:px-6 sm:py-4 text-sm sm:text-base rounded-full font-medium transition-all duration-200 md:backdrop-blur-sm cursor-pointer ${
                     formData.services.includes(serviceTranslationMap[service])
-                      ? 'bg-[rgba(250,250,250,0.5)] text-white hover:bg-[rgba(250,250,250,0.7)] active:bg-[rgba(250,250,250,0.7)]'
-                      : 'bg-[rgba(250,250,250,0.3)] text-white hover:bg-[rgba(250,250,250,0.5)] active:bg-[rgba(250,250,250,0.5)]'
+                      ? 'bg-[rgba(250,250,250,0.5)] text-white active:bg-[rgba(250,250,250,0.85)]'
+                      : 'bg-[rgba(250,250,250,0.3)] text-white active:bg-[rgba(250,250,250,0.6)]'
                   }`}
                   style={{
                     border: formData.services.includes(serviceTranslationMap[service])
                       ? '0.5px solid rgba(250, 250, 250, 0.8)'
                       : '0.5px solid rgba(250, 250, 250, 0.3)',
+                    transform: 'translate3d(0,0,0)',
                   }}
                   tabIndex={0}
                 >
                   {service}
-                </motion.button>
+                </button>
               ))}
             </div>
 
@@ -730,22 +731,21 @@ export default function BookingForm({ isOpen, onClose }: BookingFormProps) {
         )}
 
         {currentStep === 6 && (
-          <div className="absolute top-1/2 left-1/2 transform translate-x-[-50%] translate-y-[70px] w-full max-w-4xl">
+          <div 
+            className="absolute top-1/2 left-1/2 w-[calc(100%-40px)] sm:w-[calc(100%-60px)] max-w-4xl"
+            style={{
+              transform: 'translate3d(-50%, 70px, 0)',
+              willChange: 'auto',
+            }}
+          >
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {[
                 t('booking.contact_methods.email'),
                 t('booking.contact_methods.phone'),
                 t('booking.contact_methods.meeting'),
               ].map((method, index) => (
-                <motion.button
+                <button
                   key={method}
-                  initial={{ opacity: 0, y: 30, scale: 0.8 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  transition={{
-                    duration: 0.3,
-                    delay: index * 0.05,
-                    ease: 'easeOut',
-                  }}
                   onClick={() => handleContactMethodToggle(method)}
                   onKeyDown={(e) => {
                     if (e.key === 'Enter') {
@@ -755,18 +755,19 @@ export default function BookingForm({ isOpen, onClose }: BookingFormProps) {
                       setTimeout(() => handleNext(), 100);
                     }
                   }}
-                  className={`px-6 py-4 rounded-full font-medium transition-all duration-200 backdrop-blur-sm cursor-pointer ${
+                  className={`px-4 py-3 sm:px-6 sm:py-4 text-sm sm:text-base rounded-full font-medium transition-all duration-200 md:backdrop-blur-sm cursor-pointer ${
                     formData.contactMethod === contactMethodTranslationMap[method]
-                      ? 'bg-[rgba(250,250,250,0.5)] text-white hover:bg-[rgba(250,250,250,0.7)] active:bg-[rgba(250,250,250,0.7)]'
-                      : 'bg-[rgba(250,250,250,0.3)] text-white hover:bg-[rgba(250,250,250,0.5)] active:bg-[rgba(250,250,250,0.5)]'
+                      ? 'bg-[rgba(250,250,250,0.5)] text-white active:bg-[rgba(250,250,250,0.85)]'
+                      : 'bg-[rgba(250,250,250,0.3)] text-white active:bg-[rgba(250,250,250,0.6)]'
                   }`}
                   style={{
                     border: '0.5px solid rgba(250, 250, 250, 0.3)',
+                    transform: 'translate3d(0,0,0)',
                   }}
                   tabIndex={0}
                 >
                   {method}
-                </motion.button>
+                </button>
               ))}
             </div>
           </div>

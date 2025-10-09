@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
+import { revalidatePath } from 'next/cache';
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -74,6 +75,11 @@ export async function DELETE(
       );
     }
 
+    // Revalida le pagine che mostrano i progetti per aggiornare la cache
+    revalidatePath('/');
+    revalidatePath('/portfolio');
+    revalidatePath('/api/projects');
+
     return NextResponse.json({
       success: true,
       message: 'Project and associated image deleted successfully',
@@ -123,6 +129,11 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
     if (!updatedProject) {
       return NextResponse.json({ error: 'Project not found' }, { status: 404 });
     }
+
+    // Revalida le pagine che mostrano i progetti per aggiornare la cache
+    revalidatePath('/');
+    revalidatePath('/portfolio');
+    revalidatePath('/api/projects');
 
     return NextResponse.json(updatedProject);
   } catch (error) {

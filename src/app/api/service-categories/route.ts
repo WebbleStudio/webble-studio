@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabaseClient';
+import { revalidatePath } from 'next/cache';
 
 // GET - Recupera tutte le categorie di servizi
 export async function GET() {
@@ -14,7 +15,12 @@ export async function GET() {
       return NextResponse.json({ error: 'Failed to fetch service categories' }, { status: 500 });
     }
 
-    return NextResponse.json(data);
+    // Cache per 24 ore (86400 secondi) - i dati sono statici e vengono aggiornati solo dall'admin
+    return NextResponse.json(data, {
+      headers: {
+        'Cache-Control': 'public, s-maxage=86400, stale-while-revalidate=604800, immutable',
+      },
+    });
   } catch (error) {
     console.error('Unexpected error:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
@@ -53,6 +59,10 @@ export async function PUT(request: NextRequest) {
       console.error('Error updating service category:', error);
       return NextResponse.json({ error: 'Failed to update service category' }, { status: 500 });
     }
+
+    // Revalida le pagine che mostrano le service categories per aggiornare la cache
+    revalidatePath('/');
+    revalidatePath('/api/service-categories');
 
     return NextResponse.json(data);
   } catch (error) {
