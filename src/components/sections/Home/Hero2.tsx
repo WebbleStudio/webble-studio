@@ -148,6 +148,10 @@ export default function Hero2() {
           <button
             onClick={handleOpenForm}
             className="bg-white text-black rounded-xl px-6 py-2.5 xs:px-7 xs:py-3 hover:bg-gray-100 transition-all duration-300 font-medium text-[15px] xs:text-[16px]"
+            data-gtm-event="cta_click"
+            data-gtm-category="engagement"
+            data-gtm-action="prenota_call"
+            data-gtm-label="hero_section"
           >
             <AnimatedText>{t('hero2.button_contact')}</AnimatedText>
           </button>
@@ -218,6 +222,10 @@ export default function Hero2() {
               <button
                 onClick={handleOpenForm}
                 className="group flex items-center gap-4 bg-white text-black rounded-xl pl-5 pr-[6px] py-[6px] font-medium text-[15px] xs:text-[16px] relative overflow-hidden"
+                data-gtm-event="cta_click"
+                data-gtm-category="engagement"
+                data-gtm-action="prenota_call"
+                data-gtm-label="hero_section_desktop"
               >
                 {/* Gradient overlay con fade-in */}
                 <div className="absolute inset-0 bg-gradient-to-r from-[#ef2d56]/40 to-[#f4f4f4] opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out rounded-xl" />
