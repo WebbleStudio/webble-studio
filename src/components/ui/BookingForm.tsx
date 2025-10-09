@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useApiCall } from '@/hooks/useApiCall';
 import { useTranslation } from '@/hooks/useTranslation';
@@ -46,26 +46,81 @@ export default function BookingForm({ isOpen, onClose }: BookingFormProps) {
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // Refs per gli input
+  const nameInputRef = useRef<HTMLInputElement>(null);
+  const surnameInputRef = useRef<HTMLInputElement>(null);
+  const emailInputRef = useRef<HTMLInputElement>(null);
+  const phoneInputRef = useRef<HTMLInputElement>(null);
+  const customServiceInputRef = useRef<HTMLInputElement>(null);
+
   const totalSteps = 6;
 
+  // Funzione per resettare il form
+  const resetForm = useCallback(() => {
+    setCurrentStep(1);
+    setFormData({
+      name: '',
+      surname: '',
+      email: '',
+      phone: '',
+      services: [],
+      customService: '',
+      contactMethod: '',
+    });
+    setErrors({});
+    setIsSubmitting(false);
+  }, []);
 
-  // Reset form when popup opens
+  // Helper function to focus the input for the current step
+  const focusCurrentInput = useCallback((step: number) => {
+    let inputRef = null;
+    
+    switch (step) {
+      case 1:
+        inputRef = nameInputRef;
+        break;
+      case 2:
+        inputRef = surnameInputRef;
+        break;
+      case 3:
+        inputRef = emailInputRef;
+        break;
+      case 4:
+        inputRef = phoneInputRef;
+        break;
+      case 5:
+        // Step servizi - nessun input da focalizzare
+        break;
+      case 6:
+        // Step metodo contatto - nessun input da focalizzare
+        break;
+    }
+
+    if (inputRef) {
+      // Aspetta che l'animazione Framer Motion sia completata
+      // Usiamo un approccio a tentativi per assicurarci che l'elemento esista
+      const attemptFocus = (attempts = 0) => {
+        if (attempts > 10) return; // Max 10 tentativi (1 secondo)
+        
+        if (inputRef.current) {
+          inputRef.current.focus({ preventScroll: true });
+        } else {
+          // Ritenta dopo 100ms
+          setTimeout(() => attemptFocus(attempts + 1), 100);
+        }
+      };
+
+      // Inizia il primo tentativo dopo l'animazione exit (250ms + margine)
+      setTimeout(() => attemptFocus(), 300);
+    }
+  }, []);
+
+  // Quando si apre il form, focus sullo step 1
   useEffect(() => {
     if (isOpen) {
-      setCurrentStep(1);
-      setFormData({
-        name: '',
-        surname: '',
-        email: '',
-        phone: '',
-        services: [],
-        customService: '',
-        contactMethod: '',
-      });
-      setErrors({});
-      setIsSubmitting(false);
+      focusCurrentInput(1);
     }
-  }, [isOpen]);
+  }, [isOpen, focusCurrentInput]);
 
   const {
     loading: apiLoading,
@@ -75,6 +130,7 @@ export default function BookingForm({ isOpen, onClose }: BookingFormProps) {
     onSuccess: () => {
       setIsSubmitting(false);
       alert(t('booking.messages.success'));
+      resetForm(); // Reset solo dopo submit con successo
       onClose();
     },
     onError: () => {
@@ -228,17 +284,23 @@ export default function BookingForm({ isOpen, onClose }: BookingFormProps) {
     handleInputChange('contactMethod', dbMethodValue);
   };
 
-  const handleNext = () => {
+  const handleNext = useCallback(() => {
     if (validateStep(currentStep)) {
-      setCurrentStep((prev) => Math.min(prev + 1, totalSteps));
+      const nextStep = Math.min(currentStep + 1, totalSteps);
+      setCurrentStep(nextStep);
+      // Focus sull'input del prossimo step
+      focusCurrentInput(nextStep);
     }
-  };
+  }, [currentStep, totalSteps, validateStep, focusCurrentInput]);
 
-  const handlePrevious = () => {
-    setCurrentStep((prev) => Math.max(prev - 1, 1));
-  };
+  const handlePrevious = useCallback(() => {
+    const prevStep = Math.max(currentStep - 1, 1);
+    setCurrentStep(prevStep);
+    // Focus sull'input dello step precedente
+    focusCurrentInput(prevStep);
+  }, [currentStep, focusCurrentInput]);
 
-  const handleSubmit = async () => {
+  const handleSubmit = useCallback(async () => {
     if (validateStep(currentStep)) {
       setIsSubmitting(true);
 
@@ -253,7 +315,7 @@ export default function BookingForm({ isOpen, onClose }: BookingFormProps) {
         })
       );
     }
-  };
+  }, [currentStep, validateStep, submitBooking, formData]);
 
   const getStepTitle = () => {
     switch (currentStep) {
@@ -312,7 +374,7 @@ export default function BookingForm({ isOpen, onClose }: BookingFormProps) {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.2 }}
-      className="fixed inset-0 z-[9999] bg-black/90 backdrop-blur-lg overflow-y-auto"
+      className="fixed inset-0 z-[9999] bg-black/80 backdrop-blur-lg overflow-hidden"
       style={{ willChange: 'opacity' }}
       onClick={onClose}
     >
@@ -321,16 +383,31 @@ export default function BookingForm({ isOpen, onClose }: BookingFormProps) {
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.95, opacity: 0 }}
         transition={{ duration: 0.2, ease: 'easeOut' }}
-        className="min-h-screen w-full flex flex-col items-center justify-center px-4 py-20 relative"
-        style={{ willChange: 'transform, opacity' }}
+        className="w-full flex flex-col items-center justify-center px-[20px] md:px-[30px] py-6 relative overflow-y-auto"
+        style={{ 
+          willChange: 'transform, opacity',
+          minHeight: '100dvh', // Dynamic viewport height - si adatta alla toolbar mobile
+        }}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close Button - Fixed Position */}
         <button
           onClick={onClose}
-          className="fixed top-6 right-6 z-10 text-white/60 hover:text-white transition-colors text-2xl"
+          className="fixed top-6 right-6 z-10 text-white/60 hover:text-white transition-colors"
         >
-          ✕
+          <svg 
+            className="w-8 h-8 md:w-7 md:h-7" 
+            fill="none" 
+            stroke="currentColor" 
+            viewBox="0 0 24 24"
+            strokeWidth="1.5"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
         </button>
 
         {/* Form Content */}
@@ -362,6 +439,7 @@ export default function BookingForm({ isOpen, onClose }: BookingFormProps) {
                         )}
                       </div>
                       <input
+                        ref={nameInputRef}
                         type="text"
                         value={formData.name}
                         onChange={(e) => handleInputChange('name', e.target.value)}
@@ -369,7 +447,6 @@ export default function BookingForm({ isOpen, onClose }: BookingFormProps) {
                         className={`w-full text-2xl md:text-3xl bg-transparent border-none outline-none text-white text-left placeholder-gray-400 ${
                           errors.name ? 'border-b border-red-500' : ''
                         }`}
-                        autoFocus
                       />
                     </>
                   )}
@@ -391,6 +468,7 @@ export default function BookingForm({ isOpen, onClose }: BookingFormProps) {
                         )}
                       </div>
                       <input
+                        ref={surnameInputRef}
                         type="text"
                         value={formData.surname}
                         onChange={(e) => handleInputChange('surname', e.target.value)}
@@ -398,7 +476,6 @@ export default function BookingForm({ isOpen, onClose }: BookingFormProps) {
                         className={`w-full text-2xl md:text-3xl bg-transparent border-none outline-none text-white text-left placeholder-gray-400 ${
                           errors.surname ? 'border-b border-red-500' : ''
                         }`}
-                        autoFocus
                       />
                     </>
                   )}
@@ -420,6 +497,7 @@ export default function BookingForm({ isOpen, onClose }: BookingFormProps) {
                         )}
                       </div>
                       <input
+                        ref={emailInputRef}
                         type="email"
                         value={formData.email}
                         onChange={(e) => handleInputChange('email', e.target.value)}
@@ -427,7 +505,6 @@ export default function BookingForm({ isOpen, onClose }: BookingFormProps) {
                         className={`w-full text-2xl md:text-3xl bg-transparent border-none outline-none text-white text-left placeholder-gray-400 ${
                           errors.email ? 'border-b border-red-500' : ''
                         }`}
-                        autoFocus
                       />
                     </>
                   )}
@@ -453,7 +530,6 @@ export default function BookingForm({ isOpen, onClose }: BookingFormProps) {
                         onChange={(value) => handleInputChange('phone', value)}
                         placeholder={t('booking.placeholders.phone')}
                         error={!!errors.phone}
-                        autoFocus
                       />
                     </>
                   )}
@@ -511,8 +587,8 @@ export default function BookingForm({ isOpen, onClose }: BookingFormProps) {
               </AnimatePresence>
             </div>
 
-            {/* Navigation Buttons - Fixed Position */}
-            <div className="flex items-center gap-3">
+            {/* Navigation Buttons */}
+            <div className="flex items-center gap-3 mt-8">
               {currentStep > 1 && (
                 <button
                   onClick={handlePrevious}
@@ -624,6 +700,7 @@ export default function BookingForm({ isOpen, onClose }: BookingFormProps) {
               >
                 <div className="relative">
                   <input
+                    ref={customServiceInputRef}
                     type="text"
                     value={formData.customService}
                     onChange={(e) => handleCustomServiceChange(e.target.value)}
@@ -636,7 +713,6 @@ export default function BookingForm({ isOpen, onClose }: BookingFormProps) {
                         ? '1px solid #ef4444'
                         : '1px solid rgba(250, 250, 250, 0.3)',
                     }}
-                    autoFocus
                   />
                   {errors.customService && (
                     <motion.div

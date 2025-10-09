@@ -93,10 +93,10 @@ export default function KeyPoints() {
           {/* Video YouTube - caricamento garantito */}
           <div className="absolute inset-0 overflow-hidden">
             <iframe
-              src="https://www.youtube.com/embed/eOrn_1bqTc4?autoplay=1&mute=1&loop=1&controls=0&disablekb=1&fs=0&modestbranding=1&playsinline=1&rel=0&showinfo=0&iv_load_policy=3&enablejsapi=1&playlist=eOrn_1bqTc4"
+              src="https://www.youtube.com/embed/eOrn_1bqTc4?autoplay=1&mute=1&loop=1&controls=0&disablekb=1&fs=0&modestbranding=1&playsinline=1&rel=0&showinfo=0&iv_load_policy=3&enablejsapi=1&playlist=eOrn_1bqTc4&cc_load_policy=0&color=white&widget_referrer=0"
               className="w-full h-full pointer-events-none mix-blend-lighten"
               style={{
-                transform: 'translateY(-10%) scale(0.9)',
+                transform: 'translateY(-10%) scale(1.2)',
                 objectPosition: 'center center',
                 willChange: 'transform',
                 border: 'none',
