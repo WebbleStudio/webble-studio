@@ -106,7 +106,7 @@ export default function Header() {
     <>
       {/* HEADER */}
       <div
-        className={`fixed top-0 left-0 w-full z-[100] h-[90px] flex items-center px-4 md:px-[30px] xl:px-20 transition-all duration-300 mobile-header-container ${
+        className={`fixed top-0 left-0 w-full z-[100] h-[90px] flex items-center px-[20px] md:px-[30px] xl:px-20 transition-all duration-300 mobile-header-container ${
           isScrolled ? 'scrolled' : ''
         }`}
       >
@@ -120,7 +120,7 @@ export default function Header() {
                 width={80}
                 height={40}
                 priority
-                className="w-[70px] h-[40px]"
+                className="w-[65px] h-[40px]"
               />
             </Link>
             <Link href="/" className="logo-extended">

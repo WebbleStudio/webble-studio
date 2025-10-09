@@ -47,7 +47,7 @@ export default function Hero2() {
   };
 
   return (
-    <section className="relative h-auto md:h-screen w-full bg-black flex items-center md:items-start justify-center px-5 md:px-[30px] xl:px-20 pt-[150px] md:pt-[100px] overflow-hidden">
+    <section className="relative h-auto md:h-screen w-full flex items-center md:items-start justify-center px-5 md:px-[30px] xl:px-20 pt-[150px] md:pt-[100px] overflow-hidden" style={{ backgroundColor: '#0b0b0b' }}>
       {/* Particles Background */}
       {particlesInit && (
         <Particles
@@ -87,7 +87,7 @@ export default function Hero2() {
                 value: 30,
               },
               opacity: {
-                value: { min: 0.3, max: 0.7 },
+                value: { min: 0.2, max: 0.5 },
                 animation: {
                   enable: true,
                   speed: 1,
@@ -110,7 +110,7 @@ export default function Hero2() {
       <div className="md:hidden flex flex-col items-center text-center relative z-10 w-full">
         {/* Background Image - Mobile & SM */}
         <div
-          className="absolute top-[245px] sm:top-[265px] left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[500px] h-auto sm:w-[600px] opacity-20 pointer-events-none"
+          className="absolute top-[100px] sm:top-[100px] left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[500px] h-auto sm:w-[600px] opacity-20 pointer-events-none"
           style={{
             backgroundImage: 'url(/img/radial.png)',
             backgroundSize: 'contain',
