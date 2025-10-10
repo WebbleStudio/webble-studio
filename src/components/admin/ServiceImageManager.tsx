@@ -176,9 +176,8 @@ export default function ServiceImageManager({ className = '' }: ServiceImageMana
     loading,
     error,
     fetchServiceCategories,
-    updateServiceCategoryImages,
+    updateServiceCategory,
     initializeServiceCategories,
-    setError,
   } = useServiceCategories();
   const { projects, fetchProjects } = useProjects();
 
@@ -254,7 +253,7 @@ export default function ServiceImageManager({ className = '' }: ServiceImageMana
       const existingProjectIds = new Set(projects.map((p) => p.id));
       const validImages = images.filter((imageId) => existingProjectIds.has(imageId));
 
-      await updateServiceCategoryImages(categorySlug, validImages);
+      await updateServiceCategory(categorySlug, validImages);
     } catch (error) {
       console.error('Error saving category changes:', error);
     }
@@ -264,7 +263,7 @@ export default function ServiceImageManager({ className = '' }: ServiceImageMana
   const saveAllChanges = async () => {
     try {
       const promises = Object.keys(localChanges).map((slug) =>
-        updateServiceCategoryImages(slug, localChanges[slug] || [])
+        updateServiceCategory(slug, localChanges[slug] || [])
       );
       await Promise.all(promises);
     } catch (error) {
@@ -355,7 +354,6 @@ export default function ServiceImageManager({ className = '' }: ServiceImageMana
           <div className="flex gap-2">
             <button
               onClick={() => {
-                setError(null);
                 fetchServiceCategories();
               }}
               className="text-red-600 hover:text-red-700 text-xs px-3 py-1 border border-red-300 rounded hover:bg-red-50"
@@ -364,7 +362,6 @@ export default function ServiceImageManager({ className = '' }: ServiceImageMana
             </button>
             <button
               onClick={() => {
-                setError(null);
                 initializeServiceCategories();
               }}
               className="text-red-600 hover:text-red-700 text-xs px-3 py-1 border border-red-300 rounded hover:bg-red-50"
