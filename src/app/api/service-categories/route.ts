@@ -15,10 +15,10 @@ export async function GET() {
       return NextResponse.json({ error: 'Failed to fetch service categories' }, { status: 500 });
     }
 
-    // Cache per 24 ore (86400 secondi) - i dati sono statici e vengono aggiornati solo dall'admin
+    // Nessuna cache - aggiornamenti in tempo reale
     return NextResponse.json(data, {
       headers: {
-        'Cache-Control': 'public, s-maxage=86400, stale-while-revalidate=604800, immutable',
+        'Cache-Control': 'no-store, no-cache, must-revalidate',
       },
     });
   } catch (error) {
@@ -61,8 +61,8 @@ export async function PUT(request: NextRequest) {
     }
 
     // Revalida le pagine che mostrano le service categories per aggiornare la cache
-    // Revalida automaticamente dopo l'aggiornamento
     revalidatePath('/');
+    revalidatePath('/api/service-categories');
 
     return NextResponse.json(data);
   } catch (error) {

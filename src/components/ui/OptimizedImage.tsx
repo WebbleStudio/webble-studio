@@ -27,36 +27,23 @@ export default function OptimizedImage({
   priority = false,
   fill = false,
   sizes,
-  quality = 75, // Ridotto per risparmiare bandwidth Vercel
+  quality = 85,
   loading,
 }: OptimizedImageProps) {
   // Determina loading strategy: se priority=true, non usare loading='lazy'
   const loadingStrategy = priority ? undefined : (loading || 'lazy');
-  
-  // Ottimizzazione cache: determina se l'immagine è statica (non cambia mai)
-  const isStaticImage = src.startsWith('/img/') || src.startsWith('/icons/') || src.startsWith('/public/');
-  
-  // Cache headers ottimizzati per immagini statiche
-  const imageProps = {
-    src,
-    alt,
-    className,
-    priority,
-    loading: loadingStrategy,
-    quality,
-    sizes,
-    // Aggiungi cache headers per immagini statiche
-    ...(isStaticImage && {
-      unoptimized: false, // Mantieni ottimizzazione Next.js
-    }),
-  };
 
   if (fill) {
     return (
       <Image
-        {...imageProps}
+        src={src}
+        alt={alt}
         fill
+        className={className}
+        priority={priority}
+        loading={loadingStrategy}
         sizes={sizes || '100vw'}
+        quality={quality}
         style={{ 
           objectFit: 'cover',
           willChange: 'auto',
@@ -72,9 +59,15 @@ export default function OptimizedImage({
 
   return (
     <Image
-      {...imageProps}
+      src={src}
+      alt={alt}
       width={width}
       height={height}
+      className={className}
+      priority={priority}
+      loading={loadingStrategy}
+      quality={quality}
+      sizes={sizes}
       style={{
         willChange: 'auto',
         backfaceVisibility: 'hidden',

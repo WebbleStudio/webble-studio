@@ -75,9 +75,10 @@ export async function DELETE(
       );
     }
 
-    // Revalida automaticamente le pagine dopo la cancellazione
+    // Revalida le pagine che mostrano i progetti per aggiornare la cache
     revalidatePath('/');
     revalidatePath('/portfolio');
+    revalidatePath('/api/projects');
 
     return NextResponse.json({
       success: true,
@@ -129,9 +130,10 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
       return NextResponse.json({ error: 'Project not found' }, { status: 404 });
     }
 
-    // Revalida automaticamente le pagine dopo l'aggiornamento
+    // Revalida le pagine che mostrano i progetti per aggiornare la cache
     revalidatePath('/');
     revalidatePath('/portfolio');
+    revalidatePath('/api/projects');
 
     return NextResponse.json(updatedProject);
   } catch (error) {

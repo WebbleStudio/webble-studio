@@ -5,11 +5,15 @@ import AdminHeader from '@/components/layout/AdminHeader';
 import Footer from '@/components/layout/Footer';
 import CookieBanner from '@/components/ui/CookieBanner';
 import CookieManagerButton from '@/components/ui/CookieManagerButton';
+import ApiDebugger from '@/components/debug/ApiDebugger';
 import { useDarkMode, useCookieConsent, useCookieManager, usePageTracking } from '@/hooks';
 import { usePathname } from 'next/navigation';
 import { HeaderProvider, useHeader } from '@/contexts/HeaderContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import '@/lib/i18n/config'; // Inizializza i18n
+
+// Check if in development mode
+const isDevelopment = process.env.NODE_ENV === 'development';
 
 function ClientLayoutContent({ children }: { children: React.ReactNode }) {
   // Inizializza il theme system (il hook gestisce automaticamente l'applicazione delle classi)
@@ -72,6 +76,9 @@ function ClientLayoutContent({ children }: { children: React.ReactNode }) {
       
       {/* Cookie Manager Button - mostra su tutte le pagine */}
       <CookieManagerButton onOpenManager={openManager} />
+      
+      {/* API Debugger - solo in development */}
+      {isDevelopment && <ApiDebugger />}
     </>
   );
 }

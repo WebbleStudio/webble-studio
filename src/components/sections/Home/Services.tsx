@@ -3,17 +3,12 @@
 import React from 'react';
 import ServiceCategory from '@/components/ui/ServiceCategory';
 import { useTranslation } from '@/hooks/useTranslation';
+import { useServiceImages } from '@/hooks/useServiceImages';
 
-interface ServicesStaticProps {
-  serviceImages: Record<string, any[]>;
-}
-
-export default function ServicesStatic({ serviceImages }: ServicesStaticProps) {
+export default function Services() {
   const { t } = useTranslation();
-
-  const getProjectsForCategory = (slug: string) => {
-    return serviceImages[slug] || [];
-  };
+  // Chiamata unica a useServiceImages per tutti i ServiceCategory
+  const { getProjectsForCategory } = useServiceImages();
 
   return (
     <section className="section-scroll h-auto w-full flex items-start mt-0 py-[75px]">
@@ -58,4 +53,3 @@ export default function ServicesStatic({ serviceImages }: ServicesStaticProps) {
     </section>
   );
 }
-

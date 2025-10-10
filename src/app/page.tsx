@@ -1,18 +1,23 @@
-import { createClient } from '@supabase/supabase-js';
+'use client';
+
+import { useRef, useEffect, useState } from 'react';
 import Container from '@/components/layout/Container';
+import Hero from '@/components/sections/Home/Hero';
 import Hero2 from '@/components/sections/Home/Hero2';
 import Payoff from '@/components/sections/Home/Payoff';
 import KeyPoints from '@/components/sections/Home/KeyPoints';
-import ServicesStatic from '@/components/sections/Home/ServicesStatic';
+import Services from '@/components/sections/Home/Services';
 import Projects from '@/components/sections/Home/Projects';
 import Contact from '@/components/sections/Home/Contact';
 import { SingleProjectData } from '@/components/animations/useProjectSwitch';
+import { useHeroProjects, HeroProject } from '@/hooks/useHeroProjects';
+import { useProjects } from '@/hooks/useProjects';
 
 // Funzione per creare placeholder vuoti
 const createPlaceholderProject = (position: number): SingleProjectData => ({
   id: `placeholder-${position}`,
   title: `Progetto ${position}`,
-  backgroundImage: '/img/sfondo-box3.png',
+  backgroundImage: '/img/sfondo-box3.png', // Sfondo placeholder esistente
   labels: ['Coming Soon'],
   date: 'Prossimamente',
   slides: [
@@ -35,18 +40,22 @@ const createPlaceholderProject = (position: number): SingleProjectData => ({
 });
 
 // Funzione per convertire HeroProject in SingleProjectData
+// Ottimizzato: riceve il progetto come parametro invece di usare il JOIN
 const convertHeroProjectToSingleProject = (
-  heroProject: any,
+  heroProject: HeroProject,
   allProjects: any[]
 ): SingleProjectData => {
-  const project = allProjects.find((p: any) => p.id === heroProject.project_id);
-
+  // Trova il progetto corrispondente dalla lista già caricata
+  const project = allProjects.find((p) => p.id === heroProject.project_id);
+  
   if (!project) {
     return createPlaceholderProject(heroProject.position);
   }
 
+  // Usa le immagini configurate o fallback all'immagine del progetto
   const slideImages = heroProject.images.length > 0 ? heroProject.images : [project.image_url];
 
+  // Crea le slides dalle descrizioni e immagini
   const slides = [0, 1, 2].map((index) => ({
     id: `slide-${index + 1}-${project.id}`,
     description: heroProject.descriptions[index] || 'Descrizione non configurata',
@@ -68,86 +77,78 @@ const convertHeroProjectToSingleProject = (
   };
 };
 
-// Server-side data fetching (STATICO - esegue al BUILD TIME)
-async function getHomePageData() {
-  const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  );
+export default function Home() {
+  const heroRef = useRef<HTMLDivElement>(null);
+  const payoffRef = useRef<HTMLDivElement>(null);
+  const { heroProjects, fetchHeroProjects } = useHeroProjects();
+  const { projects, fetchProjects } = useProjects();
+  const [displayProjects, setDisplayProjects] = useState<SingleProjectData[]>([]);
 
-  // Fetch hero projects
-  const { data: heroProjects } = await supabase
-    .from('hero-projects')
-    .select('*')
-    .order('position', { ascending: true });
+  // Carica hero projects e projects all'avvio (riusa cache se disponibile)
+  useEffect(() => {
+    fetchHeroProjects();
+    fetchProjects();
+  }, [fetchHeroProjects, fetchProjects]);
 
-  // Fetch all projects
-  const { data: projects } = await supabase
-    .from('projects')
-    .select('*')
-    .order('order_position', { ascending: true });
+  // Aggiorna i progetti da mostrare quando cambiano hero projects o projects
+  useEffect(() => {
+    const projectsToDisplay: SingleProjectData[] = [];
 
-  // Fetch service categories
-  const { data: serviceCategories } = await supabase
-    .from('service-categories')
-    .select('*');
+    // Crea sempre 4 progetti per mantenere l'effetto stacking
+    for (let position = 1; position <= 4; position++) {
+      const heroProject = heroProjects.find((hp) => hp.position === position);
 
-  // Costruisci serviceImages map
-  const serviceImages: Record<string, any[]> = {};
-  if (serviceCategories && projects) {
-    for (const category of serviceCategories) {
-      const categoryProjects = category.images
-        .map((projectId: string) => projects.find((p: any) => p.id === projectId))
-        .filter(Boolean);
-      serviceImages[category.slug] = categoryProjects;
+      if (heroProject) {
+        // Usa il progetto configurato, combinando con i dati dalla cache projects
+        projectsToDisplay.push(convertHeroProjectToSingleProject(heroProject, projects));
+      } else {
+        // Usa placeholder
+        projectsToDisplay.push(createPlaceholderProject(position));
+      }
     }
-  }
 
-  return {
-    heroProjects: heroProjects || [],
-    projects: projects || [],
-    serviceImages,
-  };
-}
-
-// Server Component - genera HTML statico al build
-export default async function Home() {
-  // Fetch data server-side al build time (1 sola volta)
-  const { heroProjects, projects, serviceImages } = await getHomePageData();
-
-  // Convert hero projects to display format
-  const displayProjects: SingleProjectData[] = [];
-  for (let position = 1; position <= 4; position++) {
-    const heroProject = heroProjects.find((hp: any) => hp.position === position);
-    if (heroProject) {
-      displayProjects.push(convertHeroProjectToSingleProject(heroProject, projects));
-    } else {
-      displayProjects.push(createPlaceholderProject(position));
-    }
-  }
+    setDisplayProjects(projectsToDisplay);
+  }, [heroProjects, projects]);
 
   return (
     <main>
-      <Hero2 />
-      <Payoff />
+        <Hero2 />
+        <Payoff />
       <Container>
         <KeyPoints />
-        <ServicesStatic serviceImages={serviceImages} />
+        <Services />
       </Container>
 
       {/* Sezione Progetti con effetto stacking sticky */}
       <section className="relative">
+        {/* Container per l'effetto stacking */}
         <div className="relative">
-          {displayProjects.map((project, index) => {
-            const zIndexClasses = ['z-10', 'z-20', 'z-30', 'z-40'];
-            const zIndexClass = zIndexClasses[index] || 'z-10';
+          {displayProjects.length > 0
+            ? displayProjects.map((project, index) => {
+                // Z-index statici per Tailwind CSS
+                const zIndexClasses = ['z-10', 'z-20', 'z-30', 'z-40'];
+                const zIndexClass = zIndexClasses[index] || 'z-10';
 
-            return (
-              <div key={project.id} className={`sticky top-0 h-screen ${zIndexClass}`}>
-                <Projects projectData={project} />
-              </div>
-            );
-          })}
+                return (
+                  <div key={project.id} className={`sticky top-0 h-screen ${zIndexClass}`}>
+                    <Projects projectData={project} />
+                  </div>
+                );
+              })
+            : // Fallback durante il caricamento - mostra 4 placeholder
+              [1, 2, 3, 4].map((position, index) => {
+                const zIndexClasses = ['z-10', 'z-20', 'z-30', 'z-40'];
+                const zIndexClass = zIndexClasses[index] || 'z-10';
+
+                return (
+                  <div
+                    key={`loading-${position}`}
+                    className={`sticky top-0 h-screen ${zIndexClass}`}
+                  >
+                    <Projects projectData={createPlaceholderProject(position)} />
+                  </div>
+                );
+              })}
         </div>
       </section>
       <Container>
@@ -156,6 +157,3 @@ export default async function Home() {
     </main>
   );
 }
-
-// Forza la rigenerazione statica SOLO on-demand (quando admin clicca "Aggiorna Sito")
-export const revalidate = false;

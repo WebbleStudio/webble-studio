@@ -6,12 +6,12 @@ const nextConfig: NextConfig = {
     optimizePackageImports: ['framer-motion'],
   },
 
-  // Image optimization - Ottimizzato per Vercel
+  // Image optimization
   images: {
-    formats: ['image/webp'], // Solo WebP per ridurre costi
-    deviceSizes: [640, 828, 1200, 1920], // Ridotto da 8 a 4 dimensioni
-    imageSizes: [16, 32, 64, 128, 256], // Ridotto da 8 a 5 dimensioni
-    minimumCacheTTL: 31536000, // 1 anno per immagini statiche
+    formats: ['image/webp', 'image/avif'],
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    minimumCacheTTL: 60,
     dangerouslyAllowSVG: true,
     contentDispositionType: 'attachment',
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
@@ -23,9 +23,6 @@ const nextConfig: NextConfig = {
         pathname: '/storage/v1/object/public/**',
       },
     ],
-    // Ottimizzazioni per ridurre costi Vercel
-    unoptimized: false,
-    loader: 'default',
   },
 
   // Bundle analyzer (enable for analysis)

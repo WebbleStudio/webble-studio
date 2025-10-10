@@ -11,6 +11,7 @@ import ProtectedRoute from '@/components/auth/ProtectedRoute';
 import { signOut, useSession } from 'next-auth/react';
 import ServiceImageManager from '@/components/admin/ServiceImageManager';
 import BookingManager from '@/components/admin/BookingManager';
+import { apiCache, cacheKeys } from '@/lib/apiCache';
 import {
   DndContext,
   closestCenter,
@@ -184,6 +185,17 @@ export default function AdminPage() {
     };
   }>({});
 
+  // State per modifiche locali non salvate (Projects)
+  const [localProjectsState, setLocalProjectsState] = useState<{
+    projects: typeof projects;
+    deletedProjects: string[];
+    hasChanges: boolean;
+  }>({
+    projects: [],
+    deletedProjects: [],
+    hasChanges: false,
+  });
+
   // State per nuovi progetti locali (non ancora salvati su Supabase)
   const [newProjects, setNewProjects] = useState<
     Array<{
@@ -193,7 +205,7 @@ export default function AdminPage() {
       categories: string[];
       description: string;
       description_en?: string;
-      project_url?: string;
+      link: string | null;
       image_url: string;
       order_position: number;
       local: true;
@@ -251,26 +263,25 @@ export default function AdminPage() {
   );
 
   // Handler per fine drag & drop (solo aggiorna stato locale)
-  const handleDragEnd = async (event: DragEndEvent) => {
+  const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
 
     if (active.id !== over?.id) {
-      // Usa solo i progetti da Supabase (non i locali) per il reorder
-      const oldIndex = projects.findIndex((p: ProjectType) => p.id === active.id);
-      const newIndex = projects.findIndex((p: ProjectType) => p.id === over?.id);
+      const currentProjects = localProjectsState.hasChanges
+        ? localProjectsState.projects
+        : projects;
+      const oldIndex = currentProjects.findIndex((p) => p.id === active.id);
+      const newIndex = currentProjects.findIndex((p) => p.id === over?.id);
 
-      if (oldIndex !== -1 && newIndex !== -1) {
-        const reorderedItems = arrayMove(projects, oldIndex, newIndex);
-        
-        // Salva immediatamente il nuovo ordine su Supabase
-        try {
-          await reorderProjects(reorderedItems);
-          console.log('Projects reordered and saved to Supabase');
-        } catch (error) {
-          console.error('Error reordering projects:', error);
-          alert('Errore durante il riordino dei progetti');
-        }
-      }
+      const reorderedItems = arrayMove(currentProjects, oldIndex, newIndex);
+
+      setLocalProjectsState((prev) => ({
+        ...prev,
+        projects: reorderedItems,
+        hasChanges: true,
+      }));
+
+      console.log('Projects reordered locally (not saved)');
     }
   };
 
@@ -288,6 +299,16 @@ export default function AdminPage() {
       }, 100);
     }
   }, [isEditModalOpen]);
+
+  // Inizializza stato locale quando i progetti cambiano
+  useEffect(() => {
+    if (projects.length > 0 && !localProjectsState.hasChanges) {
+      setLocalProjectsState((prev) => ({
+        ...prev,
+        projects: [...projects],
+      }));
+    }
+  }, [projects, localProjectsState.hasChanges]);
 
   const handleDrag = (e: React.DragEvent) => {
     e.preventDefault();
@@ -346,7 +367,7 @@ export default function AdminPage() {
         categories: newProject.categories,
         description: newProject.description,
         description_en: newProject.description_en || undefined,
-        project_url: newProject.link || undefined,
+        link: newProject.link || null,
         image_url: imagePreview || '',
         order_position: projects.length + newProjects.length,
         local: true as const,
@@ -384,7 +405,7 @@ export default function AdminPage() {
     }
   };
 
-  const removeProject = async (id: string) => {
+  const removeProject = (id: string) => {
     // Se è un progetto locale, rimuovilo dalla lista locale
     if (id.startsWith('local-')) {
       setNewProjects((prev) => prev.filter((p) => p.id !== id));
@@ -392,16 +413,18 @@ export default function AdminPage() {
       return;
     }
 
-    // Se è un progetto esistente su Supabase, chiedi conferma ed eliminalo immediatamente
-    if (window.confirm('Sei sicuro di voler eliminare questo progetto? Sarà rimosso immediatamente da Supabase.')) {
-      try {
-        await deleteProject(id);
-        console.log('Project deleted from Supabase');
-      } catch (error) {
-        console.error('Error deleting project:', error);
-        alert('Errore durante l\'eliminazione del progetto');
-      }
-    }
+    // Se è un progetto esistente, gestiscilo come prima
+    const currentProjects = localProjectsState.hasChanges ? localProjectsState.projects : projects;
+    const filteredProjects = currentProjects.filter((p) => p.id !== id);
+
+    setLocalProjectsState((prev) => ({
+      ...prev,
+      projects: filteredProjects,
+      deletedProjects: [...prev.deletedProjects, id],
+      hasChanges: true,
+    }));
+
+    console.log('Project marked for deletion locally (not saved)');
   };
 
   // Funzioni per editing - stabilizzate con useCallback
@@ -423,6 +446,12 @@ export default function AdminPage() {
       // Carica prima tutte le immagini nel bucket
       const projectsWithUploadedImages = await Promise.all(
         newProjects.map(async (project) => {
+          // Verifica che image_url esista e non sia undefined
+          if (!project.image_url) {
+            console.error('Project missing image_url:', project.title);
+            throw new Error(`Project "${project.title}" has no image`);
+          }
+          
           // Se l'image_url è un base64, caricalo nel bucket
           if (project.image_url.startsWith('data:image/')) {
             try {
@@ -452,7 +481,7 @@ export default function AdminPage() {
                 categories: project.categories,
                 description: project.description,
                 description_en: project.description_en,
-                project_url: project.project_url,
+                link: project.link,
                 image_url: uploadData.url,
                 order_position: project.order_position,
               };
@@ -466,7 +495,7 @@ export default function AdminPage() {
               title: project.title,
               categories: project.categories,
               description: project.description,
-              project_url: project.project_url,
+              link: project.link,
               image_url: project.image_url,
               order_position: project.order_position,
             };
@@ -487,6 +516,9 @@ export default function AdminPage() {
         throw new Error('Failed to save projects');
       }
 
+      // Invalida la cache dei progetti
+      apiCache.invalidate(cacheKeys.projects());
+
       // Svuota la lista dei progetti locali
       setNewProjects([]);
 
@@ -500,11 +532,36 @@ export default function AdminPage() {
     }
   };
 
-  // Questa funzione ora non fa nulla perché le modifiche vengono salvate immediatamente
-  // Mantenuta per retrocompatibilità ma può essere rimossa
+  // Salva tutte le modifiche ai progetti esistenti
   const saveAllProjectChanges = async () => {
-    // Non fa nulla - i progetti esistenti vengono modificati/eliminati immediatamente
-    console.log('saveAllProjectChanges chiamata ma non necessaria (modifiche già salvate)');
+    if (!localProjectsState.hasChanges) return;
+
+    try {
+      // Prima elimina i progetti marcati per la cancellazione
+      for (const projectId of localProjectsState.deletedProjects) {
+        await deleteProject(projectId);
+      }
+
+      // Poi riordina i progetti rimanenti
+      if (localProjectsState.projects.length > 0) {
+        await reorderProjects(localProjectsState.projects);
+      }
+
+      // Reset dello stato locale
+      setLocalProjectsState({
+        projects: [],
+        deletedProjects: [],
+        hasChanges: false,
+      });
+
+      // Ricarica i progetti dal server per assicurarsi che tutto sia sincronizzato
+      await fetchProjects();
+
+      console.log('All project changes saved successfully');
+    } catch (error) {
+      console.error('Failed to save project changes:', error);
+      setError('Errore nel salvare le modifiche ai progetti');
+    }
   };
 
   // Gestione multi-selezione categorie
@@ -559,7 +616,6 @@ export default function AdminPage() {
               descriptions: config.descriptions,
               images: config.images,
               backgroundImage: config.backgroundImage,
-              projectDate: config.projectDate,
             };
           });
         await saveHeroProjects(newConfigs);
@@ -669,20 +725,20 @@ export default function AdminPage() {
     setUploadingImage((prev) => ({ ...prev, [uploadKey]: true }));
 
     try {
-      const imageUrl = await uploadImage(file);
+      const result = await uploadImage(file, type);
 
       if (type === 'background') {
-        updateLocalConfig(projectId, 'backgroundImage', imageUrl);
+        updateLocalConfig(projectId, 'backgroundImage', result.url);
       } else {
         // Recupera le immagini attuali dal localConfig se disponibile
         const existingLocalConfig = localConfigs[projectId];
         const currentImages = existingLocalConfig
           ? existingLocalConfig.images
           : highlightConfigs[projectId]?.images || [];
-        updateLocalConfig(projectId, 'images', [...currentImages, imageUrl]);
+        updateLocalConfig(projectId, 'images', [...currentImages, result.url]);
       }
 
-      return imageUrl;
+      return result;
     } catch (error) {
       console.error('Error uploading image:', error);
       throw error;
@@ -691,8 +747,9 @@ export default function AdminPage() {
     }
   };
 
-  // Combina progetti da Supabase con quelli locali temporanei
-  const allProjects = [...projects, ...newProjects];
+  // Combina progetti esistenti con quelli locali
+  const existingProjects = localProjectsState.hasChanges ? localProjectsState.projects : projects;
+  const allProjects = [...existingProjects, ...newProjects];
   const filteredProjects = allProjects;
 
   // Componente Scheletro per mostrare slot vuoti
@@ -940,10 +997,10 @@ export default function AdminPage() {
         setInternalFormData({
           title: editingProject.title,
           title_en: editingProject.title_en || '',
-          description: editingProject.description || '',
+          description: editingProject.description,
           description_en: editingProject.description_en || '',
           categories: [...editingProject.categories],
-          link: editingProject.project_url || '',
+          link: editingProject.link || '',
         });
         setInternalImageFile(null);
         setInternalImagePreview(null);
@@ -955,7 +1012,7 @@ export default function AdminPage() {
       editingProject?.description,
       editingProject?.description_en,
       editingProject?.categories,
-      editingProject?.project_url,
+      editingProject?.link,
     ]); // Dipendenze specifiche
 
     // Funzioni interne al modale
@@ -993,7 +1050,7 @@ export default function AdminPage() {
         };
 
         if (internalFormData.link) {
-          updates.project_url = internalFormData.link;
+          updates.link = internalFormData.link;
         }
 
         // Se c'è una nuova immagine, la carica prima
@@ -1304,32 +1361,19 @@ export default function AdminPage() {
                     {t('admin.dashboard.company')}
                   </p>
                 </div>
-                {/* Aggiorna Sito - Salva tutto e aggiorna */}
+                {/* Revalidate Button */}
                 <button
                   onClick={async () => {
                     try {
-                      // 1. Salva tutti i progetti locali su Supabase (se esistono)
-                      if (newProjects.length > 0) {
-                        await saveAllLocalProjects();
-                      }
-
-                      // 2. Salva le configurazioni degli highlights (se esistono modifiche)
-                      if (selectedHighlights.length > 0 && Object.values(localConfigs).some(c => c?.hasChanges)) {
-                        await saveAllChanges();
-                      }
-
-                      // 3. Revalida le pagine statiche per aggiornare il sito pubblico
                       await revalidateAll();
-                      
-                      alert('✅ Sito aggiornato con successo! Le modifiche saranno visibili tra 10-15 secondi.\n\nPer vedere i cambiamenti:\n1. Apri /portfolio in una nuova finestra incognito\n2. Aspetta 15 secondi\n3. Fai hard refresh (Cmd+Shift+R)');
+                      alert('✅ Pagine aggiornate con successo! I visitatori vedranno i nuovi contenuti.');
                     } catch (error) {
-                      console.error('Errore durante l\'aggiornamento:', error);
-                      alert('❌ Errore durante l\'aggiornamento del sito: ' + (error instanceof Error ? error.message : 'Errore sconosciuto'));
+                      alert('❌ Errore durante l\'aggiornamento delle pagine');
                     }
                   }}
-                  disabled={revalidateLoading || loading || heroLoading}
+                  disabled={revalidateLoading}
                   className="px-4 py-2 bg-green-50 hover:bg-green-100 dark:bg-green-900/20 dark:hover:bg-green-900/30 text-green-600 dark:text-green-400 border border-green-200 dark:border-green-800 hover:border-green-300 dark:hover:border-green-700 rounded-lg transition-all duration-300 flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-                  title="Salva tutte le modifiche e aggiorna il sito pubblico"
+                  title="Aggiorna i contenuti delle pagine pubbliche"
                 >
                   {revalidateLoading ? (
                     <>
@@ -1610,9 +1654,9 @@ export default function AdminPage() {
                       {filteredProjects.length === 1
                         ? t('admin.projects.project_single')
                         : t('admin.projects.projects_count')}
-                      {newProjects.length > 0 && (
+                      {localProjectsState.hasChanges && (
                         <span className="ml-2 text-xs bg-orange-500 text-white px-2 py-1 rounded-full">
-                          {newProjects.length} {newProjects.length === 1 ? 'locale' : 'locali'}
+                          {t('admin.projects.unsaved')}
                         </span>
                       )}
                     </p>
@@ -1643,13 +1687,58 @@ export default function AdminPage() {
                       </svg>
                       {t('admin.projects.view_portfolio')}
                     </button>
-                    {/* Indicatore modifiche non salvate */}
-                    {newProjects.length > 0 && (
-                      <div className="px-4 py-2 text-sm bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-400 border border-yellow-200 dark:border-yellow-800 rounded-lg flex items-center gap-2">
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                        </svg>
-                        {newProjects.length} {newProjects.length === 1 ? 'progetto locale non salvato' : 'progetti locali non salvati'} - Clicca &quot;Aggiorna Sito&quot; per pubblicare
+                    {(localProjectsState.hasChanges || newProjects.length > 0) && (
+                      <div className="flex gap-2">
+                        {localProjectsState.hasChanges && (
+                          <button
+                            onClick={saveAllProjectChanges}
+                            disabled={loading}
+                            className="px-4 py-2 text-sm bg-[#F20352] hover:bg-[#F20352]/90 text-white rounded-lg disabled:opacity-50 transition-all duration-300 relative flex items-center gap-2 shadow-sm"
+                          >
+                            <svg
+                              className="w-4 h-4"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3-3m0 0l-3 3m3-3v12"
+                              />
+                            </svg>
+                            {loading
+                              ? t('admin.projects.saving')
+                              : t('admin.projects.save_changes')}
+                          </button>
+                        )}
+                        {newProjects.length > 0 && (
+                          <button
+                            onClick={saveAllLocalProjects}
+                            disabled={loading}
+                            className="px-4 py-2 text-sm bg-green-600 hover:bg-green-700 text-white rounded-lg disabled:opacity-50 transition-all duration-300 relative flex items-center gap-2 shadow-sm"
+                          >
+                            <svg
+                              className="w-4 h-4"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                              />
+                            </svg>
+                            {loading
+                              ? t('admin.projects.saving')
+                              : t('admin.projects.save_projects_count', {
+                                  count: newProjects.length,
+                                })}
+                          </button>
+                        )}
                       </div>
                     )}
                   </div>
@@ -1721,7 +1810,10 @@ export default function AdminPage() {
                       onDragEnd={handleDragEnd}
                     >
                       <SortableContext
-                        items={projects.map((p: ProjectType) => p.id)}
+                        items={(localProjectsState.hasChanges
+                          ? localProjectsState.projects
+                          : projects
+                        ).map((p) => p.id)}
                         strategy={verticalListSortingStrategy}
                       >
                         {renderLayoutPreview()}
@@ -1869,7 +1961,7 @@ export default function AdminPage() {
                         className={`w-full mt-4 px-4 py-3 rounded-lg font-medium transition-all duration-300 ${
                           loading || !newProject.title || newProject.categories.length === 0
                             ? 'bg-neutral-200 dark:bg-neutral-700 text-neutral-600 dark:text-neutral-400 cursor-not-allowed'
-                            : 'bg-green-600 hover:bg-green-700 text-white'
+                            : 'bg-[#F20352] hover:bg-[#F20352]/90 text-white'
                         }`}
                       >
                         {loading ? (
@@ -1878,26 +1970,9 @@ export default function AdminPage() {
                             Caricamento...
                           </div>
                         ) : (
-                          '✓ Aggiungi a Lista Locale (Temporaneo)'
+                          t('admin.projects.add_project')
                         )}
                       </button>
-                    )}
-                    
-                    {/* Info Box */}
-                    {selectedFile && newProject.title && newProject.categories.length > 0 && (
-                      <div className="mt-3 px-4 py-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
-                        <div className="flex gap-2">
-                          <svg className="w-5 h-5 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                          </svg>
-                          <div className="text-sm text-blue-700 dark:text-blue-300">
-                            <p className="font-medium mb-1">Progetto in attesa</p>
-                            <p className="text-xs text-blue-600 dark:text-blue-400">
-                              Questo progetto è salvato localmente nel browser. Per pubblicarlo definitivamente su Supabase e nel portfolio, clicca <strong>&quot;Aggiorna Sito&quot;</strong> nel header.
-                            </p>
-                          </div>
-                        </div>
-                      </div>
                     )}
 
                     {!newProject.title || newProject.categories.length === 0 ? (
@@ -2086,14 +2161,41 @@ export default function AdminPage() {
                         {t('admin.highlights.configuration')}
                       </h3>
                       <div className="flex items-center gap-2">
-                        {/* Indicatore modifiche non salvate */}
-                        {Object.values(localConfigs).some((config) => config?.hasChanges) && (
-                          <div className="px-4 py-2 text-sm bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-400 border border-yellow-200 dark:border-yellow-800 rounded-lg flex items-center gap-2">
-                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                            </svg>
-                            Modifiche non salvate
-                          </div>
+                        {/* Pulsante Salva sempre visibile se ci sono progetti selezionati */}
+                        {selectedHighlights.length > 0 && (
+                          <button
+                            onClick={saveAllChanges}
+                            disabled={heroLoading}
+                            className="px-4 py-2 text-sm bg-[#F20352] hover:bg-[#F20352]/90 text-white rounded-lg disabled:opacity-50 transition-all duration-300 relative flex items-center gap-2 shadow-sm"
+                          >
+                            {/* Indicatore modifiche non salvate */}
+                            {Object.values(localConfigs).some((config) => config?.hasChanges) && (
+                              <span className="absolute -top-1 -right-1 w-3 h-3 bg-orange-500 rounded-full shadow-sm"></span>
+                            )}
+                            {heroLoading ? (
+                              <>
+                                <div className="animate-spin rounded-full h-3 w-3 border-b border-white"></div>
+                                <span>{t('admin.highlights.saving')}</span>
+                              </>
+                            ) : (
+                              <>
+                                <svg
+                                  className="w-4 h-4"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3-3m0 0l-3 3m3-3v12"
+                                  />
+                                </svg>
+                                {t('admin.highlights.save')}
+                              </>
+                            )}
+                          </button>
                         )}
                         {selectedHighlights.length > 0 && (
                           <button

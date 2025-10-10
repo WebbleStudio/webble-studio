@@ -83,7 +83,13 @@ export default function PortfolioProjects() {
   // Filtra i progetti in base ai filtri attivi - ottimizzato con useMemo
   const filteredProjects = React.useMemo(() => {
     return projects.filter((project) => {
+      // Se le categorie sono vuote, undefined, o non è un array, escludi il progetto
+      if (!project.categories || !Array.isArray(project.categories) || project.categories.length === 0) {
+        return false;
+      }
+      
       if (activeFilters.includes('All')) return true;
+      
       // Controlla se almeno una delle categorie del progetto è nei filtri attivi
       return project.categories.some((category) => activeFilters.includes(category));
     });
@@ -149,12 +155,12 @@ export default function PortfolioProjects() {
 
   const handleProjectClick = React.useCallback((project: (typeof projects)[0]) => {
     // Apri il link del progetto se presente
-    if (project.project_url) {
+    if (project.link) {
       // Verifica se il link ha già il protocollo
       const url =
-        project.project_url.startsWith('http://') || project.project_url.startsWith('https://')
-          ? project.project_url
-          : `https://${project.project_url}`;
+        project.link.startsWith('http://') || project.link.startsWith('https://')
+          ? project.link
+          : `https://${project.link}`;
 
       window.open(url, '_blank', 'noopener,noreferrer');
     }
@@ -183,8 +189,8 @@ export default function PortfolioProjects() {
                   title={getTranslatedTitle(project)}
                   description={getTranslatedDescription(project)}
                   imageUrl={project.image_url}
-                  hasLink={!!project.project_url}
-                  onClick={project.project_url ? () => handleProjectClick(project) : undefined}
+                  hasLink={!!project.link}
+                  onClick={project.link ? () => handleProjectClick(project) : undefined}
                 />
               </motion.div>
             ))}
@@ -197,95 +203,106 @@ export default function PortfolioProjects() {
     [getTranslatedTitle, getTranslatedDescription, handleProjectClick, getXLProjectAnimationProps]
   );
 
-  // Layout personalizzato con pattern alternato
+  // Layout personalizzato con pattern alternato - FIXATO per mostrare TUTTI i progetti
   const renderCustomLayout = React.useMemo(() => {
     const projectsToShow = filteredProjects;
     const rows = [];
+    let projectIndex = 0; // Traccia l'indice globale del progetto
 
-    for (let i = 0; i < projectsToShow.length; i += 3) {
-      const rowProjects = projectsToShow.slice(i, i + 3);
-      const rowIndex = Math.floor(i / 3);
+    while (projectIndex < projectsToShow.length) {
+      const rowIndex = rows.length;
+      const rowType = rowIndex % 3;
 
-      if (rowIndex % 3 === 0) {
+      if (rowType === 0) {
         // Prima riga: 2 progetti 50% width
-        if (rowProjects.length >= 2) {
+        const rowProjects = projectsToShow.slice(projectIndex, projectIndex + 2);
+        if (rowProjects.length > 0) {
           rows.push(
             <div key={`row-${rowIndex}`} className="flex gap-6 mb-6">
-              {rowProjects.slice(0, 2).map((project, index) => (
+              {rowProjects.map((project, index) => (
                 <motion.div
                   key={project.id}
                   className="w-1/2"
-                  {...getProjectAnimationProps(i + index)}
+                  {...getProjectAnimationProps(projectIndex + index)}
                 >
                   <Project
                     title={getTranslatedTitle(project)}
                     description={getTranslatedDescription(project)}
                     imageUrl={project.image_url}
-                    hasLink={!!project.project_url}
-                    onClick={project.project_url ? () => handleProjectClick(project) : undefined}
+                    hasLink={!!project.link}
+                    onClick={project.link ? () => handleProjectClick(project) : undefined}
                   />
                 </motion.div>
               ))}
             </div>
           );
         }
-      } else if (rowIndex % 3 === 1) {
+        projectIndex += 2;
+      } else if (rowType === 1) {
         // Seconda riga: 3 progetti 33% width
-        if (rowProjects.length >= 3) {
+        const rowProjects = projectsToShow.slice(projectIndex, projectIndex + 3);
+        if (rowProjects.length > 0) {
           rows.push(
             <div key={`row-${rowIndex}`} className="flex gap-4 mb-6">
-              {rowProjects.slice(0, 3).map((project, index) => (
+              {rowProjects.map((project, index) => (
                 <motion.div
                   key={project.id}
                   className="w-1/3"
-                  {...getProjectAnimationProps(i + index)}
+                  {...getProjectAnimationProps(projectIndex + index)}
                 >
                   <Project
                     title={getTranslatedTitle(project)}
                     description={getTranslatedDescription(project)}
                     imageUrl={project.image_url}
-                    hasLink={!!project.project_url}
-                    onClick={project.project_url ? () => handleProjectClick(project) : undefined}
+                    hasLink={!!project.link}
+                    onClick={project.link ? () => handleProjectClick(project) : undefined}
                   />
                 </motion.div>
               ))}
             </div>
           );
         }
+        projectIndex += 3;
       } else {
         // Terza riga: 2 progetti - uno 33% l'altro 67%
-        if (rowProjects.length >= 2) {
+        const rowProjects = projectsToShow.slice(projectIndex, projectIndex + 2);
+        if (rowProjects.length > 0) {
           rows.push(
             <div key={`row-${rowIndex}`} className="flex gap-4 mb-6">
-              <motion.div
-                key={rowProjects[0].id}
-                className="w-1/3"
-                {...getProjectAnimationProps(i)}
-              >
-                <Project
-                  title={getTranslatedTitle(rowProjects[0])}
-                  description={getTranslatedDescription(rowProjects[0])}
-                  imageUrl={rowProjects[0].image_url}
-                  hasLink={!!rowProjects[0].project_url}
-                  onClick={rowProjects[0].project_url ? () => handleProjectClick(rowProjects[0]) : undefined}
-                />
-              </motion.div>
-              <motion.div
-                key={rowProjects[1].id}
-                className="w-2/3"
-                {...getProjectAnimationProps(i + 1)}
-              >
-                <Project
-                  title={getTranslatedTitle(rowProjects[1])}
-                  description={getTranslatedDescription(rowProjects[1])}
-                  imageUrl={rowProjects[1].image_url}
-                  hasLink={!!rowProjects[1].project_url}
-                  onClick={rowProjects[1].project_url ? () => handleProjectClick(rowProjects[1]) : undefined}
-                />
-              </motion.div>
+              {rowProjects.length >= 1 && (
+                <motion.div
+                  key={rowProjects[0].id}
+                  className="w-1/3"
+                  {...getProjectAnimationProps(projectIndex)}
+                >
+                  <Project
+                    title={getTranslatedTitle(rowProjects[0])}
+                    description={getTranslatedDescription(rowProjects[0])}
+                    imageUrl={rowProjects[0].image_url}
+                    hasLink={!!rowProjects[0].link}
+                    onClick={rowProjects[0].link ? () => handleProjectClick(rowProjects[0]) : undefined}
+                  />
+                </motion.div>
+              )}
+              {rowProjects.length >= 2 && (
+                <motion.div
+                  key={rowProjects[1].id}
+                  className="w-2/3"
+                  {...getProjectAnimationProps(projectIndex + 1)}
+                >
+                  <Project
+                    title={getTranslatedTitle(rowProjects[1])}
+                    description={getTranslatedDescription(rowProjects[1])}
+                    imageUrl={rowProjects[1].image_url}
+                    hasLink={!!rowProjects[1].link}
+                    onClick={rowProjects[1].link ? () => handleProjectClick(rowProjects[1]) : undefined}
+                  />
+                </motion.div>
+              )}
             </div>
           );
         }
+        projectIndex += 2;
       }
     }
 
@@ -312,8 +329,8 @@ export default function PortfolioProjects() {
                 title={getTranslatedTitle(project)}
                 description={getTranslatedDescription(project)}
                 imageUrl={project.image_url}
-                hasLink={!!project.project_url}
-                onClick={project.project_url ? () => handleProjectClick(project) : undefined}
+                hasLink={!!project.link}
+                onClick={project.link ? () => handleProjectClick(project) : undefined}
               />
             </motion.div>
           ))}
@@ -333,8 +350,8 @@ export default function PortfolioProjects() {
                     title={getTranslatedTitle(project)}
                     description={getTranslatedDescription(project)}
                     imageUrl={project.image_url}
-                    hasLink={!!project.project_url}
-                    onClick={project.project_url ? () => handleProjectClick(project) : undefined}
+                    hasLink={!!project.link}
+                    onClick={project.link ? () => handleProjectClick(project) : undefined}
                   />
                 </motion.div>
               ))}

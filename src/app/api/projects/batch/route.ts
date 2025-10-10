@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
+import { revalidatePath } from 'next/cache';
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -27,6 +28,11 @@ export async function POST(request: NextRequest) {
       console.error('Error inserting projects:', error);
       return NextResponse.json({ error: 'Failed to insert projects' }, { status: 500 });
     }
+
+    // Revalida le pagine che mostrano i progetti per aggiornare la cache
+    revalidatePath('/');
+    revalidatePath('/portfolio');
+    revalidatePath('/api/projects');
 
     return NextResponse.json({
       success: true,

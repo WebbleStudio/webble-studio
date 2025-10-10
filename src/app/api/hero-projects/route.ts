@@ -16,10 +16,10 @@ export async function GET() {
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
-    // Cache per 24 ore (86400 secondi) - i dati sono statici e vengono aggiornati solo dall'admin
+    // Nessuna cache - aggiornamenti in tempo reale
     return NextResponse.json(heroProjects, {
       headers: {
-        'Cache-Control': 'public, s-maxage=86400, stale-while-revalidate=604800, immutable',
+        'Cache-Control': 'no-store, no-cache, must-revalidate',
       },
     });
   } catch (error) {
@@ -91,8 +91,9 @@ export async function POST(request: NextRequest) {
 
     const data = insertedData;
 
-    // Revalida automaticamente dopo il salvataggio
+    // Revalida le pagine che mostrano gli hero projects per aggiornare la cache
     revalidatePath('/');
+    revalidatePath('/api/hero-projects');
 
     return NextResponse.json({
       message: 'Hero projects saved successfully',
@@ -117,8 +118,9 @@ export async function DELETE() {
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
-    // Revalida automaticamente dopo la cancellazione
+    // Revalida le pagine che mostrano gli hero projects per aggiornare la cache
     revalidatePath('/');
+    revalidatePath('/api/hero-projects');
 
     return NextResponse.json({ message: 'All hero projects deleted successfully' });
   } catch (error) {

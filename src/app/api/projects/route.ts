@@ -3,7 +3,6 @@ import { supabase } from '@/lib/supabaseClient';
 import { revalidatePath } from 'next/cache';
 
 // GET: Ottieni tutti i progetti ordinati per posizione
-// Cache aggressiva - i dati vengono aggiornati solo con revalidation manuale dall'admin
 export async function GET() {
   try {
     const { data, error } = await supabase
@@ -16,11 +15,10 @@ export async function GET() {
       return NextResponse.json({ error: 'Failed to fetch projects' }, { status: 500 });
     }
 
-    // Cache per 24 ore (86400 secondi) - i dati sono statici e vengono aggiornati solo dall'admin
-    // stale-while-revalidate per 7 giorni per servire contenuto stale mentre si rivalidata in background
+    // Nessuna cache - aggiornamenti in tempo reale
     return NextResponse.json(data, {
       headers: {
-        'Cache-Control': 'public, s-maxage=86400, stale-while-revalidate=604800, immutable',
+        'Cache-Control': 'no-store, no-cache, must-revalidate',
       },
     });
   } catch (error) {
@@ -138,9 +136,10 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Revalida automaticamente le pagine dopo il salvataggio
+    // Revalida le pagine che mostrano i progetti per aggiornare la cache
     revalidatePath('/');
     revalidatePath('/portfolio');
+    revalidatePath('/api/projects');
 
     return NextResponse.json(projectData, { status: 201 });
   } catch (error) {

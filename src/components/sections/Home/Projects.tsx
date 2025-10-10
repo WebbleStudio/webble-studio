@@ -56,7 +56,7 @@ export default function Projects({ projectData }: ProjectsProps) {
         <div
           className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat z-[1]"
           style={{
-            backgroundImage: `url(${project.backgroundImage})`,
+            backgroundImage: project.backgroundImage ? `url(${project.backgroundImage})` : undefined,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',
@@ -120,7 +120,7 @@ export default function Projects({ projectData }: ProjectsProps) {
                     key={`image-${project.id}-${currentSlide.image}`}
                     className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat"
                     style={{
-                      backgroundImage: `url(${currentSlide.image})`,
+                      backgroundImage: currentSlide.image ? `url(${currentSlide.image})` : undefined,
                       contain: 'layout style paint',
                     }}
                     variants={imageAnimationConfig}
@@ -224,7 +224,7 @@ export default function Projects({ projectData }: ProjectsProps) {
                     key={`image-mobile-${project.id}-${currentSlide.image}`}
                     className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat"
                     style={{
-                      backgroundImage: `url(${currentSlide.image})`,
+                      backgroundImage: currentSlide.image ? `url(${currentSlide.image})` : undefined,
                       contain: 'layout style paint',
                     }}
                     variants={imageAnimationConfig}

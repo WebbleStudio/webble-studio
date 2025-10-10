@@ -3,7 +3,7 @@ import { useTranslation } from './useTranslation';
 export interface TranslatableProject {
   title: string;
   title_en?: string;
-  description?: string;
+  description: string;
   description_en?: string;
   [key: string]: any; // Per permettere altre proprietà del progetto
 }

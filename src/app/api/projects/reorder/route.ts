@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabaseClient';
+import { revalidatePath } from 'next/cache';
 
 // PUT: Riordina progetti
 export async function PUT(request: NextRequest) {
@@ -34,6 +35,11 @@ export async function PUT(request: NextRequest) {
     // Verifica che tutti gli aggiornamenti siano andati a buon fine
     const successfulUpdates = results.filter((result) => !result.error);
     console.log(`Successfully reordered ${successfulUpdates.length} projects`);
+
+    // Revalida le pagine che mostrano i progetti per aggiornare la cache
+    revalidatePath('/');
+    revalidatePath('/portfolio');
+    revalidatePath('/api/projects');
 
     return NextResponse.json({
       message: 'Projects reordered successfully',
