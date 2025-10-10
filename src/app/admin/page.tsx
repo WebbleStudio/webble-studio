@@ -1352,19 +1352,37 @@ export default function AdminPage() {
                     {t('admin.dashboard.company')}
                   </p>
                 </div>
-                {/* Revalidate Button */}
+                {/* Aggiorna Sito - Salva tutto e aggiorna */}
                 <button
                   onClick={async () => {
                     try {
+                      // 1. Salva tutti i progetti locali (se esistono)
+                      if (newProjects.length > 0) {
+                        await saveAllLocalProjects();
+                      }
+
+                      // 2. Salva tutte le modifiche ai progetti esistenti (se esistono)
+                      if (localProjectsState.hasChanges) {
+                        await saveAllProjectChanges();
+                      }
+
+                      // 3. Salva le configurazioni degli highlights (se esistono)
+                      if (selectedHighlights.length > 0 && Object.values(localConfigs).some(c => c?.hasChanges)) {
+                        await saveAllChanges();
+                      }
+
+                      // 4. Revalida le pagine statiche
                       await revalidateAll();
-                      alert('✅ Pagine aggiornate con successo! I visitatori vedranno i nuovi contenuti.');
+                      
+                      alert('✅ Sito aggiornato con successo! Le modifiche saranno visibili tra 10-15 secondi.');
                     } catch (error) {
-                      alert('❌ Errore durante l\'aggiornamento delle pagine');
+                      console.error('Errore durante l\'aggiornamento:', error);
+                      alert('❌ Errore durante l\'aggiornamento del sito');
                     }
                   }}
-                  disabled={revalidateLoading}
+                  disabled={revalidateLoading || loading || heroLoading}
                   className="px-4 py-2 bg-green-50 hover:bg-green-100 dark:bg-green-900/20 dark:hover:bg-green-900/30 text-green-600 dark:text-green-400 border border-green-200 dark:border-green-800 hover:border-green-300 dark:hover:border-green-700 rounded-lg transition-all duration-300 flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-                  title="Aggiorna i contenuti delle pagine pubbliche"
+                  title="Salva tutte le modifiche e aggiorna il sito pubblico"
                 >
                   {revalidateLoading ? (
                     <>
@@ -1678,58 +1696,13 @@ export default function AdminPage() {
                       </svg>
                       {t('admin.projects.view_portfolio')}
                     </button>
+                    {/* Indicatore modifiche non salvate */}
                     {(localProjectsState.hasChanges || newProjects.length > 0) && (
-                      <div className="flex gap-2">
-                        {localProjectsState.hasChanges && (
-                          <button
-                            onClick={saveAllProjectChanges}
-                            disabled={loading}
-                            className="px-4 py-2 text-sm bg-[#F20352] hover:bg-[#F20352]/90 text-white rounded-lg disabled:opacity-50 transition-all duration-300 relative flex items-center gap-2 shadow-sm"
-                          >
-                            <svg
-                              className="w-4 h-4"
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3-3m0 0l-3 3m3-3v12"
-                              />
-                            </svg>
-                            {loading
-                              ? t('admin.projects.saving')
-                              : t('admin.projects.save_changes')}
-                          </button>
-                        )}
-                        {newProjects.length > 0 && (
-                          <button
-                            onClick={saveAllLocalProjects}
-                            disabled={loading}
-                            className="px-4 py-2 text-sm bg-green-600 hover:bg-green-700 text-white rounded-lg disabled:opacity-50 transition-all duration-300 relative flex items-center gap-2 shadow-sm"
-                          >
-                            <svg
-                              className="w-4 h-4"
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                              />
-                            </svg>
-                            {loading
-                              ? t('admin.projects.saving')
-                              : t('admin.projects.save_projects_count', {
-                                  count: newProjects.length,
-                                })}
-                          </button>
-                        )}
+                      <div className="px-4 py-2 text-sm bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-400 border border-yellow-200 dark:border-yellow-800 rounded-lg flex items-center gap-2">
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                        </svg>
+                        Modifiche non salvate - Clicca "Aggiorna Sito" per salvare
                       </div>
                     )}
                   </div>
@@ -1952,7 +1925,7 @@ export default function AdminPage() {
                         className={`w-full mt-4 px-4 py-3 rounded-lg font-medium transition-all duration-300 ${
                           loading || !newProject.title || newProject.categories.length === 0
                             ? 'bg-neutral-200 dark:bg-neutral-700 text-neutral-600 dark:text-neutral-400 cursor-not-allowed'
-                            : 'bg-[#F20352] hover:bg-[#F20352]/90 text-white'
+                            : 'bg-green-600 hover:bg-green-700 text-white'
                         }`}
                       >
                         {loading ? (
@@ -1961,9 +1934,26 @@ export default function AdminPage() {
                             Caricamento...
                           </div>
                         ) : (
-                          t('admin.projects.add_project')
+                          '✓ Aggiungi a Lista Locale (Temporaneo)'
                         )}
                       </button>
+                    )}
+                    
+                    {/* Info Box */}
+                    {selectedFile && newProject.title && newProject.categories.length > 0 && (
+                      <div className="mt-3 px-4 py-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
+                        <div className="flex gap-2">
+                          <svg className="w-5 h-5 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                          <div className="text-sm text-blue-700 dark:text-blue-300">
+                            <p className="font-medium mb-1">Progetto in attesa</p>
+                            <p className="text-xs text-blue-600 dark:text-blue-400">
+                              Questo progetto è salvato localmente nel browser. Per pubblicarlo definitivamente su Supabase e nel portfolio, clicca <strong>"Aggiorna Sito"</strong> nel header.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
                     )}
 
                     {!newProject.title || newProject.categories.length === 0 ? (
@@ -2152,41 +2142,14 @@ export default function AdminPage() {
                         {t('admin.highlights.configuration')}
                       </h3>
                       <div className="flex items-center gap-2">
-                        {/* Pulsante Salva sempre visibile se ci sono progetti selezionati */}
-                        {selectedHighlights.length > 0 && (
-                          <button
-                            onClick={saveAllChanges}
-                            disabled={heroLoading}
-                            className="px-4 py-2 text-sm bg-[#F20352] hover:bg-[#F20352]/90 text-white rounded-lg disabled:opacity-50 transition-all duration-300 relative flex items-center gap-2 shadow-sm"
-                          >
-                            {/* Indicatore modifiche non salvate */}
-                            {Object.values(localConfigs).some((config) => config?.hasChanges) && (
-                              <span className="absolute -top-1 -right-1 w-3 h-3 bg-orange-500 rounded-full shadow-sm"></span>
-                            )}
-                            {heroLoading ? (
-                              <>
-                                <div className="animate-spin rounded-full h-3 w-3 border-b border-white"></div>
-                                <span>{t('admin.highlights.saving')}</span>
-                              </>
-                            ) : (
-                              <>
-                                <svg
-                                  className="w-4 h-4"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  viewBox="0 0 24 24"
-                                >
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3-3m0 0l-3 3m3-3v12"
-                                  />
-                                </svg>
-                                {t('admin.highlights.save')}
-                              </>
-                            )}
-                          </button>
+                        {/* Indicatore modifiche non salvate */}
+                        {Object.values(localConfigs).some((config) => config?.hasChanges) && (
+                          <div className="px-4 py-2 text-sm bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-400 border border-yellow-200 dark:border-yellow-800 rounded-lg flex items-center gap-2">
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                            </svg>
+                            Modifiche non salvate
+                          </div>
                         )}
                         {selectedHighlights.length > 0 && (
                           <button
