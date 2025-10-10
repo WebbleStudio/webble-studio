@@ -149,12 +149,12 @@ export default function PortfolioProjects() {
 
   const handleProjectClick = React.useCallback((project: (typeof projects)[0]) => {
     // Apri il link del progetto se presente
-    if (project.link) {
+    if (project.project_url) {
       // Verifica se il link ha già il protocollo
       const url =
-        project.link.startsWith('http://') || project.link.startsWith('https://')
-          ? project.link
-          : `https://${project.link}`;
+        project.project_url.startsWith('http://') || project.project_url.startsWith('https://')
+          ? project.project_url
+          : `https://${project.project_url}`;
 
       window.open(url, '_blank', 'noopener,noreferrer');
     }
@@ -183,8 +183,8 @@ export default function PortfolioProjects() {
                   title={getTranslatedTitle(project)}
                   description={getTranslatedDescription(project)}
                   imageUrl={project.image_url}
-                  hasLink={!!project.link}
-                  onClick={project.link ? () => handleProjectClick(project) : undefined}
+                  hasLink={!!project.project_url}
+                  onClick={project.project_url ? () => handleProjectClick(project) : undefined}
                 />
               </motion.div>
             ))}
@@ -221,8 +221,8 @@ export default function PortfolioProjects() {
                     title={getTranslatedTitle(project)}
                     description={getTranslatedDescription(project)}
                     imageUrl={project.image_url}
-                    hasLink={!!project.link}
-                    onClick={project.link ? () => handleProjectClick(project) : undefined}
+                    hasLink={!!project.project_url}
+                    onClick={project.project_url ? () => handleProjectClick(project) : undefined}
                   />
                 </motion.div>
               ))}
@@ -244,8 +244,8 @@ export default function PortfolioProjects() {
                     title={getTranslatedTitle(project)}
                     description={getTranslatedDescription(project)}
                     imageUrl={project.image_url}
-                    hasLink={!!project.link}
-                    onClick={project.link ? () => handleProjectClick(project) : undefined}
+                    hasLink={!!project.project_url}
+                    onClick={project.project_url ? () => handleProjectClick(project) : undefined}
                   />
                 </motion.div>
               ))}
@@ -266,8 +266,8 @@ export default function PortfolioProjects() {
                   title={getTranslatedTitle(rowProjects[0])}
                   description={getTranslatedDescription(rowProjects[0])}
                   imageUrl={rowProjects[0].image_url}
-                  hasLink={!!rowProjects[0].link}
-                  onClick={rowProjects[0].link ? () => handleProjectClick(rowProjects[0]) : undefined}
+                  hasLink={!!rowProjects[0].project_url}
+                  onClick={rowProjects[0].project_url ? () => handleProjectClick(rowProjects[0]) : undefined}
                 />
               </motion.div>
               <motion.div
@@ -279,8 +279,8 @@ export default function PortfolioProjects() {
                   title={getTranslatedTitle(rowProjects[1])}
                   description={getTranslatedDescription(rowProjects[1])}
                   imageUrl={rowProjects[1].image_url}
-                  hasLink={!!rowProjects[1].link}
-                  onClick={rowProjects[1].link ? () => handleProjectClick(rowProjects[1]) : undefined}
+                  hasLink={!!rowProjects[1].project_url}
+                  onClick={rowProjects[1].project_url ? () => handleProjectClick(rowProjects[1]) : undefined}
                 />
               </motion.div>
             </div>
@@ -312,8 +312,8 @@ export default function PortfolioProjects() {
                 title={getTranslatedTitle(project)}
                 description={getTranslatedDescription(project)}
                 imageUrl={project.image_url}
-                hasLink={!!project.link}
-                onClick={project.link ? () => handleProjectClick(project) : undefined}
+                hasLink={!!project.project_url}
+                onClick={project.project_url ? () => handleProjectClick(project) : undefined}
               />
             </motion.div>
           ))}
@@ -333,8 +333,8 @@ export default function PortfolioProjects() {
                     title={getTranslatedTitle(project)}
                     description={getTranslatedDescription(project)}
                     imageUrl={project.image_url}
-                    hasLink={!!project.link}
-                    onClick={project.link ? () => handleProjectClick(project) : undefined}
+                    hasLink={!!project.project_url}
+                    onClick={project.project_url ? () => handleProjectClick(project) : undefined}
                   />
                 </motion.div>
               ))}

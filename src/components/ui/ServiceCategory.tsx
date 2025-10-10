@@ -139,9 +139,9 @@ export default function ServiceCategory({
                         key={project.id}
                         className="w-[200px] h-[130px] sm:w-[230px] sm:h-[160px] md:w-[185px] md:h-[115px] xl:w-[200px] xl:h-[130px] bg-bg-secondary rounded-2xl flex-shrink-0 overflow-hidden cursor-pointer hover:scale-95 transition-transform duration-200"
                       >
-                        {project.link ? (
+                        {project.project_url ? (
                           <a
-                            href={project.link}
+                            href={project.project_url}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="block w-full h-full"

@@ -204,7 +204,7 @@ export default function AdminPage() {
       categories: string[];
       description: string;
       description_en?: string;
-      link: string | null;
+      project_url?: string;
       image_url: string;
       order_position: number;
       local: true;
@@ -366,7 +366,7 @@ export default function AdminPage() {
         categories: newProject.categories,
         description: newProject.description,
         description_en: newProject.description_en || undefined,
-        link: newProject.link || null,
+        project_url: newProject.link || undefined,
         image_url: imagePreview || '',
         order_position: projects.length + newProjects.length,
         local: true as const,
@@ -474,7 +474,7 @@ export default function AdminPage() {
                 categories: project.categories,
                 description: project.description,
                 description_en: project.description_en,
-                link: project.link,
+                project_url: project.project_url,
                 image_url: uploadData.url,
                 order_position: project.order_position,
               };
@@ -488,7 +488,7 @@ export default function AdminPage() {
               title: project.title,
               categories: project.categories,
               description: project.description,
-              link: project.link,
+              project_url: project.project_url,
               image_url: project.image_url,
               order_position: project.order_position,
             };
@@ -606,6 +606,7 @@ export default function AdminPage() {
               descriptions: config.descriptions,
               images: config.images,
               backgroundImage: config.backgroundImage,
+              projectDate: config.projectDate,
             };
           });
         await saveHeroProjects(newConfigs);
@@ -715,20 +716,20 @@ export default function AdminPage() {
     setUploadingImage((prev) => ({ ...prev, [uploadKey]: true }));
 
     try {
-      const result = await uploadImage(file, type);
+      const imageUrl = await uploadImage(file);
 
       if (type === 'background') {
-        updateLocalConfig(projectId, 'backgroundImage', result.url);
+        updateLocalConfig(projectId, 'backgroundImage', imageUrl);
       } else {
         // Recupera le immagini attuali dal localConfig se disponibile
         const existingLocalConfig = localConfigs[projectId];
         const currentImages = existingLocalConfig
           ? existingLocalConfig.images
           : highlightConfigs[projectId]?.images || [];
-        updateLocalConfig(projectId, 'images', [...currentImages, result.url]);
+        updateLocalConfig(projectId, 'images', [...currentImages, imageUrl]);
       }
 
-      return result;
+      return imageUrl;
     } catch (error) {
       console.error('Error uploading image:', error);
       throw error;
@@ -987,10 +988,10 @@ export default function AdminPage() {
         setInternalFormData({
           title: editingProject.title,
           title_en: editingProject.title_en || '',
-          description: editingProject.description,
+          description: editingProject.description || '',
           description_en: editingProject.description_en || '',
           categories: [...editingProject.categories],
-          link: editingProject.link || '',
+          link: editingProject.project_url || '',
         });
         setInternalImageFile(null);
         setInternalImagePreview(null);
@@ -1002,7 +1003,7 @@ export default function AdminPage() {
       editingProject?.description,
       editingProject?.description_en,
       editingProject?.categories,
-      editingProject?.link,
+      editingProject?.project_url,
     ]); // Dipendenze specifiche
 
     // Funzioni interne al modale
@@ -1040,7 +1041,7 @@ export default function AdminPage() {
         };
 
         if (internalFormData.link) {
-          updates.link = internalFormData.link;
+          updates.project_url = internalFormData.link;
         }
 
         // Se c'è una nuova immagine, la carica prima

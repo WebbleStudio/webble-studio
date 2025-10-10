@@ -109,11 +109,11 @@ export default function PortfolioProjectsStatic({ projects }: PortfolioProjectsS
   }, []);
 
   const handleProjectClick = React.useCallback((project: (typeof projects)[0]) => {
-    if (project.link) {
+    if (project.project_url) {
       const url =
-        project.link.startsWith('http://') || project.link.startsWith('https://')
-          ? project.link
-          : `https://${project.link}`;
+        project.project_url.startsWith('http://') || project.project_url.startsWith('https://')
+          ? project.project_url
+          : `https://${project.project_url}`;
 
       window.open(url, '_blank', 'noopener,noreferrer');
     }
@@ -142,8 +142,8 @@ export default function PortfolioProjectsStatic({ projects }: PortfolioProjectsS
                     title={getTranslatedTitle(project)}
                     description={getTranslatedDescription(project)}
                     imageUrl={project.image_url}
-                    hasLink={!!project.link}
-                    onClick={project.link ? () => handleProjectClick(project) : undefined}
+                    hasLink={!!project.project_url}
+                    onClick={project.project_url ? () => handleProjectClick(project) : undefined}
                   />
                 </motion.div>
               ))}
@@ -164,8 +164,8 @@ export default function PortfolioProjectsStatic({ projects }: PortfolioProjectsS
                     title={getTranslatedTitle(project)}
                     description={getTranslatedDescription(project)}
                     imageUrl={project.image_url}
-                    hasLink={!!project.link}
-                    onClick={project.link ? () => handleProjectClick(project) : undefined}
+                    hasLink={!!project.project_url}
+                    onClick={project.project_url ? () => handleProjectClick(project) : undefined}
                   />
                 </motion.div>
               ))}
@@ -231,8 +231,8 @@ export default function PortfolioProjectsStatic({ projects }: PortfolioProjectsS
                 title={getTranslatedTitle(project)}
                 description={getTranslatedDescription(project)}
                 imageUrl={project.image_url}
-                hasLink={!!project.link}
-                onClick={project.link ? () => handleProjectClick(project) : undefined}
+                hasLink={!!project.project_url}
+                onClick={project.project_url ? () => handleProjectClick(project) : undefined}
               />
             </motion.div>
           ))}
@@ -252,8 +252,8 @@ export default function PortfolioProjectsStatic({ projects }: PortfolioProjectsS
                     title={getTranslatedTitle(project)}
                     description={getTranslatedDescription(project)}
                     imageUrl={project.image_url}
-                    hasLink={!!project.link}
-                    onClick={project.link ? () => handleProjectClick(project) : undefined}
+                    hasLink={!!project.project_url}
+                    onClick={project.project_url ? () => handleProjectClick(project) : undefined}
                   />
                 </motion.div>
               ))}
