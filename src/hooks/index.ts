@@ -10,7 +10,6 @@ export { useDarkMode } from './useDarkMode';
 export { useApiCall } from './useApiCall';
 export { useAnimationManager } from './useAnimationManager';
 export { useServiceCategories } from './useServiceCategories';
-export { useServiceImages } from './useServiceImages';
 export { useBookings } from './useBookings';
 export { useCookieConsent } from './useCookieConsent';
 export { useCookieManager } from './useCookieManager';

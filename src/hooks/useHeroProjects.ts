@@ -7,19 +7,9 @@ export interface HeroProject {
   descriptions: string[];
   images: string[];
   background_image: string;
-  project_date?: string;
+  project_date: string;
   created_at: string;
   updated_at: string;
-  projects?: {
-    id: string;
-    title: string;
-    title_en?: string;
-    categories: string[];
-    description: string;
-    description_en?: string;
-    image_url: string;
-    link: string;
-  };
 }
 
 export interface HeroProjectConfig {
@@ -27,26 +17,71 @@ export interface HeroProjectConfig {
   descriptions: string[];
   images: string[];
   backgroundImage: string;
-  projectDate?: string;
+  projectDate: string;
 }
+
+const ADMIN_CACHE_TTL = 5 * 60 * 1000; // 5 minuti per admin dashboard
+const CACHE_KEY = 'admin_hero_projects_cache';
 
 export const useHeroProjects = () => {
   const [heroProjects, setHeroProjects] = useState<HeroProject[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Fetch hero projects - sempre dal server, no cache
+  // ✅ Cache localStorage per admin (5min TTL)
+  const getCachedHeroProjects = useCallback((): HeroProject[] | null => {
+    try {
+      const cached = localStorage.getItem(CACHE_KEY);
+      if (!cached) return null;
+
+      const { data, timestamp } = JSON.parse(cached);
+      const age = Date.now() - timestamp;
+
+      // Cache valida per 5 minuti
+      if (age < ADMIN_CACHE_TTL) {
+        return data;
+      }
+
+      // Cache scaduta
+      localStorage.removeItem(CACHE_KEY);
+      return null;
+    } catch (error) {
+      console.warn('[useHeroProjects] Error reading cache:', error);
+      localStorage.removeItem(CACHE_KEY);
+      return null;
+    }
+  }, []);
+
+  const setCachedHeroProjects = useCallback((data: HeroProject[]) => {
+    try {
+      localStorage.setItem(CACHE_KEY, JSON.stringify({
+        data,
+        timestamp: Date.now()
+      }));
+    } catch (error) {
+      console.warn('[useHeroProjects] Error setting cache:', error);
+    }
+  }, []);
+
+  // ✅ Fetch hero projects con cache intelligente
   const fetchHeroProjects = useCallback(async (forceRefresh = false) => {
+    // 1. Controlla cache se non è force refresh
+    if (!forceRefresh) {
+      const cachedData = getCachedHeroProjects();
+      if (cachedData) {
+        console.log('[useHeroProjects] Cache hit - using cached data');
+        setHeroProjects(cachedData);
+        return;
+      }
+    }
+
+    console.log('[useHeroProjects] Cache miss - fetching from server');
     setLoading(true);
     setError(null);
 
     try {
-      const response = await fetch('/api/hero-projects', {
-        cache: 'no-store',
-        headers: {
-          'Cache-Control': 'no-cache',
-        },
-      });
+      // ✅ Usa cache HTTP normale (no no-store!)
+      const response = await fetch('/api/hero-projects');
       const data = await response.json();
 
       if (!response.ok) {
@@ -54,16 +89,26 @@ export const useHeroProjects = () => {
       }
 
       setHeroProjects(data || []);
+      setCachedHeroProjects(data || []); // Salva in cache
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Unknown error occurred';
       setError(errorMessage);
-      console.error('Error fetching hero projects:', err);
+      console.error('[useHeroProjects] Fetch error:', err);
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [getCachedHeroProjects, setCachedHeroProjects]);
 
-  // Save hero projects configuration
+  // Inizializza da cache al mount
+  useEffect(() => {
+    const cachedData = getCachedHeroProjects();
+    if (cachedData) {
+      console.log('[useHeroProjects] Initial cache load');
+      setHeroProjects(cachedData);
+    }
+  }, [getCachedHeroProjects]);
+
+  // ✅ Salva hero projects configuration
   const saveHeroProjects = useCallback(
     async (configs: HeroProjectConfig[]) => {
       setLoading(true);
@@ -75,7 +120,9 @@ export const useHeroProjects = () => {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ heroProjects: configs }),
+          body: JSON.stringify({
+            heroProjects: configs,
+          }),
         });
 
         const data = await response.json();
@@ -84,31 +131,32 @@ export const useHeroProjects = () => {
           throw new Error(data.error || 'Failed to save hero projects');
         }
 
-        // Aggiorna i dati locali e invalida cache
-        await fetchHeroProjects(true); // Force refresh per invalidare cache
-
+        // ✅ Aggiorna state locale con nuovi dati (no re-fetch!)
+        setHeroProjects(data.data || []);
+        
+        // ✅ Invalida cache
+        localStorage.removeItem(CACHE_KEY);
+        
+        console.log('[useHeroProjects] Hero projects saved - updated local state');
+        
         return data;
       } catch (err) {
         const errorMessage = err instanceof Error ? err.message : 'Unknown error occurred';
         setError(errorMessage);
-        console.error('Error saving hero projects:', err);
+        console.error('[useHeroProjects] Save error:', err);
         throw err;
       } finally {
         setLoading(false);
       }
     },
-    [fetchHeroProjects]
+    []
   );
 
-  // Upload image for hero projects
-  const uploadImage = useCallback(async (file: File, type: 'background' | 'navigation') => {
-    setLoading(true);
-    setError(null);
-
+  // Upload image to hero project
+  const uploadImage = useCallback(async (file: File): Promise<string> => {
     try {
       const formData = new FormData();
-      formData.append('file', file);
-      formData.append('type', type);
+      formData.append('image', file);
 
       const response = await fetch('/api/hero-projects/upload', {
         method: 'POST',
@@ -121,48 +169,37 @@ export const useHeroProjects = () => {
         throw new Error(data.error || 'Failed to upload image');
       }
 
-      return data;
+      return data.imageUrl;
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Unknown error occurred';
-      setError(errorMessage);
-      console.error('Error uploading image:', err);
-      throw err;
-    } finally {
-      setLoading(false);
+      console.error('[useHeroProjects] Upload error:', err);
+      throw new Error(errorMessage);
     }
   }, []);
 
   // Delete image from storage
-  const deleteImage = useCallback(async (filePath: string) => {
-    setLoading(true);
-    setError(null);
-
+  const deleteImage = useCallback(async (imageUrl: string): Promise<void> => {
     try {
-      const response = await fetch(
-        `/api/hero-projects/upload?filePath=${encodeURIComponent(filePath)}`,
-        {
-          method: 'DELETE',
-        }
-      );
-
-      const data = await response.json();
+      const response = await fetch('/api/hero-projects/upload', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ imageUrl }),
+      });
 
       if (!response.ok) {
+        const data = await response.json();
         throw new Error(data.error || 'Failed to delete image');
       }
-
-      return data;
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Unknown error occurred';
-      setError(errorMessage);
-      console.error('Error deleting image:', err);
-      throw err;
-    } finally {
-      setLoading(false);
+      console.error('[useHeroProjects] Delete image error:', err);
+      throw new Error(errorMessage);
     }
   }, []);
 
-  // Clear all hero projects
+  // ✅ Clear all hero projects
   const clearHeroProjects = useCallback(async () => {
     setLoading(true);
     setError(null);
@@ -178,18 +215,24 @@ export const useHeroProjects = () => {
         throw new Error(data.error || 'Failed to clear hero projects');
       }
 
-      // Ricarica dal server
-      await fetchHeroProjects(true);
+      // ✅ Aggiorna state locale (no re-fetch!)
+      setHeroProjects([]);
+      
+      // ✅ Invalida cache
+      localStorage.removeItem(CACHE_KEY);
+      
+      console.log('[useHeroProjects] Hero projects cleared - updated local state');
+      
       return data;
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Unknown error occurred';
       setError(errorMessage);
-      console.error('Error clearing hero projects:', err);
+      console.error('[useHeroProjects] Clear error:', err);
       throw err;
     } finally {
       setLoading(false);
     }
-  }, [fetchHeroProjects]);
+  }, []);
 
   return {
     heroProjects,

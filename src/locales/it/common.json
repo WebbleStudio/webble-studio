@@ -408,14 +408,14 @@
         "functional": {
           "title": "Cookie Funzionali",
           "description": "Questi cookie sono essenziali per il funzionamento del sito web e garantiscono un'esperienza di navigazione sicura e ottimizzata. Non possono essere disabilitati.",
-          "vercel": {
-            "name": "Vercel",
+        "vercel": {
+          "name": "Vercel",
             "provider": "Provider: Vercel Inc.",
             "status": "Sempre Attivi",
             "purpose_title": "Finalità",
-            "purpose_text": "Hosting ed infrastruttura backend",
+          "purpose_text": "Hosting ed infrastruttura backend",
             "data_title": "Dati Personali Raccolti",
-            "data_text": "Dati di utilizzo, Varie tipologie di dati secondo quanto specificato dalla privacy policy del servizio",
+          "data_text": "Dati di utilizzo, Varie tipologie di dati secondo quanto specificato dalla privacy policy del servizio",
             "description_title": "Descrizione",
             "description_text": "Vercel è un servizio di hosting e backend fornito da Vercel Inc. che permette al sito web di funzionare correttamente e garantisce le prestazioni necessarie per la navigazione."
           }
@@ -423,12 +423,12 @@
         "marketing_section": {
           "title": "Cookie Marketing",
           "description": "Questi cookie ci aiutano a migliorare il nostro servizio analizzando come utilizzi il sito e a mostrarti contenuti personalizzati su Webble e piattaforme partner come Google e social media. Puoi disabilitarli in qualsiasi momento tramite le impostazioni cookie.",
-          "ga4": {
-            "name": "Google Analytics 4",
+        "ga4": {
+          "name": "Google Analytics 4",
             "provider": "Provider: Google LLC",
             "status": "Opzionale",
             "purpose_title": "Finalità",
-            "purpose_text": "Analisi dell'utilizzo del sito e del comportamento degli utenti",
+          "purpose_text": "Analisi dell'utilizzo del sito e del comportamento degli utenti",
             "data_title": "Dati Personali Raccolti",
             "data_text": "Pagine visitate, tempo trascorso, interazioni, indirizzo IP anonimizzato, dati del dispositivo, informazioni sul browser",
             "description_title": "Descrizione",
