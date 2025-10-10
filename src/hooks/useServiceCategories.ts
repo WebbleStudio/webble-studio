@@ -115,14 +115,16 @@ export function useServiceCategories() {
     }
   }, [getCachedServiceCategories, setCachedServiceCategories]);
 
-  // Inizializza da cache al mount
+  // Inizializza da cache al mount, poi fetch
   useEffect(() => {
     const cachedData = getCachedServiceCategories();
     if (cachedData) {
       console.log('[useServiceCategories] Initial cache load');
       setServiceCategories(cachedData);
     }
-  }, [getCachedServiceCategories]);
+    // Fetch sempre per avere dati aggiornati
+    fetchServiceCategories();
+  }, [getCachedServiceCategories, fetchServiceCategories]);
 
   // Inizializza le categorie di servizi
   const initializeServiceCategories = useCallback(async () => {

@@ -99,14 +99,16 @@ export const useHeroProjects = () => {
     }
   }, [getCachedHeroProjects, setCachedHeroProjects]);
 
-  // Inizializza da cache al mount
+  // Inizializza da cache al mount, poi fetch
   useEffect(() => {
     const cachedData = getCachedHeroProjects();
     if (cachedData) {
       console.log('[useHeroProjects] Initial cache load');
       setHeroProjects(cachedData);
     }
-  }, [getCachedHeroProjects]);
+    // Fetch sempre per avere dati aggiornati
+    fetchHeroProjects();
+  }, [getCachedHeroProjects, fetchHeroProjects]);
 
   // ✅ Salva hero projects configuration
   const saveHeroProjects = useCallback(

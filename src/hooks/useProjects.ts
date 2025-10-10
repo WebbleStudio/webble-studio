@@ -102,14 +102,16 @@ export function useProjects() {
     }
   }, [getCachedProjects, setCachedProjects]);
 
-  // Inizializza da cache al mount
+  // Inizializza da cache al mount, poi fetch
   useEffect(() => {
     const cachedData = getCachedProjects();
     if (cachedData) {
       console.log('[useProjects] Initial cache load');
       setProjects(cachedData);
     }
-  }, [getCachedProjects]);
+    // Fetch sempre per avere dati aggiornati
+    fetchProjects();
+  }, [getCachedProjects, fetchProjects]);
 
   // ✅ Riordina progetti (drag & drop)
   const reorderProjects = useCallback(
