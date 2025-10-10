@@ -26,7 +26,11 @@ export default function ApiDebugger() {
 
     window.fetch = async (...args: Parameters<typeof fetch>) => {
       const [resource, config] = args;
-      const url = typeof resource === 'string' ? resource : resource.url;
+      const url = typeof resource === 'string' 
+        ? resource 
+        : resource instanceof URL 
+          ? resource.href 
+          : resource.url;
       const method = config?.method || 'GET';
       
       // Determina il tipo di chiamata
