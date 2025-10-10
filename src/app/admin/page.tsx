@@ -184,17 +184,6 @@ export default function AdminPage() {
     };
   }>({});
 
-  // State per modifiche locali non salvate (Projects)
-  const [localProjectsState, setLocalProjectsState] = useState<{
-    projects: typeof projects;
-    deletedProjects: string[];
-    hasChanges: boolean;
-  }>({
-    projects: [],
-    deletedProjects: [],
-    hasChanges: false,
-  });
-
   // State per nuovi progetti locali (non ancora salvati su Supabase)
   const [newProjects, setNewProjects] = useState<
     Array<{
@@ -262,25 +251,26 @@ export default function AdminPage() {
   );
 
   // Handler per fine drag & drop (solo aggiorna stato locale)
-  const handleDragEnd = (event: DragEndEvent) => {
+  const handleDragEnd = async (event: DragEndEvent) => {
     const { active, over } = event;
 
     if (active.id !== over?.id) {
-      const currentProjects = localProjectsState.hasChanges
-        ? localProjectsState.projects
-        : projects;
-      const oldIndex = currentProjects.findIndex((p) => p.id === active.id);
-      const newIndex = currentProjects.findIndex((p) => p.id === over?.id);
+      // Usa solo i progetti da Supabase (non i locali) per il reorder
+      const oldIndex = projects.findIndex((p: ProjectType) => p.id === active.id);
+      const newIndex = projects.findIndex((p: ProjectType) => p.id === over?.id);
 
-      const reorderedItems = arrayMove(currentProjects, oldIndex, newIndex);
-
-      setLocalProjectsState((prev) => ({
-        ...prev,
-        projects: reorderedItems,
-        hasChanges: true,
-      }));
-
-      console.log('Projects reordered locally (not saved)');
+      if (oldIndex !== -1 && newIndex !== -1) {
+        const reorderedItems = arrayMove(projects, oldIndex, newIndex);
+        
+        // Salva immediatamente il nuovo ordine su Supabase
+        try {
+          await reorderProjects(reorderedItems);
+          console.log('Projects reordered and saved to Supabase');
+        } catch (error) {
+          console.error('Error reordering projects:', error);
+          alert('Errore durante il riordino dei progetti');
+        }
+      }
     }
   };
 
@@ -298,16 +288,6 @@ export default function AdminPage() {
       }, 100);
     }
   }, [isEditModalOpen]);
-
-  // Inizializza stato locale quando i progetti cambiano
-  useEffect(() => {
-    if (projects.length > 0 && !localProjectsState.hasChanges) {
-      setLocalProjectsState((prev) => ({
-        ...prev,
-        projects: [...projects],
-      }));
-    }
-  }, [projects, localProjectsState.hasChanges]);
 
   const handleDrag = (e: React.DragEvent) => {
     e.preventDefault();
@@ -404,7 +384,7 @@ export default function AdminPage() {
     }
   };
 
-  const removeProject = (id: string) => {
+  const removeProject = async (id: string) => {
     // Se è un progetto locale, rimuovilo dalla lista locale
     if (id.startsWith('local-')) {
       setNewProjects((prev) => prev.filter((p) => p.id !== id));
@@ -412,18 +392,16 @@ export default function AdminPage() {
       return;
     }
 
-    // Se è un progetto esistente, gestiscilo come prima
-    const currentProjects = localProjectsState.hasChanges ? localProjectsState.projects : projects;
-    const filteredProjects = currentProjects.filter((p) => p.id !== id);
-
-    setLocalProjectsState((prev) => ({
-      ...prev,
-      projects: filteredProjects,
-      deletedProjects: [...prev.deletedProjects, id],
-      hasChanges: true,
-    }));
-
-    console.log('Project marked for deletion locally (not saved)');
+    // Se è un progetto esistente su Supabase, chiedi conferma ed eliminalo immediatamente
+    if (window.confirm('Sei sicuro di voler eliminare questo progetto? Sarà rimosso immediatamente da Supabase.')) {
+      try {
+        await deleteProject(id);
+        console.log('Project deleted from Supabase');
+      } catch (error) {
+        console.error('Error deleting project:', error);
+        alert('Errore durante l\'eliminazione del progetto');
+      }
+    }
   };
 
   // Funzioni per editing - stabilizzate con useCallback
@@ -522,36 +500,11 @@ export default function AdminPage() {
     }
   };
 
-  // Salva tutte le modifiche ai progetti esistenti
+  // Questa funzione ora non fa nulla perché le modifiche vengono salvate immediatamente
+  // Mantenuta per retrocompatibilità ma può essere rimossa
   const saveAllProjectChanges = async () => {
-    if (!localProjectsState.hasChanges) return;
-
-    try {
-      // Prima elimina i progetti marcati per la cancellazione
-      for (const projectId of localProjectsState.deletedProjects) {
-        await deleteProject(projectId);
-      }
-
-      // Poi riordina i progetti rimanenti
-      if (localProjectsState.projects.length > 0) {
-        await reorderProjects(localProjectsState.projects);
-      }
-
-      // Reset dello stato locale
-      setLocalProjectsState({
-        projects: [],
-        deletedProjects: [],
-        hasChanges: false,
-      });
-
-      // Ricarica i progetti dal server per assicurarsi che tutto sia sincronizzato
-      await fetchProjects();
-
-      console.log('All project changes saved successfully');
-    } catch (error) {
-      console.error('Failed to save project changes:', error);
-      setError('Errore nel salvare le modifiche ai progetti');
-    }
+    // Non fa nulla - i progetti esistenti vengono modificati/eliminati immediatamente
+    console.log('saveAllProjectChanges chiamata ma non necessaria (modifiche già salvate)');
   };
 
   // Gestione multi-selezione categorie
@@ -738,9 +691,8 @@ export default function AdminPage() {
     }
   };
 
-  // Combina progetti esistenti con quelli locali
-  const existingProjects = localProjectsState.hasChanges ? localProjectsState.projects : projects;
-  const allProjects = [...existingProjects, ...newProjects];
+  // Combina progetti da Supabase con quelli locali temporanei
+  const allProjects = [...projects, ...newProjects];
   const filteredProjects = allProjects;
 
   // Componente Scheletro per mostrare slot vuoti
@@ -1356,28 +1308,23 @@ export default function AdminPage() {
                 <button
                   onClick={async () => {
                     try {
-                      // 1. Salva tutti i progetti locali (se esistono)
+                      // 1. Salva tutti i progetti locali su Supabase (se esistono)
                       if (newProjects.length > 0) {
                         await saveAllLocalProjects();
                       }
 
-                      // 2. Salva tutte le modifiche ai progetti esistenti (se esistono)
-                      if (localProjectsState.hasChanges) {
-                        await saveAllProjectChanges();
-                      }
-
-                      // 3. Salva le configurazioni degli highlights (se esistono)
+                      // 2. Salva le configurazioni degli highlights (se esistono modifiche)
                       if (selectedHighlights.length > 0 && Object.values(localConfigs).some(c => c?.hasChanges)) {
                         await saveAllChanges();
                       }
 
-                      // 4. Revalida le pagine statiche
+                      // 3. Revalida le pagine statiche per aggiornare il sito pubblico
                       await revalidateAll();
                       
-                      alert('✅ Sito aggiornato con successo! Le modifiche saranno visibili tra 10-15 secondi.');
+                      alert('✅ Sito aggiornato con successo! Le modifiche saranno visibili tra 10-15 secondi.\n\nPer vedere i cambiamenti:\n1. Apri /portfolio in una nuova finestra incognito\n2. Aspetta 15 secondi\n3. Fai hard refresh (Cmd+Shift+R)');
                     } catch (error) {
                       console.error('Errore durante l\'aggiornamento:', error);
-                      alert('❌ Errore durante l\'aggiornamento del sito');
+                      alert('❌ Errore durante l\'aggiornamento del sito: ' + (error instanceof Error ? error.message : 'Errore sconosciuto'));
                     }
                   }}
                   disabled={revalidateLoading || loading || heroLoading}
@@ -1663,9 +1610,9 @@ export default function AdminPage() {
                       {filteredProjects.length === 1
                         ? t('admin.projects.project_single')
                         : t('admin.projects.projects_count')}
-                      {localProjectsState.hasChanges && (
+                      {newProjects.length > 0 && (
                         <span className="ml-2 text-xs bg-orange-500 text-white px-2 py-1 rounded-full">
-                          {t('admin.projects.unsaved')}
+                          {newProjects.length} {newProjects.length === 1 ? 'locale' : 'locali'}
                         </span>
                       )}
                     </p>
@@ -1697,12 +1644,12 @@ export default function AdminPage() {
                       {t('admin.projects.view_portfolio')}
                     </button>
                     {/* Indicatore modifiche non salvate */}
-                    {(localProjectsState.hasChanges || newProjects.length > 0) && (
+                    {newProjects.length > 0 && (
                       <div className="px-4 py-2 text-sm bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-400 border border-yellow-200 dark:border-yellow-800 rounded-lg flex items-center gap-2">
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                         </svg>
-                        Modifiche non salvate - Clicca &quot;Aggiorna Sito&quot; per salvare
+                        {newProjects.length} {newProjects.length === 1 ? 'progetto locale non salvato' : 'progetti locali non salvati'} - Clicca &quot;Aggiorna Sito&quot; per pubblicare
                       </div>
                     )}
                   </div>
@@ -1774,10 +1721,7 @@ export default function AdminPage() {
                       onDragEnd={handleDragEnd}
                     >
                       <SortableContext
-                        items={(localProjectsState.hasChanges
-                          ? localProjectsState.projects
-                          : projects
-                        ).map((p) => p.id)}
+                        items={projects.map((p: ProjectType) => p.id)}
                         strategy={verticalListSortingStrategy}
                       >
                         {renderLayoutPreview()}
