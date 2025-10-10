@@ -6,6 +6,7 @@ import { SessionProvider } from 'next-auth/react';
 import { auth } from '@/lib/auth';
 import GoogleAnalytics from '@/components/analytics/GoogleAnalytics';
 import PerformanceOptimizer from '@/components/analytics/PerformanceOptimizer';
+import PerformanceMonitor from '@/components/analytics/PerformanceMonitor';
 
 // Build absolute base URL from env for all environments (prod/preview/local)
 const siteUrl =
@@ -64,40 +65,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="it" className={fontVariables}>
-      <head>
-        {/* Google Tag Manager */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-              new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-              j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-              'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-              })(window,document,'script','dataLayer','GTM-WPW7KFB6');
-            `,
-          }}
-        />
-      </head>
       <body className="antialiased">
-        {/* Google Tag Manager (noscript) */}
-        <noscript>
-          <iframe
-            src="https://www.googletagmanager.com/ns.html?id=GTM-WPW7KFB6"
-            height="0"
-            width="0"
-            style={{ display: 'none', visibility: 'hidden' }}
-          />
-        </noscript>
-        
         <GoogleAnalytics />
         <PerformanceOptimizer>
           <SessionProvider
             refetchInterval={0}
             refetchOnWindowFocus={false}
+            refetchWhenOffline={false}
           >
             <ClientLayout>{children}</ClientLayout>
           </SessionProvider>
         </PerformanceOptimizer>
+        <PerformanceMonitor />
       </body>
     </html>
   );

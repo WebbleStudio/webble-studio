@@ -65,10 +65,14 @@ export default function Footer({ className = '' }: FooterProps) {
 
               <ul className="flex gap-[50px] text-[14px] min-[550px]:flex-col min-[550px]:gap-[10px] min-[550px]:items-end min-[550px]:mt-[42px] md:flex-row md:gap-[50px] md:mt-0 lg:flex-row lg:gap-[50px] lg:mt-0">
                 <li>
-                  <AnimatedText>{t('footer.privacy_policy')}</AnimatedText>
+                  <a href="/privacy-policy" className="hover:text-[#F20352] transition-colors duration-200">
+                    <AnimatedText>{t('footer.privacy_policy')}</AnimatedText>
+                  </a>
                 </li>
                 <li>
-                  <AnimatedText>{t('footer.cookie_policy')}</AnimatedText>
+                  <a href="/cookie-policy" className="hover:text-[#F20352] transition-colors duration-200">
+                    <AnimatedText>{t('footer.cookie_policy')}</AnimatedText>
+                  </a>
                 </li>
               </ul>
             </div>

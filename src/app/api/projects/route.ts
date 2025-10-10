@@ -138,10 +138,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Revalida le pagine che mostrano i progetti per aggiornare la cache
+    // Revalida automaticamente le pagine dopo il salvataggio
     revalidatePath('/');
     revalidatePath('/portfolio');
-    revalidatePath('/api/projects');
 
     return NextResponse.json(projectData, { status: 201 });
   } catch (error) {

@@ -359,50 +359,379 @@
   "cookies": {
     "banner": {
       "title": "Rispettiamo la tua privacy",
-      "description": "Utilizziamo cookie per migliorare la tua esperienza di navigazione e analizzare il traffico del sito. Con il tuo consenso, utilizziamo Google Analytics per comprendere meglio come utilizzi il nostro sito.",
+      "description": "Webble utilizza cookie, pixel, tag e altre tecnologie simili per offrirti un'esperienza personalizzata. Con il tuo consenso, possiamo mostrarti contenuti su misura e migliorare i nostri servizi.",
       "accept_all": "Accetta tutto",
       "reject": "Rifiuta",
-      "manage": "Gestisci",
-      "privacy_text": "Per maggiori informazioni, leggi la nostra",
-      "privacy_policy": "Privacy Policy",
+      "manage": "Personalizza",
+      "privacy_text": "Per maggiori informazioni, consulta",
+      "privacy_policy": "Cookie Policy",
       "cookie_policy": "Cookie Policy"
     },
     "modal": {
-      "title": "Preferenze Cookie",
-      "mandatory": {
-        "title": "Cookie Necessari",
+      "title": "Consenso",
+      "intro_title": "Aiutaci a migliorare la tua esperienza",
+      "intro_text": "Utilizziamo cookie per il corretto funzionamento del sito e per offrirti un'esperienza personalizzata. Gestisci le tue preferenze qui sotto o per maggiori informazioni visita",
+      "intro_link": "Cookie Policy",
+      "functional": {
+        "title": "Funzionali",
         "status": "Sempre Attivi",
-        "description": "Questi cookie sono essenziali per il corretto funzionamento del sito web. Non possono essere disabilitati.",
-        "vercel": {
-          "name": "Vercel",
-          "provider": "Vercel Inc.",
-          "purpose": "Finalità",
-          "purpose_text": "Hosting ed infrastruttura backend",
-          "data_collected": "Dati personali raccolti",
-          "data_text": "Dati di utilizzo, Varie tipologie di dati secondo quanto specificato dalla privacy policy del servizio",
-          "description": "Descrizione",
-          "description_text": "Vercel è un servizio di hosting e backend fornito da Vercel Inc."
-        }
+        "description": "Questi cookie sono essenziali per il funzionamento del sito web e garantiscono un'esperienza di navigazione sicura e ottimizzata. Non possono essere disabilitati."
       },
-      "analytics": {
-        "title": "Cookie Analitici",
-        "description": "Questi cookie ci aiutano a capire come i visitatori interagiscono con il sito web raccogliendo e riportando informazioni in forma anonima.",
-        "ga4": {
-          "name": "Google Analytics 4",
-          "provider": "Google LLC",
-          "purpose": "Scopo",
-          "purpose_text": "Analisi dell'utilizzo del sito e del comportamento degli utenti",
-          "data_collected": "Dati Raccolti",
-          "data_text": "Pagine visitate, tempo trascorso, interazioni, indirizzo IP anonimizzato",
-          "description": "Descrizione",
-          "description_text": "Permette di raccogliere statistiche anonime per migliorare l'esperienza utente",
-          "privacy": "Privacy",
-          "privacy_text": "I dati sono anonimizzati e utilizzati esclusivamente per scopi statistici"
-        }
+      "marketing": {
+        "title": "Marketing",
+        "description": "Questi cookie ci aiutano a migliorare il nostro servizio analizzando come utilizzi il sito e a mostrarti contenuti personalizzati su Webble e piattaforme partner come Google e social media."
       },
       "buttons": {
         "reject_all": "Rifiuta tutto",
-        "save_preferences": "Salva preferenze"
+        "save_preferences": "Salva Preferenze"
+      }
+    },
+    "policy": {
+      "title": "Cookie Policy",
+      "subtitle": "Informativa sull'utilizzo dei cookie su Webble Studio",
+      "last_update": "Ultimo aggiornamento: 10 Ottobre 2025",
+      "sidebar_title": "Indice",
+      "sections": {
+        "data_controller": {
+          "title": "Titolare del Trattamento",
+          "brand": "Brand Name:",
+          "company": "Società:",
+          "address": "Sede Legale:",
+          "ein": "EIN (Employer Identification Number):",
+          "email": "Email:"
+        },
+        "intro": {
+          "title": "Cosa sono i cookie?",
+          "text1": "I cookie sono piccoli file di testo che vengono memorizzati sul tuo dispositivo quando visiti un sito web. Vengono utilizzati per far funzionare il sito in modo efficiente e per fornire informazioni ai proprietari del sito.",
+          "text2": "Webble Studio utilizza cookie e tecnologie simili (pixel, tag, ecc.) per garantire il corretto funzionamento del sito e per offrirti un'esperienza personalizzata."
+        },
+        "functional": {
+          "title": "Cookie Funzionali",
+          "description": "Questi cookie sono essenziali per il funzionamento del sito web e garantiscono un'esperienza di navigazione sicura e ottimizzata. Non possono essere disabilitati.",
+          "vercel": {
+            "name": "Vercel",
+            "provider": "Provider: Vercel Inc.",
+            "status": "Sempre Attivi",
+            "purpose_title": "Finalità",
+            "purpose_text": "Hosting ed infrastruttura backend",
+            "data_title": "Dati Personali Raccolti",
+            "data_text": "Dati di utilizzo, Varie tipologie di dati secondo quanto specificato dalla privacy policy del servizio",
+            "description_title": "Descrizione",
+            "description_text": "Vercel è un servizio di hosting e backend fornito da Vercel Inc. che permette al sito web di funzionare correttamente e garantisce le prestazioni necessarie per la navigazione."
+          }
+        },
+        "marketing_section": {
+          "title": "Cookie Marketing",
+          "description": "Questi cookie ci aiutano a migliorare il nostro servizio analizzando come utilizzi il sito e a mostrarti contenuti personalizzati su Webble e piattaforme partner come Google e social media. Puoi disabilitarli in qualsiasi momento tramite le impostazioni cookie.",
+          "ga4": {
+            "name": "Google Analytics 4",
+            "provider": "Provider: Google LLC",
+            "status": "Opzionale",
+            "purpose_title": "Finalità",
+            "purpose_text": "Analisi dell'utilizzo del sito e del comportamento degli utenti",
+            "data_title": "Dati Personali Raccolti",
+            "data_text": "Pagine visitate, tempo trascorso, interazioni, indirizzo IP anonimizzato, dati del dispositivo, informazioni sul browser",
+            "description_title": "Descrizione",
+            "description_text": "Google Analytics 4 è un servizio di analisi web fornito da Google LLC. Permette di raccogliere statistiche anonime per migliorare l'esperienza utente e comprendere meglio come i visitatori interagiscono con il sito.",
+            "privacy_title": "Privacy",
+            "privacy_text": "I dati sono anonimizzati e utilizzati esclusivamente per scopi statistici. Per maggiori informazioni:",
+            "privacy_link": "Google Privacy Policy",
+            "cookies_title": "Cookie utilizzati"
+          },
+          "gtm": {
+            "name": "Google Tag Manager",
+            "provider": "Provider: Google LLC",
+            "status": "Opzionale",
+            "purpose_title": "Finalità",
+            "purpose_text": "Gestione dei tag e tracciamento eventi utente",
+            "data_title": "Dati Personali Raccolti",
+            "data_text": "Eventi di interazione (clic sui pulsanti, scroll, submit form), navigazione tra pagine, dati comportamentali",
+            "description_title": "Descrizione",
+            "description_text": "Google Tag Manager è un servizio di gestione dei tag fornito da Google LLC. Permette di tracciare le interazioni degli utenti sul sito (come clic su pulsanti CTA, invio form, navigazione) per comprendere meglio il comportamento degli utenti e ottimizzare l'esperienza.",
+            "privacy_title": "Privacy",
+            "privacy_text": "Per conoscere l'utilizzo dei Dati da parte di Google, consulta la loro",
+            "privacy_link1": "partner policy",
+            "privacy_and": "e la loro pagina dei",
+            "privacy_link2": "Dati Commerciali",
+            "cookies_title": "Cookie utilizzati",
+            "cookies_note": "Google Tag Manager non crea cookie propri. È uno strumento di gestione che facilita il caricamento di altri servizi (come Google Analytics). I cookie vengono creati dai servizi caricati tramite GTM."
+          }
+        },
+        "legal_basis": {
+          "title": "Base Giuridica del Trattamento",
+          "functional_title": "Cookie Funzionali",
+          "functional_basis": "Base giuridica:",
+          "functional_article": "Interesse legittimo (Art. 6, par. 1, lett. f del GDPR)",
+          "functional_text": "Questi cookie sono necessari per il funzionamento del sito web e non richiedono il tuo consenso in quanto essenziali per fornire i servizi richiesti.",
+          "marketing_title": "Cookie Marketing",
+          "marketing_basis": "Base giuridica:",
+          "marketing_article": "Consenso esplicito (Art. 6, par. 1, lett. a del GDPR)",
+          "marketing_text": "Per questi cookie è necessario il tuo consenso esplicito. Puoi revocare il consenso in qualsiasi momento attraverso le impostazioni cookie del sito."
+        },
+        "transfers": {
+          "title": "Trasferimenti Internazionali di Dati",
+          "us_company_title": "Società con Sede negli Stati Uniti",
+          "us_company_text1": "è una società costituita e operante negli",
+          "us_company_text2": "Tuttavia, ci impegniamo a rispettare il",
+          "us_company_text3": "per tutti gli utenti provenienti dall'Unione Europea.",
+          "us_company_text4": "I tuoi dati possono essere trasferiti e conservati sui nostri server negli Stati Uniti, nel rispetto delle garanzie previste dal GDPR per i trasferimenti internazionali.",
+          "google_title": "Servizi di Terze Parti (Google LLC)",
+          "google_text1": "Quando accetti i cookie marketing, utilizziamo i seguenti servizi di Google LLC (Stati Uniti):",
+          "google_ga": "Google Analytics 4",
+          "google_gtm": "Google Tag Manager",
+          "google_text2": "Google LLC è certificato secondo il",
+          "google_framework": "Data Privacy Framework EU-US",
+          "google_text3": "che garantisce un livello di protezione adeguato per i trasferimenti di dati dall'UE agli USA. Inoltre, Google ha implementato le",
+          "google_scc": "Standard Contractual Clauses (SCC)",
+          "google_text4": "approvate dalla Commissione Europea.",
+          "google_more": "Per maggiori informazioni:",
+          "google_link": "Google Privacy & Security"
+        },
+        "retention": {
+          "title": "Periodo di Conservazione",
+          "intro": "I dati raccolti tramite i cookie vengono conservati per i seguenti periodi:",
+          "functional_title": "Cookie Funzionali",
+          "functional_text": "Conservati per la durata della sessione o secondo le necessità tecniche del servizio",
+          "marketing_title": "Cookie Marketing",
+          "marketing_text": "Fino a 24 mesi (Google Analytics) o fino alla revoca del consenso",
+          "validity_title": "Validità del Consenso",
+          "validity_text": "Il tuo consenso ai cookie marketing ha una validità di",
+          "validity_days": "180 giorni (6 mesi)",
+          "validity_text2": "Trascorso questo periodo, ti verrà chiesto nuovamente di esprimere le tue preferenze. Puoi comunque revocare o modificare il consenso in qualsiasi momento utilizzando il pulsante \"Impostazioni Cookie\" sempre visibile in basso a destra del sito."
+        },
+        "consequences": {
+          "title": "Conseguenze Rifiuto",
+          "intro": "Se decidi di rifiutare i cookie marketing, il sito continuerà a funzionare normalmente, ma:",
+          "works_title": "Cosa Funzionerà",
+          "works_item1": "Tutte le funzionalità del sito",
+          "works_item2": "Navigazione completa",
+          "works_item3": "Invio form di contatto",
+          "works_item4": "Visualizzazione portfolio",
+          "works_item5": "Sistema di prenotazione",
+          "not_works_title": "Cosa NON Funzionerà",
+          "not_works_item1": "Google Analytics (statistiche anonime)",
+          "not_works_item2": "Tracciamento eventi (clic su bottoni)",
+          "not_works_item3": "Analisi comportamento utenti",
+          "not_works_item4": "Ottimizzazione esperienza utente",
+          "note": "Il rifiuto dei cookie marketing NON influisce sulla tua possibilità di utilizzare il sito. È una scelta totalmente libera e reversibile in qualsiasi momento."
+        },
+        "rights": {
+          "title": "Diritti GDPR",
+          "intro": "In conformità con il Regolamento Generale sulla Protezione dei Dati (GDPR), hai i seguenti diritti riguardo ai tuoi dati personali:",
+          "access": "Diritto di Accesso",
+          "access_text": "Ottenere conferma che sia in corso un trattamento di dati e accedere ai tuoi dati personali",
+          "rectification": "Diritto di Rettifica",
+          "rectification_text": "Ottenere la rettifica dei dati personali inesatti o l'integrazione di quelli incompleti",
+          "erasure": "Diritto alla Cancellazione",
+          "erasure_text": "Ottenere la cancellazione dei tuoi dati personali (\"diritto all'oblio\")",
+          "restriction": "Diritto di Limitazione",
+          "restriction_text": "Ottenere la limitazione del trattamento dei tuoi dati personali",
+          "portability": "Diritto alla Portabilità",
+          "portability_text": "Ricevere i tuoi dati in formato strutturato e trasmetterli a un altro titolare",
+          "objection": "Diritto di Opposizione",
+          "objection_text": "Opporti al trattamento dei tuoi dati personali per motivi legittimi",
+          "withdraw": "Revoca del Consenso",
+          "withdraw_text": "Revocare il consenso in qualsiasi momento senza pregiudicare la liceità del trattamento precedente",
+          "complaint": "Diritto di Reclamo",
+          "complaint_text": "Proporre reclamo all'autorità di controllo competente",
+          "exercise": "Per esercitare uno o più di questi diritti, contattaci all'indirizzo email",
+          "exercise_response": "Ti risponderemo entro 30 giorni dalla richiesta."
+        },
+        "authority": {
+          "title": "Autorità di Controllo",
+          "intro": "Hai il diritto di proporre reclamo all'autorità di controllo competente se ritieni che il trattamento dei tuoi dati personali violi il GDPR.",
+          "italy": "Autorità Garante per l'Italia:",
+          "name": "Garante per la Protezione dei Dati Personali",
+          "phone": "Centralino:",
+          "fax": "Fax:",
+          "website": "Sito web:"
+        },
+        "first_third": {
+          "title": "Prima e Terza Parte",
+          "first_title": "Cookie di Prima Parte",
+          "first_text": "Sono i cookie impostati direttamente dal nostro sito web. Abbiamo il controllo completo su questi cookie.",
+          "first_examples": "Esempi:",
+          "first_item1": "Cookie di sessione Vercel",
+          "first_item2": "Preferenze cookie",
+          "third_title": "Cookie di Terza Parte",
+          "third_text": "Sono cookie impostati da servizi esterni che utilizziamo. Sono gestiti dai rispettivi fornitori.",
+          "third_examples": "Esempi:",
+          "third_item1": "Google Analytics (_ga, _gid)",
+          "third_item2": "Google Tag Manager"
+        },
+        "management": {
+          "title": "Gestione Cookie",
+          "site_title": "Attraverso il nostro sito",
+          "site_text": "Puoi gestire le tue preferenze sui cookie in qualsiasi momento utilizzando il pulsante",
+          "site_button": "\"Impostazioni Cookie\"",
+          "site_location": "sempre visibile e accessibile",
+          "site_position": "in basso a destra di ogni pagina del sito",
+          "site_note": "Il pulsante è sempre presente e cliccabile. Ti permette di modificare le tue preferenze in qualsiasi momento senza dover cercare questa pagina.",
+          "browser_title": "Attraverso il browser",
+          "browser_text": "Puoi anche gestire i cookie direttamente dalle impostazioni del tuo browser:",
+          "chrome": "Gestire i cookie in Chrome",
+          "firefox": "Gestire i cookie in Firefox",
+          "safari": "Gestire i cookie in Safari",
+          "edge": "Gestire i cookie in Edge"
+        },
+        "privacy_link": {
+          "title": "Privacy Policy",
+          "text": "Per informazioni più dettagliate sul trattamento dei dati personali, consulta la nostra",
+          "link": "Privacy Policy completa",
+          "text2": "che fornisce informazioni su tutti i trattamenti di dati effettuati da Webble Studio."
+        },
+        "updates": {
+          "title": "Aggiornamenti",
+          "text": "Questa Cookie Policy può essere aggiornata periodicamente. Ti invitiamo a consultarla regolarmente per essere sempre informato su come utilizziamo i cookie. La data dell'ultimo aggiornamento è indicata in alto alla pagina."
+        },
+        "contacts": {
+          "title": "Contatti",
+          "intro": "Per qualsiasi domanda o richiesta relativa a questa Cookie Policy, puoi contattarci:",
+          "brand": "Webble Studio",
+          "company": "Vady Solutions LLC",
+          "address": "16192 Coastal Hwy. Lewes, DE 19958, Delaware (USA)",
+          "email": "Email:"
+        }
+      }
+    },
+    "privacy": {
+      "title": "Privacy Policy",
+      "subtitle": "Informativa sul trattamento dei dati personali",
+      "last_update": "Ultimo aggiornamento: 10 Ottobre 2025",
+      "sidebar_title": "Indice",
+      "intro": {
+        "text": "Webble Studio (Vady Solutions LLC) rispetta la tua privacy e si impegna a proteggere i tuoi dati personali. Questa Privacy Policy ti informa su come raccogliamo, utilizziamo e proteggiamo le tue informazioni personali quando visiti il nostro sito web."
+      },
+      "controller": {
+        "title": "Titolare del Trattamento",
+        "brand": "Brand Name:",
+        "company": "Società:",
+        "address": "Sede Legale:",
+        "ein": "EIN:",
+        "email": "Email:",
+        "brand_val": "Webble Studio",
+        "company_val": "Vady Solutions LLC",
+        "address_val": "16192 Coastal Hwy. Lewes, DE 19958, Delaware (USA)",
+        "ein_val": "32-0774843"
+      },
+      "data_collected": {
+        "title": "Dati Personali Raccolti",
+        "intro": "Raccogliamo i seguenti tipi di dati personali:",
+        "contact_title": "Dati di Contatto (Form Contatti)",
+        "contact_items": "Nome, Email, Telefono, Messaggio",
+        "booking_title": "Dati di Prenotazione (Form Booking)",
+        "booking_items": "Nome, Cognome, Email, Telefono, Servizi richiesti, Metodo di contatto preferito",
+        "navigation_title": "Dati di Navigazione (Automatici)",
+        "navigation_items": "Indirizzo IP (anonimizzato), Browser e dispositivo, Pagine visitate, Tempo di permanenza, Fonte di traffico",
+        "consent_title": "Consensi",
+        "consent_items": "Consenso privacy, Consenso marketing (opzionale)"
+      },
+      "purposes": {
+        "title": "Finalità del Trattamento",
+        "intro": "I tuoi dati personali vengono utilizzati per le seguenti finalità:",
+        "service_title": "Erogazione Servizi",
+        "service_text": "Rispondere alle tue richieste di contatto, gestire prenotazioni e fornire i servizi richiesti",
+        "service_legal": "Base giuridica: Esecuzione di un contratto (Art. 6, par. 1, lett. b GDPR)",
+        "communication_title": "Comunicazioni",
+        "communication_text": "Inviarti comunicazioni relative ai servizi richiesti e, se hai dato il consenso, materiale marketing",
+        "communication_legal": "Base giuridica: Consenso (Art. 6, par. 1, lett. a GDPR) per marketing",
+        "analytics_title": "Analisi e Miglioramento",
+        "analytics_text": "Analizzare l'utilizzo del sito per migliorare l'esperienza utente e ottimizzare i servizi",
+        "analytics_legal": "Base giuridica: Consenso (Art. 6, par. 1, lett. a GDPR) per cookie marketing",
+        "security_title": "Sicurezza",
+        "security_text": "Prevenire frodi, garantire la sicurezza del sito e proteggere i diritti",
+        "security_legal": "Base giuridica: Interesse legittimo (Art. 6, par. 1, lett. f GDPR)"
+      },
+      "recipients": {
+        "title": "Destinatari dei Dati",
+        "intro": "I tuoi dati personali possono essere condivisi con:",
+        "vercel_title": "Vercel Inc.",
+        "vercel_text": "Servizio di hosting (Stati Uniti)",
+        "supabase_title": "Supabase Inc.",
+        "supabase_text": "Servizio di database (Stati Uniti)",
+        "google_title": "Google LLC",
+        "google_text": "Google Analytics e Tag Manager (solo con consenso marketing)",
+        "note": "Tutti i fornitori di servizi sono vincolati da obblighi contrattuali di protezione dei dati e rispettano gli standard di sicurezza richiesti dal GDPR."
+      },
+      "retention": {
+        "title": "Periodo di Conservazione",
+        "intro": "I tuoi dati personali vengono conservati per i seguenti periodi:",
+        "contact_title": "Richieste di Contatto",
+        "contact_text": "24 mesi dalla data di invio",
+        "booking_title": "Prenotazioni",
+        "booking_text": "36 mesi dalla data di creazione",
+        "analytics_title": "Dati Analytics",
+        "analytics_text": "24 mesi (Google Analytics) o fino alla revoca del consenso",
+        "note": "Trascorsi questi periodi, i dati vengono cancellati automaticamente o anonimizzati in modo irreversibile."
+      },
+      "rights": {
+        "title": "I Tuoi Diritti",
+        "intro": "In conformità con il GDPR, hai i seguenti diritti:",
+        "access": "Diritto di Accesso",
+        "access_text": "Ottenere conferma del trattamento e accedere ai tuoi dati personali",
+        "rectification": "Diritto di Rettifica",
+        "rectification_text": "Correggere dati inesatti o integrare dati incompleti",
+        "erasure": "Diritto alla Cancellazione",
+        "erasure_text": "Ottenere la cancellazione dei tuoi dati (\"diritto all'oblio\")",
+        "restriction": "Diritto di Limitazione",
+        "restriction_text": "Limitare il trattamento dei tuoi dati",
+        "portability": "Diritto alla Portabilità",
+        "portability_text": "Ricevere i tuoi dati in formato strutturato",
+        "objection": "Diritto di Opposizione",
+        "objection_text": "Opporti al trattamento per motivi legittimi",
+        "withdraw": "Revoca del Consenso",
+        "withdraw_text": "Revocare il consenso in qualsiasi momento",
+        "complaint": "Diritto di Reclamo",
+        "complaint_text": "Proporre reclamo al Garante Privacy",
+        "exercise": "Per esercitare questi diritti, contattaci a:",
+        "response": "Risponderemo entro 30 giorni."
+      },
+      "transfers": {
+        "title": "Trasferimenti Internazionali",
+        "us_title": "Società con Sede negli Stati Uniti",
+        "us_text": "Vady Solutions LLC opera dagli Stati Uniti (Delaware). I tuoi dati possono essere trasferiti e conservati sui nostri server negli USA, nel rispetto delle garanzie GDPR per i trasferimenti internazionali.",
+        "providers_title": "Fornitori di Servizi (USA)",
+        "providers_text": "Utilizziamo fornitori con sede negli Stati Uniti:",
+        "vercel": "Vercel Inc. - Hosting",
+        "supabase": "Supabase Inc. - Database",
+        "google": "Google LLC - Analytics (solo con consenso)",
+        "guarantees": "Tutti i fornitori sono certificati secondo il Data Privacy Framework EU-US e hanno implementato Standard Contractual Clauses (SCC) approvate dalla Commissione Europea."
+      },
+      "security": {
+        "title": "Sicurezza dei Dati",
+        "intro": "Adottiamo misure tecniche e organizzative appropriate per proteggere i tuoi dati personali:",
+        "encryption": "Crittografia SSL/TLS per tutte le comunicazioni",
+        "database": "Database protetti con autenticazione e Row Level Security",
+        "access": "Accesso limitato ai dati solo al personale autorizzato",
+        "monitoring": "Monitoraggio costante per rilevare accessi non autorizzati",
+        "note": "Nonostante le misure di sicurezza, nessun sistema è completamente sicuro. Ti invitiamo a proteggere le tue credenziali e segnalare eventuali violazioni."
+      },
+      "cookies_link": {
+        "title": "Cookie",
+        "text": "Per informazioni dettagliate sull'utilizzo dei cookie, consulta la nostra",
+        "link": "Cookie Policy"
+      },
+      "changes": {
+        "title": "Modifiche",
+        "text": "Questa Privacy Policy può essere aggiornata periodicamente. La data dell'ultimo aggiornamento è indicata in alto. Ti invitiamo a consultarla regolarmente."
+      },
+      "authority": {
+        "title": "Autorità di Controllo",
+        "intro": "Hai il diritto di proporre reclamo al Garante per la Protezione dei Dati Personali:",
+        "name": "Garante per la Protezione dei Dati Personali",
+        "address": "Piazza Venezia, 11 - 00187 Roma",
+        "phone": "Centralino:",
+        "email": "Email:",
+        "pec": "PEC:",
+        "website": "Sito web:"
+      },
+      "contacts": {
+        "title": "Contatti",
+        "intro": "Per qualsiasi domanda relativa a questa Privacy Policy:",
+        "brand": "Webble Studio",
+        "company": "Vady Solutions LLC",
+        "address": "16192 Coastal Hwy. Lewes, DE 19958, Delaware (USA)",
+        "email": "Email:"
       }
     }
   }

@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 
 export interface ServiceCategory {
   id: string;
@@ -14,8 +14,60 @@ export function useServiceCategories() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Carica tutte le categorie di servizi
-  const fetchServiceCategories = useCallback(async () => {
+  // Cache client-side per service categories (24h TTL)
+  const getCachedServiceCategories = useCallback((): ServiceCategory[] | null => {
+    try {
+      const cached = localStorage.getItem('service_categories_cache');
+      if (!cached) return null;
+
+      const { data, timestamp } = JSON.parse(cached);
+      const now = Date.now();
+      const CACHE_DURATION = 24 * 60 * 60 * 1000; // 24h
+
+      // Controlla se la cache è scaduta
+      if (now - timestamp > CACHE_DURATION) {
+        localStorage.removeItem('service_categories_cache');
+        return null;
+      }
+
+      return data;
+    } catch (error) {
+      console.warn('Error reading service categories cache:', error);
+      localStorage.removeItem('service_categories_cache');
+      return null;
+    }
+  }, []);
+
+  const setCachedServiceCategories = useCallback((data: ServiceCategory[]) => {
+    try {
+      localStorage.setItem('service_categories_cache', JSON.stringify({
+        data,
+        timestamp: Date.now()
+      }));
+    } catch (error) {
+      console.warn('Error setting service categories cache:', error);
+    }
+  }, []);
+
+  // Controlla cache all'inizializzazione
+  useEffect(() => {
+    const cachedData = getCachedServiceCategories();
+    if (cachedData) {
+      setServiceCategories(cachedData);
+    }
+  }, [getCachedServiceCategories]);
+
+  // Carica tutte le categorie di servizi - ora usa cache
+  const fetchServiceCategories = useCallback(async (forceRefresh = false) => {
+    // Controlla cache se non è un refresh forzato
+    if (!forceRefresh) {
+      const cachedData = getCachedServiceCategories();
+      if (cachedData) {
+        setServiceCategories(cachedData);
+        return;
+      }
+    }
+
     setLoading(true);
     setError(null);
 
@@ -29,6 +81,7 @@ export function useServiceCategories() {
 
       const data = await response.json();
       setServiceCategories(data);
+      setCachedServiceCategories(data); // Salva in cache
     } catch (err) {
       console.error('Error fetching service categories:', err);
 
@@ -49,6 +102,7 @@ export function useServiceCategories() {
             if (retryResponse.ok) {
               const retryData = await retryResponse.json();
               setServiceCategories(retryData);
+              setCachedServiceCategories(retryData); // Salva in cache
               return;
             }
           }
@@ -61,7 +115,7 @@ export function useServiceCategories() {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [getCachedServiceCategories, setCachedServiceCategories]);
 
   // Inizializza le categorie di servizi
   const initializeServiceCategories = useCallback(async () => {

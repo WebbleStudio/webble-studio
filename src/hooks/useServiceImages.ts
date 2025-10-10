@@ -13,18 +13,24 @@ export function useServiceImages() {
   const [serviceImages, setServiceImages] = useState<ServiceImage[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Carica le immagini dei servizi
+  // Carica le immagini dei servizi - ora usa cache
   const loadServiceImages = useCallback(async () => {
     setLoading(true);
 
     try {
-      await Promise.all([fetchServiceCategories(), fetchProjects()]);
+      // Non chiamare fetch se i dati sono già disponibili (cache)
+      if (serviceCategories.length === 0) {
+        await fetchServiceCategories();
+      }
+      if (projects.length === 0) {
+        await fetchProjects();
+      }
     } catch (error) {
       console.error('Error loading service images:', error);
     } finally {
       setLoading(false);
     }
-  }, [fetchServiceCategories, fetchProjects]);
+  }, [fetchServiceCategories, fetchProjects, serviceCategories.length, projects.length]);
 
   // Aggiorna le immagini quando cambiano le categorie o i progetti
   useEffect(() => {

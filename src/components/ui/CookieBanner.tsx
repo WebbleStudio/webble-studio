@@ -9,7 +9,6 @@ interface CookieBannerProps {
   onReject: () => void;
   forceShow?: boolean;
   onClose?: () => void;
-  onSavePreferences?: (analyticsEnabled: boolean) => void;
 }
 
 export default function CookieBanner({
@@ -17,18 +16,16 @@ export default function CookieBanner({
   onReject,
   forceShow = false,
   onClose,
-  onSavePreferences,
 }: CookieBannerProps) {
   const [isVisible, setIsVisible] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
-  const [expandedCookie, setExpandedCookie] = useState<string | null>(null);
-  const [analyticsEnabled, setAnalyticsEnabled] = useState(true);
+  const [marketingEnabled, setMarketingEnabled] = useState(true);
   const { t } = useTranslation();
 
   useEffect(() => {
-    // Inizializza lo stato analyticsEnabled basato sul consenso esistente
-    const cookieChoice = localStorage.getItem('cookie-consent');
-    setAnalyticsEnabled(cookieChoice === 'accepted');
+    // Inizializza lo stato marketingEnabled basato sul consenso esistente
+    const marketingConsent = localStorage.getItem('marketing-consent');
+    setMarketingEnabled(marketingConsent === 'accepted');
 
     // Se forceShow è true, mostra sempre il modal
     if (forceShow) {
@@ -40,6 +37,7 @@ export default function CookieBanner({
     }
 
     // Controlla se l'utente ha già fatto una scelta sui cookie
+    const cookieChoice = localStorage.getItem('cookie-consent');
     const consentDate = localStorage.getItem('cookie-consent-date');
 
     // Se non c'è una scelta salvata, mostra il banner
@@ -70,23 +68,30 @@ export default function CookieBanner({
 
   const handleAccept = () => {
     setIsVisible(false);
-    setShowDetails(false); // Chiudi il modal se aperto
-    document.body.style.overflow = 'unset'; // Riabilita lo scroll
+    setShowDetails(false);
+    document.body.style.overflow = 'unset';
+    // Salva consenso marketing
+    localStorage.setItem('marketing-consent', 'accepted');
+    localStorage.setItem('marketing-consent-date', new Date().toISOString());
     onAccept();
-    onClose?.(); // Chiudi il manager se aperto tramite pulsante
+    window.dispatchEvent(new Event('cookie-consent-changed'));
+    onClose?.();
   };
 
   const handleReject = () => {
     setIsVisible(false);
-    setShowDetails(false); // Chiudi il modal se aperto
-    document.body.style.overflow = 'unset'; // Riabilita lo scroll
+    setShowDetails(false);
+    document.body.style.overflow = 'unset';
+    // Rifiuta consenso marketing
+    localStorage.setItem('marketing-consent', 'rejected');
+    localStorage.setItem('marketing-consent-date', new Date().toISOString());
     onReject();
-    onClose?.(); // Chiudi il manager se aperto tramite pulsante
+    window.dispatchEvent(new Event('cookie-consent-changed'));
+    onClose?.();
   };
 
   const handleManage = () => {
     setShowDetails(true);
-    // Blocca lo scroll del body (funziona anche su mobile)
     document.body.style.overflow = 'hidden';
     document.body.style.position = 'fixed';
     document.body.style.width = '100%';
@@ -94,36 +99,44 @@ export default function CookieBanner({
 
   const handleCloseDetails = () => {
     setShowDetails(false);
-    // Riabilita lo scroll del body
     document.body.style.overflow = 'unset';
     document.body.style.position = 'unset';
     document.body.style.width = 'unset';
-    // Se il modal è stato aperto tramite forceShow, chiudi anche il manager
     if (forceShow) {
       onClose?.();
     }
   };
 
   const handleSavePreferences = () => {
-    if (analyticsEnabled) {
-      onAccept();
+    // Salva preferenze marketing
+    if (marketingEnabled) {
+      localStorage.setItem('marketing-consent', 'accepted');
+      localStorage.setItem('marketing-consent-date', new Date().toISOString());
+      localStorage.setItem('cookie-consent', 'accepted');
+      localStorage.setItem('cookie-consent-date', new Date().toISOString());
     } else {
-      onReject();
+      localStorage.setItem('marketing-consent', 'rejected');
+      localStorage.setItem('marketing-consent-date', new Date().toISOString());
+      localStorage.setItem('cookie-consent', 'rejected');
+      localStorage.setItem('cookie-consent-date', new Date().toISOString());
     }
-    setIsVisible(false); // Chiudi il banner principale
-    setShowDetails(false); // Chiudi il modal
+
+    // Trigger evento per aggiornare i componenti
+    window.dispatchEvent(new Event('cookie-consent-changed'));
+
+    setIsVisible(false);
+    setShowDetails(false);
     document.body.style.overflow = 'unset';
     document.body.style.position = 'unset';
     document.body.style.width = 'unset';
-    onClose?.(); // Chiudi il manager se aperto tramite pulsante
+    onClose?.();
   };
 
   // Gestisci l'apertura del modal tramite forceShow
   useEffect(() => {
     if (forceShow) {
-      // Aggiorna lo stato analyticsEnabled quando si apre il modal
-      const cookieChoice = localStorage.getItem('cookie-consent');
-      setAnalyticsEnabled(cookieChoice === 'accepted');
+      const marketingConsent = localStorage.getItem('marketing-consent');
+      setMarketingEnabled(marketingConsent === 'accepted');
 
       setShowDetails(true);
       document.body.style.overflow = 'hidden';
@@ -135,8 +148,8 @@ export default function CookieBanner({
   // Listener per aggiornare lo stato del toggle quando cambia il consenso
   useEffect(() => {
     const handleConsentChange = () => {
-      const cookieChoice = localStorage.getItem('cookie-consent');
-      setAnalyticsEnabled(cookieChoice === 'accepted');
+      const marketingConsent = localStorage.getItem('marketing-consent');
+      setMarketingEnabled(marketingConsent === 'accepted');
     };
 
     window.addEventListener('storage', handleConsentChange);
@@ -202,14 +215,9 @@ export default function CookieBanner({
               <div className="mt-4 pt-4 border-t border-gray-200 dark:border-[rgba(250,250,250,0.1)] transition-colors duration-500 ease-out">
                 <p className="text-xs text-gray-500 dark:text-[#fafafa]/60 transition-colors duration-500 ease-out">
                   {t('cookies.banner.privacy_text')}{' '}
-                  <a href="/privacy-policy" className="text-[#F20352] hover:underline">
-                    {t('cookies.banner.privacy_policy')}
-                  </a>{' '}
-                  e la nostra{' '}
                   <a href="/cookie-policy" className="text-[#F20352] hover:underline">
                     {t('cookies.banner.cookie_policy')}
                   </a>
-                  .
                 </p>
               </div>
             </div>
@@ -233,173 +241,87 @@ export default function CookieBanner({
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              className="bg-white/95 dark:bg-[#0b0b0b]/95 backdrop-blur-md border border-[rgba(0,0,0,0.1)] dark:border-[rgba(250,250,250,0.1)] rounded-2xl p-6 md:p-8 max-w-2xl w-full max-h-[80vh] overflow-y-auto transition-colors duration-500 ease-out"
+              className="bg-white/95 dark:bg-[#0b0b0b]/95 backdrop-blur-md border border-[rgba(0,0,0,0.1)] dark:border-[rgba(250,250,250,0.1)] rounded-2xl max-w-2xl w-full max-h-[80vh] flex flex-col transition-colors duration-500 ease-out"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="flex justify-between items-center mb-6">
-                <h2 className="text-xl md:text-2xl font-semibold text-gray-900 dark:text-[#fafafa] transition-colors duration-500 ease-out">
-                  {t('cookies.modal.title')}
-                </h2>
-                <button
-                  onClick={handleCloseDetails}
-                  className="text-gray-500 dark:text-[#fafafa]/60 hover:text-gray-700 dark:hover:text-[#fafafa] transition-colors duration-500 ease-out"
-                >
-                  ✕
-                </button>
-              </div>
-
-              <div className="space-y-6">
-                {/* Cookie Obbligatori */}
-                <div className="border border-gray-200 dark:border-[rgba(250,250,250,0.1)] rounded-xl p-4 transition-colors duration-500 ease-out">
-                  <div className="flex items-center justify-between mb-3">
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-[#fafafa] transition-colors duration-500 ease-out">
-                      {t('cookies.modal.mandatory.title')}
-                    </h3>
-                    <span className="px-2 py-1 bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-400 text-xs rounded-full">
-                      {t('cookies.modal.mandatory.status')}
-                    </span>
-                  </div>
-                  <p className="text-sm text-gray-600 dark:text-[#fafafa]/80 mb-3 transition-colors duration-500 ease-out">
-                    {t('cookies.modal.mandatory.description')}
-                  </p>
-                  <div className="space-y-2">
-                    <div className="border border-gray-200 dark:border-[rgba(250,250,250,0.1)] rounded-lg p-3 transition-colors duration-500 ease-out">
-                      <div
-                        className="flex justify-between items-center cursor-pointer"
-                        onClick={() =>
-                          setExpandedCookie(expandedCookie === 'vercel' ? null : 'vercel')
-                        }
-                      >
-                        <div>
-                          <span className="text-sm font-medium text-gray-900 dark:text-[#fafafa] transition-colors duration-500 ease-out">
-                            {t('cookies.modal.mandatory.vercel.name')}
-                          </span>
-                          <p className="text-xs text-gray-500 dark:text-[#fafafa]/60 transition-colors duration-500 ease-out">
-                            {t('cookies.modal.mandatory.vercel.provider')}
-                          </p>
-                        </div>
-                        <span className="text-xs text-gray-500 dark:text-[#fafafa]/60 transition-colors duration-500 ease-out">
-                          {expandedCookie === 'vercel' ? '−' : '+'}
-                        </span>
-                      </div>
-                      {expandedCookie === 'vercel' && (
-                        <div className="mt-3 pt-3 border-t border-gray-200 dark:border-[rgba(250,250,250,0.1)] space-y-2 transition-colors duration-500 ease-out">
-                          <div>
-                            <span className="text-xs font-medium text-gray-900 dark:text-[#fafafa] transition-colors duration-500 ease-out">
-                              {t('cookies.modal.mandatory.vercel.purpose')}
-                            </span>
-                            <p className="text-xs text-gray-600 dark:text-[#fafafa]/80 transition-colors duration-500 ease-out">
-                              {t('cookies.modal.mandatory.vercel.purpose_text')}
-                            </p>
-                          </div>
-                          <div>
-                            <span className="text-xs font-medium text-gray-900 dark:text-[#fafafa] transition-colors duration-500 ease-out">
-                              {t('cookies.modal.mandatory.vercel.data_collected')}
-                            </span>
-                            <p className="text-xs text-gray-600 dark:text-[#fafafa]/80 transition-colors duration-500 ease-out">
-                              {t('cookies.modal.mandatory.vercel.data_text')}
-                            </p>
-                          </div>
-                          <div>
-                            <span className="text-xs font-medium text-gray-900 dark:text-[#fafafa] transition-colors duration-500 ease-out">
-                              {t('cookies.modal.mandatory.vercel.description')}
-                            </span>
-                            <p className="text-xs text-gray-600 dark:text-[#fafafa]/80 transition-colors duration-500 ease-out">
-                              {t('cookies.modal.mandatory.vercel.description_text')}
-                            </p>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  </div>
+              {/* Contenuto scrollabile */}
+              <div className="flex-1 overflow-y-auto p-6 md:p-8">
+                <div className="flex justify-between items-center mb-6">
+                  <h2 className="text-xl md:text-2xl font-semibold text-gray-900 dark:text-[#fafafa] transition-colors duration-500 ease-out">
+                    {t('cookies.modal.title')}
+                  </h2>
+                  <button
+                    onClick={handleCloseDetails}
+                    className="text-gray-500 dark:text-[#fafafa]/60 hover:text-gray-700 dark:hover:text-[#fafafa] transition-colors duration-500 ease-out"
+                  >
+                    ✕
+                  </button>
                 </div>
 
-                {/* Cookie Analitici */}
-                <div className="border border-gray-200 dark:border-[rgba(250,250,250,0.1)] rounded-xl p-4 transition-colors duration-500 ease-out">
-                  <div className="flex items-center justify-between mb-3">
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-[#fafafa] transition-colors duration-500 ease-out">
-                      {t('cookies.modal.analytics.title')}
-                    </h3>
-                    <label className="relative inline-flex items-center cursor-pointer">
-                      <input
-                        type="checkbox"
-                        checked={analyticsEnabled}
-                        onChange={(e) => setAnalyticsEnabled(e.target.checked)}
-                        className="sr-only peer"
-                      />
-                      <div className="w-11 h-6 bg-gray-600 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#F20352]"></div>
-                    </label>
-                  </div>
-                  <p className="text-sm text-gray-600 dark:text-[#fafafa]/80 mb-3 transition-colors duration-500 ease-out">
-                    {t('cookies.modal.analytics.description')}
+                {/* Paragrafo introduttivo */}
+                <div className="mb-6 p-4 bg-gray-50 dark:bg-[rgba(250,250,250,0.05)] rounded-xl transition-colors duration-500 ease-out">
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-[#fafafa] mb-3 transition-colors duration-500 ease-out">
+                    {t('cookies.modal.intro_title')}
+                  </h3>
+                  <p className="text-sm text-gray-700 dark:text-[#fafafa]/80 leading-relaxed transition-colors duration-500 ease-out">
+                    {t('cookies.modal.intro_text')}{' '}
+                    <a href="/cookie-policy" className="text-[#F20352] hover:underline font-medium">
+                      {t('cookies.modal.intro_link')}
+                    </a>
                   </p>
-                  <div className="space-y-2">
-                    <div className="border border-gray-200 dark:border-[rgba(250,250,250,0.1)] rounded-lg p-3 transition-colors duration-500 ease-out">
-                      <div
-                        className="flex justify-between items-center cursor-pointer"
-                        onClick={() => setExpandedCookie(expandedCookie === 'ga4' ? null : 'ga4')}
-                      >
-                        <div>
-                          <span className="text-sm font-medium text-gray-900 dark:text-[#fafafa] transition-colors duration-500 ease-out">
-                            {t('cookies.modal.analytics.ga4.name')}
-                          </span>
-                          <p className="text-xs text-gray-500 dark:text-[#fafafa]/60 transition-colors duration-500 ease-out">
-                            {t('cookies.modal.analytics.ga4.provider')}
-                          </p>
-                        </div>
-                        <span className="text-xs text-gray-500 dark:text-[#fafafa]/60 transition-colors duration-500 ease-out">
-                          {expandedCookie === 'ga4' ? '−' : '+'}
-                        </span>
-                      </div>
-                      {expandedCookie === 'ga4' && (
-                        <div className="mt-3 pt-3 border-t border-gray-200 dark:border-[rgba(250,250,250,0.1)] space-y-2 transition-colors duration-500 ease-out">
-                          <div>
-                            <span className="text-xs font-medium text-gray-900 dark:text-[#fafafa] transition-colors duration-500 ease-out">
-                              {t('cookies.modal.analytics.ga4.purpose')}
-                            </span>
-                            <p className="text-xs text-gray-600 dark:text-[#fafafa]/80 transition-colors duration-500 ease-out">
-                              {t('cookies.modal.analytics.ga4.purpose_text')}
-                            </p>
-                          </div>
-                          <div>
-                            <span className="text-xs font-medium text-gray-900 dark:text-[#fafafa] transition-colors duration-500 ease-out">
-                              {t('cookies.modal.analytics.ga4.data_collected')}
-                            </span>
-                            <p className="text-xs text-gray-600 dark:text-[#fafafa]/80 transition-colors duration-500 ease-out">
-                              {t('cookies.modal.analytics.ga4.data_text')}
-                            </p>
-                          </div>
-                          <div>
-                            <span className="text-xs font-medium text-gray-900 dark:text-[#fafafa] transition-colors duration-500 ease-out">
-                              {t('cookies.modal.analytics.ga4.description')}
-                            </span>
-                            <p className="text-xs text-gray-600 dark:text-[#fafafa]/80 transition-colors duration-500 ease-out">
-                              {t('cookies.modal.analytics.ga4.description_text')}
-                            </p>
-                          </div>
-                          <div>
-                            <span className="text-xs font-medium text-gray-900 dark:text-[#fafafa] transition-colors duration-500 ease-out">
-                              {t('cookies.modal.analytics.ga4.privacy')}
-                            </span>
-                            <p className="text-xs text-gray-600 dark:text-[#fafafa]/80 transition-colors duration-500 ease-out">
-                              {t('cookies.modal.analytics.ga4.privacy_text')}
-                            </p>
-                          </div>
-                        </div>
-                      )}
+                </div>
+
+                <div className="space-y-6">
+                  {/* Cookie Funzionali */}
+                  <div className="border border-gray-200 dark:border-[rgba(250,250,250,0.1)] rounded-xl p-4 transition-colors duration-500 ease-out">
+                    <div className="flex items-center justify-between mb-3">
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-[#fafafa] transition-colors duration-500 ease-out">
+                        {t('cookies.modal.functional.title')}
+                      </h3>
+                      <span className="px-3 py-1 bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-400 text-xs rounded-full font-medium">
+                        {t('cookies.modal.functional.status')}
+                      </span>
                     </div>
+                    <p className="text-sm text-gray-600 dark:text-[#fafafa]/80 leading-relaxed transition-colors duration-500 ease-out">
+                      {t('cookies.modal.functional.description')}
+                    </p>
+                  </div>
+
+                  {/* Cookie Marketing */}
+                  <div className="border border-gray-200 dark:border-[rgba(250,250,250,0.1)] rounded-xl p-4 transition-colors duration-500 ease-out">
+                    <div className="flex items-center justify-between mb-3">
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-[#fafafa] transition-colors duration-500 ease-out">
+                        {t('cookies.modal.marketing.title')}
+                      </h3>
+                      <label className="relative inline-flex items-center cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={marketingEnabled}
+                          onChange={(e) => setMarketingEnabled(e.target.checked)}
+                          className="sr-only peer"
+                        />
+                        <div className="w-11 h-6 bg-gray-600 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-[#fafafa] after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#F20352]"></div>
+                      </label>
+                    </div>
+                    <p className="text-sm text-gray-600 dark:text-[#fafafa]/80 leading-relaxed transition-colors duration-500 ease-out">
+                      {t('cookies.modal.marketing.description')}
+                    </p>
                   </div>
                 </div>
               </div>
 
-              {/* Pulsanti finali */}
-              <div className="flex flex-col sm:flex-row gap-3 mt-6 pt-6 border-t border-gray-200 dark:border-[rgba(250,250,250,0.1)]">
+              {/* Pulsanti fissi in fondo */}
+              <div className="flex flex-col sm:flex-row gap-3 p-6 md:px-8 md:pb-8 border-t border-gray-200 dark:border-[rgba(250,250,250,0.1)] bg-white/95 dark:bg-[#0b0b0b]/95 rounded-b-2xl">
                 <button
                   onClick={() => {
-                    setAnalyticsEnabled(false);
-                    // Salva immediatamente il rifiuto
+                    setMarketingEnabled(false);
+                    localStorage.setItem('marketing-consent', 'rejected');
+                    localStorage.setItem('marketing-consent-date', new Date().toISOString());
+                    localStorage.setItem('cookie-consent', 'rejected');
+                    localStorage.setItem('cookie-consent-date', new Date().toISOString());
+                    window.dispatchEvent(new Event('cookie-consent-changed'));
                     onReject();
-                    setIsVisible(false); // Chiudi il banner principale
+                    setIsVisible(false);
                     setShowDetails(false);
                     document.body.style.overflow = 'unset';
                     document.body.style.position = 'unset';

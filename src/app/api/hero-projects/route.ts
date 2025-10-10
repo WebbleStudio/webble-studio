@@ -91,9 +91,8 @@ export async function POST(request: NextRequest) {
 
     const data = insertedData;
 
-    // Revalida le pagine che mostrano gli hero projects per aggiornare la cache
+    // Revalida automaticamente dopo il salvataggio
     revalidatePath('/');
-    revalidatePath('/api/hero-projects');
 
     return NextResponse.json({
       message: 'Hero projects saved successfully',
@@ -118,9 +117,8 @@ export async function DELETE() {
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
-    // Revalida le pagine che mostrano gli hero projects per aggiornare la cache
+    // Revalida automaticamente dopo la cancellazione
     revalidatePath('/');
-    revalidatePath('/api/hero-projects');
 
     return NextResponse.json({ message: 'All hero projects deleted successfully' });
   } catch (error) {

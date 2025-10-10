@@ -61,8 +61,8 @@ export async function PUT(request: NextRequest) {
     }
 
     // Revalida le pagine che mostrano le service categories per aggiornare la cache
+    // Revalida automaticamente dopo l'aggiornamento
     revalidatePath('/');
-    revalidatePath('/api/service-categories');
 
     return NextResponse.json(data);
   } catch (error) {

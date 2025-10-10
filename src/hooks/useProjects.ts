@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 
 export interface Project {
   id: string;
@@ -29,8 +29,60 @@ export function useProjects() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Fetch tutti i progetti (ordinati per order_position)
-  const fetchProjects = useCallback(async () => {
+  // Cache client-side per progetti (24h TTL)
+  const getCachedProjects = useCallback((): Project[] | null => {
+    try {
+      const cached = localStorage.getItem('projects_cache');
+      if (!cached) return null;
+
+      const { data, timestamp } = JSON.parse(cached);
+      const now = Date.now();
+      const CACHE_DURATION = 24 * 60 * 60 * 1000; // 24h
+
+      // Controlla se la cache è scaduta
+      if (now - timestamp > CACHE_DURATION) {
+        localStorage.removeItem('projects_cache');
+        return null;
+      }
+
+      return data;
+    } catch (error) {
+      console.warn('Error reading projects cache:', error);
+      localStorage.removeItem('projects_cache');
+      return null;
+    }
+  }, []);
+
+  const setCachedProjects = useCallback((data: Project[]) => {
+    try {
+      localStorage.setItem('projects_cache', JSON.stringify({
+        data,
+        timestamp: Date.now()
+      }));
+    } catch (error) {
+      console.warn('Error setting projects cache:', error);
+    }
+  }, []);
+
+  // Controlla cache all'inizializzazione
+  useEffect(() => {
+    const cachedData = getCachedProjects();
+    if (cachedData) {
+      setProjects(cachedData);
+    }
+  }, [getCachedProjects]);
+
+  // Fetch tutti i progetti (ordinati per order_position) - ora usa cache
+  const fetchProjects = useCallback(async (forceRefresh = false) => {
+    // Controlla cache se non è un refresh forzato
+    if (!forceRefresh) {
+      const cachedData = getCachedProjects();
+      if (cachedData) {
+        setProjects(cachedData);
+        return;
+      }
+    }
+    
     setLoading(true);
     setError(null);
     try {
@@ -40,12 +92,13 @@ export function useProjects() {
       }
       const data = await response.json();
       setProjects(data);
+      setCachedProjects(data); // Salva in cache
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [getCachedProjects, setCachedProjects]);
 
   // Riordina progetti (drag & drop)
   const reorderProjects = useCallback(
@@ -72,12 +125,14 @@ export function useProjects() {
           throw new Error(errorData.error || 'Failed to reorder projects');
         }
 
-        // Ricarica i progetti per assicurarsi che siano sincronizzati
-        await fetchProjects();
+        // Invalida cache e ricarica
+        localStorage.removeItem('projects_cache');
+        await fetchProjects(true);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'An error occurred');
-        // Ricarica i progetti in caso di errore per ripristinare l'ordine corretto
-        await fetchProjects();
+        // Ricarica i progetti in caso di errore
+        localStorage.removeItem('projects_cache');
+        await fetchProjects(true);
         throw err;
       } finally {
         setLoading(false);
@@ -117,7 +172,11 @@ export function useProjects() {
       }
 
       const newProject = await response.json();
-      setProjects((prev) => [newProject, ...prev]);
+      
+      // Invalida cache e ricarica tutti i progetti
+      localStorage.removeItem('projects_cache');
+      await fetchProjects(true); // Force refresh per vedere i nuovi dati
+      
       return newProject;
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
@@ -125,7 +184,7 @@ export function useProjects() {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [fetchProjects]);
 
   // Elimina progetto
   const deleteProject = useCallback(async (projectId: string) => {
@@ -141,14 +200,16 @@ export function useProjects() {
         throw new Error(errorData.error || 'Failed to delete project');
       }
 
-      setProjects((prev) => prev.filter((p) => p.id !== projectId));
+      // Invalida cache e ricarica tutti i progetti
+      localStorage.removeItem('projects_cache');
+      await fetchProjects(true);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
       throw err;
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [fetchProjects]);
 
   // Aggiorna progetto
   const updateProject = useCallback(
@@ -184,7 +245,11 @@ export function useProjects() {
         }
 
         const updatedProject = await response.json();
-        setProjects((prev) => prev.map((p) => (p.id === projectId ? updatedProject : p)));
+        
+        // Invalida cache e ricarica tutti i progetti
+        localStorage.removeItem('projects_cache');
+        await fetchProjects(true);
+        
         return updatedProject;
       } catch (err) {
         setError(err instanceof Error ? err.message : 'An error occurred');
@@ -192,7 +257,7 @@ export function useProjects() {
         setLoading(false);
       }
     },
-    []
+    [fetchProjects]
   );
 
   return {

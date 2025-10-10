@@ -16,14 +16,17 @@ export function useCookieConsent() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Leggi la scelta salvata dal localStorage
-    const savedConsent = localStorage.getItem('cookie-consent') as CookieConsent;
+    // Leggi la scelta salvata dal localStorage (usa marketing-consent come chiave unificata)
+    const savedConsent = localStorage.getItem('marketing-consent') as CookieConsent;
     setConsent(savedConsent);
     setIsLoading(false);
   }, []);
 
   const acceptCookies = () => {
     const now = new Date().toISOString();
+    localStorage.setItem('marketing-consent', 'accepted');
+    localStorage.setItem('marketing-consent-date', now);
+    // Mantieni anche cookie-consent per retrocompatibilità
     localStorage.setItem('cookie-consent', 'accepted');
     localStorage.setItem('cookie-consent-date', now);
     setConsent('accepted');
@@ -34,6 +37,9 @@ export function useCookieConsent() {
 
   const rejectCookies = () => {
     const now = new Date().toISOString();
+    localStorage.setItem('marketing-consent', 'rejected');
+    localStorage.setItem('marketing-consent-date', now);
+    // Mantieni anche cookie-consent per retrocompatibilità
     localStorage.setItem('cookie-consent', 'rejected');
     localStorage.setItem('cookie-consent-date', now);
     setConsent('rejected');
@@ -52,7 +58,7 @@ export function useCookieConsent() {
   };
 
   const disableTracking = () => {
-    // Trigger evento per mantenere GA bloccato
+    // Trigger evento per mantenere GA e GTM bloccati
     if (typeof window !== 'undefined') {
       window.dispatchEvent(new Event('cookie-consent-changed'));
       
@@ -80,12 +86,19 @@ export function useCookieConsent() {
         document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.${window.location.hostname}`;
         document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
       });
+      
+      // Pulisci dataLayer (usato da GTM)
+      if ((window as any).dataLayer) {
+        (window as any).dataLayer = [];
+      }
     }
 
-    console.log('❌ Cookie rifiutati - Google Analytics 4 disabilitato e cookie rimossi');
+    console.log('❌ Cookie rifiutati - Google Analytics 4 e GTM disabilitati, cookie rimossi');
   };
 
   const resetConsent = () => {
+    localStorage.removeItem('marketing-consent');
+    localStorage.removeItem('marketing-consent-date');
     localStorage.removeItem('cookie-consent');
     localStorage.removeItem('cookie-consent-date');
     setConsent(null);

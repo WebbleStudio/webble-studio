@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 
 export interface HeroProject {
   id: string;
@@ -35,8 +35,60 @@ export const useHeroProjects = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Fetch hero projects
-  const fetchHeroProjects = useCallback(async () => {
+  // Cache client-side per hero projects (24h TTL)
+  const getCachedHeroProjects = useCallback((): HeroProject[] | null => {
+    try {
+      const cached = localStorage.getItem('hero_projects_cache');
+      if (!cached) return null;
+
+      const { data, timestamp } = JSON.parse(cached);
+      const now = Date.now();
+      const CACHE_DURATION = 24 * 60 * 60 * 1000; // 24h
+
+      // Controlla se la cache è scaduta
+      if (now - timestamp > CACHE_DURATION) {
+        localStorage.removeItem('hero_projects_cache');
+        return null;
+      }
+
+      return data;
+    } catch (error) {
+      console.warn('Error reading hero projects cache:', error);
+      localStorage.removeItem('hero_projects_cache');
+      return null;
+    }
+  }, []);
+
+  const setCachedHeroProjects = useCallback((data: HeroProject[]) => {
+    try {
+      localStorage.setItem('hero_projects_cache', JSON.stringify({
+        data,
+        timestamp: Date.now()
+      }));
+    } catch (error) {
+      console.warn('Error setting hero projects cache:', error);
+    }
+  }, []);
+
+  // Controlla cache all'inizializzazione
+  useEffect(() => {
+    const cachedData = getCachedHeroProjects();
+    if (cachedData) {
+      setHeroProjects(cachedData);
+    }
+  }, [getCachedHeroProjects]);
+
+  // Fetch hero projects - ora usa cache
+  const fetchHeroProjects = useCallback(async (forceRefresh = false) => {
+    // Controlla cache se non è un refresh forzato
+    if (!forceRefresh) {
+      const cachedData = getCachedHeroProjects();
+      if (cachedData) {
+        setHeroProjects(cachedData);
+        return;
+      }
+    }
+
     setLoading(true);
     setError(null);
 
@@ -49,6 +101,7 @@ export const useHeroProjects = () => {
       }
 
       setHeroProjects(data || []);
+      setCachedHeroProjects(data || []); // Salva in cache
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Unknown error occurred';
       setError(errorMessage);
@@ -56,7 +109,7 @@ export const useHeroProjects = () => {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [getCachedHeroProjects, setCachedHeroProjects]);
 
   // Save hero projects configuration
   const saveHeroProjects = useCallback(
@@ -79,8 +132,8 @@ export const useHeroProjects = () => {
           throw new Error(data.error || 'Failed to save hero projects');
         }
 
-        // Aggiorna i dati locali
-        await fetchHeroProjects();
+        // Aggiorna i dati locali e invalida cache
+        await fetchHeroProjects(true); // Force refresh per invalidare cache
 
         return data;
       } catch (err) {
@@ -174,6 +227,8 @@ export const useHeroProjects = () => {
       }
 
       setHeroProjects([]);
+      // Invalida cache quando si cancellano tutti i hero projects
+      localStorage.removeItem('hero_projects_cache');
       return data;
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Unknown error occurred';

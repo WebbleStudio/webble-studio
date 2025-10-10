@@ -38,39 +38,39 @@ const disableGoogleAnalytics = () => {
 };
 
 export default function GoogleAnalytics() {
-  const [hasConsent, setHasConsent] = useState(false);
+  const [hasMarketingConsent, setHasMarketingConsent] = useState(false);
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
     
-    // Controlla il consenso ai cookie
+    // Controlla il consenso ai cookie marketing
     const checkConsent = () => {
-      const cookieConsent = localStorage.getItem('cookie-consent');
-      const consentDate = localStorage.getItem('cookie-consent-date');
+      const marketingConsent = localStorage.getItem('marketing-consent');
+      const consentDate = localStorage.getItem('marketing-consent-date');
       
-      console.log('🔍 Checking cookie consent:', { cookieConsent, consentDate });
+      console.log('🔍 Checking marketing consent:', { 
+        consent: marketingConsent, 
+        date: consentDate 
+      });
       
-      // Verifica se il consenso è ancora valido (non scaduto)
-      if (cookieConsent === 'accepted' && consentDate) {
+      // Verifica consenso Marketing (include GA + GTM)
+      if (marketingConsent === 'accepted' && consentDate) {
         const savedDate = new Date(consentDate);
         const now = new Date();
         const daysDiff = (now.getTime() - savedDate.getTime()) / (1000 * 3600 * 24);
         
-        // Se è passato più di 6 mesi, considera il consenso scaduto
         if (daysDiff > 180) {
-          console.log('❌ Cookie consent expired (180+ days)');
-          setHasConsent(false);
-          // Disabilita Google Analytics se già caricato
+          console.log('❌ Marketing consent expired (180+ days)');
+          setHasMarketingConsent(false);
           disableGoogleAnalytics();
         } else {
-          console.log('✅ Cookie consent valid, enabling GA');
-          setHasConsent(true);
+          console.log('✅ Marketing consent valid - enabling GA4 + GTM');
+          setHasMarketingConsent(true);
         }
       } else {
-        console.log('❌ No cookie consent found');
-        setHasConsent(false);
-        // Disabilita Google Analytics se già caricato
+        console.log('❌ No marketing consent found');
+        setHasMarketingConsent(false);
         disableGoogleAnalytics();
       }
     };
@@ -79,7 +79,7 @@ export default function GoogleAnalytics() {
 
     // Listener per cambiamenti nel consenso
     const handleConsentChange = () => {
-      console.log('🔄 Cookie consent changed, rechecking...');
+      console.log('🔄 Consent changed, rechecking...');
       checkConsent();
     };
 
@@ -92,12 +92,12 @@ export default function GoogleAnalytics() {
     };
   }, []);
 
-  // ❌ NON caricare nulla se non c'è consenso
-  if (!isClient || !hasConsent) {
+  // ❌ NON caricare nulla se non c'è consenso marketing
+  if (!isClient || !hasMarketingConsent) {
     return null;
   }
 
-  // ✅ Carica SOLO se accettato
+  // ✅ Carica GA4 + GTM con consenso marketing
   return (
     <>
       {/* Google Tag Manager */}
@@ -111,11 +111,12 @@ export default function GoogleAnalytics() {
             j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
             })(window,document,'script','dataLayer','${GTM_ID}');
+            console.log('✅ Google Tag Manager attivato con consenso marketing');
           `,
         }}
       />
 
-      {/* Google Analytics */}
+      {/* Google Analytics 4 */}
       <Script
         strategy="afterInteractive"
         src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
@@ -153,7 +154,7 @@ export default function GoogleAnalytics() {
               page_path: window.location.pathname
             });
             
-            console.log('✅ Google Analytics 4 e GTM attivati con consenso GDPR');
+            console.log('✅ Google Analytics 4 attivato con consenso marketing');
             console.log('📍 Page view sent:', window.location.href);
           `,
         }}

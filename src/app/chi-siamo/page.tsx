@@ -14,3 +14,6 @@ export default function ChiSiamoPage() {
     </div>
   );
 }
+
+// Forza la rigenerazione statica SOLO on-demand
+export const revalidate = false;
