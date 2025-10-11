@@ -79,6 +79,8 @@ export async function DELETE(
     revalidatePath('/');
     revalidatePath('/portfolio');
     revalidatePath('/api/projects');
+    revalidatePath('/api/home-data'); // Invalida endpoint aggregato home
+    revalidatePath('/api/portfolio-data'); // Invalida endpoint aggregato portfolio
 
     return NextResponse.json({
       success: true,
@@ -134,6 +136,8 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
     revalidatePath('/');
     revalidatePath('/portfolio');
     revalidatePath('/api/projects');
+    revalidatePath('/api/home-data'); // Invalida endpoint aggregato home
+    revalidatePath('/api/portfolio-data'); // Invalida endpoint aggregato portfolio
 
     return NextResponse.json(updatedProject);
   } catch (error) {

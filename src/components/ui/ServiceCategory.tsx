@@ -152,6 +152,8 @@ export default function ServiceCategory({
                               width={200}
                               height={130}
                               className="w-full h-full object-cover"
+                              loading="eager"
+                              priority={index === 0}
                             />
                           </a>
                         ) : (
@@ -161,6 +163,8 @@ export default function ServiceCategory({
                             width={200}
                             height={130}
                             className="w-full h-full object-cover"
+                            loading="eager"
+                            priority={index === 0}
                           />
                         )}
                       </div>

@@ -1,51 +1,26 @@
-import { useState, useCallback, useEffect } from 'react';
-import { useServiceCategories } from './useServiceCategories';
-import { useProjects, Project } from './useProjects';
+import { useCallback, useMemo } from 'react';
+import { useHomeData } from './useHomeData';
+import { Project } from './useProjects';
 
 export interface ServiceImage {
   categorySlug: string;
   projects: Project[];
 }
 
+/**
+ * Hook ottimizzato per ottenere progetti per categoria.
+ * Utilizza i dati aggregati da useHomeData con cache 12 ore e JOIN lato server.
+ */
 export function useServiceImages() {
-  const { serviceCategories, fetchServiceCategories } = useServiceCategories();
-  const { projects, fetchProjects } = useProjects();
-  const [serviceImages, setServiceImages] = useState<ServiceImage[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { serviceCategories, loading } = useHomeData();
 
-  // Carica le immagini dei servizi
-  const loadServiceImages = useCallback(async () => {
-    setLoading(true);
-
-    try {
-      await Promise.all([fetchServiceCategories(), fetchProjects()]);
-    } catch (error) {
-      console.error('Error loading service images:', error);
-    } finally {
-      setLoading(false);
-    }
-  }, [fetchServiceCategories, fetchProjects]);
-
-  // Aggiorna le immagini quando cambiano le categorie o i progetti
-  useEffect(() => {
-    if (serviceCategories.length > 0 && projects.length > 0) {
-      const images: ServiceImage[] = serviceCategories.map((category) => {
-        const categoryProjects = projects.filter((project) => category.images.includes(project.id));
-
-        return {
-          categorySlug: category.slug,
-          projects: categoryProjects,
-        };
-      });
-
-      setServiceImages(images);
-    }
-  }, [serviceCategories, projects]);
-
-  // Carica le immagini all'avvio
-  useEffect(() => {
-    loadServiceImages();
-  }, [loadServiceImages]);
+  // Converte enrichedServiceCategories in formato ServiceImage
+  const serviceImages = useMemo<ServiceImage[]>(() => {
+    return serviceCategories.map((category) => ({
+      categorySlug: category.slug,
+      projects: category.projects, // Già joinati dal server!
+    }));
+  }, [serviceCategories]);
 
   // Ottiene i progetti per una categoria specifica
   const getProjectsForCategory = useCallback(
@@ -60,6 +35,5 @@ export function useServiceImages() {
     serviceImages,
     loading,
     getProjectsForCategory,
-    loadServiceImages,
   };
 }

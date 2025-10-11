@@ -54,13 +54,13 @@
     },
     "service03": {
       "number": "03",
-      "title": "Advertising",
+      "title": "Advertising & SMM",
       "labels": ["Advertising", "Marketing", "Campagne"],
       "paragraph": "Creiamo campagne pubblicitarie che catturano l'attenzione e convertono il pubblico in clienti fedeli."
     },
     "service04": {
       "number": "04",
-      "title": "Social Media Design",
+      "title": "Developing Web/App",
       "labels": ["Social Media", "Content Design", "Branding"],
       "paragraph": "Progettiamo contenuti social che raccontano la storia del tuo brand e coinvolgono la tua community."
     }

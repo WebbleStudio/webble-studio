@@ -11,7 +11,16 @@ export { useApiCall } from './useApiCall';
 export { useAnimationManager } from './useAnimationManager';
 export { useServiceCategories } from './useServiceCategories';
 export { useServiceImages } from './useServiceImages';
+export { useHomeData } from './useHomeData';
+export { usePortfolioData } from './usePortfolioData';
 export { useBookings } from './useBookings';
+export { useProjectsBatch } from './useProjectsBatch';
+export { useHighlightsBatch } from './useHighlightsBatch';
+export { useServicesBatch } from './useServicesBatch';
+
+// Admin-specific hooks con cache 24h
+export { useAdminCache, clearAdminCache, getCacheAge } from './useAdminCache';
+export { useAdminBookings } from './useAdminBookings';
 export { useCookieConsent } from './useCookieConsent';
 export { useCookieManager } from './useCookieManager';
 export { usePageTracking } from './usePageTracking';

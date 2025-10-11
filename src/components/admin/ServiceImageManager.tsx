@@ -4,10 +4,12 @@ import React, { useState, useEffect } from 'react';
 import { useServiceCategories, ServiceCategory } from '@/hooks/useServiceCategories';
 import { useProjects, Project } from '@/hooks/useProjects';
 import { useTranslation } from '@/hooks/useTranslation';
+// useServicesBatch ora viene gestito dall'admin page
 import AnimatedText from '@/components/ui/AnimatedText';
 
 interface ServiceImageManagerProps {
   className?: string;
+  markServiceAsModified: (update: { id: string; images: string[] }) => void;
 }
 
 interface ProjectSelectionModalProps {
@@ -169,7 +171,10 @@ function ProjectSelectionModal({
   );
 }
 
-export default function ServiceImageManager({ className = '' }: ServiceImageManagerProps) {
+export default function ServiceImageManager({ 
+  className = '',
+  markServiceAsModified 
+}: ServiceImageManagerProps) {
   const { t } = useTranslation();
   const {
     serviceCategories,
@@ -181,6 +186,8 @@ export default function ServiceImageManager({ className = '' }: ServiceImageMana
     setError,
   } = useServiceCategories();
   const { projects, fetchProjects } = useProjects();
+
+  // markServiceAsModified viene passato come prop dall'admin page (hook condiviso)
 
   // Stati locali per le modifiche non salvate
   const [localChanges, setLocalChanges] = useState<{
@@ -244,33 +251,35 @@ export default function ServiceImageManager({ className = '' }: ServiceImageMana
         };
       }
     });
-  };
 
-  // Salva le modifiche per una categoria specifica
-  const saveCategoryChanges = async (categorySlug: string) => {
-    try {
-      const images = localChanges[categorySlug] || [];
-      // Filtra solo gli ID che corrispondono a progetti esistenti
-      const existingProjectIds = new Set(projects.map((p) => p.id));
-      const validImages = images.filter((imageId) => existingProjectIds.has(imageId));
+    // Marca la modifica nel sistema batch
+    const category = serviceCategories.find(cat => cat.slug === categorySlug);
+    if (category) {
+      // Calcola i nuovi valori DOPO l'aggiornamento dello state
+      const currentImages = localChanges[categorySlug] || [];
+      const isSelected = currentImages.includes(projectId);
+      let updatedImages: string[];
+      
+      if (isSelected) {
+        // Rimuovi il progetto
+        updatedImages = currentImages.filter((id) => id !== projectId);
+      } else {
+        // Aggiungi il progetto solo se non abbiamo raggiunto il limite di 3
+        if (currentImages.length >= 3) {
+          return; // Non aggiungere se già 3 progetti
+        }
+        updatedImages = [...currentImages, projectId];
+      }
 
-      await updateServiceCategoryImages(categorySlug, validImages);
-    } catch (error) {
-      console.error('Error saving category changes:', error);
+      markServiceAsModified({
+        id: category.id,
+        images: updatedImages,
+      });
     }
   };
 
-  // Salva tutte le modifiche
-  const saveAllChanges = async () => {
-    try {
-      const promises = Object.keys(localChanges).map((slug) =>
-        updateServiceCategoryImages(slug, localChanges[slug] || [])
-      );
-      await Promise.all(promises);
-    } catch (error) {
-      console.error('Error saving all changes:', error);
-    }
-  };
+  // Le vecchie funzioni di salvataggio sono state rimosse
+  // Ora si usa solo il SaveAllButton bottom-fixed nell'admin page
 
   // Verifica se ci sono modifiche non salvate
   const hasUnsavedChanges = () => {
@@ -294,8 +303,8 @@ export default function ServiceImageManager({ className = '' }: ServiceImageMana
     const categoryMap: { [key: string]: string } = {
       'ui-ux-design': 'UI/UX Design',
       'project-management': 'Project Management',
-      advertising: 'Advertising',
-      'social-media-design': 'Social Media Design',
+      advertising: 'Advertising & SMM',
+      'social-media-design': 'Developing Web/App',
     };
     return categoryMap[slug] || slug;
   };
@@ -322,8 +331,8 @@ export default function ServiceImageManager({ className = '' }: ServiceImageMana
   const defaultCategories = [
     { slug: 'ui-ux-design', name: 'UI/UX Design', images: [] },
     { slug: 'project-management', name: 'Project Management', images: [] },
-    { slug: 'advertising', name: 'Advertising', images: [] },
-    { slug: 'social-media-design', name: 'Social Media Design', images: [] },
+    { slug: 'advertising', name: 'Advertising & SMM', images: [] },
+    { slug: 'social-media-design', name: 'Developing Web/App', images: [] },
   ];
 
   // Usa le categorie dal database se disponibili, altrimenti quelle di default
@@ -439,22 +448,7 @@ export default function ServiceImageManager({ className = '' }: ServiceImageMana
             Pulisci ID Non Validi
           </button>
 
-          {hasUnsavedChanges() && (
-            <button
-              onClick={saveAllChanges}
-              className="px-4 py-2 bg-[#F20352] hover:bg-[#F20352]/90 text-white rounded-lg transition-all duration-300 flex items-center gap-2"
-            >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3-3m0 0l-3 3m3-3v12"
-                />
-              </svg>
-              Salva Tutte le Modifiche
-            </button>
-          )}
+          {/* Vecchio bottone "Salva Tutte" rimosso - ora si usa SaveAllButton bottom-fixed */}
         </div>
       </div>
 
@@ -462,9 +456,6 @@ export default function ServiceImageManager({ className = '' }: ServiceImageMana
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {categoriesToShow.map((category) => {
           const selectedProjects = getSelectedProjects(category.slug);
-          const hasChanges =
-            JSON.stringify(category.images?.sort() || []) !==
-            JSON.stringify((localChanges[category.slug] || []).sort());
 
           return (
             <div
@@ -483,14 +474,7 @@ export default function ServiceImageManager({ className = '' }: ServiceImageMana
                 </div>
 
                 <div className="flex gap-2">
-                  {hasChanges && (
-                    <button
-                      onClick={() => saveCategoryChanges(category.slug)}
-                      className="px-3 py-1.5 text-xs bg-[#F20352] hover:bg-[#F20352]/90 text-white rounded-lg transition-all duration-300"
-                    >
-                      Salva
-                    </button>
-                  )}
+                  {/* Vecchio bottone "Salva" per categoria rimosso - ora si usa SaveAllButton bottom-fixed */}
 
                   <button
                     onClick={() =>

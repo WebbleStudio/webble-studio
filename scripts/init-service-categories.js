@@ -29,12 +29,12 @@ async function initServiceCategories() {
       },
       {
         slug: 'advertising',
-        name: 'Advertising',
+        name: 'Advertising & SMM',
         images: [],
       },
       {
         slug: 'social-media-design',
-        name: 'Social Media Design',
+        name: 'Developing Web/App',
         images: [],
       },
     ];

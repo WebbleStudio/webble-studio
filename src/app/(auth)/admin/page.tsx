@@ -11,7 +11,11 @@ import ProtectedRoute from '@/components/auth/ProtectedRoute';
 import { signOut, useSession } from 'next-auth/react';
 import ServiceImageManager from '@/components/admin/ServiceImageManager';
 import BookingManager from '@/components/admin/BookingManager';
+import SaveAllButton from '@/components/admin/SaveAllButton';
 import { apiCache, cacheKeys } from '@/lib/apiCache';
+import { useProjectsBatch } from '@/hooks/useProjectsBatch';
+import { useHighlightsBatch } from '@/hooks/useHighlightsBatch';
+import { useServicesBatch } from '@/hooks/useServicesBatch';
 import {
   DndContext,
   closestCenter,
@@ -146,6 +150,52 @@ export default function AdminPage() {
     setError,
   } = useProjects();
 
+  // Batch update hook per gestire modifiche multiple
+  const {
+    hasChanges: hasBatchChanges,
+    pendingChangesCount,
+    saving: batchSaving,
+    batchState, // Esposto per accesso diretto ai dati
+    markAsModified,
+    markAsDeleted,
+    markAsReordered,
+    saveAllChanges: saveBatchChanges, // Alias per evitare conflitto con saveAllChanges degli highlights
+    resetBatch,
+  } = useProjectsBatch();
+
+  // Hook per gestione batch di highlights (SEPARATO)
+  const {
+    batchState: highlightsBatchState,
+    batchSaving: highlightsBatchSaving,
+    hasBatchChanges: hasHighlightsBatchChanges,
+    pendingChangesCount: highlightsPendingChangesCount,
+    markHighlightAsModified,
+    saveAllChanges: saveHighlightsBatchChanges,
+    resetBatch: resetHighlightsBatch,
+  } = useHighlightsBatch();
+
+  // Hook per gestione batch di services (SEPARATO)
+  const {
+    batchState: servicesBatchState,
+    batchSaving: servicesBatchSaving,
+    hasBatchChanges: hasServicesBatchChanges,
+    pendingChangesCount: servicesPendingChangesCount,
+    markServiceAsModified,
+    saveAllChanges: saveServicesBatchChanges,
+    resetBatch: resetServicesBatch,
+  } = useServicesBatch();
+
+  // Hook per service categories
+  const {
+    serviceCategories,
+    loading: serviceCategoriesLoading,
+    error: serviceCategoriesError,
+    fetchServiceCategories,
+    updateServiceCategoryImages,
+    initializeServiceCategories,
+    setError: setServiceCategoriesError,
+  } = useServiceCategories();
+
   const {
     heroProjects,
     loading: heroLoading,
@@ -275,13 +325,16 @@ export default function AdminPage() {
 
       const reorderedItems = arrayMove(currentProjects, oldIndex, newIndex);
 
+      // BATCH UPDATE: Marca per riordinamento
+      markAsReordered(reorderedItems);
+
       setLocalProjectsState((prev) => ({
         ...prev,
         projects: reorderedItems,
         hasChanges: true,
       }));
 
-      console.log('Projects reordered locally (not saved)');
+      console.log('🔄 Progetti riordinati localmente (non ancora salvato)');
     }
   };
 
@@ -300,15 +353,15 @@ export default function AdminPage() {
     }
   }, [isEditModalOpen]);
 
-  // Inizializza stato locale quando i progetti cambiano
+  // Inizializza stato locale quando i progetti cambiano (solo se non ci sono modifiche in corso)
   useEffect(() => {
-    if (projects.length > 0 && !localProjectsState.hasChanges) {
+    if (projects.length > 0 && !localProjectsState.hasChanges && !hasBatchChanges && localProjectsState.projects.length === 0) {
       setLocalProjectsState((prev) => ({
         ...prev,
         projects: [...projects],
       }));
     }
-  }, [projects, localProjectsState.hasChanges]);
+  }, [projects, localProjectsState.hasChanges, hasBatchChanges, localProjectsState.projects.length]);
 
   const handleDrag = (e: React.DragEvent) => {
     e.preventDefault();
@@ -413,7 +466,10 @@ export default function AdminPage() {
       return;
     }
 
-    // Se è un progetto esistente, gestiscilo come prima
+    // BATCH UPDATE: Marca per eliminazione
+    markAsDeleted(id);
+
+    // Aggiorna lo stato locale per preview immediata
     const currentProjects = localProjectsState.hasChanges ? localProjectsState.projects : projects;
     const filteredProjects = currentProjects.filter((p) => p.id !== id);
 
@@ -424,7 +480,7 @@ export default function AdminPage() {
       hasChanges: true,
     }));
 
-    console.log('Project marked for deletion locally (not saved)');
+    console.log('🗑️ Progetto marcato per eliminazione (non ancora salvato)');
   };
 
   // Funzioni per editing - stabilizzate con useCallback
@@ -518,13 +574,13 @@ export default function AdminPage() {
 
       // Invalida la cache dei progetti
       apiCache.invalidate(cacheKeys.projects());
+      apiCache.invalidate(cacheKeys.homeData());
+      apiCache.invalidate(cacheKeys.portfolioData());
 
       // Svuota la lista dei progetti locali
       setNewProjects([]);
 
-      // Ricarica i progetti dal server
-      await fetchProjects();
-
+      // NON fare fetch qui - verrà fatto dal chiamante per evitare doppi fetch
       console.log('All local projects saved successfully');
     } catch (error) {
       console.error('Failed to save local projects:', error);
@@ -587,23 +643,26 @@ export default function AdminPage() {
     fetchHeroProjects();
   }, [fetchHeroProjects]);
 
-  // Inizializza localConfigs quando cambiano gli heroProjects
+  // Inizializza localConfigs quando cambiano gli heroProjects (solo se non ci sono modifiche in corso)
   useEffect(() => {
-    const newLocalConfigs: typeof localConfigs = {};
-    heroProjects.forEach((hp) => {
-      newLocalConfigs[hp.project_id] = {
-        descriptions: [...hp.descriptions],
-        images: [...hp.images],
-        backgroundImage: hp.background_image,
-        projectDate: hp.project_date || '',
-        hasChanges: false,
-      };
-    });
-    setLocalConfigs(newLocalConfigs);
-  }, [heroProjects]);
+    if (!hasHighlightsBatchChanges && Object.keys(localConfigs).length === 0) {
+      const newLocalConfigs: typeof localConfigs = {};
+      heroProjects.forEach((hp) => {
+        newLocalConfigs[hp.project_id] = {
+          descriptions: [...hp.descriptions],
+          images: [...hp.images],
+          backgroundImage: hp.background_image,
+          projectDate: hp.project_date || '',
+          hasChanges: false,
+        };
+      });
+      setLocalConfigs(newLocalConfigs);
+    }
+  }, [heroProjects, hasHighlightsBatchChanges, localConfigs]);
 
   // Gestione Highlights
   const handleHighlightSelection = async (projectId: string) => {
+    // Aggiungi/rimuovi progetto dagli highlights - salva immediatamente
     try {
       if (selectedHighlights.includes(projectId)) {
         // Rimuovi progetto
@@ -668,51 +727,41 @@ export default function AdminPage() {
     field: 'descriptions' | 'images' | 'backgroundImage' | 'projectDate',
     value: any
   ) => {
-    setLocalConfigs((prev) => ({
-      ...prev,
-      [projectId]: {
-        ...prev[projectId],
+    setLocalConfigs((prev) => {
+      // Ottieni i valori attuali o usa valori di default
+      const currentConfig = prev[projectId] || highlightConfigs[projectId] || {
+        descriptions: ['', '', ''],
+        images: [],
+        backgroundImage: '',
+        projectDate: '',
+        hasChanges: false,
+      };
+
+      const updatedConfig = {
+        ...currentConfig,
         [field]: value,
         hasChanges: true,
-      },
-    }));
-  };
+      };
 
-  // Salva tutte le configurazioni highlights (unica funzione di salvataggio)
-  const saveAllChanges = async () => {
-    // Se non ci sono progetti selezionati, non fare nulla
-    if (selectedHighlights.length === 0) return;
-
-    try {
-      const updatedConfigs = selectedHighlights.map((id) => {
-        const localConfig = localConfigs[id];
-        // Usa i dati locali se disponibili, altrimenti quelli salvati
-        const configData = localConfig || highlightConfigs[id];
-
-        return {
-          projectId: id,
-          descriptions: configData.descriptions,
-          images: configData.images,
-          backgroundImage: configData.backgroundImage,
-          projectDate: configData.projectDate,
+      // Marca la modifica nel sistema batch con TUTTI i dati aggiornati
+      const heroProject = heroProjects.find(hp => hp.project_id === projectId);
+      if (heroProject) {
+        const updateData = {
+          id: heroProject.id,
+          project_id: projectId,
+          descriptions: updatedConfig.descriptions,
+          images: updatedConfig.images,
+          background_image: updatedConfig.backgroundImage,
+          project_date: updatedConfig.projectDate,
         };
-      });
+        markHighlightAsModified(updateData);
+      }
 
-      await saveHeroProjects(updatedConfigs);
-
-      // Marca tutti i progetti come salvati
-      setLocalConfigs((prev) => {
-        const newConfigs = { ...prev };
-        selectedHighlights.forEach((id) => {
-          if (newConfigs[id]) {
-            newConfigs[id].hasChanges = false;
-          }
-        });
-        return newConfigs;
-      });
-    } catch (error) {
-      console.error('Error saving highlights:', error);
-    }
+      return {
+        ...prev,
+        [projectId]: updatedConfig,
+      };
+    });
   };
 
   // Gestione upload immagini
@@ -1071,8 +1120,20 @@ export default function AdminPage() {
           updates.image_url = imageData.url;
         }
 
-        await updateProject(editingProject.id, updates);
+        // BATCH UPDATE: Salva localmente invece di chiamare API subito
+        markAsModified(editingProject.id, updates);
+        
+        // Aggiorna lo stato locale per preview immediata
+        setLocalProjectsState((prev) => ({
+          ...prev,
+          projects: (prev.hasChanges ? prev.projects : projects).map((p) =>
+            p.id === editingProject.id ? { ...p, ...updates } : p
+          ),
+          hasChanges: true,
+        }));
+
         closeEditModal();
+        console.log('✏️ Progetto modificato localmente (non ancora salvato)');
       } catch (error) {
         console.error('Error updating project:', error);
         setError("Errore nell'aggiornamento del progetto");
@@ -1119,7 +1180,7 @@ export default function AdminPage() {
                 </label>
                 <input
                   type="text"
-                  value={internalFormData.title}
+                  value={internalFormData.title || ''}
                   onChange={(e) =>
                     setInternalFormData((prev) => ({ ...prev, title: e.target.value }))
                   }
@@ -1136,7 +1197,7 @@ export default function AdminPage() {
                 </label>
                 <input
                   type="text"
-                  value={internalFormData.title_en}
+                  value={internalFormData.title_en || ''}
                   onChange={(e) =>
                     setInternalFormData((prev) => ({ ...prev, title_en: e.target.value }))
                   }
@@ -1151,7 +1212,7 @@ export default function AdminPage() {
                   {t('admin.projects.description')} (IT)
                 </label>
                 <textarea
-                  value={internalFormData.description}
+                  value={internalFormData.description || ''}
                   onChange={(e) =>
                     setInternalFormData((prev) => ({ ...prev, description: e.target.value }))
                   }
@@ -1168,7 +1229,7 @@ export default function AdminPage() {
                   {t('admin.projects.description')} (EN)
                 </label>
                 <textarea
-                  value={internalFormData.description_en}
+                  value={internalFormData.description_en || ''}
                   onChange={(e) =>
                     setInternalFormData((prev) => ({ ...prev, description_en: e.target.value }))
                   }
@@ -1185,7 +1246,7 @@ export default function AdminPage() {
                 </label>
                 <input
                   type="url"
-                  value={internalFormData.link}
+                  value={internalFormData.link || ''}
                   onChange={(e) =>
                     setInternalFormData((prev) => ({ ...prev, link: e.target.value }))
                   }
@@ -1486,7 +1547,7 @@ export default function AdminPage() {
                       </label>
                       <input
                         type="text"
-                        value={newProject.title}
+                        value={newProject.title || ''}
                         onChange={(e) =>
                           setNewProject((prev) => ({ ...prev, title: e.target.value }))
                         }
@@ -1502,7 +1563,7 @@ export default function AdminPage() {
                       </label>
                       <input
                         type="text"
-                        value={newProject.title_en}
+                        value={newProject.title_en || ''}
                         onChange={(e) =>
                           setNewProject((prev) => ({ ...prev, title_en: e.target.value }))
                         }
@@ -1517,7 +1578,7 @@ export default function AdminPage() {
                         {t('admin.projects.description')} (IT)
                       </label>
                       <textarea
-                        value={newProject.description}
+                        value={newProject.description || ''}
                         onChange={(e) =>
                           setNewProject((prev) => ({ ...prev, description: e.target.value }))
                         }
@@ -1533,7 +1594,7 @@ export default function AdminPage() {
                         {t('admin.projects.description')} (EN)
                       </label>
                       <textarea
-                        value={newProject.description_en}
+                        value={newProject.description_en || ''}
                         onChange={(e) =>
                           setNewProject((prev) => ({ ...prev, description_en: e.target.value }))
                         }
@@ -1548,7 +1609,7 @@ export default function AdminPage() {
                       </label>
                       <input
                         type="url"
-                        value={newProject.link}
+                        value={newProject.link || ''}
                         onChange={(e) =>
                           setNewProject((prev) => ({ ...prev, link: e.target.value }))
                         }
@@ -1687,60 +1748,7 @@ export default function AdminPage() {
                       </svg>
                       {t('admin.projects.view_portfolio')}
                     </button>
-                    {(localProjectsState.hasChanges || newProjects.length > 0) && (
-                      <div className="flex gap-2">
-                        {localProjectsState.hasChanges && (
-                          <button
-                            onClick={saveAllProjectChanges}
-                            disabled={loading}
-                            className="px-4 py-2 text-sm bg-[#F20352] hover:bg-[#F20352]/90 text-white rounded-lg disabled:opacity-50 transition-all duration-300 relative flex items-center gap-2 shadow-sm"
-                          >
-                            <svg
-                              className="w-4 h-4"
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3-3m0 0l-3 3m3-3v12"
-                              />
-                            </svg>
-                            {loading
-                              ? t('admin.projects.saving')
-                              : t('admin.projects.save_changes')}
-                          </button>
-                        )}
-                        {newProjects.length > 0 && (
-                          <button
-                            onClick={saveAllLocalProjects}
-                            disabled={loading}
-                            className="px-4 py-2 text-sm bg-green-600 hover:bg-green-700 text-white rounded-lg disabled:opacity-50 transition-all duration-300 relative flex items-center gap-2 shadow-sm"
-                          >
-                            <svg
-                              className="w-4 h-4"
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                              />
-                            </svg>
-                            {loading
-                              ? t('admin.projects.saving')
-                              : t('admin.projects.save_projects_count', {
-                                  count: newProjects.length,
-                                })}
-                          </button>
-                        )}
-                      </div>
-                    )}
+                    {/* Vecchi bottoni di salvataggio rimossi - ora si usa SaveAllButton in basso */}
                   </div>
                 </div>
 
@@ -2161,42 +2169,7 @@ export default function AdminPage() {
                         {t('admin.highlights.configuration')}
                       </h3>
                       <div className="flex items-center gap-2">
-                        {/* Pulsante Salva sempre visibile se ci sono progetti selezionati */}
-                        {selectedHighlights.length > 0 && (
-                          <button
-                            onClick={saveAllChanges}
-                            disabled={heroLoading}
-                            className="px-4 py-2 text-sm bg-[#F20352] hover:bg-[#F20352]/90 text-white rounded-lg disabled:opacity-50 transition-all duration-300 relative flex items-center gap-2 shadow-sm"
-                          >
-                            {/* Indicatore modifiche non salvate */}
-                            {Object.values(localConfigs).some((config) => config?.hasChanges) && (
-                              <span className="absolute -top-1 -right-1 w-3 h-3 bg-orange-500 rounded-full shadow-sm"></span>
-                            )}
-                            {heroLoading ? (
-                              <>
-                                <div className="animate-spin rounded-full h-3 w-3 border-b border-white"></div>
-                                <span>{t('admin.highlights.saving')}</span>
-                              </>
-                            ) : (
-                              <>
-                                <svg
-                                  className="w-4 h-4"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  viewBox="0 0 24 24"
-                                >
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3-3m0 0l-3 3m3-3v12"
-                                  />
-                                </svg>
-                                {t('admin.highlights.save')}
-                              </>
-                            )}
-                          </button>
-                        )}
+                        {/* Vecchio bottone salva rimosso - ora si usa SaveAllButton bottom-fixed */}
                         {selectedHighlights.length > 0 && (
                           <button
                             onClick={clearHeroProjects}
@@ -2333,7 +2306,7 @@ export default function AdminPage() {
                                           {t('admin.highlights.slide')} {descIndex + 1}
                                         </label>
                                         <textarea
-                                          value={desc}
+                                          value={desc || ''}
                                           onChange={(e) => {
                                             const newDescriptions = [...currentConfig.descriptions];
                                             newDescriptions[descIndex] = e.target.value;
@@ -2426,7 +2399,7 @@ export default function AdminPage() {
                                 </label>
                                 <input
                                   type="text"
-                                  value={currentConfig.projectDate}
+                                  value={currentConfig.projectDate || ''}
                                   onChange={(e) =>
                                     updateLocalConfig(projectId, 'projectDate', e.target.value)
                                   }
@@ -2535,13 +2508,67 @@ export default function AdminPage() {
             </div>
           )}
 
+          {/* SaveAllButton per Highlights */}
+          {activeSection === 'highlights' && (
+            <SaveAllButton
+              hasChanges={hasHighlightsBatchChanges}
+              pendingChangesCount={highlightsPendingChangesCount}
+              saving={highlightsBatchSaving}
+              onSave={async () => {
+                try {
+                  await saveHighlightsBatchChanges();
+                  // Mantieni lo stato locale per preservare l'anteprima
+                  console.log('✅ Highlights saved successfully');
+                } catch (error) {
+                  console.error('❌ Error saving highlights:', error);
+                  throw error;
+                }
+              }}
+              onDiscard={() => {
+                resetHighlightsBatch();
+                // Reset local configs
+                setLocalConfigs({});
+                // Refresh per ricaricare dati originali
+                fetchHeroProjects();
+                console.log('🔄 Highlights changes discarded');
+              }}
+            />
+          )}
+
           {/* Services Section */}
           {activeSection === 'services' && (
             <div className="space-y-8">
               <div className="bg-white dark:bg-[#0b0b0b] border border-neutral-200 dark:border-neutral-700 rounded-[25px] p-6 shadow-md">
-                <ServiceImageManager />
+                <ServiceImageManager 
+                  markServiceAsModified={markServiceAsModified}
+                />
               </div>
             </div>
+          )}
+
+          {/* SaveAllButton per Services */}
+          {activeSection === 'services' && (
+            <SaveAllButton
+              hasChanges={hasServicesBatchChanges}
+              pendingChangesCount={servicesPendingChangesCount}
+              saving={servicesBatchSaving}
+              onSave={async () => {
+                try {
+                  await saveServicesBatchChanges();
+                  // I dati si aggiornano automaticamente via cache invalidation
+                  console.log('✅ Services saved successfully');
+                } catch (error) {
+                  console.error('❌ Error saving services:', error);
+                  throw error;
+                }
+              }}
+              onDiscard={() => {
+                resetServicesBatch();
+                // Refresh per ricaricare dati originali
+                fetchServiceCategories();
+                console.log('🔄 Services changes discarded');
+              }}
+            />
           )}
 
           {/* Bookings Section */}
@@ -2556,6 +2583,118 @@ export default function AdminPage() {
 
         {/* Modale di editing - Fuori dal componente principale per evitare re-render */}
         {isEditModalOpen && editingProject && <EditProjectModal />}
+
+        {/* Save All Changes Button - Fixed Bottom */}
+        {activeSection === 'projects' && (
+          <SaveAllButton
+            hasChanges={hasBatchChanges || newProjects.length > 0}
+            pendingChangesCount={pendingChangesCount + newProjects.length}
+            saving={batchSaving}
+          onSave={async () => {
+            try {
+              // Prepara payload unificato per /api/projects/save-all
+              
+              // 1. Prepara nuovi progetti con immagini base64
+              const newProjectsData = await Promise.all(
+                newProjects.map(async (project) => {
+                  return {
+                    title: project.title,
+                    title_en: project.title_en,
+                    description: project.description,
+                    description_en: project.description_en,
+                    categories: project.categories,
+                    link: project.link,
+                    image_file: project.image_url, // Base64 data
+                    order_position: project.order_position,
+                  };
+                })
+              );
+
+              // 2. Prepara updates dal batch
+              const updatesData = Array.from(batchState.modifiedProjects.entries()).map(
+                ([id, changes]) => ({
+                  id,
+                  ...changes,
+                })
+              );
+
+              // 3. Prepara deletes
+              const deletesData = Array.from(batchState.deletedIds);
+
+              // 4. Prepara reorder
+              const reorderData = batchState.reorderedProjects.map((project, index) => ({
+                id: project.id,
+                order_position: index,
+              }));
+
+              console.log('📦 Unified Save Payload:', {
+                newProjects: newProjectsData.length,
+                updates: updatesData.length,
+                deletes: deletesData.length,
+                reorder: reorderData.length,
+              });
+
+              // UNA SOLA chiamata API per tutto!
+              const response = await fetch('/api/projects/save-all', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Cache-Control': 'no-cache',
+                },
+                body: JSON.stringify({
+                  newProjects: newProjectsData,
+                  updates: updatesData,
+                  deletes: deletesData,
+                  reorder: reorderData,
+                }),
+              });
+
+              if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Save failed');
+              }
+
+              const result = await response.json();
+              console.log('✅ Save All Result:', result);
+
+              // Invalida cache
+              apiCache.invalidate(cacheKeys.projects());
+              apiCache.invalidate(cacheKeys.homeData());
+              apiCache.invalidate(cacheKeys.portfolioData());
+
+              // Reset tutto
+              resetBatch();
+              setNewProjects([]);
+              setLocalProjectsState({
+                projects: [],
+                deletedProjects: [],
+                hasChanges: false,
+              });
+
+              // Refresh projects
+              await fetchProjects();
+
+              alert(`✅ ${result.message}`);
+            } catch (error) {
+              console.error('Errore durante il salvataggio:', error);
+              alert(`❌ Errore: ${error instanceof Error ? error.message : 'Unknown error'}`);
+            }
+          }}
+          onDiscard={() => {
+            if (confirm('⚠️ Annullare tutte le modifiche non salvate? Questa azione non può essere annullata.')) {
+              resetBatch();
+              setLocalProjectsState({
+                projects: [],
+                deletedProjects: [],
+                hasChanges: false,
+              });
+              setNewProjects([]); // Reset anche i nuovi progetti
+              fetchProjects(); // Ricarica dati originali
+              console.log('🔄 Modifiche annullate, dati ricaricati');
+            }
+          }}
+        />
+        )}
       </div>
     </ProtectedRoute>
   );

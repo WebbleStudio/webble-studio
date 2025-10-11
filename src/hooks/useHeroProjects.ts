@@ -88,8 +88,9 @@ export const useHeroProjects = () => {
           throw new Error(data.error || 'Failed to save hero projects');
         }
 
-        // Invalida la cache
+        // Invalida la cache (heroProjects + home data aggregato)
         apiCache.invalidate(cacheKeys.heroProjects());
+        apiCache.invalidate(cacheKeys.homeData());
 
         // Aggiorna i dati locali
         await fetchHeroProjects();

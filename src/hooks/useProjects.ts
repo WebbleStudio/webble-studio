@@ -130,8 +130,10 @@ export function useProjects() {
 
       const newProject = await response.json();
       
-      // Invalida la cache
+      // Invalida la cache (projects + home/portfolio data aggregati)
       apiCache.invalidate(cacheKeys.projects());
+      apiCache.invalidate(cacheKeys.homeData());
+      apiCache.invalidate(cacheKeys.portfolioData());
       
       setProjects((prev) => [newProject, ...prev]);
       return newProject;
@@ -157,8 +159,10 @@ export function useProjects() {
         throw new Error(errorData.error || 'Failed to delete project');
       }
 
-      // Invalida la cache
+      // Invalida la cache (projects + home/portfolio data aggregati)
       apiCache.invalidate(cacheKeys.projects());
+      apiCache.invalidate(cacheKeys.homeData());
+      apiCache.invalidate(cacheKeys.portfolioData());
       
       setProjects((prev) => prev.filter((p) => p.id !== projectId));
     } catch (err) {
@@ -203,6 +207,12 @@ export function useProjects() {
         }
 
         const updatedProject = await response.json();
+        
+        // Invalida la cache (projects + home/portfolio data aggregati)
+        apiCache.invalidate(cacheKeys.projects());
+        apiCache.invalidate(cacheKeys.homeData());
+        apiCache.invalidate(cacheKeys.portfolioData());
+        
         setProjects((prev) => prev.map((p) => (p.id === projectId ? updatedProject : p)));
         return updatedProject;
       } catch (err) {

@@ -1,9 +1,11 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { useBookings, Booking } from '@/hooks/useBookings';
+import { Booking } from '@/hooks/useBookings';
+import { useAdminBookings } from '@/hooks/useAdminBookings';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from '@/hooks/useTranslation';
+import RefreshButton from './RefreshButton';
 
 interface BookingManagerProps {
   className?: string;
@@ -11,15 +13,29 @@ interface BookingManagerProps {
 
 export default function BookingManager({ className = '' }: BookingManagerProps) {
   const { t } = useTranslation();
-  const { bookings, loading, error, fetchBookings, deleteBookings } = useBookings();
+  const { 
+    bookings, 
+    loading, 
+    error, 
+    deleteBookings, 
+    refresh,
+    fetchData,
+    lastUpdate,
+    isCached,
+  } = useAdminBookings();
+  
   const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
   const [selectedBookings, setSelectedBookings] = useState<string[]>([]);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [hoveredService, setHoveredService] = useState<string | null>(null);
 
+  // Carica solo se cache vuota al mount
   useEffect(() => {
-    fetchBookings();
-  }, [fetchBookings]);
+    if (!isCached) {
+      fetchData();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Solo al mount - isCached è stable dal primo render
 
   const handleSelectBooking = (bookingId: string) => {
     setSelectedBookings((prev) =>
@@ -157,12 +173,12 @@ export default function BookingManager({ className = '' }: BookingManagerProps) 
             </div>
           )}
         </div>
-        <button
-          onClick={fetchBookings}
-          className="px-4 py-2 bg-[#F20352] text-white rounded-lg hover:bg-[#F20352]/90 transition-colors"
-        >
-          {t('admin.booking_manager.refresh')}
-        </button>
+        
+        <RefreshButton
+          onRefresh={refresh}
+          loading={loading}
+          lastUpdate={lastUpdate}
+        />
       </div>
 
       {bookings.length === 0 ? (

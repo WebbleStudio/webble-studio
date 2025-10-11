@@ -104,6 +104,8 @@ export const cacheKeys = {
   projects: () => 'projects',
   heroProjects: () => 'hero-projects',
   serviceCategories: () => 'service-categories',
+  homeData: () => 'home-data', // Endpoint aggregato home
+  portfolioData: () => 'portfolio-data', // Endpoint aggregato portfolio
   project: (id: string) => `project-${id}`,
 } as const;
 

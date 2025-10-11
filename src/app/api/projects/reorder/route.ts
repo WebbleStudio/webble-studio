@@ -40,6 +40,8 @@ export async function PUT(request: NextRequest) {
     revalidatePath('/');
     revalidatePath('/portfolio');
     revalidatePath('/api/projects');
+    revalidatePath('/api/home-data'); // Invalida endpoint aggregato home
+    revalidatePath('/api/portfolio-data'); // Invalida endpoint aggregato portfolio
 
     return NextResponse.json({
       message: 'Projects reordered successfully',

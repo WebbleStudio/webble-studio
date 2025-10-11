@@ -122,6 +122,10 @@ export function useServiceCategories() {
 
       const updatedCategory = await response.json();
 
+      // Invalida la cache (serviceCategories + home data aggregato)
+      apiCache.invalidate(cacheKeys.serviceCategories());
+      apiCache.invalidate(cacheKeys.homeData());
+
       // Aggiorna lo stato locale
       setServiceCategories((prev) =>
         prev.map((category) => (category.slug === slug ? updatedCategory : category))

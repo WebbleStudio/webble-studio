@@ -6,7 +6,7 @@ import Filter from '@/components/ui/Filter';
 import FilterButton from '@/components/ui/FilterButton';
 import Project from '@/components/ui/Project';
 import { usePortfolioFiltersAnimation, usePortfolioProjectsAnimation } from '@/hooks';
-import { useProjects } from '@/hooks/useProjects';
+import { usePortfolioData } from '@/hooks/usePortfolioData';
 import { useProjectTranslation } from '@/hooks/useProjectTranslation';
 
 const baseMainFilters = ['All', 'Web Design'];
@@ -66,13 +66,13 @@ export default function PortfolioProjects() {
     emptyStateAnimationProps,
   } = usePortfolioProjectsAnimation();
 
-  const { projects, loading, error, fetchProjects } = useProjects();
+  const { projects, loading, error, fetchPortfolioData } = usePortfolioData();
   const { getTranslatedTitle, getTranslatedDescription, currentLanguage } = useProjectTranslation();
 
-  // Carica progetti all'avvio
+  // Carica progetti con cache 12 ore
   useEffect(() => {
-    fetchProjects();
-  }, [fetchProjects]);
+    fetchPortfolioData();
+  }, [fetchPortfolioData]);
 
   // Trigger re-render when language changes
   useEffect(() => {

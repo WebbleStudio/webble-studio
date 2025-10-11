@@ -1,11 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { revalidatePath } from 'next/cache';
+import { apiCache, cacheKeys } from '@/lib/apiCache';
 
 // POST - Revalida le pagine specificate
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { paths } = body;
+    const { paths, invalidateCache = false } = body;
 
     // Validazione
     if (!paths || !Array.isArray(paths)) {
@@ -13,6 +14,19 @@ export async function POST(request: NextRequest) {
         { error: 'paths array is required' },
         { status: 400 }
       );
+    }
+
+    // Invalida tutte le cache se richiesto
+    if (invalidateCache) {
+      console.log('🔄 Invalidating all caches...');
+      
+      // Invalida cache API
+      apiCache.invalidate(cacheKeys.projects());
+      apiCache.invalidate(cacheKeys.heroProjects());
+      apiCache.invalidate(cacheKeys.serviceCategories());
+      apiCache.invalidate(cacheKeys.homeData());
+      
+      console.log('✅ All API caches invalidated');
     }
 
     // Revalida tutte le pagine specificate
@@ -30,6 +44,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       revalidated: true,
       paths: revalidatedPaths,
+      cacheInvalidated: invalidateCache,
       timestamp: new Date().toISOString(),
     });
   } catch (error) {

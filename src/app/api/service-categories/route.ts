@@ -63,6 +63,7 @@ export async function PUT(request: NextRequest) {
     // Revalida le pagine che mostrano le service categories per aggiornare la cache
     revalidatePath('/');
     revalidatePath('/api/service-categories');
+    revalidatePath('/api/home-data'); // Invalida endpoint aggregato
 
     return NextResponse.json(data);
   } catch (error) {

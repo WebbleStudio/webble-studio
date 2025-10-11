@@ -122,19 +122,20 @@ export function useServiceCategoryAnimation() {
 
   const containerAnimationProps = {
     animate: {
-      height: isExpanded ? 'auto' : '1px',
+      height: isExpanded ? 'auto' : 0,
       opacity: isExpanded ? 1 : 0,
       y: isExpanded ? 0 : -10,
       marginTop: isExpanded ? '32px' : '0px',
     },
     transition: {
-      duration: 0.4,
+      duration: 0.35, // Leggermente più veloce
       ease: [0.25, 0.46, 0.45, 0.94] as const,
-      opacity: { duration: 0.3 },
+      opacity: { duration: 0.25 }, // Più veloce per ridurre flickering
     },
     style: {
       overflow: 'hidden',
       willChange: 'height, opacity, transform', // GPU optimization
+      pointerEvents: isExpanded ? ('auto' as const) : ('none' as const), // Disabilita interazioni quando collapsed
     },
   };
 
@@ -168,16 +169,16 @@ export function useServiceCategoryAnimation() {
 
   const rectanglesAnimationProps = {
     animate: {
-      y: isExpanded ? 0 : -15,
+      y: isExpanded ? 0 : -10,
       opacity: isExpanded ? 1 : 0,
-      filter: isExpanded ? 'blur(0px)' : 'blur(8px)',
+      scale: isExpanded ? 1 : 0.98, // Scale invece di blur per performance migliori
     },
     transition: {
-      delay: isExpanded ? 0.3 : 0.05,
-      duration: 0.4,
+      delay: isExpanded ? 0.2 : 0.05, // Ridotto delay per responsiveness
+      duration: 0.3, // Ridotta durata per animazione più snappy
       ease: [0.25, 0.46, 0.45, 0.94] as const,
     },
-    style: { willChange: 'transform, opacity, filter' }, // GPU optimization
+    style: { willChange: 'transform, opacity' }, // Rimosso filter per performance
   };
 
   const scrollStyles = {

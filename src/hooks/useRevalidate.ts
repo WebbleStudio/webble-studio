@@ -39,9 +39,46 @@ export function useRevalidate() {
     return revalidate(['/', '/portfolio', '/chi-siamo', '/contatti']);
   }, [revalidate]);
 
+  // Invalida tutte le cache e revalida tutto
+  const invalidateAll = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      // 1. Invalida tutte le cache API
+      const cacheResponse = await fetch('/api/revalidate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ 
+          paths: ['/', '/portfolio', '/chi-siamo', '/contatti'],
+          invalidateCache: true 
+        }),
+      });
+
+      if (!cacheResponse.ok) {
+        throw new Error('Failed to invalidate cache');
+      }
+
+      // 2. Revalida tutte le pagine
+      await revalidateAll();
+
+      console.log('✅ All caches invalidated and pages revalidated');
+      return { success: true };
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Unknown error';
+      setError(errorMessage);
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  }, [revalidateAll]);
+
   return {
     revalidate,
     revalidateAll,
+    invalidateAll,
     loading,
     error,
   };

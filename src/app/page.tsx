@@ -1,8 +1,7 @@
 'use client';
 
-import { useRef, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Container from '@/components/layout/Container';
-import Hero from '@/components/sections/Home/Hero';
 import Hero2 from '@/components/sections/Home/Hero2';
 import Payoff from '@/components/sections/Home/Payoff';
 import KeyPoints from '@/components/sections/Home/KeyPoints';
@@ -10,8 +9,8 @@ import Services from '@/components/sections/Home/Services';
 import Projects from '@/components/sections/Home/Projects';
 import Contact from '@/components/sections/Home/Contact';
 import { SingleProjectData } from '@/components/animations/useProjectSwitch';
-import { useHeroProjects, HeroProject } from '@/hooks/useHeroProjects';
-import { useProjects } from '@/hooks/useProjects';
+import { useHomeData, EnrichedHeroProject } from '@/hooks/useHomeData';
+import { Project } from '@/hooks/useProjects';
 
 // Funzione per creare placeholder vuoti
 const createPlaceholderProject = (position: number): SingleProjectData => ({
@@ -39,14 +38,12 @@ const createPlaceholderProject = (position: number): SingleProjectData => ({
   ],
 });
 
-// Funzione per convertire HeroProject in SingleProjectData
-// Ottimizzato: riceve il progetto come parametro invece di usare il JOIN
+// Funzione per convertire EnrichedHeroProject in SingleProjectData
+// Ottimizzato: il progetto è già joinato dal server
 const convertHeroProjectToSingleProject = (
-  heroProject: HeroProject,
-  allProjects: any[]
+  heroProject: EnrichedHeroProject
 ): SingleProjectData => {
-  // Trova il progetto corrispondente dalla lista già caricata
-  const project = allProjects.find((p) => p.id === heroProject.project_id);
+  const project = heroProject.project;
   
   if (!project) {
     return createPlaceholderProject(heroProject.position);
@@ -78,19 +75,15 @@ const convertHeroProjectToSingleProject = (
 };
 
 export default function Home() {
-  const heroRef = useRef<HTMLDivElement>(null);
-  const payoffRef = useRef<HTMLDivElement>(null);
-  const { heroProjects, fetchHeroProjects } = useHeroProjects();
-  const { projects, fetchProjects } = useProjects();
+  const { heroProjects, loading, fetchHomeData } = useHomeData();
   const [displayProjects, setDisplayProjects] = useState<SingleProjectData[]>([]);
 
-  // Carica hero projects e projects all'avvio (riusa cache se disponibile)
+  // Carica tutti i dati home con una singola chiamata (cache 12 ore)
   useEffect(() => {
-    fetchHeroProjects();
-    fetchProjects();
-  }, [fetchHeroProjects, fetchProjects]);
+    fetchHomeData();
+  }, [fetchHomeData]);
 
-  // Aggiorna i progetti da mostrare quando cambiano hero projects o projects
+  // Aggiorna i progetti da mostrare quando cambiano hero projects
   useEffect(() => {
     const projectsToDisplay: SingleProjectData[] = [];
 
@@ -99,8 +92,8 @@ export default function Home() {
       const heroProject = heroProjects.find((hp) => hp.position === position);
 
       if (heroProject) {
-        // Usa il progetto configurato, combinando con i dati dalla cache projects
-        projectsToDisplay.push(convertHeroProjectToSingleProject(heroProject, projects));
+        // Usa il progetto configurato (già joinato dal server!)
+        projectsToDisplay.push(convertHeroProjectToSingleProject(heroProject));
       } else {
         // Usa placeholder
         projectsToDisplay.push(createPlaceholderProject(position));
@@ -108,7 +101,7 @@ export default function Home() {
     }
 
     setDisplayProjects(projectsToDisplay);
-  }, [heroProjects, projects]);
+  }, [heroProjects]);
 
   return (
     <main>
