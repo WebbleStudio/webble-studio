@@ -1,10 +1,13 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabaseClient';
 
 // GET: Endpoint aggregato per la home - ritorna tutti i dati in una chiamata
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
-    console.log('🏠 Fetching aggregated home data...');
+    const { searchParams } = new URL(request.url);
+    const forceRefresh = searchParams.get('_t'); // Timestamp parameter for cache busting
+    
+    console.log('🏠 Fetching aggregated home data...', forceRefresh ? '(force refresh)' : '');
 
     // Esegui tutte le query in parallelo per performance
     const [projectsResult, heroProjectsResult, serviceCategoriesResult] = await Promise.all([
@@ -73,13 +76,21 @@ export async function GET() {
     });
 
     // Cache Edge ottimizzata per Vercel
+    const cacheHeaders = forceRefresh ? {
+      'Cache-Control': 'no-cache, no-store, must-revalidate',
+      'Pragma': 'no-cache',
+      'Expires': '0',
+      'CDN-Cache-Control': 'no-cache',
+      'Vercel-CDN-Cache-Control': 'no-cache',
+    } : {
+      'Cache-Control': 'public, s-maxage=86400, stale-while-revalidate=604800, max-age=3600',
+      'CDN-Cache-Control': 'public, s-maxage=86400',
+      'Vercel-CDN-Cache-Control': 'public, s-maxage=86400',
+      'Vercel-Cache-Control': 'public, s-maxage=86400',
+    };
+
     return NextResponse.json(homeData, {
-      headers: {
-        'Cache-Control': 'public, s-maxage=86400, stale-while-revalidate=604800, max-age=3600',
-        'CDN-Cache-Control': 'public, s-maxage=86400',
-        'Vercel-CDN-Cache-Control': 'public, s-maxage=86400',
-        'Vercel-Cache-Control': 'public, s-maxage=86400',
-      },
+      headers: cacheHeaders,
     });
   } catch (error) {
     console.error('Unexpected error in home-data:', error);

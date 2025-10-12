@@ -46,6 +46,14 @@ export async function POST(request: NextRequest) {
       paths: revalidatedPaths,
       cacheInvalidated: invalidateCache,
       timestamp: new Date().toISOString(),
+    }, {
+      headers: {
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0',
+        'CDN-Cache-Control': 'no-cache',
+        'Vercel-CDN-Cache-Control': 'no-cache',
+      },
     });
   } catch (error) {
     console.error('Error in revalidate route:', error);

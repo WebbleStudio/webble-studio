@@ -37,7 +37,7 @@ export function useHomeData() {
   const [error, setError] = useState<string | null>(null);
 
   // Fetch tutti i dati home in una chiamata - con cache 3 giorni
-  const fetchHomeData = useCallback(async () => {
+  const fetchHomeData = useCallback(async (forceRefresh = false) => {
     setLoading(true);
     setError(null);
 
@@ -45,7 +45,11 @@ export function useHomeData() {
       const data = await apiCache.get(
         cacheKeys.homeData(),
         async () => {
-          const response = await fetch('/api/home-data');
+          const url = forceRefresh 
+            ? `/api/home-data?_t=${Date.now()}` 
+            : '/api/home-data';
+          
+          const response = await fetch(url);
           
           if (!response.ok) {
             throw new Error('Failed to fetch home data');

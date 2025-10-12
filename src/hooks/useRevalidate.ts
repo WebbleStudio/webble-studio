@@ -1,4 +1,5 @@
 import { useState, useCallback } from 'react';
+import { apiCache, cacheKeys } from '@/lib/apiCache';
 
 export function useRevalidate() {
   const [loading, setLoading] = useState(false);
@@ -61,7 +62,13 @@ export function useRevalidate() {
         throw new Error('Failed to invalidate cache');
       }
 
-      // 2. Revalida tutte le pagine
+      // 2. Invalida cache locale
+      apiCache.invalidate(cacheKeys.projects());
+      apiCache.invalidate(cacheKeys.heroProjects());
+      apiCache.invalidate(cacheKeys.serviceCategories());
+      apiCache.invalidate(cacheKeys.homeData());
+
+      // 3. Revalida tutte le pagine
       await revalidateAll();
 
       console.log('✅ All caches invalidated and pages revalidated');
