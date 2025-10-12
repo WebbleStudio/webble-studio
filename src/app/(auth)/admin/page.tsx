@@ -1432,7 +1432,7 @@ export default function AdminPage() {
                       alert('✅ Cache invalidata e pagine aggiornate! I visitatori vedranno i nuovi contenuti.');
                     } catch (error) {
                       console.error('❌ InvalidateAll error:', error);
-                      alert('❌ Errore durante l\'aggiornamento delle pagine: ' + error.message);
+                      alert('❌ Errore durante l\'aggiornamento delle pagine: ' + (error instanceof Error ? error.message : 'Unknown error'));
                     }
                   }}
                   disabled={revalidateLoading}
