@@ -1426,10 +1426,13 @@ export default function AdminPage() {
                 <button
                   onClick={async () => {
                     try {
-                      await revalidateAll();
+                      console.log('🔄 Starting revalidateAll...');
+                      const result = await revalidateAll();
+                      console.log('✅ RevalidateAll result:', result);
                       alert('✅ Pagine aggiornate con successo! I visitatori vedranno i nuovi contenuti.');
                     } catch (error) {
-                      alert('❌ Errore durante l\'aggiornamento delle pagine');
+                      console.error('❌ RevalidateAll error:', error);
+                      alert('❌ Errore durante l\'aggiornamento delle pagine: ' + error.message);
                     }
                   }}
                   disabled={revalidateLoading}
