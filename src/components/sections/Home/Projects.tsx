@@ -16,6 +16,7 @@ interface ProjectsProps {
 export default function Projects({ projectData }: ProjectsProps) {
   const {
     currentSlide,
+    currentSlideIndex,
     projectData: project,
     goToNext,
     goToPrevious,
@@ -236,7 +237,7 @@ export default function Projects({ projectData }: ProjectsProps) {
                     {currentSlide.image && (
                       <img
                         src={currentSlide.image}
-                        alt={`${project.title} - Slide ${currentSlide.title}`}
+                        alt={`${project.title} - Slide ${currentSlideIndex + 1}`}
                         className="absolute inset-0 w-full h-full object-cover"
                         loading="lazy"
                       />
