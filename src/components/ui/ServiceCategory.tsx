@@ -146,21 +146,19 @@ export default function ServiceCategory({
                             rel="noopener noreferrer"
                             className="block w-full h-full"
                           >
-                            <Image
+                            <img
                               src={project.image_url}
                               alt={project.title}
-                              width={200}
-                              height={130}
                               className="w-full h-full object-cover"
+                              loading="lazy"
                             />
                           </a>
                         ) : (
-                          <Image
+                          <img
                             src={project.image_url}
                             alt={project.title}
-                            width={200}
-                            height={130}
                             className="w-full h-full object-cover"
+                            loading="lazy"
                           />
                         )}
                       </div>

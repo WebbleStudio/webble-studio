@@ -234,12 +234,11 @@ export default function Projects({ projectData }: ProjectsProps) {
                     }}
                   >
                     {currentSlide.image && (
-                      <Image
+                      <img
                         src={currentSlide.image}
                         alt={`${project.title} - Slide ${currentSlide.title}`}
-                        fill
-                        className="object-cover"
-                        sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
+                        className="absolute inset-0 w-full h-full object-cover"
+                        loading="lazy"
                       />
                     )}
                   </motion.div>
