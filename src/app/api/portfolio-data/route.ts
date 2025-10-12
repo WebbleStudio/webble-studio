@@ -30,11 +30,13 @@ export async function GET() {
       projects: projects?.length || 0,
     });
 
-    // Cache 3 giorni (259200 secondi) per performance ottimali
-    // stale-while-revalidate 6 giorni per servire contenuto stale mentre rivalidata
+    // Cache Edge ottimizzata per Vercel
     return NextResponse.json(portfolioData, {
       headers: {
-        'Cache-Control': 'public, s-maxage=259200, stale-while-revalidate=518400',
+        'Cache-Control': 'public, s-maxage=86400, stale-while-revalidate=604800, max-age=3600',
+        'CDN-Cache-Control': 'public, s-maxage=86400',
+        'Vercel-CDN-Cache-Control': 'public, s-maxage=86400',
+        'Vercel-Cache-Control': 'public, s-maxage=86400',
       },
     });
   } catch (error) {

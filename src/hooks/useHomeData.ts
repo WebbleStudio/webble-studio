@@ -45,12 +45,7 @@ export function useHomeData() {
       const data = await apiCache.get(
         cacheKeys.homeData(),
         async () => {
-          const response = await fetch('/api/home-data', {
-            cache: 'no-store',
-            headers: {
-              'Cache-Control': 'no-cache',
-            },
-          });
+          const response = await fetch('/api/home-data');
           
           if (!response.ok) {
             throw new Error('Failed to fetch home data');

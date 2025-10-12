@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
 import { projectAnimationVariants, ANIMATION_CONFIG } from '../../animations/projectAnimations';
 import ProjectDescription from '../../ui/ProjectDescription';
 import OptimizedImage from '../../ui/OptimizedImage';
@@ -222,11 +223,7 @@ export default function Projects({ projectData }: ProjectsProps) {
                 <AnimatePresence>
                   <motion.div
                     key={`image-mobile-${project.id}-${currentSlide.image}`}
-                    className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat"
-                    style={{
-                      backgroundImage: currentSlide.image ? `url(${currentSlide.image})` : undefined,
-                      contain: 'layout style paint',
-                    }}
+                    className="absolute inset-0 w-full h-full"
                     variants={imageAnimationConfig}
                     initial="initial"
                     animate="animate"
@@ -235,7 +232,17 @@ export default function Projects({ projectData }: ProjectsProps) {
                       duration: animationDuration,
                       ease: 'easeOut',
                     }}
-                  />
+                  >
+                    {currentSlide.image && (
+                      <Image
+                        src={currentSlide.image}
+                        alt={`${project.title} - Slide ${currentSlide.title}`}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
+                      />
+                    )}
+                  </motion.div>
                 </AnimatePresence>
 
                 {/* Arrows dentro l'immagine (sotto 768px) */}
