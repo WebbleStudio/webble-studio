@@ -59,11 +59,11 @@ module.exports = {
         poppins: ['var(--font-poppins)', 'system-ui', 'sans-serif'],
       },
       fontWeight: {
-        'light': '300',
-        'regular': '400',
-        'medium': '500',
-        'semibold': '600',
-        'bold': '700',
+        light: '300',
+        regular: '400',
+        medium: '500',
+        semibold: '600',
+        bold: '700',
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-in-out',

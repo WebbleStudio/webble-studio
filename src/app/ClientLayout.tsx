@@ -19,11 +19,11 @@ function ClientLayoutContent({ children }: { children: React.ReactNode }) {
   // Inizializza il theme system (il hook gestisce automaticamente l'applicazione delle classi)
   useDarkMode();
   const { isHeaderVisible, refreshKey } = useHeader();
-  
+
   // Cookie consent management
   const { acceptCookies, rejectCookies } = useCookieConsent();
   const { isManagerOpen, openManager, closeManager } = useCookieManager();
-  
+
   // Page tracking (si attiva automaticamente solo se c'è consenso)
   usePageTracking();
 
@@ -65,18 +65,18 @@ function ClientLayoutContent({ children }: { children: React.ReactNode }) {
 
       {/* Footer solo per pagine normali */}
       {!isAdminRoute && !isAuthRoute && !isLoginRoute && <Footer />}
-      
+
       {/* Cookie Banner - mostra su tutte le pagine */}
-      <CookieBanner 
+      <CookieBanner
         onAccept={acceptCookies}
         onReject={rejectCookies}
         forceShow={isManagerOpen}
         onClose={closeManager}
       />
-      
+
       {/* Cookie Manager Button - mostra su tutte le pagine */}
       <CookieManagerButton onOpenManager={openManager} />
-      
+
       {/* API Debugger - solo in development */}
       {isDevelopment && <ApiDebugger />}
     </>

@@ -3,12 +3,14 @@
 ## 📋 Problema Risolto
 
 **Prima:**
+
 - ❌ Fetch automatico ad ogni apertura pannello admin
 - ❌ Richieste duplicate (projects x2, bookings x2, ecc.)
 - ❌ Nessuna cache locale
 - ❌ Spreco di edge requests
 
 **Dopo:**
+
 - ✅ Cache localStorage con TTL 24 ore
 - ✅ NO fetch automatico (solo se cache vuota/scaduta)
 - ✅ Refresh manuale con bottone
@@ -25,21 +27,26 @@ Hook base per cache localStorage con TTL 24h:
 
 ```typescript
 const {
-  data,              // Dati dalla cache o fetch
-  loading,           // Stato caricamento
-  error,             // Errori
-  fetchData,         // Fetch se cache vuota
-  refresh,           // Refresh manuale (force)
-  invalidate,        // Invalida cache
-  lastUpdate,        // Timestamp ultimo update
-  isCached,          // true se cache valida esiste
-} = useAdminCache('key', async () => {
-  // Fetcher function
-  return await fetchData();
-}, []);
+  data, // Dati dalla cache o fetch
+  loading, // Stato caricamento
+  error, // Errori
+  fetchData, // Fetch se cache vuota
+  refresh, // Refresh manuale (force)
+  invalidate, // Invalida cache
+  lastUpdate, // Timestamp ultimo update
+  isCached, // true se cache valida esiste
+} = useAdminCache(
+  'key',
+  async () => {
+    // Fetcher function
+    return await fetchData();
+  },
+  []
+);
 ```
 
 **Features:**
+
 - ✅ TTL 24 ore
 - ✅ localStorage persistent
 - ✅ Auto-expiry se scaduta
@@ -53,24 +60,24 @@ Hook specializzati per ogni risorsa admin:
 ```typescript
 // useAdminBookings
 const {
-  bookings,           // Cached bookings
+  bookings, // Cached bookings
   loading,
   error,
-  deleteBookings,     // Auto-invalidate cache
-  refresh,            // Manual refresh
-  fetchData,          // Fetch if empty
-  lastUpdate,         // Last update timestamp
-  isCached,           // Has cached data
+  deleteBookings, // Auto-invalidate cache
+  refresh, // Manual refresh
+  fetchData, // Fetch if empty
+  lastUpdate, // Last update timestamp
+  isCached, // Has cached data
 } = useAdminBookings();
 
 // useAdminProjects (future)
 const {
   projects,
   loading,
-  createProject,      // Auto-invalidate
-  updateProject,      // Auto-invalidate
-  deleteProject,      // Auto-invalidate
-  reorderProjects,    // Auto-invalidate
+  createProject, // Auto-invalidate
+  updateProject, // Auto-invalidate
+  deleteProject, // Auto-invalidate
+  reorderProjects, // Auto-invalidate
   refresh,
 } = useAdminProjects();
 ```
@@ -155,16 +162,19 @@ Bottone riutilizzabile con cache age indicator:
 ### Admin Usage Pattern (esempio)
 
 **Scenario tipico:**
+
 - Aperture admin/giorno: 10
 - Pannelli visitati/sessione: 3 (projects, highlights, bookings)
 
 **Prima (senza cache):**
+
 ```
 10 sessioni × 3 pannelli × 1 richiesta = 30 richieste/giorno
 30 × 30 giorni = 900 richieste/mese
 ```
 
 **Dopo (con cache 24h):**
+
 ```
 Prima sessione: 3 richieste (cache miss)
 Successive 9 sessioni: 0 richieste (cache hit)
@@ -182,16 +192,17 @@ RISPARMIO: 900 - 93 = 807 richieste/mese (-90%)!
 ### Step 1: Aggiornare Componente Admin
 
 **Prima:**
+
 ```typescript
 import { useBookings } from '@/hooks/useBookings';
 
 export default function BookingManager() {
   const { bookings, fetchBookings } = useBookings();
-  
+
   useEffect(() => {
     fetchBookings(); // ❌ Fetch automatico ogni volta
   }, [fetchBookings]);
-  
+
   return (
     <div>
       <button onClick={fetchBookings}>Refresh</button>
@@ -202,26 +213,27 @@ export default function BookingManager() {
 ```
 
 **Dopo:**
+
 ```typescript
 import { useAdminBookings } from '@/hooks/useAdminBookings';
 import RefreshButton from '@/components/admin/RefreshButton';
 
 export default function BookingManager() {
-  const { 
-    bookings, 
-    refresh, 
+  const {
+    bookings,
+    refresh,
     fetchData,
     lastUpdate,
     isCached,
   } = useAdminBookings();
-  
+
   // ✅ Fetch solo se cache vuota
   useEffect(() => {
     if (!isCached) {
       fetchData();
     }
   }, [isCached, fetchData]);
-  
+
   return (
     <div>
       <RefreshButton
@@ -254,11 +266,15 @@ export function useAdminBookings() {
     invalidate,
     lastUpdate,
     isCached,
-  } = useAdminCache<Booking[]>('bookings', async () => {
-    const response = await fetch('/api/booking');
-    if (!response.ok) throw new Error('Failed to fetch');
-    return response.json();
-  }, []);
+  } = useAdminCache<Booking[]>(
+    'bookings',
+    async () => {
+      const response = await fetch('/api/booking');
+      if (!response.ok) throw new Error('Failed to fetch');
+      return response.json();
+    },
+    []
+  );
 
   // Wrapper con auto-invalidation
   const deleteBookingsWithInvalidation = async (...args) => {
@@ -332,12 +348,14 @@ export function useAdminBookings() {
 ## 🎯 TODO
 
 ### ✅ Completato
+
 - [x] Hook `useAdminCache` base
 - [x] Hook `useAdminBookings` wrapper
 - [x] Componente `RefreshButton`
 - [x] Update `BookingManager` component
 
 ### ⏳ Da Fare
+
 - [ ] Hook `useAdminProjects` wrapper
 - [ ] Update admin `page.tsx` per projects
 - [ ] Hook `useAdminHeroProjects` wrapper (future)
@@ -353,15 +371,18 @@ export function useAdminBookings() {
 **Scelta: localStorage**
 
 ✅ Vantaggi:
+
 - Persiste tra chiusure tab
 - Riduce richieste API anche dopo restart browser
 - Cache 24h efficace
 
 ❌ Svantaggi:
+
 - Dati leggibili da JS (ma sono public data comunque)
 - Max 5-10MB storage
 
 ### Mitigazioni:
+
 - ✅ Dati NON sensibili (bookings, projects sono public/admin-only)
 - ✅ Expire automatico dopo 24h
 - ✅ Auto-clear su modifiche
@@ -402,6 +423,7 @@ clearAdminCache();
 ## 🎉 RISULTATO
 
 **Admin Dashboard Ottimizzato:**
+
 - ✅ -90% richieste API
 - ✅ Caricamento istantaneo (cache)
 - ✅ Controllo manuale refresh
@@ -409,14 +431,15 @@ clearAdminCache();
 - ✅ UX migliore (no spinner ad ogni nav)
 
 **Per l'utente:**
+
 - ⚡ Admin più veloce e reattivo
 - 🎯 Controllo esplicito su quando aggiornare
 - 📊 Visibilità età dati ("Updated 5m ago")
 - 💾 Dati persistenti tra sessioni
 
 **Per il progetto:**
+
 - 💰 Meno edge requests = più margine free tier
 - 🚀 Scalabilità migliore
 - 🔧 Facile estendere ad altre risorse
 - 📦 Pattern riutilizzabile
-

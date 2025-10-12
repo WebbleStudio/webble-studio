@@ -39,7 +39,8 @@ export default function SaveAllButton({
               </span>
             </div>
             <span className="text-sm font-medium">
-              {pendingChangesCount} {pendingChangesCount === 1 ? 'modifica' : 'modifiche'} in sospeso
+              {pendingChangesCount} {pendingChangesCount === 1 ? 'modifica' : 'modifiche'} in
+              sospeso
             </span>
           </div>
 
@@ -117,4 +118,3 @@ export default function SaveAllButton({
     </AnimatePresence>
   );
 }
-

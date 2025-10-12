@@ -15,7 +15,7 @@ interface BatchState {
 
 export function useHighlightsBatch() {
   const [batchState, setBatchState] = useState<BatchState>({
-    highlightsUpdates: []
+    highlightsUpdates: [],
   });
 
   const [batchSaving, setBatchSaving] = useState(false);
@@ -26,22 +26,22 @@ export function useHighlightsBatch() {
 
   // Aggiungi modifica highlight
   const markHighlightAsModified = useCallback((update: HighlightUpdate) => {
-    setBatchState(prev => {
-      const existingIndex = prev.highlightsUpdates.findIndex(u => u.id === update.id);
-      
+    setBatchState((prev) => {
+      const existingIndex = prev.highlightsUpdates.findIndex((u) => u.id === update.id);
+
       if (existingIndex >= 0) {
         // Aggiorna modifica esistente
         const updated = [...prev.highlightsUpdates];
         updated[existingIndex] = { ...updated[existingIndex], ...update };
         return {
           ...prev,
-          highlightsUpdates: updated
+          highlightsUpdates: updated,
         };
       } else {
         // Aggiungi nuova modifica
         return {
           ...prev,
-          highlightsUpdates: [...prev.highlightsUpdates, update]
+          highlightsUpdates: [...prev.highlightsUpdates, update],
         };
       }
     });
@@ -55,10 +55,10 @@ export function useHighlightsBatch() {
     }
 
     setBatchSaving(true);
-    
+
     try {
       console.log('🔄 Saving highlights batch changes:', {
-        highlights: batchState.highlightsUpdates.length
+        highlights: batchState.highlightsUpdates.length,
       });
 
       const response = await fetch('/api/highlights/save-all', {
@@ -68,7 +68,7 @@ export function useHighlightsBatch() {
           'Cache-Control': 'no-cache',
         },
         body: JSON.stringify({
-          highlightsUpdates: batchState.highlightsUpdates
+          highlightsUpdates: batchState.highlightsUpdates,
         }),
       });
 
@@ -82,7 +82,7 @@ export function useHighlightsBatch() {
 
       // Reset batch state dopo successo
       setBatchState({
-        highlightsUpdates: []
+        highlightsUpdates: [],
       });
 
       return { success: true, result };
@@ -97,7 +97,7 @@ export function useHighlightsBatch() {
   // Reset batch state
   const resetBatch = useCallback(() => {
     setBatchState({
-      highlightsUpdates: []
+      highlightsUpdates: [],
     });
   }, []);
 
@@ -107,11 +107,10 @@ export function useHighlightsBatch() {
     batchSaving,
     hasBatchChanges,
     pendingChangesCount,
-    
+
     // Actions
     markHighlightAsModified,
     saveAllChanges,
     resetBatch,
   };
 }
-

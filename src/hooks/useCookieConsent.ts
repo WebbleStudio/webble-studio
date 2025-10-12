@@ -30,7 +30,7 @@ export function useCookieConsent() {
     localStorage.setItem('cookie-consent', 'accepted');
     localStorage.setItem('cookie-consent-date', now);
     setConsent('accepted');
-    
+
     // Abilita Google Analytics e altri tracking
     enableTracking();
   };
@@ -43,7 +43,7 @@ export function useCookieConsent() {
     localStorage.setItem('cookie-consent', 'rejected');
     localStorage.setItem('cookie-consent-date', now);
     setConsent('rejected');
-    
+
     // Disabilita tutti i tracking
     disableTracking();
   };
@@ -61,17 +61,17 @@ export function useCookieConsent() {
     // Trigger evento per mantenere GA e GTM bloccati
     if (typeof window !== 'undefined') {
       window.dispatchEvent(new Event('cookie-consent-changed'));
-      
+
       // Disabilita immediatamente Google Analytics se già caricato
       if (window.gtag) {
         window.gtag('consent', 'update', {
           analytics_storage: 'denied',
           ad_storage: 'denied',
           ad_user_data: 'denied',
-          ad_personalization: 'denied'
+          ad_personalization: 'denied',
         });
       }
-      
+
       // Rimuovi i cookie di Google Analytics
       const GA_TRACKING_ID = 'G-6K9QE0P35E';
       const gaCookies = [
@@ -79,14 +79,14 @@ export function useCookieConsent() {
         '_ga_' + GA_TRACKING_ID.replace('G-', ''),
         '_gid',
         '_gat',
-        '_gat_gtag_' + GA_TRACKING_ID.replace('G-', '')
+        '_gat_gtag_' + GA_TRACKING_ID.replace('G-', ''),
       ];
-      
-      gaCookies.forEach(cookieName => {
+
+      gaCookies.forEach((cookieName) => {
         document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.${window.location.hostname}`;
         document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
       });
-      
+
       // Pulisci dataLayer (usato da GTM)
       if ((window as any).dataLayer) {
         (window as any).dataLayer = [];
@@ -112,7 +112,6 @@ export function useCookieConsent() {
     resetConsent,
     hasConsent: consent !== null,
     hasAccepted: consent === 'accepted',
-    hasRejected: consent === 'rejected'
+    hasRejected: consent === 'rejected',
   };
 }
-

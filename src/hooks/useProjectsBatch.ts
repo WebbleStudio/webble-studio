@@ -40,7 +40,7 @@ export function useProjectsBatch() {
   const markAsModified = useCallback((projectId: string, changes: Partial<Project>) => {
     setBatchState((prev) => {
       const newModified = new Map(prev.modifiedProjects);
-      
+
       // Merge con modifiche esistenti
       const existing = newModified.get(projectId) || {};
       newModified.set(projectId, { ...existing, ...changes });
@@ -144,7 +144,7 @@ export function useProjectsBatch() {
       }
 
       const result = await response.json();
-      
+
       console.log('✅ Batch Save Result:', result);
 
       // Invalida cache
@@ -164,7 +164,7 @@ export function useProjectsBatch() {
       const errorMessage = err instanceof Error ? err.message : 'Unknown error';
       setError(errorMessage);
       console.error('Batch save error:', err);
-      
+
       return {
         success: false,
         message: errorMessage,
@@ -175,7 +175,9 @@ export function useProjectsBatch() {
   }, [batchState, resetBatch]);
 
   // Conta modifiche pendenti
-  const pendingChangesCount = batchState.modifiedProjects.size + batchState.deletedIds.size +
+  const pendingChangesCount =
+    batchState.modifiedProjects.size +
+    batchState.deletedIds.size +
     (batchState.reorderedProjects.length > 0 ? 1 : 0);
 
   return {
@@ -194,4 +196,3 @@ export function useProjectsBatch() {
     resetBatch,
   };
 }
-

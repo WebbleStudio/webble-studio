@@ -37,20 +37,20 @@ export default function EmailPreview() {
   const emails = {
     'contact-client': {
       title: 'Email Cliente - Richiesta Contatto',
-      component: <ContactEmail {...sampleContactData} />
+      component: <ContactEmail {...sampleContactData} />,
     },
     'contact-admin': {
       title: 'Email Admin - Richiesta Contatto',
-      component: <ContactAdminEmail {...sampleContactData} />
+      component: <ContactAdminEmail {...sampleContactData} />,
     },
     'booking-client': {
       title: 'Email Cliente - Prenotazione',
-      component: <BookingClientEmail {...sampleBookingData} />
+      component: <BookingClientEmail {...sampleBookingData} />,
     },
     'booking-admin': {
       title: 'Email Admin - Prenotazione',
-      component: <BookingAdminEmail {...sampleBookingData} />
-    }
+      component: <BookingAdminEmail {...sampleBookingData} />,
+    },
   };
 
   return (
@@ -76,7 +76,7 @@ export default function EmailPreview() {
         .email-preview-container td {
           display: table-cell;
         }
-        
+
         /* Disable flexbox and modern CSS for email simulation */
         .email-preview-container * {
           display: block !important;
@@ -88,25 +88,25 @@ export default function EmailPreview() {
           transition: none !important;
           animation: none !important;
         }
-        
+
         .email-preview-container table,
         .email-preview-container tr,
         .email-preview-container td {
           display: table !important;
         }
-        
+
         .email-preview-container tr {
           display: table-row !important;
         }
-        
+
         .email-preview-container td {
           display: table-cell !important;
         }
-        
+
         .email-preview-container span {
           display: inline !important;
         }
-        
+
         /* Force email-like rendering */
         .email-preview-container {
           font-family: Arial, sans-serif !important;
@@ -117,22 +117,24 @@ export default function EmailPreview() {
       <div className="min-h-screen bg-gray-100 p-8">
         <div className="max-w-6xl mx-auto">
           <h1 className="text-3xl font-bold mb-8">Email Preview</h1>
-          
+
           {/* Selectors */}
           <div className="mb-6 grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
               <label className="block text-sm font-medium mb-2">Seleziona Email:</label>
-              <select 
-                value={selectedEmail} 
+              <select
+                value={selectedEmail}
                 onChange={(e) => setSelectedEmail(e.target.value)}
                 className="border border-gray-300 rounded-md px-3 py-2 w-full"
               >
                 {Object.entries(emails).map(([key, email]) => (
-                  <option key={key} value={key}>{email.title}</option>
+                  <option key={key} value={key}>
+                    {email.title}
+                  </option>
                 ))}
               </select>
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium mb-2">Modalità Visualizzazione:</label>
               <div className="flex space-x-2">
@@ -158,11 +160,11 @@ export default function EmailPreview() {
                 </button>
               </div>
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium mb-2">Simula Client Email:</label>
-              <select 
-                value={emailClient} 
+              <select
+                value={emailClient}
                 onChange={(e) => setEmailClient(e.target.value as 'gmail' | 'outlook' | 'apple')}
                 className="border border-gray-300 rounded-md px-3 py-2 w-full"
               >
@@ -176,9 +178,10 @@ export default function EmailPreview() {
           {/* Preview Container */}
           <div className="bg-white rounded-lg shadow-lg p-6">
             <h2 className="text-xl font-semibold mb-4">
-              {emails[selectedEmail as keyof typeof emails].title} - {viewMode === 'desktop' ? 'Desktop' : 'Mobile'} - {emailClient.toUpperCase()}
+              {emails[selectedEmail as keyof typeof emails].title} -{' '}
+              {viewMode === 'desktop' ? 'Desktop' : 'Mobile'} - {emailClient.toUpperCase()}
             </h2>
-            
+
             {/* Email Preview */}
             <div className="border border-gray-200 rounded-lg overflow-hidden">
               <div className="bg-gray-50 px-4 py-2 border-b flex justify-between items-center">
@@ -186,16 +189,15 @@ export default function EmailPreview() {
                   Preview Email (simulazione {emailClient.toUpperCase()})
                 </span>
                 <span className="text-xs text-gray-500">
-                  {viewMode === 'desktop' ? '🖥️ Desktop' : '📱 Mobile'} - {emailClient.toUpperCase()}
+                  {viewMode === 'desktop' ? '🖥️ Desktop' : '📱 Mobile'} -{' '}
+                  {emailClient.toUpperCase()}
                 </span>
               </div>
-              
+
               {/* Responsive Container */}
-              <div 
+              <div
                 className={`${
-                  viewMode === 'mobile' 
-                    ? 'max-w-sm mx-auto' 
-                    : 'w-full'
+                  viewMode === 'mobile' ? 'max-w-sm mx-auto' : 'w-full'
                 } transition-all duration-300`}
                 style={{
                   backgroundColor: '#f4f4f4',
@@ -204,7 +206,7 @@ export default function EmailPreview() {
                   fontFamily: 'Arial, sans-serif',
                 }}
               >
-                <div 
+                <div
                   className="email-preview-container"
                   style={{
                     backgroundColor: '#f4f4f4',
@@ -229,7 +231,11 @@ export default function EmailPreview() {
           <div className="mt-6 bg-blue-50 rounded-lg p-4">
             <h3 className="font-semibold mb-2">Dati di Esempio Utilizzati:</h3>
             <pre className="text-sm text-gray-700 overflow-auto">
-              {JSON.stringify(selectedEmail.includes('contact') ? sampleContactData : sampleBookingData, null, 2)}
+              {JSON.stringify(
+                selectedEmail.includes('contact') ? sampleContactData : sampleBookingData,
+                null,
+                2
+              )}
             </pre>
           </div>
         </div>

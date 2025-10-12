@@ -164,7 +164,7 @@ export default function ChiSiamoHero() {
       if (scrollY) {
         window.scrollTo(0, parseInt(scrollY || '0') * -1);
       }
-      
+
       // Mostra l'header subito dopo il ripristino dello scroll
       showHeader();
     }, 800); // Sincronizzato con la durata dell'animazione
@@ -183,227 +183,237 @@ export default function ChiSiamoHero() {
     <section className="w-full flex flex-col md:flex-row relative overflow-hidden">
       <div className="w-full mx-auto pt-[90px] px-[15px] pb-[15px] md:px-[25px] md:pb-[25px] md:pt-[100px] bg-[#0b0b0b] rounded-b-[32px] border border-[#f4f4f4]/10">
         <div className="flex flex-col md:flex-row gap-[15px] md:gap-[25px]">
-        {/* Container Vadim */}
-        <motion.div
-          className="relative cursor-pointer rounded-3xl overflow-hidden"
-          onClick={() => !isDebouncing && handlePercorsoClick('vadim')}
-          style={{ 
-            willChange: 'height, flex', 
-            boxSizing: 'border-box',
-            minWidth: 0,
-            minHeight: 0,
-          }}
-          initial={{ opacity: 0, y: -50 }}
-          animate={{
-            y: 0,
-            height: isMobile
-              ? expandedPerson === 'vadim'
-                ? '70vh'
-                : expandedPerson === 'gabriele'
-                  ? '0vh'
-                  : '35vh'
-              : '70vh',
-            width: isMobile
-              ? '100%'
-              : expandedPerson === 'vadim'
-                ? '100%'
-                : expandedPerson === 'gabriele'
-                  ? '0%'
-                  : '50%',
-            opacity: isMobile
-              ? expandedPerson === 'vadim'
-                ? 1
-                : expandedPerson === 'gabriele'
-                  ? 0
-                  : 1
-              : 1,
-          }}
-          transition={{
-            duration: 0.8,
-            ease: [0.25, 0.46, 0.45, 0.94],
-            type: "tween",
-            opacity: { duration: 0.6, ease: "easeOut" },
-            y: { duration: 0.6, ease: "easeOut" }
-          }}
-        >
+          {/* Container Vadim */}
           <motion.div
-            className="absolute inset-0"
+            className="relative cursor-pointer rounded-3xl overflow-hidden"
+            onClick={() => !isDebouncing && handlePercorsoClick('vadim')}
+            style={{
+              willChange: 'height, flex',
+              boxSizing: 'border-box',
+              minWidth: 0,
+              minHeight: 0,
+            }}
+            initial={{ opacity: 0, y: -50 }}
             animate={{
-              scale: expandedPerson === 'vadim' ? 1.05 : 1,
-              filter: expandedPerson === 'vadim' ? 'blur(4px)' : 'blur(0px)',
+              y: 0,
+              height: isMobile
+                ? expandedPerson === 'vadim'
+                  ? '70vh'
+                  : expandedPerson === 'gabriele'
+                    ? '0vh'
+                    : '35vh'
+                : '70vh',
+              width: isMobile
+                ? '100%'
+                : expandedPerson === 'vadim'
+                  ? '100%'
+                  : expandedPerson === 'gabriele'
+                    ? '0%'
+                    : '50%',
+              opacity: isMobile
+                ? expandedPerson === 'vadim'
+                  ? 1
+                  : expandedPerson === 'gabriele'
+                    ? 0
+                    : 1
+                : 1,
             }}
             transition={{
               duration: 0.8,
               ease: [0.25, 0.46, 0.45, 0.94],
+              type: 'tween',
+              opacity: { duration: 0.6, ease: 'easeOut' },
+              y: { duration: 0.6, ease: 'easeOut' },
             }}
           >
-            <OptimizedImage
-              src="/img/vadim.png"
-              alt="Vadim"
-              fill
-              sizes="(max-width: 768px) 100vw, 50vw"
-              className="object-cover"
-            />
-          </motion.div>
-          {/* Nome e ruolo Vadim */}
-          <motion.div
-            className="absolute bottom-0 left-0 p-6 w-full flex items-end justify-between"
-            animate={{
-              opacity: expandedPerson === 'vadim' ? 0 : expandedPerson === 'gabriele' ? 0 : 1,
-            }}
-            transition={{
-              duration: 0.4,
-              delay: expandedPerson === 'vadim' ? 0.1 : expandedPerson === 'gabriele' ? 0.1 : 0.5,
-              ease: [0.25, 0.46, 0.45, 0.94],
-            }}
-          >
-            <div>
-              <h2 className="text-white text-2xl md:text-3xl font-medium mb-2 leading-none">Vadim</h2>
-              <AnimatedText as="h4" className="text-white text-lg md:text-xl opacity-80 leading-none">
-                {t('about.founder')}
-              </AnimatedText>
-            </div>
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                handlePercorsoClick('vadim');
+            <motion.div
+              className="absolute inset-0"
+              animate={{
+                scale: expandedPerson === 'vadim' ? 1.05 : 1,
+                filter: expandedPerson === 'vadim' ? 'blur(4px)' : 'blur(0px)',
               }}
-              className={`text-sm md:text-lg font-medium transition-colors flex items-center gap-2 pb-1 ${
-                isDebouncing ? 'text-gray-500' : 'text-white hover:text-gray-300'
-              }`}
-              disabled={isDebouncing}
-              title={isDebouncing ? 'Attendere...' : t('about.path')}
+              transition={{
+                duration: 0.8,
+                ease: [0.25, 0.46, 0.45, 0.94],
+              }}
             >
-              <AnimatedText as="span">{t('about.path')}</AnimatedText>
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
+              <OptimizedImage
+                src="/img/vadim.png"
+                alt="Vadim"
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className="object-cover"
+              />
+            </motion.div>
+            {/* Nome e ruolo Vadim */}
+            <motion.div
+              className="absolute bottom-0 left-0 p-6 w-full flex items-end justify-between"
+              animate={{
+                opacity: expandedPerson === 'vadim' ? 0 : expandedPerson === 'gabriele' ? 0 : 1,
+              }}
+              transition={{
+                duration: 0.4,
+                delay: expandedPerson === 'vadim' ? 0.1 : expandedPerson === 'gabriele' ? 0.1 : 0.5,
+                ease: [0.25, 0.46, 0.45, 0.94],
+              }}
+            >
+              <div>
+                <h2 className="text-white text-2xl md:text-3xl font-medium mb-2 leading-none">
+                  Vadim
+                </h2>
+                <AnimatedText
+                  as="h4"
+                  className="text-white text-lg md:text-xl opacity-80 leading-none"
+                >
+                  {t('about.founder')}
+                </AnimatedText>
+              </div>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handlePercorsoClick('vadim');
+                }}
+                className={`text-sm md:text-lg font-medium transition-colors flex items-center gap-2 pb-1 ${
+                  isDebouncing ? 'text-gray-500' : 'text-white hover:text-gray-300'
+                }`}
+                disabled={isDebouncing}
+                title={isDebouncing ? 'Attendere...' : t('about.path')}
               >
-                <path
-                  d="M5 12H19M19 12L12 5M19 12L12 19"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </button>
+                <AnimatedText as="span">{t('about.path')}</AnimatedText>
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M5 12H19M19 12L12 5M19 12L12 19"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </button>
+            </motion.div>
           </motion.div>
-        </motion.div>
 
-        {/* Container Gabriele */}
-        <motion.div
-          className="relative cursor-pointer rounded-3xl overflow-hidden"
-          onClick={() => !isDebouncing && handlePercorsoClick('gabriele')}
-          style={{ 
-            willChange: 'height, flex', 
-            boxSizing: 'border-box',
-            minWidth: 0,
-            minHeight: 0,
-          }}
-          initial={{ opacity: 0, y: -50 }}
-          animate={{
-            y: 0,
-            height: isMobile
-              ? expandedPerson === 'gabriele'
-                ? '70vh'
-                : expandedPerson === 'vadim'
-                  ? '0vh'
-                  : '35vh'
-              : '70vh',
-            width: isMobile
-              ? '100%'
-              : expandedPerson === 'gabriele'
-                ? '100%'
-                : expandedPerson === 'vadim'
-                  ? '0%'
-                  : '50%',
-            opacity: isMobile
-              ? expandedPerson === 'gabriele'
-                ? 1
-                : expandedPerson === 'vadim'
-                  ? 0
-                  : 1
-              : 1,
-          }}
-          transition={{
-            duration: 0.8,
-            ease: [0.25, 0.46, 0.45, 0.94],
-            type: "tween",
-            opacity: { duration: 0.6, ease: "easeOut", delay: 0.1 },
-            y: { duration: 0.6, ease: "easeOut", delay: 0.1 }
-          }}
-        >
+          {/* Container Gabriele */}
           <motion.div
-            className="absolute inset-0"
+            className="relative cursor-pointer rounded-3xl overflow-hidden"
+            onClick={() => !isDebouncing && handlePercorsoClick('gabriele')}
+            style={{
+              willChange: 'height, flex',
+              boxSizing: 'border-box',
+              minWidth: 0,
+              minHeight: 0,
+            }}
+            initial={{ opacity: 0, y: -50 }}
             animate={{
-              scale: expandedPerson === 'gabriele' ? 1.05 : 1,
-              filter: expandedPerson === 'gabriele' ? 'blur(4px)' : 'blur(0px)',
+              y: 0,
+              height: isMobile
+                ? expandedPerson === 'gabriele'
+                  ? '70vh'
+                  : expandedPerson === 'vadim'
+                    ? '0vh'
+                    : '35vh'
+                : '70vh',
+              width: isMobile
+                ? '100%'
+                : expandedPerson === 'gabriele'
+                  ? '100%'
+                  : expandedPerson === 'vadim'
+                    ? '0%'
+                    : '50%',
+              opacity: isMobile
+                ? expandedPerson === 'gabriele'
+                  ? 1
+                  : expandedPerson === 'vadim'
+                    ? 0
+                    : 1
+                : 1,
             }}
             transition={{
               duration: 0.8,
               ease: [0.25, 0.46, 0.45, 0.94],
+              type: 'tween',
+              opacity: { duration: 0.6, ease: 'easeOut', delay: 0.1 },
+              y: { duration: 0.6, ease: 'easeOut', delay: 0.1 },
             }}
           >
-            <OptimizedImage
-              src="/img/gabriele.png"
-              alt="Gabriele"
-              fill
-              sizes="(max-width: 768px) 100vw, 50vw"
-              className="object-cover"
-            />
-          </motion.div>
-          {/* Nome e ruolo Gabriele */}
-          <motion.div
-            className="absolute bottom-0 left-0 p-6 w-full flex items-end justify-between"
-            animate={{
-              opacity: expandedPerson === 'gabriele' ? 0 : expandedPerson === 'vadim' ? 0 : 1,
-            }}
-            transition={{
-              duration: 0.4,
-              delay: expandedPerson === 'gabriele' ? 0.1 : expandedPerson === 'vadim' ? 0.1 : 0.5,
-              ease: [0.25, 0.46, 0.45, 0.94],
-            }}
-          >
-            <div>
-              <h2 className="text-white text-2xl md:text-3xl font-medium mb-2 leading-none">Gabriele</h2>
-              <AnimatedText as="h4" className="text-white text-lg md:text-xl opacity-80 leading-none">
-                {t('about.founder')}
-              </AnimatedText>
-            </div>
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                handlePercorsoClick('gabriele');
+            <motion.div
+              className="absolute inset-0"
+              animate={{
+                scale: expandedPerson === 'gabriele' ? 1.05 : 1,
+                filter: expandedPerson === 'gabriele' ? 'blur(4px)' : 'blur(0px)',
               }}
-              className={`text-sm md:text-lg font-medium transition-colors flex items-center gap-2 pb-1 ${
-                isDebouncing ? 'text-gray-500' : 'text-white hover:text-gray-300'
-              }`}
-              disabled={isDebouncing}
-              title={isDebouncing ? 'Attendere...' : t('about.path')}
+              transition={{
+                duration: 0.8,
+                ease: [0.25, 0.46, 0.45, 0.94],
+              }}
             >
-              <AnimatedText as="span">{t('about.path')}</AnimatedText>
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
+              <OptimizedImage
+                src="/img/gabriele.png"
+                alt="Gabriele"
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className="object-cover"
+              />
+            </motion.div>
+            {/* Nome e ruolo Gabriele */}
+            <motion.div
+              className="absolute bottom-0 left-0 p-6 w-full flex items-end justify-between"
+              animate={{
+                opacity: expandedPerson === 'gabriele' ? 0 : expandedPerson === 'vadim' ? 0 : 1,
+              }}
+              transition={{
+                duration: 0.4,
+                delay: expandedPerson === 'gabriele' ? 0.1 : expandedPerson === 'vadim' ? 0.1 : 0.5,
+                ease: [0.25, 0.46, 0.45, 0.94],
+              }}
+            >
+              <div>
+                <h2 className="text-white text-2xl md:text-3xl font-medium mb-2 leading-none">
+                  Gabriele
+                </h2>
+                <AnimatedText
+                  as="h4"
+                  className="text-white text-lg md:text-xl opacity-80 leading-none"
+                >
+                  {t('about.founder')}
+                </AnimatedText>
+              </div>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handlePercorsoClick('gabriele');
+                }}
+                className={`text-sm md:text-lg font-medium transition-colors flex items-center gap-2 pb-1 ${
+                  isDebouncing ? 'text-gray-500' : 'text-white hover:text-gray-300'
+                }`}
+                disabled={isDebouncing}
+                title={isDebouncing ? 'Attendere...' : t('about.path')}
               >
-                <path
-                  d="M5 12H19M19 12L12 5M19 12L12 19"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </button>
+                <AnimatedText as="span">{t('about.path')}</AnimatedText>
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M5 12H19M19 12L12 5M19 12L12 19"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </button>
+            </motion.div>
           </motion.div>
-        </motion.div>
         </div>
       </div>
 

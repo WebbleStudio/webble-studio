@@ -171,9 +171,9 @@ function ProjectSelectionModal({
   );
 }
 
-export default function ServiceImageManager({ 
+export default function ServiceImageManager({
   className = '',
-  markServiceAsModified 
+  markServiceAsModified,
 }: ServiceImageManagerProps) {
   const { t } = useTranslation();
   const {
@@ -253,13 +253,13 @@ export default function ServiceImageManager({
     });
 
     // Marca la modifica nel sistema batch
-    const category = serviceCategories.find(cat => cat.slug === categorySlug);
+    const category = serviceCategories.find((cat) => cat.slug === categorySlug);
     if (category) {
       // Calcola i nuovi valori DOPO l'aggiornamento dello state
       const currentImages = localChanges[categorySlug] || [];
       const isSelected = currentImages.includes(projectId);
       let updatedImages: string[];
-      
+
       if (isSelected) {
         // Rimuovi il progetto
         updatedImages = currentImages.filter((id) => id !== projectId);

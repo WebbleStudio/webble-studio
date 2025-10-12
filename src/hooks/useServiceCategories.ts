@@ -54,7 +54,7 @@ export function useServiceCategories() {
 
             // Invalida cache e riprova a caricare
             apiCache.invalidate(cacheKeys.serviceCategories());
-            
+
             const retryResponse = await fetch('/api/service-categories');
             if (retryResponse.ok) {
               const retryData = await retryResponse.json();

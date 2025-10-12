@@ -41,8 +41,8 @@ export default function Payoff() {
           {t('payoff.subtitle')}
         </AnimatedText>
         <div className="flex justify-center">
-          <SecondButton 
-            onClick={handleOpenForm} 
+          <SecondButton
+            onClick={handleOpenForm}
             noHoverEffect={true}
             data-gtm-event="cta_click"
             data-gtm-category="engagement"

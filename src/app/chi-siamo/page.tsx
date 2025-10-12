@@ -6,11 +6,13 @@ import Contact from '@/components/sections/Home/Contact';
 
 export const metadata: Metadata = {
   title: 'Chi Siamo - Webble Studio',
-  description: 'Scopri il team di Webble Studio: creativi, designer e sviluppatori appassionati di web design, UI/UX e strategie digitali.',
+  description:
+    'Scopri il team di Webble Studio: creativi, designer e sviluppatori appassionati di web design, UI/UX e strategie digitali.',
   keywords: ['team webble studio', 'chi siamo', 'web agency', 'team creativo'],
   openGraph: {
     title: 'Chi Siamo - Webble Studio',
-    description: 'Scopri il team di Webble Studio: creativi, designer e sviluppatori appassionati di web design, UI/UX e strategie digitali.',
+    description:
+      'Scopri il team di Webble Studio: creativi, designer e sviluppatori appassionati di web design, UI/UX e strategie digitali.',
     type: 'website',
   },
 };
@@ -20,7 +22,7 @@ export default function ChiSiamoPage() {
     <div>
       <ChiSiamoHero />
       <Container>
-      <Team />
+        <Team />
         <Contact />
       </Container>
     </div>

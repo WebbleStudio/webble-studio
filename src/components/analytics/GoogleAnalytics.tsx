@@ -15,24 +15,24 @@ const disableGoogleAnalytics = () => {
         analytics_storage: 'denied',
         ad_storage: 'denied',
         ad_user_data: 'denied',
-        ad_personalization: 'denied'
+        ad_personalization: 'denied',
       });
     }
-    
+
     // Rimuovi i cookie di Google Analytics se presenti
     const gaCookies = [
       '_ga',
       '_ga_' + GA_TRACKING_ID.replace('G-', ''),
       '_gid',
       '_gat',
-      '_gat_gtag_' + GA_TRACKING_ID.replace('G-', '')
+      '_gat_gtag_' + GA_TRACKING_ID.replace('G-', ''),
     ];
-    
-    gaCookies.forEach(cookieName => {
+
+    gaCookies.forEach((cookieName) => {
       document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.${window.location.hostname}`;
       document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
     });
-    
+
     console.log('❌ Google Analytics disabilitato e cookie rimossi');
   }
 };
@@ -43,23 +43,23 @@ export default function GoogleAnalytics() {
 
   useEffect(() => {
     setIsClient(true);
-    
+
     // Controlla il consenso ai cookie marketing
     const checkConsent = () => {
       const marketingConsent = localStorage.getItem('marketing-consent');
       const consentDate = localStorage.getItem('marketing-consent-date');
-      
-      console.log('🔍 Checking marketing consent:', { 
-        consent: marketingConsent, 
-        date: consentDate 
+
+      console.log('🔍 Checking marketing consent:', {
+        consent: marketingConsent,
+        date: consentDate,
       });
-      
+
       // Verifica consenso Marketing (include GA + GTM)
       if (marketingConsent === 'accepted' && consentDate) {
         const savedDate = new Date(consentDate);
         const now = new Date();
         const daysDiff = (now.getTime() - savedDate.getTime()) / (1000 * 3600 * 24);
-        
+
         if (daysDiff > 180) {
           console.log('❌ Marketing consent expired (180+ days)');
           setHasMarketingConsent(false);

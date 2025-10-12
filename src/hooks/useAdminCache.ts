@@ -17,17 +17,13 @@ const CACHE_PREFIX = 'admin_cache_';
 /**
  * Hook per cache admin con TTL 24h
  */
-export function useAdminCache<T>(
-  key: string,
-  fetcher: () => Promise<T>,
-  initialData?: T
-) {
+export function useAdminCache<T>(key: string, fetcher: () => Promise<T>, initialData?: T) {
   const cacheKey = `${CACHE_PREFIX}${key}`;
   const [data, setData] = useState<T | undefined>(initialData);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [lastUpdate, setLastUpdate] = useState<number | null>(null);
-  
+
   // Stabilizza il fetcher con useRef per evitare loop
   const fetcherRef = useRef(fetcher);
   useEffect(() => {
@@ -92,12 +88,14 @@ export function useAdminCache<T>(
       setError(null);
 
       try {
-        console.log(`🔄 Admin Cache: Fetching ${key}${force ? ' (manual refresh)' : ' (cache miss)'}...`);
+        console.log(
+          `🔄 Admin Cache: Fetching ${key}${force ? ' (manual refresh)' : ' (cache miss)'}...`
+        );
         const result = await fetcherRef.current(); // Usa ref invece di fetcher diretto
-        
+
         setData(result);
         writeCache(result);
-        
+
         return result;
       } catch (err) {
         const errorMsg = err instanceof Error ? err.message : 'Unknown error';
@@ -139,10 +137,10 @@ export function useAdminCache<T>(
     data,
     loading,
     error,
-    fetchData,    // Fetch se cache vuota
-    refresh,      // Refresh manuale (force)
-    invalidate,   // Invalida cache
-    lastUpdate,   // Timestamp ultimo update
+    fetchData, // Fetch se cache vuota
+    refresh, // Refresh manuale (force)
+    invalidate, // Invalida cache
+    lastUpdate, // Timestamp ultimo update
     isCached: lastUpdate !== null,
   };
 }
@@ -165,14 +163,13 @@ export function clearAdminCache() {
  */
 export function getCacheAge(timestamp: number | null): string {
   if (!timestamp) return 'Never';
-  
+
   const ageMs = Date.now() - timestamp;
   const ageMin = Math.floor(ageMs / 1000 / 60);
   const ageHour = Math.floor(ageMin / 60);
-  
+
   if (ageHour > 0) {
     return `${ageHour}h ${ageMin % 60}m ago`;
   }
   return `${ageMin}m ago`;
 }
-

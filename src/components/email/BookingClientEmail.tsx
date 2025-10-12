@@ -21,7 +21,6 @@ export default function BookingClientEmail({
   contactMethod,
   date,
 }: BookingClientEmailProps) {
-
   return (
     <div
       className="mobile-container"
@@ -42,10 +41,18 @@ export default function BookingClientEmail({
       data-color-scheme="light"
       data-ogsc="light"
     >
-      
       {/* Preview text for Gmail - hidden but helps with truncation */}
-      <div style={{ display: 'none', fontSize: '0', lineHeight: '0', maxHeight: '0', overflow: 'hidden' }}>
-        Grazie per aver scelto Webble Studio! Abbiamo ricevuto la tua richiesta e siamo entusiasti di trasformare la tua visione in realtà digitale.
+      <div
+        style={{
+          display: 'none',
+          fontSize: '0',
+          lineHeight: '0',
+          maxHeight: '0',
+          overflow: 'hidden',
+        }}
+      >
+        Grazie per aver scelto Webble Studio! Abbiamo ricevuto la tua richiesta e siamo entusiasti
+        di trasformare la tua visione in realtà digitale.
       </div>
 
       {/* Envelope */}
@@ -96,10 +103,14 @@ export default function BookingClientEmail({
             textAlign: 'center',
           }}
         >
-          <span style={{ fontFamily: 'Arial, Helvetica, sans-serif', fontWeight: 'normal' }}>Ciao </span>
-          <span style={{ fontFamily: 'Arial, Helvetica, sans-serif', fontWeight: 'bold' }}>{name}</span>
+          <span style={{ fontFamily: 'Arial, Helvetica, sans-serif', fontWeight: 'normal' }}>
+            Ciao{' '}
+          </span>
+          <span style={{ fontFamily: 'Arial, Helvetica, sans-serif', fontWeight: 'bold' }}>
+            {name}
+          </span>
         </h1>
-        
+
         <p
           style={{
             color: '#fafafa',
@@ -115,9 +126,10 @@ export default function BookingClientEmail({
             padding: '0 20px',
           }}
         >
-          Grazie per aver scelto Webble Studio!<br />
-          Abbiamo ricevuto la tua richiesta e siamo entusiasti di
-          trasformare la tua visione in realtà digitale.
+          Grazie per aver scelto Webble Studio!
+          <br />
+          Abbiamo ricevuto la tua richiesta e siamo entusiasti di trasformare la tua visione in
+          realtà digitale.
         </p>
       </div>
 
@@ -179,15 +191,23 @@ export default function BookingClientEmail({
                 textAlign: 'left',
               }}
             >
-              {contactMethod?.toLowerCase() === 'per email' ? 'Contatto via mail' :
-               contactMethod?.toLowerCase() === 'per telefono' ? 'Contatto telefonico' :
-               contactMethod?.toLowerCase() === 'meet/zoom' ? 'Chiamata Meet/Zoom' :
-               contactMethod?.toLowerCase() === 'email' ? 'Contatto via mail' :
-               contactMethod?.toLowerCase() === 'phone' ? 'Contatto telefonico' :
-               contactMethod?.toLowerCase() === 'meet' ? 'Chiamata Meet/Zoom' :
-               contactMethod?.toLowerCase() === 'telefono' ? 'Contatto telefonico' :
-               contactMethod?.toLowerCase() === 'chiamata' ? 'Chiamata Meet/Zoom' :
-               'Contatto via mail'}
+              {contactMethod?.toLowerCase() === 'per email'
+                ? 'Contatto via mail'
+                : contactMethod?.toLowerCase() === 'per telefono'
+                  ? 'Contatto telefonico'
+                  : contactMethod?.toLowerCase() === 'meet/zoom'
+                    ? 'Chiamata Meet/Zoom'
+                    : contactMethod?.toLowerCase() === 'email'
+                      ? 'Contatto via mail'
+                      : contactMethod?.toLowerCase() === 'phone'
+                        ? 'Contatto telefonico'
+                        : contactMethod?.toLowerCase() === 'meet'
+                          ? 'Chiamata Meet/Zoom'
+                          : contactMethod?.toLowerCase() === 'telefono'
+                            ? 'Contatto telefonico'
+                            : contactMethod?.toLowerCase() === 'chiamata'
+                              ? 'Chiamata Meet/Zoom'
+                              : 'Contatto via mail'}
             </h3>
           </div>
 
@@ -222,19 +242,21 @@ export default function BookingClientEmail({
                         if (services && services.length > 1) {
                           const firstService = services[0];
                           const additionalCount = services.length - 1;
-                          const formattedFirstService = 
-                            firstService?.toLowerCase() === 'sito web' && 'Sito Web'
-                            || firstService?.toLowerCase() === 'advertising' && 'Advertising'
-                            || firstService?.toLowerCase() === 'social media' && 'Social Media'
-                            || firstService?.toLowerCase() === 'altro' && 'Altro'
-                            || firstService;
+                          const formattedFirstService =
+                            (firstService?.toLowerCase() === 'sito web' && 'Sito Web') ||
+                            (firstService?.toLowerCase() === 'advertising' && 'Advertising') ||
+                            (firstService?.toLowerCase() === 'social media' && 'Social Media') ||
+                            (firstService?.toLowerCase() === 'altro' && 'Altro') ||
+                            firstService;
                           return `${formattedFirstService} (+${additionalCount})`;
                         } else {
-                          return service?.toLowerCase() === 'sito web' && 'Sito Web'
-                            || service?.toLowerCase() === 'advertising' && 'Advertising'
-                            || service?.toLowerCase() === 'social media' && 'Social Media'
-                            || service?.toLowerCase() === 'altro' && 'Altro'
-                            || service;
+                          return (
+                            (service?.toLowerCase() === 'sito web' && 'Sito Web') ||
+                            (service?.toLowerCase() === 'advertising' && 'Advertising') ||
+                            (service?.toLowerCase() === 'social media' && 'Social Media') ||
+                            (service?.toLowerCase() === 'altro' && 'Altro') ||
+                            service
+                          );
                         }
                       })()}
                     </h3>
@@ -379,7 +401,7 @@ export default function BookingClientEmail({
               I prossimi passi!
             </h2>
           </div>
-          
+
           <h3
             style={{
               color: '#fafafa',
@@ -390,25 +412,78 @@ export default function BookingClientEmail({
               textAlign: 'left',
             }}
           >
-            <span style={{ opacity: '1' }}>Entro 24 ore</span> <span style={{ opacity: '0.6' }}>il nostro team ti contatterà per:</span>
+            <span style={{ opacity: '1' }}>Entro 24 ore</span>{' '}
+            <span style={{ opacity: '0.6' }}>il nostro team ti contatterà per:</span>
           </h3>
-          
+
           <div style={{ textAlign: 'left' }}>
             <div style={{ marginBottom: '8px', overflow: 'hidden' }}>
-              <span style={{ color: '#fafafa', marginRight: '8px', fontSize: '16px', float: 'left' }}>•</span>
-              <span style={{ color: '#fafafa', fontSize: '14px', lineHeight: '1.6', fontFamily: 'Arial, Helvetica, sans-serif' }}>Analizzare in dettaglio il tuo progetto</span>
+              <span
+                style={{ color: '#fafafa', marginRight: '8px', fontSize: '16px', float: 'left' }}
+              >
+                •
+              </span>
+              <span
+                style={{
+                  color: '#fafafa',
+                  fontSize: '14px',
+                  lineHeight: '1.6',
+                  fontFamily: 'Arial, Helvetica, sans-serif',
+                }}
+              >
+                Analizzare in dettaglio il tuo progetto
+              </span>
             </div>
             <div style={{ marginBottom: '8px', overflow: 'hidden' }}>
-              <span style={{ color: '#fafafa', marginRight: '8px', fontSize: '16px', float: 'left' }}>•</span>
-              <span style={{ color: '#fafafa', fontSize: '14px', lineHeight: '1.6', fontFamily: 'Arial, Helvetica, sans-serif' }}>Definire la strategia migliore</span>
+              <span
+                style={{ color: '#fafafa', marginRight: '8px', fontSize: '16px', float: 'left' }}
+              >
+                •
+              </span>
+              <span
+                style={{
+                  color: '#fafafa',
+                  fontSize: '14px',
+                  lineHeight: '1.6',
+                  fontFamily: 'Arial, Helvetica, sans-serif',
+                }}
+              >
+                Definire la strategia migliore
+              </span>
             </div>
             <div style={{ marginBottom: '8px', overflow: 'hidden' }}>
-              <span style={{ color: '#fafafa', marginRight: '8px', fontSize: '16px', float: 'left' }}>•</span>
-              <span style={{ color: '#fafafa', fontSize: '14px', lineHeight: '1.6', fontFamily: 'Arial, Helvetica, sans-serif' }}>Prepararti un preventivo personalizzato</span>
+              <span
+                style={{ color: '#fafafa', marginRight: '8px', fontSize: '16px', float: 'left' }}
+              >
+                •
+              </span>
+              <span
+                style={{
+                  color: '#fafafa',
+                  fontSize: '14px',
+                  lineHeight: '1.6',
+                  fontFamily: 'Arial, Helvetica, sans-serif',
+                }}
+              >
+                Prepararti un preventivo personalizzato
+              </span>
             </div>
             <div style={{ marginBottom: '8px', overflow: 'hidden' }}>
-              <span style={{ color: '#fafafa', marginRight: '8px', fontSize: '16px', float: 'left' }}>•</span>
-              <span style={{ color: '#fafafa', fontSize: '14px', lineHeight: '1.6', fontFamily: 'Arial, Helvetica, sans-serif' }}>Pianificare i tempi di realizzazione</span>
+              <span
+                style={{ color: '#fafafa', marginRight: '8px', fontSize: '16px', float: 'left' }}
+              >
+                •
+              </span>
+              <span
+                style={{
+                  color: '#fafafa',
+                  fontSize: '14px',
+                  lineHeight: '1.6',
+                  fontFamily: 'Arial, Helvetica, sans-serif',
+                }}
+              >
+                Pianificare i tempi di realizzazione
+              </span>
             </div>
           </div>
         </div>
@@ -435,7 +510,7 @@ export default function BookingClientEmail({
           >
             Hai domande? Siamo qui per te!
           </p>
-          
+
           <p
             style={{
               color: '#fafafa',
@@ -447,9 +522,9 @@ export default function BookingClientEmail({
               textDecoration: 'underline',
             }}
           >
-            <a 
-              href="https://webblestudio.com/contatti" 
-              target="_blank" 
+            <a
+              href="https://webblestudio.com/contatti"
+              target="_blank"
               rel="noopener noreferrer"
               style={{
                 color: '#fafafa',
@@ -460,7 +535,7 @@ export default function BookingClientEmail({
               webblestudio.com/contatti
             </a>
           </p>
-          
+
           <p
             style={{
               color: '#fafafa',
@@ -471,7 +546,7 @@ export default function BookingClientEmail({
               textAlign: 'center',
             }}
           >
-            <a 
+            <a
               href="tel:+393534248308"
               style={{
                 color: '#fafafa',
@@ -483,7 +558,6 @@ export default function BookingClientEmail({
           </p>
         </div>
       </div>
-
     </div>
   );
 }

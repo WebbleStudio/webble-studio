@@ -84,12 +84,16 @@ export default function PortfolioProjects() {
   const filteredProjects = React.useMemo(() => {
     return projects.filter((project) => {
       // Se le categorie sono vuote, undefined, o non è un array, escludi il progetto
-      if (!project.categories || !Array.isArray(project.categories) || project.categories.length === 0) {
+      if (
+        !project.categories ||
+        !Array.isArray(project.categories) ||
+        project.categories.length === 0
+      ) {
         return false;
       }
-      
+
       if (activeFilters.includes('All')) return true;
-      
+
       // Controlla se almeno una delle categorie del progetto è nei filtri attivi
       return project.categories.some((category) => activeFilters.includes(category));
     });
@@ -280,7 +284,9 @@ export default function PortfolioProjects() {
                     description={getTranslatedDescription(rowProjects[0])}
                     imageUrl={rowProjects[0].image_url}
                     hasLink={!!rowProjects[0].link}
-                    onClick={rowProjects[0].link ? () => handleProjectClick(rowProjects[0]) : undefined}
+                    onClick={
+                      rowProjects[0].link ? () => handleProjectClick(rowProjects[0]) : undefined
+                    }
                   />
                 </motion.div>
               )}
@@ -295,7 +301,9 @@ export default function PortfolioProjects() {
                     description={getTranslatedDescription(rowProjects[1])}
                     imageUrl={rowProjects[1].image_url}
                     hasLink={!!rowProjects[1].link}
-                    onClick={rowProjects[1].link ? () => handleProjectClick(rowProjects[1]) : undefined}
+                    onClick={
+                      rowProjects[1].link ? () => handleProjectClick(rowProjects[1]) : undefined
+                    }
                   />
                 </motion.div>
               )}

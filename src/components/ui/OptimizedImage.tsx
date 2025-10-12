@@ -31,7 +31,7 @@ export default function OptimizedImage({
   loading,
 }: OptimizedImageProps) {
   // Determina loading strategy: se priority=true, non usare loading='lazy'
-  const loadingStrategy = priority ? undefined : (loading || 'lazy');
+  const loadingStrategy = priority ? undefined : loading || 'lazy';
 
   if (fill) {
     return (
@@ -44,14 +44,14 @@ export default function OptimizedImage({
         loading={loadingStrategy}
         sizes={sizes || '100vw'}
         quality={quality}
-        style={{ 
+        style={{
           objectFit: 'cover',
           willChange: 'auto',
           backfaceVisibility: 'hidden',
           transform: 'translateZ(0)',
           WebkitBackfaceVisibility: 'hidden',
           WebkitTransform: 'translateZ(0)',
-          opacity: 1
+          opacity: 1,
         }}
       />
     );
@@ -74,7 +74,7 @@ export default function OptimizedImage({
         transform: 'translateZ(0)',
         WebkitBackfaceVisibility: 'hidden',
         WebkitTransform: 'translateZ(0)',
-        opacity: 0.99
+        opacity: 0.99,
       }}
     />
   );

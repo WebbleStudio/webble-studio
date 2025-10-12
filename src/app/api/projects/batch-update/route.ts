@@ -41,10 +41,7 @@ export async function POST(request: NextRequest) {
     // 1. ELIMINAZIONI
     if (deletes.length > 0) {
       try {
-        const { error: deleteError } = await supabase
-          .from('projects')
-          .delete()
-          .in('id', deletes);
+        const { error: deleteError } = await supabase.from('projects').delete().in('id', deletes);
 
         if (deleteError) {
           console.error('Delete error:', deleteError);
@@ -138,7 +135,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error('Unexpected error in batch-update:', error);
     return NextResponse.json(
-      { 
+      {
         success: false,
         error: 'Internal server error',
         details: error instanceof Error ? error.message : 'Unknown error',
@@ -147,4 +144,3 @@ export async function POST(request: NextRequest) {
     );
   }
 }
-

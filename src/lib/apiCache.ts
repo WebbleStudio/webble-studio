@@ -15,11 +15,7 @@ class ApiCache {
    * Ottiene i dati dalla cache o esegue il fetcher
    * Previene chiamate simultanee duplicate (deduplication)
    */
-  async get<T>(
-    key: string,
-    fetcher: () => Promise<T>,
-    ttl: number = this.defaultTTL
-  ): Promise<T> {
+  async get<T>(key: string, fetcher: () => Promise<T>, ttl: number = this.defaultTTL): Promise<T> {
     const cached = this.cache.get(key);
     const now = Date.now();
 
@@ -31,7 +27,9 @@ class ApiCache {
 
     // Se la cache è valida, ritorna i dati cached
     if (cached && now - cached.timestamp < ttl) {
-      console.log(`✅ ApiCache: Cache hit for "${key}" (age: ${Math.round((now - cached.timestamp) / 1000)}s)`);
+      console.log(
+        `✅ ApiCache: Cache hit for "${key}" (age: ${Math.round((now - cached.timestamp) / 1000)}s)`
+      );
       return cached.data;
     }
 
@@ -108,4 +106,3 @@ export const cacheKeys = {
   portfolioData: () => 'portfolio-data', // Endpoint aggregato portfolio
   project: (id: string) => `project-${id}`,
 } as const;
-

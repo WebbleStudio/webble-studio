@@ -26,34 +26,40 @@ export default function ApiDebugger() {
 
     window.fetch = async (...args: Parameters<typeof fetch>) => {
       const [resource, config] = args;
-      const url = typeof resource === 'string' 
-        ? resource 
-        : resource instanceof URL 
-          ? resource.href 
-          : resource.url;
+      const url =
+        typeof resource === 'string'
+          ? resource
+          : resource instanceof URL
+            ? resource.href
+            : resource.url;
       const method = config?.method || 'GET';
-      
+
       // Determina il tipo di chiamata
       const isValidUrl = url && typeof url === 'string';
       const isApiCall = isValidUrl && url.startsWith('/api/');
       const isExternalCall = isValidUrl && url.startsWith('http');
       const isUndefined = !url || url === 'undefined';
-      
+
       // Traccia solo API calls e chiamate undefined (per debug)
       const shouldTrack = isApiCall || isExternalCall || isUndefined;
-      
+
       const callId = `${Date.now()}-${Math.random()}`;
       const startTime = Date.now();
 
       // Aggiungi chiamata pending
       if (shouldTrack) {
-        setCalls(prev => [{
-          id: callId,
-          timestamp: startTime,
-          method,
-          url: url || '⚠️ undefined',
-          isPending: true,
-        }, ...prev].slice(0, 50)); // Max 50 calls
+        setCalls((prev) =>
+          [
+            {
+              id: callId,
+              timestamp: startTime,
+              method,
+              url: url || '⚠️ undefined',
+              isPending: true,
+            },
+            ...prev,
+          ].slice(0, 50)
+        ); // Max 50 calls
       }
 
       try {
@@ -73,11 +79,13 @@ export default function ApiDebugger() {
 
         // Aggiorna chiamata con risultato
         if (shouldTrack) {
-          setCalls(prev => prev.map(call => 
-            call.id === callId
-              ? { ...call, status: response.status, duration, size, isPending: false }
-              : call
-          ));
+          setCalls((prev) =>
+            prev.map((call) =>
+              call.id === callId
+                ? { ...call, status: response.status, duration, size, isPending: false }
+                : call
+            )
+          );
         }
 
         return response;
@@ -87,11 +95,18 @@ export default function ApiDebugger() {
 
         // Aggiorna chiamata con errore
         if (shouldTrack) {
-          setCalls(prev => prev.map(call => 
-            call.id === callId
-              ? { ...call, error: error instanceof Error ? error.message : 'Network error', duration, isPending: false }
-              : call
-          ));
+          setCalls((prev) =>
+            prev.map((call) =>
+              call.id === callId
+                ? {
+                    ...call,
+                    error: error instanceof Error ? error.message : 'Network error',
+                    duration,
+                    isPending: false,
+                  }
+                : call
+            )
+          );
         }
 
         throw error;
@@ -111,7 +126,7 @@ export default function ApiDebugger() {
     }
   }, [calls, isMinimized]);
 
-  const filteredCalls = calls.filter(call => {
+  const filteredCalls = calls.filter((call) => {
     if (filter === 'all') return true;
     if (filter === 'pending') return call.isPending;
     if (filter === 'error') return call.error || (call.status && call.status >= 400);
@@ -153,19 +168,21 @@ export default function ApiDebugger() {
 
   const formatTime = (timestamp: number) => {
     const date = new Date(timestamp);
-    return date.toLocaleTimeString('it-IT', { 
-      hour: '2-digit', 
-      minute: '2-digit', 
+    return date.toLocaleTimeString('it-IT', {
+      hour: '2-digit',
+      minute: '2-digit',
       second: '2-digit',
-      fractionalSecondDigits: 3
+      fractionalSecondDigits: 3,
     });
   };
 
   return (
     <div className="fixed top-4 left-4 z-[9999] font-mono text-xs">
-      <div className={`bg-black/95 backdrop-blur-sm text-white rounded-lg shadow-2xl border border-white/10 overflow-hidden transition-all duration-300 ${
-        isMinimized ? 'w-64' : 'w-[600px]'
-      }`}>
+      <div
+        className={`bg-black/95 backdrop-blur-sm text-white rounded-lg shadow-2xl border border-white/10 overflow-hidden transition-all duration-300 ${
+          isMinimized ? 'w-64' : 'w-[600px]'
+        }`}
+      >
         {/* Header */}
         <div className="bg-gradient-to-r from-[#F20352] to-[#D91848] px-4 py-2 flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -212,9 +229,7 @@ export default function ApiDebugger() {
             {/* Calls List */}
             <div className="max-h-[500px] overflow-y-auto">
               {filteredCalls.length === 0 ? (
-                <div className="px-4 py-8 text-center text-white/40">
-                  No API calls yet
-                </div>
+                <div className="px-4 py-8 text-center text-white/40">No API calls yet</div>
               ) : (
                 <div className="divide-y divide-white/5">
                   {filteredCalls.map((call) => (
@@ -224,9 +239,7 @@ export default function ApiDebugger() {
                     >
                       <div className="flex items-start justify-between gap-2 mb-1">
                         <div className="flex items-center gap-2 flex-1 min-w-0">
-                          <span className={`font-bold ${getStatusColor(call)}`}>
-                            {call.method}
-                          </span>
+                          <span className={`font-bold ${getStatusColor(call)}`}>{call.method}</span>
                           <span className="text-white/80 truncate flex-1" title={call.url}>
                             {formatUrl(call.url)}
                           </span>
@@ -239,21 +252,15 @@ export default function ApiDebugger() {
                               {call.status && (
                                 <span className={getStatusColor(call)}>{call.status}</span>
                               )}
-                              {call.duration && (
-                                <span>{call.duration}ms</span>
-                              )}
-                              {call.size && (
-                                <span>{formatSize(call.size)}</span>
-                              )}
+                              {call.duration && <span>{call.duration}ms</span>}
+                              {call.size && <span>{formatSize(call.size)}</span>}
                             </>
                           )}
                         </div>
                       </div>
                       <div className="flex items-center justify-between text-[10px] text-white/30">
                         <span>{formatTime(call.timestamp)}</span>
-                        {call.error && (
-                          <span className="text-red-400">❌ {call.error}</span>
-                        )}
+                        {call.error && <span className="text-red-400">❌ {call.error}</span>}
                       </div>
                     </div>
                   ))}
@@ -265,14 +272,23 @@ export default function ApiDebugger() {
             {/* Stats Footer */}
             <div className="px-4 py-2 bg-white/5 border-t border-white/10 flex items-center justify-between text-[10px] text-white/60">
               <div className="flex items-center gap-4">
-                <span>✅ {calls.filter(c => !c.error && c.status && c.status < 400).length}</span>
-                <span>❌ {calls.filter(c => c.error || (c.status && c.status >= 400)).length}</span>
-                <span>⏳ {calls.filter(c => c.isPending).length}</span>
+                <span>✅ {calls.filter((c) => !c.error && c.status && c.status < 400).length}</span>
+                <span>
+                  ❌ {calls.filter((c) => c.error || (c.status && c.status >= 400)).length}
+                </span>
+                <span>⏳ {calls.filter((c) => c.isPending).length}</span>
               </div>
               <div>
-                Avg: {calls.filter(c => c.duration).length > 0 
-                  ? Math.round(calls.filter(c => c.duration).reduce((sum, c) => sum + (c.duration || 0), 0) / calls.filter(c => c.duration).length)
-                  : 0}ms
+                Avg:{' '}
+                {calls.filter((c) => c.duration).length > 0
+                  ? Math.round(
+                      calls
+                        .filter((c) => c.duration)
+                        .reduce((sum, c) => sum + (c.duration || 0), 0) /
+                        calls.filter((c) => c.duration).length
+                    )
+                  : 0}
+                ms
               </div>
             </div>
           </>
@@ -281,4 +297,3 @@ export default function ApiDebugger() {
     </div>
   );
 }
-

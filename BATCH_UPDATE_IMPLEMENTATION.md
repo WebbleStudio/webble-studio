@@ -7,7 +7,7 @@ Modificare la gestione progetti per avere una **singola chiamata API batch** che
 ## ✅ Completato
 
 - [x] Endpoint API `/api/projects/batch-update` creato
-- [x] Hook `useProjectsBatch` creato  
+- [x] Hook `useProjectsBatch` creato
 - [x] Componente `SaveAllButton` creato
 - [x] Export hook in `src/hooks/index.ts`
 
@@ -53,9 +53,7 @@ closeEditModal();
 // Aggiorna anche lo stato locale per preview
 setLocalProjectsState((prev) => ({
   ...prev,
-  projects: prev.projects.map((p) =>
-    p.id === editingProject.id ? { ...p, ...updates } : p
-  ),
+  projects: prev.projects.map((p) => (p.id === editingProject.id ? { ...p, ...updates } : p)),
   hasChanges: true,
 }));
 ```
@@ -138,6 +136,7 @@ markAsReordered(reorderedItems);
 ## 🚀 Come Funziona
 
 ### Flow Before (Attuale)
+
 ```
 1. User modifica progetto
 2. Click "Save" nel modal
@@ -147,11 +146,12 @@ markAsReordered(reorderedItems);
 ```
 
 ### Flow After (Batch)
+
 ```
 1. User modifica progetto A
 2. Click "Save" nel modal → salvato LOCALMENTE
 3. Modal chiuso
-4. User modifica progetto B  
+4. User modifica progetto B
 5. Click "Save" nel modal → salvato LOCALMENTE
 6. User elimina progetto C → salvato LOCALMENTE
 7. User riordina progetti → salvato LOCALMENTE
@@ -179,11 +179,13 @@ markAsReordered(reorderedItems);
 ## 🐛 Rollback in caso di errore
 
 L'endpoint `/api/projects/batch-update` ritorna:
+
 - `status: 200` → Tutto ok
 - `status: 207` (Multi-Status) → Alcuni errori, check `results.errors[]`
 - `status: 500` → Errore totale
 
 In caso di errore parziale, l'utente può:
+
 1. Vedere quali modifiche sono fallite
 2. Correggere e ritentare solo quelle
 3. O annullare tutto e ricominciare
@@ -191,12 +193,14 @@ In caso di errore parziale, l'utente può:
 ## 📊 API Debugger
 
 Con il debugger attivo vedrai:
+
 ```
 🔄 Batch Update Request: { updates: 3, deletes: 1, reorder: 1 }
 ✅ Batch Update Results: { updated: 3, deleted: 1, reordered: 11, errors: [] }
 ```
 
 Invece di:
+
 ```
 🌐 POST /api/projects/[id] (x3)
 🌐 DELETE /api/projects/[id] (x1)
@@ -215,4 +219,3 @@ Il `SaveAllButton` appare in basso al centro quando ci sono modifiche pendenti:
 ```
 
 Con animazione slide-up smooth e pulsating indicator.
-

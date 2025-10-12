@@ -16,7 +16,7 @@ interface BatchState {
 
 export function useServicesBatch() {
   const [batchState, setBatchState] = useState<BatchState>({
-    servicesUpdates: []
+    servicesUpdates: [],
   });
 
   const [batchSaving, setBatchSaving] = useState(false);
@@ -25,25 +25,24 @@ export function useServicesBatch() {
   const pendingChangesCount = batchState.servicesUpdates.length;
   const hasBatchChanges = pendingChangesCount > 0;
 
-
   // Aggiungi modifica service
   const markServiceAsModified = useCallback((update: ServiceUpdate) => {
-    setBatchState(prev => {
-      const existingIndex = prev.servicesUpdates.findIndex(u => u.id === update.id);
-      
+    setBatchState((prev) => {
+      const existingIndex = prev.servicesUpdates.findIndex((u) => u.id === update.id);
+
       if (existingIndex >= 0) {
         // Aggiorna modifica esistente
         const updated = [...prev.servicesUpdates];
         updated[existingIndex] = { ...updated[existingIndex], ...update };
         return {
           ...prev,
-          servicesUpdates: updated
+          servicesUpdates: updated,
         };
       } else {
         // Aggiungi nuova modifica
         return {
           ...prev,
-          servicesUpdates: [...prev.servicesUpdates, update]
+          servicesUpdates: [...prev.servicesUpdates, update],
         };
       }
     });
@@ -57,10 +56,10 @@ export function useServicesBatch() {
     }
 
     setBatchSaving(true);
-    
+
     try {
       console.log('🔄 Saving services batch changes:', {
-        services: batchState.servicesUpdates.length
+        services: batchState.servicesUpdates.length,
       });
 
       const response = await fetch('/api/services/save-all', {
@@ -70,7 +69,7 @@ export function useServicesBatch() {
           'Cache-Control': 'no-cache',
         },
         body: JSON.stringify({
-          servicesUpdates: batchState.servicesUpdates
+          servicesUpdates: batchState.servicesUpdates,
         }),
       });
 
@@ -84,7 +83,7 @@ export function useServicesBatch() {
 
       // Reset batch state dopo successo
       setBatchState({
-        servicesUpdates: []
+        servicesUpdates: [],
       });
 
       return { success: true, result };
@@ -99,7 +98,7 @@ export function useServicesBatch() {
   // Reset batch state
   const resetBatch = useCallback(() => {
     setBatchState({
-      servicesUpdates: []
+      servicesUpdates: [],
     });
   }, []);
 
@@ -109,11 +108,10 @@ export function useServicesBatch() {
     batchSaving,
     hasBatchChanges,
     pendingChangesCount,
-    
+
     // Actions
     markServiceAsModified,
     saveAllChanges,
     resetBatch,
   };
 }
-

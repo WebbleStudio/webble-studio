@@ -28,7 +28,8 @@ export const metadata: Metadata = {
   keywords: ['web design', 'social media', 'advertising', 'UI/UX design'],
   openGraph: {
     title: 'Webble Studio: Scopri cosa significa essere unici',
-    description: 'Web design, social e advertising: Webble Studio trasforma idee in strategie digitali creative e ad alte prestazioni.',
+    description:
+      'Web design, social e advertising: Webble Studio trasforma idee in strategie digitali creative e ad alte prestazioni.',
     type: 'website',
     url: siteUrl,
     siteName: 'Webble Studio',
@@ -45,7 +46,8 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Webble Studio: Scopri cosa significa essere unici',
-    description: 'Web design, social e advertising: Webble Studio trasforma idee in strategie digitali creative e ad alte prestazioni.',
+    description:
+      'Web design, social e advertising: Webble Studio trasforma idee in strategie digitali creative e ad alte prestazioni.',
     images: [ogImageAbs],
     creator: '@webblestudio',
   },

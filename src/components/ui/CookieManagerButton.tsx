@@ -33,14 +33,7 @@ export default function CookieManagerButton({ onOpenManager }: CookieManagerButt
         transition={{ duration: 0.2 }}
       >
         {/* Cookie base */}
-        <circle
-          cx="12"
-          cy="12"
-          r="10"
-          fill="currentColor"
-          stroke="currentColor"
-          strokeWidth="1"
-        />
+        <circle cx="12" cy="12" r="10" fill="currentColor" stroke="currentColor" strokeWidth="1" />
         {/* Buchi del cookie */}
         <circle cx="8" cy="8" r="1.5" fill="white" className="dark:fill-[#0b0b0b]" />
         <circle cx="16" cy="8" r="1.5" fill="white" className="dark:fill-[#0b0b0b]" />
@@ -53,4 +46,3 @@ export default function CookieManagerButton({ onOpenManager }: CookieManagerButt
     </motion.button>
   );
 }
-

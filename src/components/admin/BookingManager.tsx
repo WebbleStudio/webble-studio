@@ -13,17 +13,9 @@ interface BookingManagerProps {
 
 export default function BookingManager({ className = '' }: BookingManagerProps) {
   const { t } = useTranslation();
-  const { 
-    bookings, 
-    loading, 
-    error, 
-    deleteBookings, 
-    refresh,
-    fetchData,
-    lastUpdate,
-    isCached,
-  } = useAdminBookings();
-  
+  const { bookings, loading, error, deleteBookings, refresh, fetchData, lastUpdate, isCached } =
+    useAdminBookings();
+
   const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
   const [selectedBookings, setSelectedBookings] = useState<string[]>([]);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
@@ -173,12 +165,8 @@ export default function BookingManager({ className = '' }: BookingManagerProps) 
             </div>
           )}
         </div>
-        
-        <RefreshButton
-          onRefresh={refresh}
-          loading={loading}
-          lastUpdate={lastUpdate}
-        />
+
+        <RefreshButton onRefresh={refresh} loading={loading} lastUpdate={lastUpdate} />
       </div>
 
       {bookings.length === 0 ? (

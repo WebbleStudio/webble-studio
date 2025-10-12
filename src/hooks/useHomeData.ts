@@ -45,16 +45,14 @@ export function useHomeData() {
       const data = await apiCache.get(
         cacheKeys.homeData(),
         async () => {
-          const url = forceRefresh 
-            ? `/api/home-data?_t=${Date.now()}` 
-            : '/api/home-data';
-          
+          const url = forceRefresh ? `/api/home-data?_t=${Date.now()}` : '/api/home-data';
+
           const response = await fetch(url);
-          
+
           if (!response.ok) {
             throw new Error('Failed to fetch home data');
           }
-          
+
           return response.json();
         },
         3 * 24 * 60 * 60 * 1000 // Cache 3 giorni (259200000ms)
@@ -85,4 +83,3 @@ export function useHomeData() {
     fetchHomeData,
   };
 }
-

@@ -59,7 +59,7 @@
     -webkit-transform: translateZ(0);
     transform: translateZ(0);
   }
-  
+
   /* Assicura che gli elementi interni rispettino il border-radius */
   .keypoint-tilt-card > * {
     border-radius: inherit;

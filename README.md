@@ -13,7 +13,7 @@
 
 ### Prerequisites
 
-- Node.js 18+ 
+- Node.js 18+
 - npm/yarn/pnpm
 - Supabase account
 - Resend account (for email functionality)
@@ -134,6 +134,7 @@ src/
 ### 🌟 Public Website
 
 #### **Homepage Features**
+
 - **3D Hero Section**: Interactive Spline 3D graphics with lazy loading
 - **Sticky Project Stacking**: Advanced CSS sticky positioning with z-index layering
 - **Animated Text Effects**: Performance-aware blur animations with GPU acceleration
@@ -142,20 +143,24 @@ src/
 - **Contact Integration**: Multi-step booking system with email automation
 
 #### **Portfolio Page**
+
 - **Dynamic Project Gallery**: Filterable project showcase
 - **Project Details**: Comprehensive project information with slides
 - **Responsive Grid**: Adaptive layout for all screen sizes
 
 #### **About Page (Chi Siamo)**
+
 - **Team Presentation**: Professional team showcase
 - **Company Story**: Brand narrative and values
 
 #### **Contact Page**
+
 - **Multi-step Booking Form**: 6-step guided booking process
 - **Contact Form**: Traditional contact form with validation
 - **Email Automation**: Automatic client and admin notifications
 
 #### **Technical Features**
+
 - **Responsive Design**: Mobile-first approach with Tailwind CSS
 - **Dark/Light Mode**: Complete theme system with CSS variables
 - **Internationalization**: Italian/English support with i18next
@@ -165,6 +170,7 @@ src/
 ### 🔧 Admin Dashboard
 
 #### **Project Management**
+
 - **CRUD Operations**: Create, read, update, delete projects
 - **Drag & Drop Reordering**: @dnd-kit integration for intuitive project organization
 - **Image Upload**: Optimized image handling with Supabase Storage
@@ -173,6 +179,7 @@ src/
 - **Batch Operations**: Bulk project management capabilities
 
 #### **Hero Projects (Highlights)**
+
 - **Homepage Configuration**: Manage the 4 featured projects on homepage
 - **Position Management**: Drag-and-drop positioning for project order
 - **Background Images**: Custom background images for each project
@@ -180,12 +187,14 @@ src/
 - **Real-time Preview**: Live preview of homepage changes
 
 #### **Service Categories**
+
 - **Image Management**: Assign up to 3 projects per service category
 - **Visual Interface**: Drag-and-drop project selection
 - **Category Configuration**: Manage UI/UX Design, Project Management, Advertising, Social Media Design
 - **Dynamic Updates**: Real-time frontend updates
 
 #### **Booking Management**
+
 - **Client Bookings**: View all booking requests
 - **Contact Integration**: Direct contact links for each booking
 - **Filtering & Search**: Advanced filtering by service and date
@@ -193,12 +202,14 @@ src/
 - **Booking Details**: Comprehensive booking information display
 
 #### **Authentication & Security**
+
 - **NextAuth.js Integration**: Secure admin authentication
 - **Protected Routes**: Route-level protection for admin areas
 - **Session Management**: Persistent admin sessions
 - **Role-based Access**: Admin-only functionality
 
 #### **Technical Features**
+
 - **Real-time Updates**: Live data synchronization with Supabase
 - **Responsive Design**: Mobile-friendly admin interface
 - **Dark/Light Mode**: Theme consistency across admin and public areas
@@ -207,12 +218,14 @@ src/
 ### 📧 Email System
 
 #### **Email Templates**
+
 - **Booking Client Email**: Professional confirmation emails for clients
 - **Booking Admin Email**: Detailed notifications for admin team
 - **Contact Client Email**: Confirmation for contact form submissions
 - **Contact Admin Email**: Admin notifications for new contacts
 
 #### **Features**
+
 - **Resend Integration**: Reliable email delivery service
 - **Responsive Design**: Mobile-optimized email templates
 - **Multi-language Support**: Italian and English email content
@@ -376,6 +389,7 @@ The project is compatible with any platform supporting Next.js:
 ### **Advanced Performance System**
 
 #### **Spline 3D Graphics Optimization**
+
 - **Lazy Loading**: 3D graphics load only when visible
 - **DOM Cleanup**: Complete removal from DOM when not in viewport
 - **WebGL Context Management**: Automatic cleanup of GPU resources
@@ -383,6 +397,7 @@ The project is compatible with any platform supporting Next.js:
 - **Intersection Observer**: Intelligent visibility detection
 
 #### **Animation Performance**
+
 - **Performance Detection**: Automatic device capability detection
 - **Adaptive Animations**: Reduced animations on low-end devices
 - **GPU Acceleration**: Hardware acceleration where supported
@@ -390,12 +405,14 @@ The project is compatible with any platform supporting Next.js:
 - **Blur Effect Optimization**: Performance-aware blur animations
 
 #### **Network Optimization**
+
 - **Network-Aware Loading**: Adaptive strategies based on connection speed
 - **Save Data Mode**: Respects user's data saving preferences
 - **Connection Detection**: 2G/3G/4G adaptive loading
 - **Preload Strategies**: Intelligent preloading based on bandwidth
 
 #### **Video Optimization**
+
 - **Cache Headers**: 1-year browser caching
 - **Range Requests**: Efficient video streaming
 - **Lazy Loading**: Videos load only when visible
@@ -403,12 +420,14 @@ The project is compatible with any platform supporting Next.js:
 - **API Route Caching**: Server-side video optimization
 
 #### **Image Optimization**
+
 - **Next.js Image Component**: Automatic WebP/AVIF conversion
 - **Lazy Loading**: Intersection Observer-based loading
 - **Responsive Images**: Multiple sizes for different devices
 - **Optimized Delivery**: CDN integration with Supabase
 
 #### **Bundle Optimization**
+
 - **Turbopack**: Next.js 15's fast bundler
 - **Code Splitting**: Automatic route-based splitting
 - **Tree Shaking**: Dead code elimination
@@ -501,21 +520,25 @@ npm run init-services # Initialize service categories in database
 ### Common Issues
 
 #### Video Not Loading
+
 - Verify the `videos` bucket exists in Supabase
 - Check that the bucket is public
 - Ensure the video file is named `1080p.mp4`
 
 #### Database Connection Issues
+
 - Verify Supabase credentials in `.env.local`
 - Check RLS policies are correctly configured
 - Ensure tables exist and have proper permissions
 
 #### Email Not Sending
+
 - Verify Resend API key is correct
 - Check domain verification status
 - Review email templates for syntax errors
 
 #### Performance Issues
+
 - Enable performance mode in localStorage: `localStorage.setItem('forcePerformanceMode', 'true')`
 - Check browser console for WebGL context warnings
 - Verify all images are optimized
@@ -523,6 +546,7 @@ npm run init-services # Initialize service categories in database
 ## 📚 Documentation
 
 ### **Projects API**
+
 - `GET /api/projects` - Fetch all projects with filtering
 - `POST /api/projects` - Create new project with image upload
 - `PUT /api/projects/[id]` - Update existing project
@@ -533,28 +557,34 @@ npm run init-services # Initialize service categories in database
 - `POST /api/projects/cleanup-images` - Clean up unused images
 
 ### **Hero Projects API**
+
 - `GET /api/hero-projects` - Fetch homepage featured projects
 - `PUT /api/hero-projects` - Update hero project configuration
 - `POST /api/hero-projects/upload` - Upload hero project backgrounds
 
 ### **Service Categories API**
+
 - `GET /api/service-categories` - Fetch all service categories
 - `PUT /api/service-categories` - Update service category images
 - `POST /api/service-categories/init` - Initialize service categories
 
 ### **Booking System API**
+
 - `POST /api/booking` - Create new booking request
 - `GET /api/bookings` - Fetch all bookings (admin only)
 - `DELETE /api/bookings/[id]` - Delete booking (admin only)
 
 ### **Contact API**
+
 - `POST /api/contact` - Submit contact form
 
 ### **Video API**
+
 - `GET /api/video/[filename]` - Optimized video streaming with cache
 - `GET /api/video/placeholder` - Video placeholder generation
 
 ### **Authentication API**
+
 - `GET /api/auth/session` - Get current session
 - `POST /api/auth/signin` - Sign in
 - `POST /api/auth/signout` - Sign out
@@ -562,12 +592,14 @@ npm run init-services # Initialize service categories in database
 ### **Custom Hooks & Utilities**
 
 #### **Performance Hooks**
+
 - `usePerformance`: Device capability detection and performance monitoring
 - `useNetworkOptimization`: Network-aware loading strategies
 - `useAnimationManager`: Concurrent animation management
 - `useLazyLoad`: Universal lazy loading with Intersection Observer
 
 #### **Data Management Hooks**
+
 - `useApiCall`: Reusable API call management with error handling
 - `useProjects`: Project CRUD operations and state management
 - `useHeroProjects`: Homepage featured projects management
@@ -575,6 +607,7 @@ npm run init-services # Initialize service categories in database
 - `useBookings`: Booking system management
 
 #### **UI & Animation Hooks**
+
 - `useDarkMode`: Theme management with localStorage persistence
 - `useTranslation`: i18next integration for internationalization
 - `useProjectSwitch`: Project switching animations
@@ -582,6 +615,7 @@ npm run init-services # Initialize service categories in database
 - `useServiceCategoryAnimation`: Service category animations
 
 #### **Utility Libraries**
+
 - `auth.ts`: NextAuth.js configuration and session management
 - `errors.ts`: Centralized error handling with custom error types
 - `supabaseClient.ts`: Database client configuration
@@ -617,6 +651,7 @@ For support and questions:
 ## 🎯 **Project Highlights**
 
 ### **Recent Achievements**
+
 - ✅ **Complete Admin Dashboard** with drag-and-drop functionality
 - ✅ **Advanced Performance System** with 90%+ optimization improvements
 - ✅ **Multi-language Support** (Italian/English) with i18next
@@ -629,6 +664,7 @@ For support and questions:
 - ✅ **TypeScript Coverage** with strict type checking
 
 ### **Technical Excellence**
+
 - 🚀 **Next.js 15** with App Router and Turbopack
 - 🎨 **Framer Motion** with performance-aware animations
 - 🗄️ **Supabase** with real-time database synchronization
@@ -641,6 +677,6 @@ For support and questions:
 
 **Built with ❤️ by Webble Studio**
 
-*Advanced web development and creative design services*
+_Advanced web development and creative design services_
 
 **Version**: 1.0.0 | **Last Updated**: December 2024

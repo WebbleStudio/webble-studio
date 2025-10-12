@@ -7,7 +7,7 @@
     backface-visibility: hidden;
     will-change: transform;
   }
-  
+
   .header-container.fixed {
     position: fixed;
     top: 0;
@@ -43,7 +43,7 @@
     -webkit-backface-visibility: hidden !important;
     backface-visibility: hidden !important;
   }
-  
+
   /* Mobile header background when scrolled */
   .mobile-header-container.scrolled {
     background-color: rgba(11, 11, 11, 0.7);
@@ -60,41 +60,45 @@
     -webkit-backdrop-filter: none !important;
     backdrop-filter: none !important;
   }
-  
+
   .desktop-wrapper {
     /* Ensure backdrop blur works across all browsers */
     -webkit-backdrop-filter: blur(8px);
     backdrop-filter: blur(8px);
-    
+
     /* Fallback for browsers that don't support backdrop-filter */
     background-color: rgba(11, 11, 11, 0.3);
-    
+
     /* Ensure proper stacking context */
     isolation: isolate;
-    
+
     /* Force hardware acceleration for better performance */
     will-change: backdrop-filter, background-color, width, max-width;
-    
+
     /* Ensure smooth transitions for all properties */
-    transition: backdrop-filter 0.3s ease, background-color 0.3s ease, width 0.5s ease, max-width 0.5s ease;
+    transition:
+      backdrop-filter 0.3s ease,
+      background-color 0.3s ease,
+      width 0.5s ease,
+      max-width 0.5s ease;
   }
-  
+
   /* When scrolled, make background more opaque */
   .desktop-wrapper.scrolled {
     background-color: rgba(11, 11, 11, 0.8);
   }
-  
+
   /* Override performance mode for header backdrop blur */
   .performance-mode .desktop-wrapper {
     -webkit-backdrop-filter: blur(8px) !important;
     backdrop-filter: blur(8px) !important;
     background-color: rgba(11, 11, 11, 0.3) !important;
   }
-  
+
   .performance-mode .desktop-wrapper.scrolled {
     background-color: rgba(11, 11, 11, 0.8) !important;
   }
-  
+
   /* Ensure blur effect persists during width animations */
   .desktop-wrapper.transition-all {
     -webkit-backdrop-filter: blur(8px);

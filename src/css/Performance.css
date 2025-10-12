@@ -27,7 +27,6 @@ video {
   contain-intrinsic-size: 300px;
 }
 
-
 /* Ottimizzazioni per animazioni */
 .performance-mode .motion-reduce {
   animation: none !important;

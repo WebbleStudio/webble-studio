@@ -74,7 +74,7 @@ export default function BookingForm({ isOpen, onClose }: BookingFormProps) {
   // Helper function to focus the input for the current step
   const focusCurrentInput = useCallback((step: number) => {
     let inputRef = null;
-    
+
     switch (step) {
       case 1:
         inputRef = nameInputRef;
@@ -101,7 +101,7 @@ export default function BookingForm({ isOpen, onClose }: BookingFormProps) {
       // Usiamo un approccio a tentativi per assicurarci che l'elemento esista
       const attemptFocus = (attempts = 0) => {
         if (attempts > 10) return; // Max 10 tentativi (1 secondo)
-        
+
         if (inputRef.current) {
           inputRef.current.focus({ preventScroll: true });
         } else {
@@ -384,7 +384,7 @@ export default function BookingForm({ isOpen, onClose }: BookingFormProps) {
         exit={{ scale: 0.95, opacity: 0 }}
         transition={{ duration: 0.2, ease: 'easeOut' }}
         className="w-full flex flex-col items-center justify-center px-[20px] md:px-[30px] py-6 relative overflow-y-auto"
-        style={{ 
+        style={{
           willChange: 'transform, opacity',
           minHeight: '100dvh', // Dynamic viewport height - si adatta alla toolbar mobile
         }}
@@ -395,18 +395,14 @@ export default function BookingForm({ isOpen, onClose }: BookingFormProps) {
           onClick={onClose}
           className="fixed top-6 right-6 z-10 text-white/60 hover:text-white transition-colors"
         >
-          <svg 
-            className="w-8 h-8 md:w-7 md:h-7" 
-            fill="none" 
-            stroke="currentColor" 
+          <svg
+            className="w-8 h-8 md:w-7 md:h-7"
+            fill="none"
+            stroke="currentColor"
             viewBox="0 0 24 24"
             strokeWidth="1.5"
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M6 18L18 6M6 6l12 12"
-            />
+            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
 
@@ -595,7 +591,12 @@ export default function BookingForm({ isOpen, onClose }: BookingFormProps) {
                   onClick={handlePrevious}
                   className="flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 text-white hover:bg-white/10 rounded-full transition-all duration-200"
                 >
-                  <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg
+                    className="w-5 h-5 sm:w-6 sm:h-6"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -614,7 +615,12 @@ export default function BookingForm({ isOpen, onClose }: BookingFormProps) {
                 {isSubmitting || apiLoading ? (
                   <div className="w-5 h-5 sm:w-6 sm:h-6 border-2 border-white border-t-transparent rounded-full animate-spin" />
                 ) : currentStep === totalSteps ? (
-                  <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg
+                    className="w-5 h-5 sm:w-6 sm:h-6"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -623,7 +629,12 @@ export default function BookingForm({ isOpen, onClose }: BookingFormProps) {
                     />
                   </svg>
                 ) : (
-                  <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg
+                    className="w-5 h-5 sm:w-6 sm:h-6"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -650,7 +661,7 @@ export default function BookingForm({ isOpen, onClose }: BookingFormProps) {
 
         {/* Selection Buttons - Absolute Position Below Progress Bar */}
         {currentStep === 5 && (
-          <div 
+          <div
             className="absolute top-1/2 left-1/2 w-[calc(100%-40px)] sm:w-[calc(100%-60px)] max-w-4xl"
             style={{
               transform: 'translate3d(-50%, 70px, 0)',
@@ -731,7 +742,7 @@ export default function BookingForm({ isOpen, onClose }: BookingFormProps) {
         )}
 
         {currentStep === 6 && (
-          <div 
+          <div
             className="absolute top-1/2 left-1/2 w-[calc(100%-40px)] sm:w-[calc(100%-60px)] max-w-4xl"
             style={{
               transform: 'translate3d(-50%, 70px, 0)',

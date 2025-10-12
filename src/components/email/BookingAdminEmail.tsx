@@ -41,7 +41,15 @@ export default function BookingAdminEmail({
       data-ogsc="light"
     >
       {/* Preview text for Gmail - hidden but helps with truncation */}
-      <div style={{ display: 'none', fontSize: '0', lineHeight: '0', maxHeight: '0', overflow: 'hidden' }}>
+      <div
+        style={{
+          display: 'none',
+          fontSize: '0',
+          lineHeight: '0',
+          maxHeight: '0',
+          overflow: 'hidden',
+        }}
+      >
         Servizio di {service} per {name} {surname}
       </div>
 
@@ -84,10 +92,14 @@ export default function BookingAdminEmail({
               width: '100%',
             }}
           >
-            <span style={{ fontFamily: 'Arial, Helvetica, sans-serif', fontWeight: 'normal' }}>Richiesta da </span>
-            <span style={{ fontFamily: 'Arial, Helvetica, sans-serif', fontWeight: 'bold' }}>{name}</span>
+            <span style={{ fontFamily: 'Arial, Helvetica, sans-serif', fontWeight: 'normal' }}>
+              Richiesta da{' '}
+            </span>
+            <span style={{ fontFamily: 'Arial, Helvetica, sans-serif', fontWeight: 'bold' }}>
+              {name}
+            </span>
           </h1>
-          
+
           <p
             style={{
               color: '#fafafa',
@@ -101,24 +113,29 @@ export default function BookingAdminEmail({
               maxWidth: '390px',
             }}
           >
-            <span style={{ opacity: '0.6' }}>Un cliente ha richiesto un appuntamento <br /> per il servizio </span><strong style={{ opacity: '1', color: '#fafafa' }}>
+            <span style={{ opacity: '0.6' }}>
+              Un cliente ha richiesto un appuntamento <br /> per il servizio{' '}
+            </span>
+            <strong style={{ opacity: '1', color: '#fafafa' }}>
               {(() => {
                 if (services && services.length > 1) {
                   const firstService = services[0];
                   const additionalCount = services.length - 1;
-                  const formattedFirstService = 
-                    firstService?.toLowerCase() === 'sito web' && 'Sito Web'
-                    || firstService?.toLowerCase() === 'advertising' && 'Advertising'
-                    || firstService?.toLowerCase() === 'social media' && 'Social Media'
-                    || firstService?.toLowerCase() === 'altro' && 'Altro'
-                    || firstService;
+                  const formattedFirstService =
+                    (firstService?.toLowerCase() === 'sito web' && 'Sito Web') ||
+                    (firstService?.toLowerCase() === 'advertising' && 'Advertising') ||
+                    (firstService?.toLowerCase() === 'social media' && 'Social Media') ||
+                    (firstService?.toLowerCase() === 'altro' && 'Altro') ||
+                    firstService;
                   return `${formattedFirstService} (+${additionalCount})`;
                 } else {
-                  return service?.toLowerCase() === 'sito web' && 'Sito Web'
-                    || service?.toLowerCase() === 'advertising' && 'Advertising'
-                    || service?.toLowerCase() === 'social media' && 'Social Media'
-                    || service?.toLowerCase() === 'altro' && 'Altro'
-                    || service;
+                  return (
+                    (service?.toLowerCase() === 'sito web' && 'Sito Web') ||
+                    (service?.toLowerCase() === 'advertising' && 'Advertising') ||
+                    (service?.toLowerCase() === 'social media' && 'Social Media') ||
+                    (service?.toLowerCase() === 'altro' && 'Altro') ||
+                    service
+                  );
                 }
               })()}
             </strong>
@@ -268,15 +285,23 @@ export default function BookingAdminEmail({
                 textAlign: 'left',
               }}
             >
-              {contactMethod?.toLowerCase() === 'per email' ? 'Contatto via mail' :
-               contactMethod?.toLowerCase() === 'per telefono' ? 'Contatto telefonico' :
-               contactMethod?.toLowerCase() === 'meet/zoom' ? 'Chiamata Meet/Zoom' :
-               contactMethod?.toLowerCase() === 'email' ? 'Contatto via mail' :
-               contactMethod?.toLowerCase() === 'phone' ? 'Contatto telefonico' :
-               contactMethod?.toLowerCase() === 'meet' ? 'Chiamata Meet/Zoom' :
-               contactMethod?.toLowerCase() === 'telefono' ? 'Contatto telefonico' :
-               contactMethod?.toLowerCase() === 'chiamata' ? 'Chiamata Meet/Zoom' :
-               'Contatto via mail'}
+              {contactMethod?.toLowerCase() === 'per email'
+                ? 'Contatto via mail'
+                : contactMethod?.toLowerCase() === 'per telefono'
+                  ? 'Contatto telefonico'
+                  : contactMethod?.toLowerCase() === 'meet/zoom'
+                    ? 'Chiamata Meet/Zoom'
+                    : contactMethod?.toLowerCase() === 'email'
+                      ? 'Contatto via mail'
+                      : contactMethod?.toLowerCase() === 'phone'
+                        ? 'Contatto telefonico'
+                        : contactMethod?.toLowerCase() === 'meet'
+                          ? 'Chiamata Meet/Zoom'
+                          : contactMethod?.toLowerCase() === 'telefono'
+                            ? 'Contatto telefonico'
+                            : contactMethod?.toLowerCase() === 'chiamata'
+                              ? 'Chiamata Meet/Zoom'
+                              : 'Contatto via mail'}
             </h3>
           </div>
 
@@ -308,19 +333,21 @@ export default function BookingAdminEmail({
                 if (services && services.length > 1) {
                   const firstService = services[0];
                   const additionalCount = services.length - 1;
-                  const formattedFirstService = 
-                    firstService?.toLowerCase() === 'sito web' && 'Sito Web'
-                    || firstService?.toLowerCase() === 'advertising' && 'Advertising'
-                    || firstService?.toLowerCase() === 'social media' && 'Social Media'
-                    || firstService?.toLowerCase() === 'altro' && 'Altro'
-                    || firstService;
+                  const formattedFirstService =
+                    (firstService?.toLowerCase() === 'sito web' && 'Sito Web') ||
+                    (firstService?.toLowerCase() === 'advertising' && 'Advertising') ||
+                    (firstService?.toLowerCase() === 'social media' && 'Social Media') ||
+                    (firstService?.toLowerCase() === 'altro' && 'Altro') ||
+                    firstService;
                   return `${formattedFirstService} (+${additionalCount})`;
                 } else {
-                  return service?.toLowerCase() === 'sito web' && 'Sito Web'
-                    || service?.toLowerCase() === 'advertising' && 'Advertising'
-                    || service?.toLowerCase() === 'social media' && 'Social Media'
-                    || service?.toLowerCase() === 'altro' && 'Altro'
-                    || service;
+                  return (
+                    (service?.toLowerCase() === 'sito web' && 'Sito Web') ||
+                    (service?.toLowerCase() === 'advertising' && 'Advertising') ||
+                    (service?.toLowerCase() === 'social media' && 'Social Media') ||
+                    (service?.toLowerCase() === 'altro' && 'Altro') ||
+                    service
+                  );
                 }
               })()}
             </h3>
@@ -415,7 +442,7 @@ export default function BookingAdminEmail({
               </tr>
             </tbody>
           </table>
-          
+
           <a
             href="https://webblestudio.com/admin"
             style={{
@@ -432,7 +459,8 @@ export default function BookingAdminEmail({
               boxSizing: 'border-box',
             }}
           >
-            <span style={{ fontWeight: 'normal' }}>Vai alla </span><span style={{ fontWeight: 'bold' }}>Dashboard</span>
+            <span style={{ fontWeight: 'normal' }}>Vai alla </span>
+            <span style={{ fontWeight: 'bold' }}>Dashboard</span>
           </a>
         </div>
 
@@ -458,7 +486,7 @@ export default function BookingAdminEmail({
           >
             Sistema di notifica automatica
           </p>
-          
+
           <p
             style={{
               color: '#fafafa',
@@ -473,7 +501,6 @@ export default function BookingAdminEmail({
           </p>
         </div>
       </div>
-
     </div>
   );
 }

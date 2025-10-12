@@ -33,11 +33,11 @@ export function usePortfolioData() {
               'Cache-Control': 'no-cache',
             },
           });
-          
+
           if (!response.ok) {
             throw new Error('Failed to fetch portfolio data');
           }
-          
+
           return response.json();
         },
         24 * 60 * 60 * 1000 // Cache 24 ore (86400000ms)
@@ -61,4 +61,3 @@ export function usePortfolioData() {
     fetchPortfolioData,
   };
 }
-

@@ -40,11 +40,9 @@ const createPlaceholderProject = (position: number): SingleProjectData => ({
 
 // Funzione per convertire EnrichedHeroProject in SingleProjectData
 // Ottimizzato: il progetto è già joinato dal server
-const convertHeroProjectToSingleProject = (
-  heroProject: EnrichedHeroProject
-): SingleProjectData => {
+const convertHeroProjectToSingleProject = (heroProject: EnrichedHeroProject): SingleProjectData => {
   const project = heroProject.project;
-  
+
   if (!project) {
     return createPlaceholderProject(heroProject.position);
   }
@@ -105,8 +103,8 @@ export default function Home() {
 
   return (
     <main>
-        <Hero2 />
-        <Payoff />
+      <Hero2 />
+      <Payoff />
       <Container>
         <KeyPoints />
         <Services />

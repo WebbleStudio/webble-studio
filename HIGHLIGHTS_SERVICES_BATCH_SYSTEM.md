@@ -13,11 +13,13 @@ Implementare un sistema batch unificato per gestire le modifiche a **Highlights*
 **File**: `src/app/api/highlights-services/save-all/route.ts`
 
 **Funzionalità**:
+
 - Salva modifiche highlights + services in **una sola chiamata API**
 - Gestione errori transazionale
 - Cache invalidation automatica (Next.js + client-side)
 
 **Request Payload**:
+
 ```typescript
 {
   highlightsUpdates: [
@@ -41,6 +43,7 @@ Implementare un sistema batch unificato per gestire le modifiche a **Highlights*
 ```
 
 **Response**:
+
 ```typescript
 {
   success: true,
@@ -60,25 +63,27 @@ Implementare un sistema batch unificato per gestire le modifiche a **Highlights*
 **File**: `src/hooks/useHighlightsServicesBatch.ts`
 
 **Funzionalità**:
+
 - Tracking modifiche locali per highlights e services
 - Contatore modifiche in tempo reale
 - Salvataggio unificato
 - Reset modifiche
 
 **API**:
+
 ```typescript
 const {
   // State
-  batchState,              // Stato modifiche pending
-  batchSaving,             // Loading durante salvataggio
-  hasBatchChanges,         // Boolean: ci sono modifiche?
-  pendingChangesCount,     // Numero modifiche pending
-  
+  batchState, // Stato modifiche pending
+  batchSaving, // Loading durante salvataggio
+  hasBatchChanges, // Boolean: ci sono modifiche?
+  pendingChangesCount, // Numero modifiche pending
+
   // Actions
   markHighlightAsModified, // Marca modifica highlight
-  markServiceAsModified,   // Marca modifica service
-  saveAllChanges,          // Salva tutto
-  resetBatch,              // Reset modifiche
+  markServiceAsModified, // Marca modifica service
+  saveAllChanges, // Salva tutto
+  resetBatch, // Reset modifiche
 } = useHighlightsServicesBatch();
 ```
 
@@ -91,6 +96,7 @@ const {
 **Modifiche**:
 
 #### 3.1 Hook Integration
+
 ```typescript
 const {
   batchState: highlightsServicesBatchState,
@@ -105,16 +111,18 @@ const {
 ```
 
 #### 3.2 Tracking Modifiche Highlights
+
 ```typescript
 const updateLocalConfig = (projectId, field, value) => {
   setLocalConfigs((prev) => {
-    const currentConfig = prev[projectId] || highlightConfigs[projectId] || {
-      descriptions: ['', '', ''],
-      images: [],
-      backgroundImage: '',
-      projectDate: '',
-      hasChanges: false,
-    };
+    const currentConfig = prev[projectId] ||
+      highlightConfigs[projectId] || {
+        descriptions: ['', '', ''],
+        images: [],
+        backgroundImage: '',
+        projectDate: '',
+        hasChanges: false,
+      };
 
     const updatedConfig = {
       ...currentConfig,
@@ -123,7 +131,7 @@ const updateLocalConfig = (projectId, field, value) => {
     };
 
     // Marca modifica nel sistema batch con TUTTI i dati aggiornati
-    const heroProject = heroProjects.find(hp => hp.project_id === projectId);
+    const heroProject = heroProjects.find((hp) => hp.project_id === projectId);
     if (heroProject) {
       markHighlightAsModified({
         id: heroProject.id,
@@ -142,6 +150,7 @@ const updateLocalConfig = (projectId, field, value) => {
 ```
 
 #### 3.3 SaveAllButton per Highlights
+
 ```typescript
 {activeSection === 'highlights' && (
   <SaveAllButton
@@ -163,6 +172,7 @@ const updateLocalConfig = (projectId, field, value) => {
 ```
 
 #### 3.4 SaveAllButton per Services
+
 ```typescript
 {activeSection === 'services' && (
   <SaveAllButton
@@ -189,6 +199,7 @@ const updateLocalConfig = (projectId, field, value) => {
 **Modifiche**:
 
 #### 4.1 Hook Integration
+
 ```typescript
 const {
   markServiceAsModified,
@@ -200,6 +211,7 @@ const {
 ```
 
 #### 4.2 Tracking Modifiche Services
+
 ```typescript
 const handleProjectToggle = (categorySlug, projectId) => {
   setLocalChanges((prev) => {
@@ -207,11 +219,11 @@ const handleProjectToggle = (categorySlug, projectId) => {
   });
 
   // Marca modifica nel sistema batch
-  const category = serviceCategories.find(cat => cat.slug === categorySlug);
+  const category = serviceCategories.find((cat) => cat.slug === categorySlug);
   if (category) {
     const currentImages = localChanges[categorySlug] || [];
     const isSelected = currentImages.includes(projectId);
-    const updatedImages = isSelected 
+    const updatedImages = isSelected
       ? currentImages.filter((id) => id !== projectId)
       : [...currentImages, projectId];
 
@@ -228,17 +240,20 @@ const handleProjectToggle = (categorySlug, projectId) => {
 ## 🚀 Vantaggi del Sistema Batch
 
 ### Performance
+
 - ⚡ **-50% API calls** (da multiple a 1 per salvataggio)
 - 🔄 **Modifiche immediate** (UI aggiornata subito)
 - 💾 **Cache intelligente** (invalidation automatica)
 
 ### UX
+
 - 🎯 **Contatore live** modifiche pending
 - 🔄 **Undo facile** (un click annulla tutto)
 - ⏱️ **Loading unico** (no loading intermedi)
 - 🎨 **Feedback visivo** (SaveAllButton bottom-fixed)
 
 ### Costi
+
 - 💰 **-50% Vercel Edge Requests**
 - 📉 **-50% bandwidth** (payload aggregato)
 - 🌍 **Eco-friendly** (meno richieste = meno energia)
@@ -315,6 +330,7 @@ fetchHeroProjects() + fetchServiceCategories()
 ## 🧪 Testing
 
 ### Test 1: Modifica Highlights
+
 1. Vai alla tab "Highlights"
 2. Modifica descrizioni/immagini di un progetto
 3. Verifica che il contatore modifiche si aggiorni
@@ -322,6 +338,7 @@ fetchHeroProjects() + fetchServiceCategories()
 5. Verifica che tutto sia salvato correttamente
 
 ### Test 2: Modifica Services
+
 1. Vai alla tab "Services"
 2. Aggiungi/rimuovi progetti dalle categorie
 3. Verifica che il contatore modifiche si aggiorni
@@ -329,12 +346,14 @@ fetchHeroProjects() + fetchServiceCategories()
 5. Verifica che tutto sia salvato correttamente
 
 ### Test 3: Modifiche Multiple
+
 1. Modifica sia highlights che services
 2. Verifica che il contatore mostri il totale
 3. Clicca "Save All Changes"
 4. Verifica che entrambe le modifiche siano salvate
 
 ### Test 4: Discard
+
 1. Modifica highlights o services
 2. Clicca "Discard Changes"
 3. Verifica che le modifiche vengano annullate
@@ -345,11 +364,13 @@ fetchHeroProjects() + fetchServiceCategories()
 ## 📈 Metriche
 
 ### Prima del Sistema Batch
+
 - **Highlights**: 1 API call per ogni modifica
 - **Services**: 1 API call per ogni categoria modificata
 - **Totale**: N API calls (variabile)
 
 ### Dopo il Sistema Batch
+
 - **Highlights**: 0 API calls durante modifica
 - **Services**: 0 API calls durante modifica
 - **Totale**: 1 API call + 1 GET per sincronizzazione
@@ -361,11 +382,13 @@ fetchHeroProjects() + fetchServiceCategories()
 ## 🔧 Manutenzione
 
 ### Aggiungere Nuovi Campi agli Highlights
+
 1. Aggiorna `HighlightUpdate` in `useHighlightsServicesBatch.ts`
 2. Aggiorna `updateLocalConfig` in `admin/page.tsx`
 3. Aggiorna endpoint `/api/highlights-services/save-all`
 
 ### Aggiungere Nuovi Campi ai Services
+
 1. Aggiorna `ServiceUpdate` in `useHighlightsServicesBatch.ts`
 2. Aggiorna `handleProjectToggle` in `ServiceImageManager.tsx`
 3. Aggiorna endpoint `/api/highlights-services/save-all`
@@ -418,15 +441,16 @@ fetchHeroProjects() + fetchServiceCategories()
 ## 🎉 Risultato Finale
 
 **Sistema unificato per:**
+
 - ✅ **Progetti** (già implementato)
 - ✅ **Highlights** (nuovo)
 - ✅ **Services** (nuovo)
 
 **Vantaggi totali:**
+
 - 🚀 **Performance**: -50% API calls
 - 💰 **Costi**: -50% Vercel Edge Requests
 - 🎨 **UX**: Contatore live + feedback immediato
 - 🔄 **Undo**: Annulla tutto con un click
 
 **Il sistema è completo e pronto per la produzione!** 🎊
-

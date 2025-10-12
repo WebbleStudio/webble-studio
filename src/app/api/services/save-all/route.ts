@@ -9,28 +9,24 @@ export async function POST(request: Request) {
     const { servicesUpdates = [] } = body;
 
     console.log('🔄 Services Batch Save:', {
-      services: servicesUpdates.length
+      services: servicesUpdates.length,
     });
 
     // Salva modifiche Services
     if (servicesUpdates.length > 0) {
       console.log('📝 Saving services updates...');
-      
+
       for (const update of servicesUpdates) {
         const { id, ...updateData } = update;
-        
-        
-        const { error } = await supabase
-          .from('service_categories')
-          .update(updateData)
-          .eq('id', id);
+
+        const { error } = await supabase.from('service_categories').update(updateData).eq('id', id);
 
         if (error) {
           console.error('Error updating service:', error);
           throw new Error(`Failed to update service ${id}: ${error.message || 'Unknown error'}`);
         }
       }
-      
+
       console.log(`✅ Updated ${servicesUpdates.length} services`);
     }
 
@@ -49,20 +45,18 @@ export async function POST(request: Request) {
       success: true,
       message: 'All services changes saved successfully',
       summary: {
-        servicesUpdated: servicesUpdates.length
-      }
+        servicesUpdated: servicesUpdates.length,
+      },
     });
-
   } catch (error) {
     console.error('❌ Error in services save-all:', error);
-    
+
     return NextResponse.json(
-      { 
+      {
         error: error instanceof Error ? error.message : 'Internal server error',
-        success: false 
-      }, 
+        success: false,
+      },
       { status: 500 }
     );
   }
 }
-

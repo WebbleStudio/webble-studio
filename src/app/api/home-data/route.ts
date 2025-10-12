@@ -6,7 +6,7 @@ export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
     const forceRefresh = searchParams.get('_t'); // Timestamp parameter for cache busting
-    
+
     console.log('🏠 Fetching aggregated home data...', forceRefresh ? '(force refresh)' : '');
 
     // Esegui tutte le query in parallelo per performance
@@ -47,9 +47,7 @@ export async function GET(request: NextRequest) {
 
     // JOIN lato server: arricchisci service categories con i progetti completi
     const enrichedServiceCategories = serviceCategories.map((category) => {
-      const categoryProjects = projects.filter((project) =>
-        category.images.includes(project.id)
-      );
+      const categoryProjects = projects.filter((project) => category.images.includes(project.id));
       return {
         ...category,
         projects: categoryProjects, // Include array di progetti completi
@@ -76,18 +74,20 @@ export async function GET(request: NextRequest) {
     });
 
     // Cache Edge ottimizzata per Vercel
-    const cacheHeaders = forceRefresh ? {
-      'Cache-Control': 'no-cache, no-store, must-revalidate',
-      'Pragma': 'no-cache',
-      'Expires': '0',
-      'CDN-Cache-Control': 'no-cache',
-      'Vercel-CDN-Cache-Control': 'no-cache',
-    } : {
-      'Cache-Control': 'public, s-maxage=86400, stale-while-revalidate=604800, max-age=3600',
-      'CDN-Cache-Control': 'public, s-maxage=86400',
-      'Vercel-CDN-Cache-Control': 'public, s-maxage=86400',
-      'Vercel-Cache-Control': 'public, s-maxage=86400',
-    };
+    const cacheHeaders: Record<string, string> = forceRefresh
+      ? {
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          Pragma: 'no-cache',
+          Expires: '0',
+          'CDN-Cache-Control': 'no-cache',
+          'Vercel-CDN-Cache-Control': 'no-cache',
+        }
+      : {
+          'Cache-Control': 'public, s-maxage=86400, stale-while-revalidate=604800, max-age=3600',
+          'CDN-Cache-Control': 'public, s-maxage=86400',
+          'Vercel-CDN-Cache-Control': 'public, s-maxage=86400',
+          'Vercel-Cache-Control': 'public, s-maxage=86400',
+        };
 
     return NextResponse.json(homeData, {
       headers: cacheHeaders,
@@ -97,4 +97,3 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
-

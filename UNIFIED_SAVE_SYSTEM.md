@@ -3,6 +3,7 @@
 ## 🎯 Obiettivo Raggiunto
 
 **PRIMA**: 6 chiamate API separate
+
 ```
 POST /api/projects/upload-image       (379ms)
 POST /api/projects/batch               (147ms)
@@ -12,12 +13,14 @@ GET  /api/projects                     (93ms)
 ```
 
 **DOPO**: 2 chiamate API totali ✅
+
 ```
 POST /api/projects/save-all            (~300ms)  ← TUTTO IN UNA!
 GET  /api/projects                     (93ms)    ← Solo refresh finale
 ```
 
-**Risparmio**: 
+**Risparmio**:
+
 - ⚡ **-66% chiamate API** (6 → 2)
 - 📉 **-600ms latency totale**
 - 💰 **-66% consumo Vercel Edge Requests**
@@ -94,13 +97,13 @@ Gestisce il tracking locale delle modifiche:
 
 ```typescript
 const {
-  hasChanges,           // Boolean: ci sono modifiche?
-  pendingChangesCount,  // Numero modifiche pendenti
-  batchState,           // Stato completo (modifiedProjects, deletedIds, reorderedProjects)
-  markAsModified,       // Marca progetto come modificato
-  markAsDeleted,        // Marca progetto per eliminazione
-  markAsReordered,      // Marca lista progetti come riordinata
-  resetBatch,           // Reset stato batch
+  hasChanges, // Boolean: ci sono modifiche?
+  pendingChangesCount, // Numero modifiche pendenti
+  batchState, // Stato completo (modifiedProjects, deletedIds, reorderedProjects)
+  markAsModified, // Marca progetto come modificato
+  markAsDeleted, // Marca progetto per eliminazione
+  markAsReordered, // Marca lista progetti come riordinata
+  resetBatch, // Reset stato batch
 } = useProjectsBatch();
 ```
 
@@ -121,7 +124,7 @@ Pulsante fixed-bottom che appare quando ci sono modifiche:
       deletes: [...],
       reorder: [...]
     };
-    
+
     // UNA SOLA chiamata!
     await fetch('/api/projects/save-all', {
       method: 'POST',
@@ -185,17 +188,20 @@ Pulsante fixed-bottom che appare quando ci sono modifiche:
 ## 📊 Vantaggi
 
 ### Performance
+
 - ⚡ **6x meno API calls** (6 → 1 + refresh)
 - 📉 **600ms risparmiati** (no network roundtrips)
 - 🚀 **Transazionale** (tutto-o-niente)
 
 ### UX
+
 - 🎨 **Feedback immediato** (modifiche visibili subito)
 - 🔄 **Undo facile** (un click annulla tutto)
 - 📊 **Contatore live** (vedi quante modifiche hai)
 - 💡 **Indicatore visivo** (pulsating red dot)
 
 ### Costi
+
 - 💰 **-83% Vercel Edge Requests** (6 → 1)
 - 📉 **-80% bandwidth** (payload unificato compresso)
 - 🌍 **Eco-friendly** (meno richieste = meno CO2)
@@ -205,6 +211,7 @@ Pulsante fixed-bottom che appare quando ci sono modifiche:
 ## 🧪 Testing
 
 ### Test Case 1: Solo Nuovo Progetto
+
 ```
 Input: 1 nuovo progetto
 Result: POST /api/projects/save-all + GET /api/projects
@@ -212,6 +219,7 @@ Total: 2 API calls ✅
 ```
 
 ### Test Case 2: Solo Modifiche
+
 ```
 Input: 3 modifiche + 1 delete
 Result: POST /api/projects/save-all + GET /api/projects
@@ -219,6 +227,7 @@ Total: 2 API calls ✅
 ```
 
 ### Test Case 3: Mix Completo
+
 ```
 Input: 1 nuovo + 2 modifiche + 1 delete + riordino
 Result: POST /api/projects/save-all + GET /api/projects
@@ -226,6 +235,7 @@ Total: 2 API calls ✅
 ```
 
 ### Test Case 4: Solo Annulla
+
 ```
 Input: 10 modifiche → Click "Annulla"
 Result: 0 API calls (solo reset locale) ✅
@@ -236,6 +246,7 @@ Result: 0 API calls (solo reset locale) ✅
 ## 🔒 Gestione Errori
 
 ### Errore Totale (500)
+
 ```typescript
 {
   success: false,
@@ -243,9 +254,11 @@ Result: 0 API calls (solo reset locale) ✅
   details: "Database connection failed"
 }
 ```
+
 → **Nessun dato salvato**, alert errore
 
 ### Errore Parziale (207 Multi-Status)
+
 ```typescript
 {
   success: false,
@@ -261,6 +274,7 @@ Result: 0 API calls (solo reset locale) ✅
   }
 }
 ```
+
 → **Alcuni dati salvati**, alert con dettagli errori
 
 ---
@@ -268,10 +282,12 @@ Result: 0 API calls (solo reset locale) ✅
 ## 📝 File Modificati
 
 ### Creati
+
 - ✅ `/api/projects/save-all/route.ts` - Endpoint unificato
 - ✅ `UNIFIED_SAVE_SYSTEM.md` - Questa documentazione
 
 ### Modificati
+
 - ✅ `src/app/(auth)/admin/page.tsx` - Usa endpoint unificato
 - ✅ `src/hooks/useProjectsBatch.ts` - Espone `batchState`
 - ✅ `src/components/admin/SaveAllButton.tsx` - Pulsante salvataggio
@@ -308,4 +324,3 @@ Result: 0 API calls (solo reset locale) ✅
 ---
 
 **Status**: ✅ PRONTO PER TESTING
-

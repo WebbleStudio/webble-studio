@@ -10,18 +10,18 @@ interface SplineOptimizedProps {
   className?: string;
 }
 
-export default function SplineOptimized({ 
-  mobileUrl, 
-  desktopUrl, 
+export default function SplineOptimized({
+  mobileUrl,
+  desktopUrl,
   fallbackImage,
-  className = '' 
+  className = '',
 }: SplineOptimizedProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);
   const [shouldLoad, setShouldLoad] = useState(false);
   const [isIntersecting, setIsIntersecting] = useState(false);
-  
+
   const { shouldReduceAnimations, shouldSkipAnimation } = usePerformance();
 
   // Determina se caricare Spline o usare fallback
@@ -72,7 +72,7 @@ export default function SplineOptimized({
         script.async = true;
         script.onload = () => setIsLoaded(true);
         script.onerror = () => setHasError(true);
-        
+
         document.head.appendChild(script);
       } catch (error) {
         setHasError(true);
@@ -87,14 +87,14 @@ export default function SplineOptimized({
   // Fallback per connessioni lente o errori
   if (hasError || !shouldUseSpline) {
     return (
-      <div 
+      <div
         ref={containerRef}
         className={`w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200 ${className}`}
       >
         {fallbackImage ? (
-          <img 
-            src={fallbackImage} 
-            alt="3D Scene Fallback" 
+          <img
+            src={fallbackImage}
+            alt="3D Scene Fallback"
             className="w-full h-full object-cover"
             loading="lazy"
           />
@@ -108,17 +108,14 @@ export default function SplineOptimized({
   }
 
   return (
-    <div 
-      ref={containerRef}
-      className={`w-full h-full ${className}`}
-    >
+    <div ref={containerRef} className={`w-full h-full ${className}`}>
       {shouldLoad && isLoaded && (
         <div className="w-full h-full">
           {/* Spline component sarà caricato qui */}
           <div id="spline-container" className="w-full h-full" />
         </div>
       )}
-      
+
       {!isLoaded && (
         <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200">
           <div className="animate-pulse text-gray-500">Loading 3D Scene...</div>

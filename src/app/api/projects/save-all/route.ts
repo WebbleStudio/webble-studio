@@ -120,10 +120,7 @@ export async function POST(request: NextRequest) {
     // 2. ELIMINAZIONI
     if (deletes.length > 0) {
       try {
-        const { error: deleteError } = await supabase
-          .from('projects')
-          .delete()
-          .in('id', deletes);
+        const { error: deleteError } = await supabase.from('projects').delete().in('id', deletes);
 
         if (deleteError) {
           console.error('Delete error:', deleteError);
@@ -225,4 +222,3 @@ export async function POST(request: NextRequest) {
     );
   }
 }
-

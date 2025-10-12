@@ -12,14 +12,15 @@
     -webkit-text-size-adjust: 100%;
     -webkit-tap-highlight-color: transparent;
   }
-  
+
   body {
     -webkit-overflow-scrolling: touch;
     position: relative;
   }
-  
+
   /* Prevent Safari header shifting */
-  .fixed, .absolute {
+  .fixed,
+  .absolute {
     -webkit-transform: translateZ(0);
     transform: translateZ(0);
   }
@@ -36,13 +37,13 @@
     -webkit-perspective: 1000;
     perspective: 1000px;
   }
-  
+
   /* Optimize image loading */
-  img[loading="lazy"] {
+  img[loading='lazy'] {
     transition: opacity 0.2s ease-in-out;
     opacity: 1;
   }
-  
+
   /* Prevent layout shifts */
   .aspect-video,
   .aspect-square {
@@ -51,7 +52,7 @@
     backface-visibility: hidden;
     transform: translateZ(0);
   }
-  
+
   /* Additional flicker prevention */
   [data-lazy-load] {
     will-change: auto;
@@ -215,7 +216,6 @@ body {
 
 /* Base layer improvements - Global resets */
 @layer base {
-
   *,
   *::before,
   *::after {

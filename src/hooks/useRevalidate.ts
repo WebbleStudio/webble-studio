@@ -52,9 +52,9 @@ export function useRevalidate() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ 
+        body: JSON.stringify({
           paths: ['/', '/portfolio', '/chi-siamo', '/contatti'],
-          invalidateCache: true 
+          invalidateCache: true,
         }),
       });
 
@@ -90,4 +90,3 @@ export function useRevalidate() {
     error,
   };
 }
-

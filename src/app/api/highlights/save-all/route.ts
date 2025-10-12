@@ -9,27 +9,24 @@ export async function POST(request: Request) {
     const { highlightsUpdates = [] } = body;
 
     console.log('🔄 Highlights Batch Save:', {
-      highlights: highlightsUpdates.length
+      highlights: highlightsUpdates.length,
     });
 
     // Salva modifiche Highlights
     if (highlightsUpdates.length > 0) {
       console.log('📝 Saving highlights updates...');
-      
+
       for (const update of highlightsUpdates) {
         const { id, ...updateData } = update;
-        
-        const { error } = await supabase
-          .from('hero-projects')
-          .update(updateData)
-          .eq('id', id);
+
+        const { error } = await supabase.from('hero-projects').update(updateData).eq('id', id);
 
         if (error) {
           console.error('Error updating highlight:', error);
           throw new Error(`Failed to update highlight ${id}: ${error.message}`);
         }
       }
-      
+
       console.log(`✅ Updated ${highlightsUpdates.length} highlights`);
     }
 
@@ -48,20 +45,18 @@ export async function POST(request: Request) {
       success: true,
       message: 'All highlights changes saved successfully',
       summary: {
-        highlightsUpdated: highlightsUpdates.length
-      }
+        highlightsUpdated: highlightsUpdates.length,
+      },
     });
-
   } catch (error) {
     console.error('❌ Error in highlights save-all:', error);
-    
+
     return NextResponse.json(
-      { 
+      {
         error: error instanceof Error ? error.message : 'Internal server error',
-        success: false 
-      }, 
+        success: false,
+      },
       { status: 500 }
     );
   }
 }
-

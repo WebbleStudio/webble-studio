@@ -90,14 +90,17 @@ interface PhoneInputProps {
   autoFocus?: boolean;
 }
 
-const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(function PhoneInput({
-  value,
-  onChange,
-  placeholder = "123 456 7890",
-  className = "",
-  error = false,
-  autoFocus = false,
-}, ref) {
+const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(function PhoneInput(
+  {
+    value,
+    onChange,
+    placeholder = '123 456 7890',
+    className = '',
+    error = false,
+    autoFocus = false,
+  },
+  ref
+) {
   const [selectedCountry, setSelectedCountry] = useState<CountryCode>(countryCodes[0]);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -106,10 +109,8 @@ const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(function PhoneI
   useEffect(() => {
     if (value && !phoneNumber) {
       // Estrae il prefisso e il numero dal valore
-      const foundCountry = countryCodes.find(country => 
-        value.startsWith(country.code)
-      );
-      
+      const foundCountry = countryCodes.find((country) => value.startsWith(country.code));
+
       if (foundCountry) {
         setSelectedCountry(foundCountry);
         const numberWithoutPrefix = value.replace(foundCountry.code, '').trim();
@@ -128,10 +129,10 @@ const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(function PhoneI
   // Gestisce il cambio del numero - versione semplificata
   const handleNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
-    
+
     // Aggiorna lo stato locale direttamente
     setPhoneNumber(inputValue);
-    
+
     // Combina prefisso + numero inserito dall'utente
     const fullNumber = `${selectedCountry.code} ${inputValue}`.trim();
     onChange(fullNumber);
@@ -141,7 +142,7 @@ const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(function PhoneI
   const handleCountryChange = (country: CountryCode) => {
     setSelectedCountry(country);
     setIsDropdownOpen(false);
-    
+
     // Mantiene il numero esistente, cambia solo il prefisso
     const fullNumber = `${country.code} ${phoneNumber}`.trim();
     onChange(fullNumber);
@@ -213,10 +214,7 @@ const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(function PhoneI
 
       {/* Click outside to close dropdown */}
       {isDropdownOpen && (
-        <div
-          className="fixed inset-0 z-40"
-          onClick={() => setIsDropdownOpen(false)}
-        />
+        <div className="fixed inset-0 z-40" onClick={() => setIsDropdownOpen(false)} />
       )}
     </div>
   );

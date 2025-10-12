@@ -8,8 +8,8 @@ const transporter = nodemailer.createTransporter({
   port: 2525,
   auth: {
     user: process.env.MAILTRAP_USER,
-    pass: process.env.MAILTRAP_PASS
-  }
+    pass: process.env.MAILTRAP_PASS,
+  },
 });
 
 // Dati di test
@@ -21,7 +21,7 @@ const testData = {
   message: 'Messaggio di test per verificare il template email.',
   services: ['Web Design', 'Digital Marketing'],
   budget: '€5.000 - €10.000',
-  timeline: '3-6 mesi'
+  timeline: '3-6 mesi',
 };
 
 async function testEmail() {
@@ -42,7 +42,7 @@ async function testEmail() {
       from: '"Webble Studio" <noreply@webblestudio.com>',
       to: 'test@example.com',
       subject: 'Test Email - Richiesta Contatto',
-      html: emailHtml
+      html: emailHtml,
     });
 
     console.log('Email inviata:', info.messageId);

@@ -7,11 +7,13 @@ import Container from '@/components/layout/Container';
 
 export const metadata: Metadata = {
   title: 'Contatti - Webble Studio',
-  description: 'Contattaci per discutere il tuo progetto digitale. Webble Studio è pronto a trasformare le tue idee in realtà.',
+  description:
+    'Contattaci per discutere il tuo progetto digitale. Webble Studio è pronto a trasformare le tue idee in realtà.',
   keywords: ['contatti webble studio', 'richiedi preventivo', 'web agency contatti'],
   openGraph: {
     title: 'Contatti - Webble Studio',
-    description: 'Contattaci per discutere il tuo progetto digitale. Webble Studio è pronto a trasformare le tue idee in realtà.',
+    description:
+      'Contattaci per discutere il tuo progetto digitale. Webble Studio è pronto a trasformare le tue idee in realtà.',
     type: 'website',
   },
 };

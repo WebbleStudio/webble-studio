@@ -129,12 +129,12 @@ export function useProjects() {
       }
 
       const newProject = await response.json();
-      
+
       // Invalida la cache (projects + home/portfolio data aggregati)
       apiCache.invalidate(cacheKeys.projects());
       apiCache.invalidate(cacheKeys.homeData());
       apiCache.invalidate(cacheKeys.portfolioData());
-      
+
       setProjects((prev) => [newProject, ...prev]);
       return newProject;
     } catch (err) {
@@ -163,7 +163,7 @@ export function useProjects() {
       apiCache.invalidate(cacheKeys.projects());
       apiCache.invalidate(cacheKeys.homeData());
       apiCache.invalidate(cacheKeys.portfolioData());
-      
+
       setProjects((prev) => prev.filter((p) => p.id !== projectId));
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
@@ -207,12 +207,12 @@ export function useProjects() {
         }
 
         const updatedProject = await response.json();
-        
+
         // Invalida la cache (projects + home/portfolio data aggregati)
         apiCache.invalidate(cacheKeys.projects());
         apiCache.invalidate(cacheKeys.homeData());
         apiCache.invalidate(cacheKeys.portfolioData());
-        
+
         setProjects((prev) => prev.map((p) => (p.id === projectId ? updatedProject : p)));
         return updatedProject;
       } catch (err) {

@@ -16,12 +16,16 @@ export default function SecondButton({
   return (
     <button
       className={`group px-6 py-2.5 xs:px-7 xs:py-3 rounded-xl font-medium bg-bg-secondary text-text-inverse flex items-center gap-2 btn-secondary ${
-        !noHoverEffect ? 'transition-all duration-300 hover:bg-gradient-to-r hover:from-[#ef2d56] hover:to-[#f4f4f4]' : 'transition-transform duration-300 ease-out hover:scale-95'
+        !noHoverEffect
+          ? 'transition-all duration-300 hover:bg-gradient-to-r hover:from-[#ef2d56] hover:to-[#f4f4f4]'
+          : 'transition-transform duration-300 ease-out hover:scale-95'
       } ${className}`}
       {...props}
     >
       <span className="text-[15px] xs:text-[16px]">{children}</span>
-      <div className={`transition-transform duration-300 ${!noHoverEffect ? 'group-hover:rotate-90' : ''}`}>
+      <div
+        className={`transition-transform duration-300 ${!noHoverEffect ? 'group-hover:rotate-90' : ''}`}
+      >
         <OptimizedImage
           src="/icons/diagonal-arrow.svg"
           alt="Arrow"

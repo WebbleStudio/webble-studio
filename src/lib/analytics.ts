@@ -6,15 +6,15 @@ export const ANALYTICS_EVENTS = {
   // Eventi di contatto
   CONTACT_FORM_SUBMIT: 'contact_form_submit',
   BOOKING_FORM_SUBMIT: 'booking_form_submit',
-  
+
   // Eventi di navigazione
   PORTFOLIO_VIEW: 'portfolio_view',
   SERVICE_VIEW: 'service_view',
-  
+
   // Eventi di interazione
   BUTTON_CLICK: 'button_click',
   LINK_CLICK: 'link_click',
-  
+
   // Eventi di conversione
   EMAIL_SENT: 'email_sent',
   PHONE_CALL: 'phone_call',

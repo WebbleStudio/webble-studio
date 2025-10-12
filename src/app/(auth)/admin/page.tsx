@@ -355,13 +355,23 @@ export default function AdminPage() {
 
   // Inizializza stato locale quando i progetti cambiano (solo se non ci sono modifiche in corso)
   useEffect(() => {
-    if (projects.length > 0 && !localProjectsState.hasChanges && !hasBatchChanges && localProjectsState.projects.length === 0) {
+    if (
+      projects.length > 0 &&
+      !localProjectsState.hasChanges &&
+      !hasBatchChanges &&
+      localProjectsState.projects.length === 0
+    ) {
       setLocalProjectsState((prev) => ({
         ...prev,
         projects: [...projects],
       }));
     }
-  }, [projects, localProjectsState.hasChanges, hasBatchChanges, localProjectsState.projects.length]);
+  }, [
+    projects,
+    localProjectsState.hasChanges,
+    hasBatchChanges,
+    localProjectsState.projects.length,
+  ]);
 
   const handleDrag = (e: React.DragEvent) => {
     e.preventDefault();
@@ -507,7 +517,7 @@ export default function AdminPage() {
             console.error('Project missing image_url:', project.title);
             throw new Error(`Project "${project.title}" has no image`);
           }
-          
+
           // Se l'image_url è un base64, caricalo nel bucket
           if (project.image_url.startsWith('data:image/')) {
             try {
@@ -729,13 +739,14 @@ export default function AdminPage() {
   ) => {
     setLocalConfigs((prev) => {
       // Ottieni i valori attuali o usa valori di default
-      const currentConfig = prev[projectId] || highlightConfigs[projectId] || {
-        descriptions: ['', '', ''],
-        images: [],
-        backgroundImage: '',
-        projectDate: '',
-        hasChanges: false,
-      };
+      const currentConfig = prev[projectId] ||
+        highlightConfigs[projectId] || {
+          descriptions: ['', '', ''],
+          images: [],
+          backgroundImage: '',
+          projectDate: '',
+          hasChanges: false,
+        };
 
       const updatedConfig = {
         ...currentConfig,
@@ -744,7 +755,7 @@ export default function AdminPage() {
       };
 
       // Marca la modifica nel sistema batch con TUTTI i dati aggiornati
-      const heroProject = heroProjects.find(hp => hp.project_id === projectId);
+      const heroProject = heroProjects.find((hp) => hp.project_id === projectId);
       if (heroProject) {
         const updateData = {
           id: heroProject.id,
@@ -1122,7 +1133,7 @@ export default function AdminPage() {
 
         // BATCH UPDATE: Salva localmente invece di chiamare API subito
         markAsModified(editingProject.id, updates);
-        
+
         // Aggiorna lo stato locale per preview immediata
         setLocalProjectsState((prev) => ({
           ...prev,
@@ -1429,10 +1440,15 @@ export default function AdminPage() {
                       console.log('🔄 Starting invalidateAll...');
                       const result = await invalidateAll();
                       console.log('✅ InvalidateAll result:', result);
-                      alert('✅ Cache invalidata e pagine aggiornate! I visitatori vedranno i nuovi contenuti.');
+                      alert(
+                        '✅ Cache invalidata e pagine aggiornate! I visitatori vedranno i nuovi contenuti.'
+                      );
                     } catch (error) {
                       console.error('❌ InvalidateAll error:', error);
-                      alert('❌ Errore durante l\'aggiornamento delle pagine: ' + (error instanceof Error ? error.message : 'Unknown error'));
+                      alert(
+                        "❌ Errore durante l'aggiornamento delle pagine: " +
+                          (error instanceof Error ? error.message : 'Unknown error')
+                      );
                     }
                   }}
                   disabled={revalidateLoading}
@@ -1446,7 +1462,12 @@ export default function AdminPage() {
                     </>
                   ) : (
                     <>
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg
+                        className="w-4 h-4"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
                         <path
                           strokeLinecap="round"
                           strokeLinejoin="round"
@@ -2542,9 +2563,7 @@ export default function AdminPage() {
           {activeSection === 'services' && (
             <div className="space-y-8">
               <div className="bg-white dark:bg-[#0b0b0b] border border-neutral-200 dark:border-neutral-700 rounded-[25px] p-6 shadow-md">
-                <ServiceImageManager 
-                  markServiceAsModified={markServiceAsModified}
-                />
+                <ServiceImageManager markServiceAsModified={markServiceAsModified} />
               </div>
             </div>
           )}
@@ -2593,110 +2612,114 @@ export default function AdminPage() {
             hasChanges={hasBatchChanges || newProjects.length > 0}
             pendingChangesCount={pendingChangesCount + newProjects.length}
             saving={batchSaving}
-          onSave={async () => {
-            try {
-              // Prepara payload unificato per /api/projects/save-all
-              
-              // 1. Prepara nuovi progetti con immagini base64
-              const newProjectsData = await Promise.all(
-                newProjects.map(async (project) => {
-                  return {
-                    title: project.title,
-                    title_en: project.title_en,
-                    description: project.description,
-                    description_en: project.description_en,
-                    categories: project.categories,
-                    link: project.link,
-                    image_file: project.image_url, // Base64 data
-                    order_position: project.order_position,
-                  };
-                })
-              );
+            onSave={async () => {
+              try {
+                // Prepara payload unificato per /api/projects/save-all
 
-              // 2. Prepara updates dal batch
-              const updatesData = Array.from(batchState.modifiedProjects.entries()).map(
-                ([id, changes]) => ({
-                  id,
-                  ...changes,
-                })
-              );
+                // 1. Prepara nuovi progetti con immagini base64
+                const newProjectsData = await Promise.all(
+                  newProjects.map(async (project) => {
+                    return {
+                      title: project.title,
+                      title_en: project.title_en,
+                      description: project.description,
+                      description_en: project.description_en,
+                      categories: project.categories,
+                      link: project.link,
+                      image_file: project.image_url, // Base64 data
+                      order_position: project.order_position,
+                    };
+                  })
+                );
 
-              // 3. Prepara deletes
-              const deletesData = Array.from(batchState.deletedIds);
+                // 2. Prepara updates dal batch
+                const updatesData = Array.from(batchState.modifiedProjects.entries()).map(
+                  ([id, changes]) => ({
+                    id,
+                    ...changes,
+                  })
+                );
 
-              // 4. Prepara reorder
-              const reorderData = batchState.reorderedProjects.map((project, index) => ({
-                id: project.id,
-                order_position: index,
-              }));
+                // 3. Prepara deletes
+                const deletesData = Array.from(batchState.deletedIds);
 
-              console.log('📦 Unified Save Payload:', {
-                newProjects: newProjectsData.length,
-                updates: updatesData.length,
-                deletes: deletesData.length,
-                reorder: reorderData.length,
-              });
+                // 4. Prepara reorder
+                const reorderData = batchState.reorderedProjects.map((project, index) => ({
+                  id: project.id,
+                  order_position: index,
+                }));
 
-              // UNA SOLA chiamata API per tutto!
-              const response = await fetch('/api/projects/save-all', {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                  'Cache-Control': 'no-cache',
-                },
-                body: JSON.stringify({
-                  newProjects: newProjectsData,
-                  updates: updatesData,
-                  deletes: deletesData,
-                  reorder: reorderData,
-                }),
-              });
+                console.log('📦 Unified Save Payload:', {
+                  newProjects: newProjectsData.length,
+                  updates: updatesData.length,
+                  deletes: deletesData.length,
+                  reorder: reorderData.length,
+                });
 
-              if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.error || 'Save failed');
+                // UNA SOLA chiamata API per tutto!
+                const response = await fetch('/api/projects/save-all', {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                    'Cache-Control': 'no-cache',
+                  },
+                  body: JSON.stringify({
+                    newProjects: newProjectsData,
+                    updates: updatesData,
+                    deletes: deletesData,
+                    reorder: reorderData,
+                  }),
+                });
+
+                if (!response.ok) {
+                  const errorData = await response.json();
+                  throw new Error(errorData.error || 'Save failed');
+                }
+
+                const result = await response.json();
+                console.log('✅ Save All Result:', result);
+
+                // Invalida cache
+                apiCache.invalidate(cacheKeys.projects());
+                apiCache.invalidate(cacheKeys.homeData());
+                apiCache.invalidate(cacheKeys.portfolioData());
+
+                // Reset tutto
+                resetBatch();
+                setNewProjects([]);
+                setLocalProjectsState({
+                  projects: [],
+                  deletedProjects: [],
+                  hasChanges: false,
+                });
+
+                // Refresh projects
+                await fetchProjects();
+
+                alert(`✅ ${result.message}`);
+              } catch (error) {
+                console.error('Errore durante il salvataggio:', error);
+                alert(`❌ Errore: ${error instanceof Error ? error.message : 'Unknown error'}`);
               }
-
-              const result = await response.json();
-              console.log('✅ Save All Result:', result);
-
-              // Invalida cache
-              apiCache.invalidate(cacheKeys.projects());
-              apiCache.invalidate(cacheKeys.homeData());
-              apiCache.invalidate(cacheKeys.portfolioData());
-
-              // Reset tutto
-              resetBatch();
-              setNewProjects([]);
-              setLocalProjectsState({
-                projects: [],
-                deletedProjects: [],
-                hasChanges: false,
-              });
-
-              // Refresh projects
-              await fetchProjects();
-
-              alert(`✅ ${result.message}`);
-            } catch (error) {
-              console.error('Errore durante il salvataggio:', error);
-              alert(`❌ Errore: ${error instanceof Error ? error.message : 'Unknown error'}`);
-            }
-          }}
-          onDiscard={() => {
-            if (confirm('⚠️ Annullare tutte le modifiche non salvate? Questa azione non può essere annullata.')) {
-              resetBatch();
-              setLocalProjectsState({
-                projects: [],
-                deletedProjects: [],
-                hasChanges: false,
-              });
-              setNewProjects([]); // Reset anche i nuovi progetti
-              fetchProjects(); // Ricarica dati originali
-              console.log('🔄 Modifiche annullate, dati ricaricati');
-            }
-          }}
-        />
+            }}
+            onDiscard={() => {
+              if (
+                confirm(
+                  '⚠️ Annullare tutte le modifiche non salvate? Questa azione non può essere annullata.'
+                )
+              ) {
+                resetBatch();
+                setLocalProjectsState({
+                  projects: [],
+                  deletedProjects: [],
+                  hasChanges: false,
+                });
+                setNewProjects([]); // Reset anche i nuovi progetti
+                fetchProjects(); // Ricarica dati originali
+                console.log('🔄 Modifiche annullate, dati ricaricati');
+              }
+            }}
+          />
         )}
       </div>
     </ProtectedRoute>

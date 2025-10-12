@@ -47,7 +47,10 @@ export default function Hero2() {
   };
 
   return (
-    <section className="relative h-auto md:h-screen w-full flex items-center md:items-start justify-center px-5 md:px-[30px] xl:px-20 pt-[150px] md:pt-[100px] overflow-hidden" style={{ backgroundColor: '#0b0b0b' }}>
+    <section
+      className="relative h-auto md:h-screen w-full flex items-center md:items-start justify-center px-5 md:px-[30px] xl:px-20 pt-[150px] md:pt-[100px] overflow-hidden"
+      style={{ backgroundColor: '#0b0b0b' }}
+    >
       {/* Particles Background */}
       {particlesInit && (
         <Particles
@@ -212,7 +215,9 @@ export default function Hero2() {
               ) : (
                 <AnimatedText as="span">
                   <span className="block">Creiamo identità personalizzate, ottimizzate per</span>
-                  <span className="block">l&apos;utente e pensate per far crescere il tuo business.</span>
+                  <span className="block">
+                    l&apos;utente e pensate per far crescere il tuo business.
+                  </span>
                 </AnimatedText>
               )}
             </p>
