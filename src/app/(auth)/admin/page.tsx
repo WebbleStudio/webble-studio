@@ -208,7 +208,7 @@ export default function AdminPage() {
     setError: setHeroError,
   } = useHeroProjects();
 
-  const { revalidateAll, loading: revalidateLoading } = useRevalidate();
+  const { revalidateAll, invalidateAll, loading: revalidateLoading } = useRevalidate();
 
   const [dragActive, setDragActive] = useState(false);
   const [layoutMode, setLayoutMode] = useState<LayoutMode>('desktop');
@@ -1426,12 +1426,12 @@ export default function AdminPage() {
                 <button
                   onClick={async () => {
                     try {
-                      console.log('🔄 Starting revalidateAll...');
-                      const result = await revalidateAll();
-                      console.log('✅ RevalidateAll result:', result);
-                      alert('✅ Pagine aggiornate con successo! I visitatori vedranno i nuovi contenuti.');
+                      console.log('🔄 Starting invalidateAll...');
+                      const result = await invalidateAll();
+                      console.log('✅ InvalidateAll result:', result);
+                      alert('✅ Cache invalidata e pagine aggiornate! I visitatori vedranno i nuovi contenuti.');
                     } catch (error) {
-                      console.error('❌ RevalidateAll error:', error);
+                      console.error('❌ InvalidateAll error:', error);
                       alert('❌ Errore durante l\'aggiornamento delle pagine: ' + error.message);
                     }
                   }}
