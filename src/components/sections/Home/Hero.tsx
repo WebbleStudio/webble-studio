@@ -5,9 +5,9 @@ import Label from '@/components/ui/Label';
 import OptimizedImage from '@/components/ui/OptimizedImage';
 import AnimatedText from '@/components/ui/AnimatedText';
 import AnimatedHeroTitle from '@/components/ui/AnimatedHeroTitle';
-import { useSplineLazyLoad } from '@/components/animations/useSplineLazyLoad';
-import { useTranslation } from '@/hooks/useTranslation';
-import { usePerformance } from '@/hooks/usePerformance';
+import { useSplineLazyLoad } from '@/hooks';
+import { useTranslation } from '@/hooks';
+import { usePerformance } from '@/hooks';
 
 export default function Hero() {
   const { t } = useTranslation();

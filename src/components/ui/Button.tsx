@@ -9,6 +9,7 @@ export default function Button({ children = 'Contattaci', className = '', ...pro
   return (
     <button
       className={`px-[24px] py-2.5 rounded-[12px] font-medium border-[0.5px] text-main btn-glass flex items-center gap-2 transition-all duration-200 ease-out ${className}`}
+      aria-label={typeof children === 'string' ? children : 'Pulsante di azione'}
       {...props}
     >
       <span className="text-[15px]">{children}</span>

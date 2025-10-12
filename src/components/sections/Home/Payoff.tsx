@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import SecondButton from '@/components/ui/SecondButton';
 import AnimatedText from '@/components/ui/AnimatedText';
 import BookingForm from '@/components/ui/BookingForm';
-import { useTranslation } from '@/hooks/useTranslation';
+import { useTranslation } from '@/hooks';
 import '@/css/Payoff.css';
 
 export default function Payoff() {
@@ -24,7 +24,7 @@ export default function Payoff() {
       <div className="w-full max-w-[1300px] xl:max-w-[1650px] 2xl:max-w-[1650px] mx-auto flex flex-col items-center justify-center gap-4 px-5 md:px-[30px] lg:gap-6 relative z-10">
         <div id="payoff-title">
           <AnimatedText
-            as="h1"
+            as="h2"
             className="text-center text-[25px] xs:text-[28px] sm:text-[32px] md:text-[45px] lg:text-[55px] xl:text-[75px] font-figtree font-medium text-text-primary leading-[1.1]"
           >
             <span className="font-semibold">{t('payoff.title_start')}</span>{' '}

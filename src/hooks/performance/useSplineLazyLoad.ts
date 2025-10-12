@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { usePerformance } from '@/hooks/usePerformance';
+import { usePerformance } from '@/hooks';
 
 interface UseSplineLazyLoadProps {
   mobileUrl: string;

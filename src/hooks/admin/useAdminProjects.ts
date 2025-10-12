@@ -4,7 +4,7 @@
  */
 
 import { useAdminCache } from './useAdminCache';
-import { useProjects, Project } from './useProjects';
+import { useProjects, Project } from '../data/useProjects';
 
 export function useAdminProjects() {
   const {

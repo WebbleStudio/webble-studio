@@ -3,10 +3,10 @@
 import React from 'react';
 import AnimatedText from '@/components/ui/AnimatedText';
 import OptimizedImage from '@/components/ui/OptimizedImage';
-import { useLazyLoad } from '@/hooks/useLazyLoad';
-import { usePerformance } from '@/hooks/usePerformance';
-import { useTranslation } from '@/hooks/useTranslation';
-import { useTiltCard } from '@/hooks/useTiltCard';
+import { useLazyLoad } from '@/hooks';
+import { usePerformance } from '@/hooks';
+import { useTranslation } from '@/hooks';
+import { useTiltCard } from '@/hooks';
 import '@/css/KeyPointsResponsive.css';
 import '@/css/KeyPoints3D.css';
 

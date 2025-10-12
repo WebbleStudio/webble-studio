@@ -6,8 +6,7 @@ import Filter from '@/components/ui/Filter';
 import FilterButton from '@/components/ui/FilterButton';
 import Project from '@/components/ui/Project';
 import { usePortfolioFiltersAnimation, usePortfolioProjectsAnimation } from '@/hooks';
-import { usePortfolioData } from '@/hooks/usePortfolioData';
-import { useProjectTranslation } from '@/hooks/useProjectTranslation';
+import { usePortfolioData, useProjectTranslation } from '@/hooks';
 
 const baseMainFilters = ['All', 'Web Design'];
 const smResponsiveFilter = 'Branding';
@@ -69,10 +68,10 @@ export default function PortfolioProjects() {
   const { projects, loading, error, fetchPortfolioData } = usePortfolioData();
   const { getTranslatedTitle, getTranslatedDescription, currentLanguage } = useProjectTranslation();
 
-  // Carica progetti con cache 12 ore
+  // Carica progetti con cache 12 ore - solo una volta
   useEffect(() => {
     fetchPortfolioData();
-  }, [fetchPortfolioData]);
+  }, []); // ✅ Dipendenze vuote per evitare loop
 
   // Trigger re-render when language changes
   useEffect(() => {

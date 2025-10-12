@@ -1,9 +1,9 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { useServiceCategories, ServiceCategory } from '@/hooks/useServiceCategories';
-import { useProjects, Project } from '@/hooks/useProjects';
-import { useTranslation } from '@/hooks/useTranslation';
+import { useServiceCategories, ServiceCategory } from '@/hooks';
+import { useProjects, Project } from '@/hooks';
+import { useTranslation } from '@/hooks';
 // useServicesBatch ora viene gestito dall'admin page
 import AnimatedText from '@/components/ui/AnimatedText';
 

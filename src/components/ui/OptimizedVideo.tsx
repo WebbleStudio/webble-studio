@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { useNetworkOptimization } from '@/hooks/useNetworkOptimization';
+import { useNetworkOptimization } from '@/hooks';
 
 interface OptimizedVideoProps {
   src: string;

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { usePerformance } from './usePerformance';
+import { usePerformance } from '../performance/usePerformance';
 
 interface AnimationInstance {
   id: string;

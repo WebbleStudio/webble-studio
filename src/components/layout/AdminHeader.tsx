@@ -1,9 +1,9 @@
 'use client';
 
 import Link from 'next/link';
-import { useDarkMode } from '@/hooks/useDarkMode';
+import { useDarkMode } from '@/hooks';
 import LanguageToggle from '@/components/ui/LanguageToggle';
-import { useTranslation } from '@/hooks/useTranslation';
+import { useTranslation } from '@/hooks';
 
 export default function AdminHeader() {
   const { theme, toggleTheme, mounted } = useDarkMode();

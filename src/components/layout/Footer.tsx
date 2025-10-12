@@ -2,7 +2,8 @@
 
 import React from 'react';
 import Image from 'next/image';
-import { useTranslation } from '@/hooks/useTranslation';
+import Link from 'next/link';
+import { useTranslation } from '@/hooks';
 import AnimatedText from '@/components/ui/AnimatedText';
 import Container from '@/components/layout/Container';
 
@@ -23,14 +24,14 @@ export default function Footer({ className = '' }: FooterProps) {
                 {/* Logo che cambia in base al tema */}
                 <Image
                   src="/img/logo-webble-esteso.svg"
-                  alt="Footer Background"
+                  alt="Webble Studio - Logo agenzia web design Milano"
                   width={162}
                   height={100}
                   className="hidden dark:block"
                 />
                 <Image
                   src="/img/logo-webble-esteso-nero.svg"
-                  alt="Footer Background"
+                  alt="Webble Studio - Logo agenzia web design Milano"
                   width={162}
                   height={100}
                   className="block dark:hidden"
@@ -137,13 +138,19 @@ export default function Footer({ className = '' }: FooterProps) {
                 <div className="flex gap-[75px] xs:gap-[120px] sm:hidden md:flex md:justify-between min-[870px]:justify-start min-[870px]:gap-[70px] lg:justify-between lg:gap-0">
                   <ul className="flex flex-col gap-[10px]">
                     <li>
-                      <AnimatedText>{t('footer.navigation.home')}</AnimatedText>
+                      <Link href="/" className="hover:text-[#F20352] transition-colors duration-200">
+                        <AnimatedText>{t('footer.navigation.home')}</AnimatedText>
+                      </Link>
                     </li>
                     <li>
-                      <AnimatedText>{t('footer.navigation.about')}</AnimatedText>
+                      <Link href="/chi-siamo" className="hover:text-[#F20352] transition-colors duration-200">
+                        <AnimatedText>{t('footer.navigation.about')}</AnimatedText>
+                      </Link>
                     </li>
                     <li>
-                      <AnimatedText>{t('footer.navigation.portfolio')}</AnimatedText>
+                      <Link href="/portfolio" className="hover:text-[#F20352] transition-colors duration-200">
+                        <AnimatedText>{t('footer.navigation.portfolio')}</AnimatedText>
+                      </Link>
                     </li>
                   </ul>
                   <ul className="flex flex-col gap-[10px]">
@@ -159,7 +166,9 @@ export default function Footer({ className = '' }: FooterProps) {
                   </ul>
                   <ul className="hidden min-[870px]:flex min-[870px]:flex-col gap-[10px]">
                     <li>
-                      <AnimatedText>{t('footer.navigation.contacts')}</AnimatedText>
+                      <Link href="/contatti" className="hover:text-[#F20352] transition-colors duration-200">
+                        <AnimatedText>{t('footer.navigation.contacts')}</AnimatedText>
+                      </Link>
                     </li>
                     <li>
                       <AnimatedText>{t('footer.navigation.blog')}</AnimatedText>
@@ -168,25 +177,47 @@ export default function Footer({ className = '' }: FooterProps) {
                       <AnimatedText>{t('footer.navigation.services')}</AnimatedText>
                     </li>
                   </ul>
+                  <ul className="flex flex-col gap-[10px]">
+                    <li>
+                      <Link href="/privacy-policy" className="hover:text-[#F20352] transition-colors duration-200">
+                        <AnimatedText>Privacy Policy</AnimatedText>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/cookie-policy" className="hover:text-[#F20352] transition-colors duration-200">
+                        <AnimatedText>Cookie Policy</AnimatedText>
+                      </Link>
+                    </li>
+                  </ul>
                 </div>
                 <ul className="hidden sm:grid sm:grid-cols-3 sm:gap-x-[50px] sm:gap-y-[10px] md:hidden">
                   <li>
-                    <AnimatedText>{t('footer.navigation.home')}</AnimatedText>
+                    <Link href="/" className="hover:text-[#F20352] transition-colors duration-200">
+                      <AnimatedText>{t('footer.navigation.home')}</AnimatedText>
+                    </Link>
                   </li>
                   <li>
-                    <AnimatedText>{t('footer.navigation.about')}</AnimatedText>
+                    <Link href="/chi-siamo" className="hover:text-[#F20352] transition-colors duration-200">
+                      <AnimatedText>{t('footer.navigation.about')}</AnimatedText>
+                    </Link>
                   </li>
                   <li>
-                    <AnimatedText>{t('footer.navigation.portfolio')}</AnimatedText>
+                    <Link href="/portfolio" className="hover:text-[#F20352] transition-colors duration-200">
+                      <AnimatedText>{t('footer.navigation.portfolio')}</AnimatedText>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/privacy-policy" className="hover:text-[#F20352] transition-colors duration-200">
+                      <AnimatedText>Privacy Policy</AnimatedText>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/cookie-policy" className="hover:text-[#F20352] transition-colors duration-200">
+                      <AnimatedText>Cookie Policy</AnimatedText>
+                    </Link>
                   </li>
                   <li>
                     <AnimatedText>{t('footer.navigation.lawyers')}</AnimatedText>
-                  </li>
-                  <li>
-                    <AnimatedText>{t('footer.navigation.dentists')}</AnimatedText>
-                  </li>
-                  <li>
-                    <AnimatedText>{t('footer.navigation.restaurants')}</AnimatedText>
                   </li>
                 </ul>
               </div>

@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { useApiCall } from './useApiCall';
+import { useApiCall } from '../core/useApiCall';
 
 export interface Booking {
   id: string;

@@ -1,8 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useApiCall } from '@/hooks/useApiCall';
-import { useTranslation } from '@/hooks/useTranslation';
+import { useApiCall, useTranslation } from '@/hooks';
 import AnimatedText from '@/components/ui/AnimatedText';
 
 interface FormData {
@@ -304,10 +303,12 @@ export default function Contact() {
                   onChange={handleInputChange}
                   className="mt-1 w-4 h-4 text-main bg-transparent border-main/20 rounded focus:ring-main/40 focus:ring-2"
                   suppressHydrationWarning={true}
+                  aria-describedby="marketingConsent-description"
                 />
                 <label
                   htmlFor="marketingConsent"
                   className="text-sm text-text-primary leading-relaxed"
+                  id="marketingConsent-description"
                 >
                   <AnimatedText>{t('contact.marketing')}</AnimatedText>
                 </label>
@@ -324,6 +325,8 @@ export default function Contact() {
                 : 'bg-bg-secondary text-text-inverse hover:hover-bg-secondary'
             }`}
             suppressHydrationWarning={true}
+            aria-label={isSubmitting ? 'Invio in corso...' : 'Invia messaggio'}
+            aria-describedby="submit-button-description"
           >
             <AnimatedText>
               {isSubmitting ? t('contact.submitting') : t('contact.submit')}

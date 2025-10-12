@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { useServiceTitleScrollAnimation } from '@/hooks/useServiceTitleAnimation';
+import { useServiceTitleScrollAnimation } from '@/hooks';
 
 interface AnimatedServiceTitleProps {
   title: string;

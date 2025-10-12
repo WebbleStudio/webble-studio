@@ -1,21 +1,21 @@
 'use client';
 
 import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
-import { useTranslation } from '@/hooks/useTranslation';
+import { useTranslation } from '@/hooks';
 import AnimatedText from '@/components/ui/AnimatedText';
-import { useProjects, Project as ProjectType } from '@/hooks/useProjects';
-import { useHeroProjects, HeroProjectConfig } from '@/hooks/useHeroProjects';
-import { useServiceCategories } from '@/hooks/useServiceCategories';
-import { useRevalidate } from '@/hooks/useRevalidate';
+import { useProjects, Project as ProjectType } from '@/hooks';
+import { useHeroProjects, HeroProjectConfig } from '@/hooks';
+import { useServiceCategories } from '@/hooks';
+import { useRevalidate } from '@/hooks';
 import ProtectedRoute from '@/components/auth/ProtectedRoute';
 import { signOut, useSession } from 'next-auth/react';
 import ServiceImageManager from '@/components/admin/ServiceImageManager';
 import BookingManager from '@/components/admin/BookingManager';
 import SaveAllButton from '@/components/admin/SaveAllButton';
 import { apiCache, cacheKeys } from '@/lib/apiCache';
-import { useProjectsBatch } from '@/hooks/useProjectsBatch';
-import { useHighlightsBatch } from '@/hooks/useHighlightsBatch';
-import { useServicesBatch } from '@/hooks/useServicesBatch';
+import { useProjectsBatch } from '@/hooks';
+import { useHighlightsBatch } from '@/hooks';
+import { useServicesBatch } from '@/hooks';
 import {
   DndContext,
   closestCenter,

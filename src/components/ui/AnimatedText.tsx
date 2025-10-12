@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { usePerformance } from '@/hooks/usePerformance';
+import { usePerformance } from '@/hooks';
 
 interface AnimatedTextProps {
   children: React.ReactNode;

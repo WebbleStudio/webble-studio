@@ -3,37 +3,57 @@
  * Provides a single import point for hooks across the application
  */
 
-export { useTranslation } from './useTranslation';
-export { useProjectTranslation } from './useProjectTranslation';
-export { usePerformance } from './usePerformance';
-export { useDarkMode } from './useDarkMode';
-export { useApiCall } from './useApiCall';
-export { useAnimationManager } from './useAnimationManager';
+// Core hooks
+export { useTranslation } from './core/useTranslation';
+export { useProjectTranslation } from './core/useProjectTranslation';
+export { useDarkMode } from './core/useDarkMode';
+export { useApiCall } from './core/useApiCall';
+
+// Performance hooks
+export { usePerformance } from './performance/usePerformance';
+export { useLazyLoad } from './performance/useLazyLoad';
+export { useSplineLazyLoad } from './performance/useSplineLazyLoad';
+
+// Animation hooks
+export { useAnimationManager } from './animations/useAnimationManager';
+export { useProjectSwitch } from './useProjectSwitch';
+export { useServiceCategoryAnimation } from './useServiceCategoryAnimation';
+export { useMenuOverlayAnimation } from './useMenuOverlayAnimation';
+export { useServiceTitleScrollAnimation } from './useServiceTitleAnimation';
+export { useTiltCard } from './useTiltCard';
+export { usePortfolioFiltersAnimation } from '../components/animations/usePortfolioFiltersAnimation';
+export { usePortfolioProjectsAnimation } from '../components/animations/usePortfolioProjectsAnimation';
+
+// Data hooks
 export { useServiceCategories } from './useServiceCategories';
-export { useServiceImages } from './useServiceImages';
-export { useHomeData } from './useHomeData';
-export { usePortfolioData } from './usePortfolioData';
-export { useBookings } from './useBookings';
-export { useProjectsBatch } from './useProjectsBatch';
-export { useHighlightsBatch } from './useHighlightsBatch';
-export { useServicesBatch } from './useServicesBatch';
+export { useServiceImages } from './data/useServiceImages';
+export { useHomeData } from './data/useHomeData';
+export { usePortfolioData } from './data/usePortfolioData';
+export { useBookings } from './data/useBookings';
+export { useProjects } from './data/useProjects';
+export { useHeroProjects } from './data/useHeroProjects';
+export { useProjectsBatch } from './data/useProjectsBatch';
+export { useHighlightsBatch } from './data/useHighlightsBatch';
+export { useServicesBatch } from './data/useServicesBatch';
+
+// Types
+export type { Project } from './data/useProjects';
+export type { HeroProjectConfig } from './data/useHeroProjects';
+export type { EnrichedHeroProject } from './data/useHomeData';
+export type { Booking } from './data/useBookings';
+export type { ServiceCategory } from './useServiceCategories';
 
 // Admin-specific hooks con cache 24h
 export { useAdminCache, clearAdminCache, getCacheAge } from './useAdminCache';
-export { useAdminBookings } from './useAdminBookings';
-export { useCookieConsent } from './useCookieConsent';
-export { useCookieManager } from './useCookieManager';
-export { usePageTracking } from './usePageTracking';
-export { useRevalidate } from './useRevalidate';
+export { useAdminBookings } from './admin/useAdminBookings';
+export { useRevalidate } from './admin/useRevalidate';
 
-// Lazy loading hooks
-export { useLazyLoad } from './useLazyLoad';
-export { useSplineLazyLoad } from '../components/animations/useSplineLazyLoad';
+// UI hooks
+export { useCookieConsent } from './ui/useCookieConsent';
+export { useCookieManager } from './ui/useCookieManager';
+export { usePageTracking } from './ui/usePageTracking';
 
-// Animation hooks
-export { useProjectSwitch } from '../components/animations/useProjectSwitch';
-export { useHeaderAnimation } from '../components/animations/useHeaderAnimation';
-export { useServiceCategoryAnimation } from '../components/animations/useServiceCategoryAnimation';
-export { useMenuOverlayAnimation } from '../components/animations/useMenuOverlayAnimation';
-export { usePortfolioFiltersAnimation } from '../components/animations/usePortfolioFiltersAnimation';
-export { usePortfolioProjectsAnimation } from '../components/animations/usePortfolioProjectsAnimation';
+// Additional hooks
+export { useNetworkOptimization } from './useNetworkOptimization';
+export { useAnalytics } from './useAnalytics';
+export { menuOverlayVariants, menuItemVariants } from './menuAnimations';

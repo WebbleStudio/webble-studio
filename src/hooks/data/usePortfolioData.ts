@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect } from 'react';
 import { apiCache, cacheKeys } from '@/lib/apiCache';
 import { PERFORMANCE_CONFIG } from '@/lib/performance';
-import { Project } from './data/useProjects';
+import { Project } from './useProjects';
 
 // Struttura dati portfolio aggregata
 export interface PortfolioData {

@@ -10,6 +10,10 @@ export const PERFORMANCE_CONFIG = {
   SLOW_CONNECTION_THRESHOLD: 2, // 2g o peggio
   LOW_END_DEVICE_CORES: 2,
 
+  // Cache TTL unificato (3 giorni)
+  CACHE_TTL_DAYS: 3,
+  CACHE_TTL_MS: 3 * 24 * 60 * 60 * 1000, // 259200000ms
+
   // Preload strategico
   CRITICAL_RESOURCES: ['/img/logo-webble-esteso.svg', '/img/thumbnails/webble-thumbnail.jpg'],
 

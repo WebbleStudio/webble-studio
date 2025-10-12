@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { signIn, useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { useDarkMode } from '@/hooks/useDarkMode';
+import { useDarkMode } from '@/hooks';
 import AnimatedText from '@/components/ui/AnimatedText';
 
 export default function LoginPage() {

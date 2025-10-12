@@ -29,7 +29,7 @@ const Project = React.memo(function Project({
         {imageUrl ? (
           <OptimizedImage
             src={imageUrl}
-            alt={title}
+            alt={`${title} - Progetto web design di Webble Studio`}
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
             className={`object-cover transition-transform duration-200 ${hasLink ? 'group-hover:scale-105' : ''}`}

@@ -16,6 +16,6 @@ Disallow: /login
 # Escludi API routes
 Disallow: /api/
 
-# Sitemap (opzionale - aggiungere se esiste)
-# Sitemap: https://www.webblestudio.com/sitemap.xml
+# Sitemap
+Sitemap: https://webblestudio.com/sitemap.xml
 

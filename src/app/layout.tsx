@@ -4,6 +4,7 @@ import { fontVariables } from './fonts';
 import ClientLayout from './ClientLayout';
 import GoogleAnalytics from '@/components/analytics/GoogleAnalytics';
 import PerformanceOptimizer from '@/components/analytics/PerformanceOptimizer';
+import StructuredData from '@/components/seo/StructuredData';
 
 // Build absolute base URL from env for all environments (prod/preview/local)
 const siteUrl =
@@ -22,10 +23,27 @@ export const viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: 'Webble Studio: Scopri cosa significa essere unici',
+  title: {
+    default: 'Webble Studio: Scopri cosa significa essere unici',
+    template: '%s | Webble Studio',
+  },
   description:
-    'Web design, social e advertising: Webble Studio trasforma idee in strategie digitali creative e ad alte prestazioni.',
-  keywords: ['web design', 'social media', 'advertising', 'UI/UX design'],
+    'Web design, social e advertising: Webble Studio trasforma idee in strategie digitali creative e ad alte prestazioni. Scopri di più su Webble ora',
+  keywords: [
+    'web design',
+    'social media',
+    'advertising',
+    'UI/UX design',
+    'web agency',
+    'web design milano',
+    'agenzia digitale',
+    'strategie digitali',
+    'web design studio',
+    'creazione siti web',
+  ],
+  authors: [{ name: 'Webble Studio' }],
+  category: 'Web Design',
+  classification: 'Web Design Agency',
   openGraph: {
     title: 'Webble Studio: Scopri cosa significa essere unici',
     description:
@@ -55,6 +73,9 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
+  alternates: {
+    canonical: siteUrl,
+  },
 };
 
 export default function RootLayout({
@@ -64,7 +85,38 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="it" className={fontVariables}>
+      <head>
+        {/* Preload immagini critiche per migliorare LCP */}
+        <link
+          rel="preload"
+          as="image"
+          href="/img/thumbnails/webble-thumbnail.jpg"
+          type="image/jpeg"
+        />
+        <link
+          rel="preload"
+          as="image"
+          href="/img/radial.png"
+          type="image/png"
+        />
+        <link
+          rel="preload"
+          as="image"
+          href="/img/radial2.png"
+          type="image/png"
+        />
+        {/* Preload font critici */}
+        <link
+          rel="preload"
+          href="/fonts/figtree-variable.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+      </head>
       <body className="antialiased">
+        <StructuredData type="Organization" />
+        <StructuredData type="WebSite" />
         <GoogleAnalytics />
         <PerformanceOptimizer>
           <ClientLayout>{children}</ClientLayout>

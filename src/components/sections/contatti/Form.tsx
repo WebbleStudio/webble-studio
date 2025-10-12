@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useApiCall } from '@/hooks/useApiCall';
-import { useTranslation } from '@/hooks/useTranslation';
+import { useApiCall } from '@/hooks';
+import { useTranslation } from '@/hooks';
 import AnimatedText from '@/components/ui/AnimatedText';
 
 interface FormData {

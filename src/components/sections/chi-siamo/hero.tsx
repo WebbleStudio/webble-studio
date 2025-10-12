@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import OptimizedImage from '@/components/ui/OptimizedImage';
 import AnimatedText from '@/components/ui/AnimatedText';
 import { useHeader } from '@/contexts/HeaderContext';
-import { useTranslation } from '@/hooks/useTranslation';
+import { useTranslation } from '@/hooks';
 
 export default function ChiSiamoHero() {
   const [expandedPerson, setExpandedPerson] = useState<string | null>(null);

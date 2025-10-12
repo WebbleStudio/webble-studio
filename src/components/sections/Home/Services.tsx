@@ -2,8 +2,8 @@
 
 import React from 'react';
 import ServiceCategory from '@/components/ui/ServiceCategory';
-import { useTranslation } from '@/hooks/useTranslation';
-import { useServiceImages } from '@/hooks/useServiceImages';
+import { useTranslation } from '@/hooks';
+import { useServiceImages } from '@/hooks';
 
 export default function Services() {
   const { t } = useTranslation();

@@ -9,8 +9,7 @@ import Services from '@/components/sections/Home/Services';
 import Projects from '@/components/sections/Home/Projects';
 import Contact from '@/components/sections/Home/Contact';
 import { SingleProjectData } from '@/components/animations/useProjectSwitch';
-import { useHomeData, EnrichedHeroProject } from '@/hooks/useHomeData';
-import { Project } from '@/hooks/useProjects';
+import { useHomeData, EnrichedHeroProject, Project } from '@/hooks';
 
 // Funzione per creare placeholder vuoti
 const createPlaceholderProject = (position: number): SingleProjectData => ({
@@ -79,7 +78,7 @@ export default function Home() {
   // Carica tutti i dati home con una singola chiamata (cache 12 ore)
   useEffect(() => {
     fetchHomeData();
-  }, [fetchHomeData]);
+  }, []); // ✅ Dipendenze vuote per evitare loop
 
   // Aggiorna i progetti da mostrare quando cambiano hero projects
   useEffect(() => {

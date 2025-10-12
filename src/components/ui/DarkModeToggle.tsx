@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDarkMode } from '@/hooks/useDarkMode';
+import { useDarkMode } from '@/hooks';
 
 interface DarkModeToggleProps {
   className?: string;

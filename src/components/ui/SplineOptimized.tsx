@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { usePerformance } from '@/hooks/usePerformance';
+import { usePerformance } from '@/hooks';
 
 interface SplineOptimizedProps {
   mobileUrl: string;

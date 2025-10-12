@@ -11,7 +11,7 @@ import LanguageToggle from '@/components/ui/LanguageToggle';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useHeaderAnimation } from '../animations/useHeaderAnimation';
 import { useMenuOverlayAnimation } from '../animations/useMenuOverlayAnimation';
-import { useTranslation } from '@/hooks/useTranslation';
+import { useTranslation } from '@/hooks';
 
 export default function Header() {
   const { t } = useTranslation();

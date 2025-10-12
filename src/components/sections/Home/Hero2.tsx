@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Particles, { initParticlesEngine } from '@tsparticles/react';
 import { loadSlim } from '@tsparticles/slim';
-import { useTranslation } from '@/hooks/useTranslation';
+import { useTranslation } from '@/hooks';
 import AnimatedText from '@/components/ui/AnimatedText';
 import OptimizedImage from '@/components/ui/OptimizedImage';
 import BookingForm from '@/components/ui/BookingForm';
@@ -226,11 +226,19 @@ export default function Hero2() {
               {/* Prenota Call Button - Desktop with arrow */}
               <button
                 onClick={handleOpenForm}
-                className="group flex items-center gap-4 bg-white text-black rounded-xl pl-5 pr-[6px] py-[6px] font-medium text-[15px] xs:text-[16px] relative overflow-hidden"
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    handleOpenForm();
+                  }
+                }}
+                className="group flex items-center gap-4 bg-white text-black rounded-xl pl-5 pr-[6px] py-[6px] font-medium text-[15px] xs:text-[16px] relative overflow-hidden focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-black"
                 data-gtm-event="cta_click"
                 data-gtm-category="engagement"
                 data-gtm-action="prenota_call"
                 data-gtm-label="hero_section_desktop"
+                aria-label="Prenota una call gratuita"
+                aria-describedby="hero-cta-description"
               >
                 {/* Gradient overlay con fade-in */}
                 <div className="absolute inset-0 bg-gradient-to-r from-[#ef2d56]/40 to-[#f4f4f4] opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out rounded-xl" />
@@ -250,7 +258,15 @@ export default function Hero2() {
 
               <button
                 onClick={scrollToPayoff}
-                className="bg-transparent border border-white text-white rounded-xl px-[45px] py-[11px] hover:bg-white/10 transition-all duration-300 font-medium text-[15px] xs:text-[16px]"
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    scrollToPayoff();
+                  }
+                }}
+                className="bg-transparent border border-white text-white rounded-xl px-[45px] py-[11px] hover:bg-white/10 transition-all duration-300 font-medium text-[15px] xs:text-[16px] focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-black"
+                aria-label="Scopri i nostri servizi"
+                aria-describedby="hero-services-description"
               >
                 <AnimatedText>{t('hero2.button_services')}</AnimatedText>
               </button>

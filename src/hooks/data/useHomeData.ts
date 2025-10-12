@@ -1,8 +1,8 @@
 import { useState, useCallback, useEffect } from 'react';
 import { apiCache, cacheKeys } from '@/lib/apiCache';
 import { PERFORMANCE_CONFIG } from '@/lib/performance';
-import { Project } from './data/useProjects';
-import { HeroProject } from './data/useHeroProjects';
+import { Project } from './useProjects';
+import { HeroProject } from './useHeroProjects';
 import { ServiceCategory } from './useServiceCategories';
 
 // Hero project arricchito con progetto completo

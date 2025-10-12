@@ -6,7 +6,7 @@ import Image from 'next/image';
 import AnimatedText from '@/components/ui/AnimatedText';
 import AnimatedServiceTitle from '@/components/ui/AnimatedServiceTitle';
 import { useServiceCategoryAnimation } from '../animations/useServiceCategoryAnimation';
-import { Project } from '@/hooks/useProjects';
+import { Project } from '@/hooks';
 
 interface ServiceCategoryProps {
   number: string;
@@ -148,7 +148,7 @@ export default function ServiceCategory({
                           >
                             <img
                               src={project.image_url}
-                              alt={project.title}
+                              alt={`${project.title} - Progetto web design di Webble Studio`}
                               className="w-full h-full object-cover"
                               loading="lazy"
                             />
@@ -156,7 +156,7 @@ export default function ServiceCategory({
                         ) : (
                           <img
                             src={project.image_url}
-                            alt={project.title}
+                            alt={`${project.title} - Progetto web design di Webble Studio`}
                             className="w-full h-full object-cover"
                             loading="lazy"
                           />

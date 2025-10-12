@@ -4,7 +4,7 @@
  */
 
 import { useAdminCache } from './useAdminCache';
-import { useBookings, Booking } from './useBookings';
+import { useBookings, Booking } from '../data/useBookings';
 
 export function useAdminBookings() {
   const {

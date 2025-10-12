@@ -2,8 +2,7 @@
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useApiCall } from '@/hooks/useApiCall';
-import { useTranslation } from '@/hooks/useTranslation';
+import { useApiCall, useTranslation } from '@/hooks';
 import PhoneInput from './PhoneInput';
 
 interface FormData {
@@ -696,6 +695,9 @@ export default function BookingForm({ isOpen, onClose }: BookingFormProps) {
                     transform: 'translate3d(0,0,0)',
                   }}
                   tabIndex={0}
+                  aria-label={`Seleziona servizio ${service}`}
+                  aria-pressed={formData.services.includes(serviceTranslationMap[service])}
+                  role="checkbox"
                 >
                   {service}
                 </button>

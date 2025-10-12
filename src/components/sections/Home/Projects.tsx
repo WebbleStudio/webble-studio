@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { projectAnimationVariants, ANIMATION_CONFIG } from '../../animations/projectAnimations';
 import ProjectDescription from '../../ui/ProjectDescription';
 import OptimizedImage from '../../ui/OptimizedImage';
-import { usePerformance } from '@/hooks/usePerformance';
+import { usePerformance } from '@/hooks';
 import { useSlideSwitch, SingleProjectData } from '../../animations/useProjectSwitch';
 
 interface ProjectsProps {
@@ -99,9 +99,9 @@ export default function Projects({ projectData }: ProjectsProps) {
             {/* Center Column: Fixed Title + Animated Description & Image */}
             <div className="flex flex-col items-center" style={{ contain: 'layout style' }}>
               {/* Fixed Title */}
-              <h1 className="text-white text-[48px] 2xl:text-[56px] font-figtree font-medium text-center relative w-[600px] 2xl:w-[750px]">
+              <h2 className="text-white text-[48px] 2xl:text-[56px] font-figtree font-medium text-center relative w-[600px] 2xl:w-[750px]">
                 {project.title}
-              </h1>
+              </h2>
 
               {/* Animated Project Description */}
               <div className="w-[600px] 2xl:w-[750px] text-center mx-auto">

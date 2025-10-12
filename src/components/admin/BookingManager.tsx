@@ -1,10 +1,10 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { Booking } from '@/hooks/useBookings';
-import { useAdminBookings } from '@/hooks/useAdminBookings';
+import { Booking } from '@/hooks';
+import { useAdminBookings } from '@/hooks';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useTranslation } from '@/hooks/useTranslation';
+import { useTranslation } from '@/hooks';
 import RefreshButton from './RefreshButton';
 
 interface BookingManagerProps {

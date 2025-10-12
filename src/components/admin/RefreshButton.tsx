@@ -6,7 +6,7 @@
 'use client';
 
 import React from 'react';
-import { getCacheAge } from '@/hooks/useAdminCache';
+import { getCacheAge } from '@/hooks';
 
 interface RefreshButtonProps {
   onRefresh: () => Promise<any>;
