@@ -108,11 +108,8 @@ export async function POST(request: NextRequest) {
     console.log('✅ Batch Update Results:', results);
 
     // Revalida tutte le pagine e endpoint aggregati
-    revalidatePath('/');
-    revalidatePath('/portfolio');
-    revalidatePath('/api/projects');
-    revalidatePath('/api/home-data');
-    revalidatePath('/api/portfolio-data');
+    // Invalida solo cache client-side (non revalida automaticamente le pagine)
+    // Le pagine verranno revalidate solo quando l'admin preme "Aggiorna sito"
 
     // Restituisci risultato
     const success = results.errors.length === 0;

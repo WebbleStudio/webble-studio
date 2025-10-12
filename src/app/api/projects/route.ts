@@ -137,9 +137,8 @@ export async function POST(request: NextRequest) {
     }
 
     // Revalida le pagine che mostrano i progetti per aggiornare la cache
-    revalidatePath('/');
-    revalidatePath('/portfolio');
-    revalidatePath('/api/projects');
+    // Invalida solo cache client-side (non revalida automaticamente le pagine)
+    // Le pagine verranno revalidate solo quando l'admin preme "Aggiorna sito"
 
     return NextResponse.json(projectData, { status: 201 });
   } catch (error) {

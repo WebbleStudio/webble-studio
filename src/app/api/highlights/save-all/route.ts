@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabaseClient';
-import { revalidatePath } from 'next/cache';
 import { apiCache, cacheKeys } from '@/lib/apiCache';
 
 export async function POST(request: Request) {
@@ -30,12 +29,7 @@ export async function POST(request: Request) {
       console.log(`✅ Updated ${highlightsUpdates.length} highlights`);
     }
 
-    // Revalida cache per tutte le pagine interessate
-    revalidatePath('/');
-    revalidatePath('/api/hero-projects');
-    revalidatePath('/api/home-data');
-
-    // Invalida cache client-side
+    // Invalida solo cache client-side (non revalida automaticamente le pagine)
     apiCache.invalidate(cacheKeys.heroProjects());
     apiCache.invalidate(cacheKeys.homeData());
 

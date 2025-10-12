@@ -92,9 +92,8 @@ export async function POST(request: NextRequest) {
     const data = insertedData;
 
     // Revalida le pagine che mostrano gli hero projects per aggiornare la cache
-    revalidatePath('/');
-    revalidatePath('/api/hero-projects');
-    revalidatePath('/api/home-data'); // Invalida endpoint aggregato
+    // Invalida solo cache client-side (non revalida automaticamente le pagine)
+    // Le pagine verranno revalidate solo quando l'admin preme "Aggiorna sito"
 
     return NextResponse.json({
       message: 'Hero projects saved successfully',
@@ -120,9 +119,8 @@ export async function DELETE() {
     }
 
     // Revalida le pagine che mostrano gli hero projects per aggiornare la cache
-    revalidatePath('/');
-    revalidatePath('/api/hero-projects');
-    revalidatePath('/api/home-data'); // Invalida endpoint aggregato
+    // Invalida solo cache client-side (non revalida automaticamente le pagine)
+    // Le pagine verranno revalidate solo quando l'admin preme "Aggiorna sito"
 
     return NextResponse.json({ message: 'All hero projects deleted successfully' });
   } catch (error) {

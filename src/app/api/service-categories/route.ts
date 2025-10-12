@@ -61,9 +61,8 @@ export async function PUT(request: NextRequest) {
     }
 
     // Revalida le pagine che mostrano le service categories per aggiornare la cache
-    revalidatePath('/');
-    revalidatePath('/api/service-categories');
-    revalidatePath('/api/home-data'); // Invalida endpoint aggregato
+    // Invalida solo cache client-side (non revalida automaticamente le pagine)
+    // Le pagine verranno revalidate solo quando l'admin preme "Aggiorna sito"
 
     return NextResponse.json(data);
   } catch (error) {

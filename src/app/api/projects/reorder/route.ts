@@ -37,11 +37,8 @@ export async function PUT(request: NextRequest) {
     console.log(`Successfully reordered ${successfulUpdates.length} projects`);
 
     // Revalida le pagine che mostrano i progetti per aggiornare la cache
-    revalidatePath('/');
-    revalidatePath('/portfolio');
-    revalidatePath('/api/projects');
-    revalidatePath('/api/home-data'); // Invalida endpoint aggregato home
-    revalidatePath('/api/portfolio-data'); // Invalida endpoint aggregato portfolio
+    // Invalida solo cache client-side (non revalida automaticamente le pagine)
+    // Le pagine verranno revalidate solo quando l'admin preme "Aggiorna sito"
 
     return NextResponse.json({
       message: 'Projects reordered successfully',
