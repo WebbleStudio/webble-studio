@@ -119,6 +119,7 @@ export const useSlideSwitch = (project: SingleProjectData) => {
       backgroundImage: project.backgroundImage,
       labels: project.labels,
       date: project.date,
+      originalProject: project.originalProject,
     },
 
     // State
