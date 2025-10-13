@@ -9,6 +9,11 @@ import Hero from '@/components/sections/Portfolio/Hero';
 import PortfolioProjects from '@/components/sections/Portfolio/PortfolioProjects';
 import { getPortfolioData } from '@/lib/serverActions';
 
+// Force Node.js runtime (non Edge)
+export const runtime = 'nodejs';
+export const dynamic = 'force-static';
+export const revalidate = 3600; // ISR: revalidate ogni ora
+
 export default async function PortfolioPage() {
   // Server Action: fetch dati direttamente dal database
   const { projects } = await getPortfolioData();
