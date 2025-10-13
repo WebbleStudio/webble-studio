@@ -41,17 +41,17 @@ export default function Projects({ projectData }: ProjectsProps) {
     shouldSkipAnimation,
   } = usePerformance();
 
-  // Image animation configs ottimizzati con caching
+  // Image animation configs ottimizzati con caching - nuova animazione elegante
   const imageAnimationConfig = useMemo(() => {
     if (shouldDisableBlur) {
       return {
-        initial: { y: 15, opacity: 0, scale: 1.02 }, // Ridotto movimento e scale
-        animate: { y: 0, opacity: 1, scale: 1 },
-        exit: { opacity: 0, scale: 0.98 },
+        initial: { opacity: 0, scale: 1.01 }, // Animazione molto leggera
+        animate: { opacity: 1, scale: 1 },
+        exit: { opacity: 0, scale: 0.99 },
       };
     }
-    return animations.imageFadeUp;
-  }, [shouldDisableBlur, animations.imageFadeUp]);
+    return animations.imagePerfectCrossfade; // Usa la nuova animazione crossfade perfetto
+  }, [shouldDisableBlur, animations.imagePerfectCrossfade]);
 
   // Animation duration ottimizzata
   const animationDuration = useMemo(() => getAnimationDuration(400), [getAnimationDuration]);
@@ -125,7 +125,7 @@ export default function Projects({ projectData }: ProjectsProps) {
 
               {/* Animated Image */}
               <div
-                className="relative w-[600px] h-[360px] 2xl:w-[750px] 2xl:h-[450px] bg-main rounded-[17px] overflow-hidden mb-14 md:mb-20"
+                className="relative w-[600px] h-[360px] 2xl:w-[750px] 2xl:h-[450px] bg-black rounded-[17px] overflow-hidden mb-14 md:mb-20"
                 style={{
                   willChange: shouldUseGPUAcceleration ? 'transform' : 'auto',
                   contain: 'layout style paint',
@@ -234,7 +234,7 @@ export default function Projects({ projectData }: ProjectsProps) {
 
               {/* Animated Image Container */}
               <div
-                className="relative w-[300px] h-[185px] xs:w-[340px] xs:h-[210px] sm:w-[380px] sm:h-[235px] md:w-[500px] md:h-[300px] lg:w-[600px] lg:h-[360px] bg-main rounded-[17px] overflow-hidden"
+                className="relative w-[300px] h-[185px] xs:w-[340px] xs:h-[210px] sm:w-[380px] sm:h-[235px] md:w-[500px] md:h-[300px] lg:w-[600px] lg:h-[360px] bg-black rounded-[17px] overflow-hidden"
                 style={{
                   willChange: shouldUseGPUAcceleration ? 'transform' : 'auto',
                   contain: 'layout style paint',

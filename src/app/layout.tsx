@@ -105,7 +105,59 @@ export default function RootLayout({
           href="/img/radial2.png"
           type="image/png"
         />
-        {/* Fonts are loaded via @fontsource/figtree */}
+        {/* Preload critical static images to avoid edge requests */}
+        <link
+          rel="preload"
+          as="image"
+          href="/img/webble-white-logo.svg"
+          type="image/svg+xml"
+        />
+        <link
+          rel="preload"
+          as="image"
+          href="/img/webble-3d.webp"
+          type="image/webp"
+        />
+        <link
+          rel="preload"
+          as="image"
+          href="/img/hero-desktop-proj.png"
+          type="image/png"
+        />
+        <link
+          rel="preload"
+          as="image"
+          href="/img/bubble-background.jpg"
+          type="image/jpeg"
+        />
+        <link
+          rel="preload"
+          as="image"
+          href="/icons/diagonal-arrow.svg"
+          type="image/svg+xml"
+        />
+        {/* Preload fonts to avoid edge requests */}
+        <link
+          rel="preload"
+          href="/_next/static/media/figtree-latin-600-normal.e8bd9fc0.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="/_next/static/media/poppins-latin-500-normal.7777133e.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+        {/* Preload favicon to avoid edge requests */}
+        <link
+          rel="preload"
+          href="/favicon.ico"
+          as="image"
+          type="image/x-icon"
+        />
       </head>
       <body className="antialiased">
         <StructuredData type="Organization" />

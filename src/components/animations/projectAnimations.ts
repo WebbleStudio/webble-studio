@@ -137,35 +137,114 @@ export const projectAnimationVariants = {
     },
   } as Variants,
 
-  // Ottimizzato: meno blur, scale ridotto
+  // Animazione elegante senza blur - crossfade smooth
   imageFadeUp: {
     initial: {
-      y: 20, // Ridotto da 30
       opacity: 0,
-      filter: `blur(${ANIMATION_CONFIG.performance.maxBlur}px)`, // Ridotto blur
-      scale: 1.03, // Ridotto da 1.05
+      scale: 1.01, // Scale molto leggero per evitare il "pop"
     },
     animate: {
-      y: 0,
       opacity: 1,
-      filter: 'blur(0px)',
       scale: 1,
       transition: {
-        duration: 0.6, // Ridotto da 0.8
-        ease: ANIMATION_CONFIG.easing,
-        opacity: { duration: 0.4, ease: 'easeOut' }, // Ridotto
-        y: { duration: 0.6, ease: ANIMATION_CONFIG.easing },
-        filter: { duration: 0.5, ease: 'easeOut' }, // Ridotto
-        scale: { duration: 0.6, ease: 'easeOut' }, // Ridotto
+        duration: 0.5,
+        ease: [0.25, 0.1, 0.25, 1],
+        opacity: { duration: 0.4, ease: 'easeOut' },
+        scale: { duration: 0.5, ease: 'easeOut' },
       },
     },
     exit: {
       opacity: 0,
-      scale: 0.97, // Ridotto da 0.95
-      filter: `blur(${ANIMATION_CONFIG.performance.maxBlur / 3}px)`, // Blur minimo
+      scale: 0.99, // Scale molto leggero
       transition: {
-        duration: 0.3, // Ridotto da 0.4
+        duration: 0.3,
         ease: 'easeIn',
+        opacity: { duration: 0.2, ease: 'easeIn' },
+        scale: { duration: 0.3, ease: 'easeIn' },
+      },
+    },
+  } as Variants,
+
+  // Nuova animazione: slide crossfade (più elegante)
+  imageSlideCrossfade: {
+    initial: {
+      opacity: 0,
+      x: 20, // Leggero movimento orizzontale
+    },
+    animate: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        duration: 0.6,
+        ease: [0.25, 0.1, 0.25, 1],
+        opacity: { duration: 0.4, ease: 'easeOut' },
+        x: { duration: 0.6, ease: 'easeOut' },
+      },
+    },
+    exit: {
+      opacity: 0,
+      x: -20,
+      transition: {
+        duration: 0.4,
+        ease: 'easeIn',
+        opacity: { duration: 0.2, ease: 'easeIn' },
+        x: { duration: 0.4, ease: 'easeIn' },
+      },
+    },
+  } as Variants,
+
+  // Animazione: zoom crossfade (molto elegante) - crossfade perfetto
+  imageZoomCrossfade: {
+    initial: {
+      opacity: 0,
+      scale: 1.05, // Zoom in leggero
+    },
+    animate: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        duration: 0.6,
+        ease: [0.25, 0.1, 0.25, 1],
+        opacity: { duration: 0.4, ease: 'easeOut' },
+        scale: { duration: 0.6, ease: 'easeOut' },
+      },
+    },
+    exit: {
+      opacity: 0,
+      scale: 0.95, // Zoom out leggero
+      transition: {
+        duration: 0.3, // Ridotto per crossfade più veloce
+        ease: 'easeIn',
+        opacity: { duration: 0.3, ease: 'easeIn' },
+        scale: { duration: 0.3, ease: 'easeIn' },
+      },
+    },
+  } as Variants,
+
+  // Nuova animazione: crossfade perfetto senza vuoti
+  imagePerfectCrossfade: {
+    initial: {
+      opacity: 0,
+      scale: 1.02, // Scale molto leggero
+    },
+    animate: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        duration: 0.5,
+        ease: [0.25, 0.1, 0.25, 1],
+        opacity: { duration: 0.4, ease: 'easeOut' },
+        scale: { duration: 0.5, ease: 'easeOut' },
+      },
+    },
+    exit: {
+      opacity: 0,
+      scale: 0.98, // Scale molto leggero
+      transition: {
+        duration: 0.3, // Stessa durata per crossfade perfetto
+        ease: 'easeIn',
+        opacity: { duration: 0.3, ease: 'easeIn' },
+        scale: { duration: 0.3, ease: 'easeIn' },
       },
     },
   } as Variants,

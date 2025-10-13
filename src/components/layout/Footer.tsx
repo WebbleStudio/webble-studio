@@ -177,18 +177,6 @@ export default function Footer({ className = '' }: FooterProps) {
                       <AnimatedText>{t('footer.navigation.services')}</AnimatedText>
                     </li>
                   </ul>
-                  <ul className="flex flex-col gap-[10px]">
-                    <li>
-                      <Link href="/privacy-policy" className="hover:text-[#F20352] transition-colors duration-200">
-                        <AnimatedText>Privacy Policy</AnimatedText>
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/cookie-policy" className="hover:text-[#F20352] transition-colors duration-200">
-                        <AnimatedText>Cookie Policy</AnimatedText>
-                      </Link>
-                    </li>
-                  </ul>
                 </div>
                 <ul className="hidden sm:grid sm:grid-cols-3 sm:gap-x-[50px] sm:gap-y-[10px] md:hidden">
                   <li>
