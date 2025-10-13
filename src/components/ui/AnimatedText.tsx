@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { usePerformance } from '@/hooks';
 
@@ -41,10 +41,40 @@ export default function AnimatedText({
   ...props
 }: AnimatedTextProps) {
   const MotionComponent = motion[as] as any;
+  const elementRef = useRef<HTMLElement>(null);
+  const [isAnimationComplete, setIsAnimationComplete] = useState(false);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Performance optimization hook
   const { shouldDisableBlur, shouldUseGPUAcceleration, shouldSkipAnimation, getAnimationDuration } =
     usePerformance();
+  
+  // Cleanup effect: Forza rimozione blur dopo animazione (FALLBACK per Chromium/Brave)
+  useEffect(() => {
+    setIsAnimationComplete(false);
+    
+    // Clear previous timeout
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+    
+    // Fallback: forza rimozione blur dopo il completamento dell'animazione + buffer
+    const animationDuration = getAnimationDuration(duration * 1000);
+    timeoutRef.current = setTimeout(() => {
+      if (elementRef.current) {
+        // Forza rimozione di tutte le proprietà di animazione
+        elementRef.current.style.filter = 'none';
+        elementRef.current.style.willChange = 'auto';
+        setIsAnimationComplete(true);
+      }
+    }, animationDuration + 100); // Buffer di 100ms
+    
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, [children, duration, getAnimationDuration]);
 
   // Skip animation completely se necessario
   if (shouldSkipAnimation(animationType)) {
@@ -63,86 +93,76 @@ export default function AnimatedText({
   const getAnimationVariants = () => {
     const baseY = shouldDisableBlur ? 3 : 5; // Movimento ridotto per low-end devices
 
-    if (shouldDisableBlur) {
-      // Versione senza blur per dispositivi low-end
-      return {
-        initial: {
-          opacity: 0,
-          y: baseY,
-          scale: 0.98, // Subtle scale invece di blur
-        },
-        animate: {
-          opacity: 1,
-          y: 0,
-          scale: 1,
-        },
-        exit: {
-          opacity: 0,
-          y: -baseY,
-          scale: 0.98,
-        },
-      };
-    } else {
-      // Versione con blur per dispositivi performanti
-      return {
-        initial: {
-          opacity: 0,
-          filter: 'blur(4px)',
-          y: baseY,
-        },
-        animate: {
-          opacity: 1,
-          filter: 'blur(0px)',
-          y: 0,
-        },
-        exit: {
-          opacity: 0,
-          filter: 'blur(4px)',
-          y: -baseY,
-        },
-      };
-    }
+    // SEMPRE senza blur per evitare problemi su Chromium/Brave
+    return {
+      initial: {
+        opacity: 0,
+        y: baseY,
+        scale: 0.98, // Subtle scale invece di blur
+      },
+      animate: {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+      },
+      exit: {
+        opacity: 0,
+        y: -baseY,
+        scale: 0.98,
+      },
+    };
   };
 
   const variants = getAnimationVariants();
 
-  // Enhanced transition configuration
+  // Enhanced transition configuration - SEMPRE senza blur
   const transitionConfig = {
     duration: optimizedDuration,
-    ease: shouldDisableBlur ? 'easeOut' : [0.25, 0.1, 0.25, 1],
+    ease: 'easeOut',
     // Separare le transizioni per performance migliori
     opacity: {
       duration: optimizedDuration * 0.8,
       ease: 'easeOut',
     },
-    ...(shouldDisableBlur
-      ? {
-          scale: {
-            duration: optimizedDuration,
-            ease: 'easeOut',
-          },
-        }
-      : {
-          filter: {
-            duration: optimizedDuration * 0.9,
-            ease: 'easeOut',
-          },
-        }),
+    scale: {
+      duration: optimizedDuration,
+      ease: 'easeOut',
+    },
   };
 
-  // Enhanced style with performance optimizations
+  // Enhanced style with performance optimizations + cleanup per Chromium/Brave
   const enhancedStyle = {
     ...style,
-    ...(shouldUseGPUAcceleration && {
-      willChange: shouldDisableBlur ? 'transform, opacity' : 'transform, opacity, filter',
+    WebkitFontSmoothing: 'antialiased' as const,
+    MozOsxFontSmoothing: 'grayscale' as const,
+    transform: 'translateZ(0)',
+    // Dopo animazione completata, rimuovi willChange
+    ...(shouldUseGPUAcceleration && !isAnimationComplete && {
+      willChange: 'transform, opacity',
       backfaceVisibility: 'hidden' as const,
       WebkitBackfaceVisibility: 'hidden' as const,
     }),
+    // Forza rimozione blur se animazione completa
+    ...(isAnimationComplete && {
+      filter: 'none',
+      willChange: 'auto',
+    }),
+  };
+  
+  // Handler per completamento animazione
+  const handleAnimationComplete = () => {
+    setIsAnimationComplete(true);
+    if (elementRef.current) {
+      // Forza cleanup immediato
+      elementRef.current.style.filter = 'none';
+      elementRef.current.style.willChange = 'auto';
+    }
   };
 
   return (
     <AnimatePresence mode="wait">
       <MotionComponent
+        ref={elementRef}
         key={generateChildrenKey(children)} // Key importante: cambia quando il contenuto cambia
         className={className}
         style={enhancedStyle}
@@ -150,6 +170,7 @@ export default function AnimatedText({
         animate={variants.animate}
         exit={variants.exit}
         transition={transitionConfig}
+        onAnimationComplete={handleAnimationComplete}
         {...props}
       >
         {children}

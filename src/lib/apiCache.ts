@@ -10,12 +10,15 @@ interface CacheEntry<T> {
 class ApiCache {
   private cache: Map<string, CacheEntry<any>> = new Map();
   private defaultTTL = 5 * 60 * 1000; // 5 minuti default
+  private adminTTL = 30 * 60 * 1000; // 30 minuti per admin
 
   /**
    * Ottiene i dati dalla cache o esegue il fetcher
    * Previene chiamate simultanee duplicate (deduplication)
    */
-  async get<T>(key: string, fetcher: () => Promise<T>, ttl: number = this.defaultTTL): Promise<T> {
+  async get<T>(key: string, fetcher: () => Promise<T>, ttl: number = this.defaultTTL, isAdmin: boolean = false): Promise<T> {
+    // Usa TTL più lungo per admin
+    const effectiveTTL = isAdmin ? this.adminTTL : ttl;
     const cached = this.cache.get(key);
     const now = Date.now();
 
@@ -26,7 +29,7 @@ class ApiCache {
     }
 
     // Se la cache è valida, ritorna i dati cached
-    if (cached && now - cached.timestamp < ttl) {
+    if (cached && now - cached.timestamp < effectiveTTL) {
       console.log(
         `✅ ApiCache: Cache hit for "${key}" (age: ${Math.round((now - cached.timestamp) / 1000)}s)`
       );

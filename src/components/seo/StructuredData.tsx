@@ -1,7 +1,7 @@
 import Script from 'next/script';
 
 interface StructuredDataProps {
-  type: 'Organization' | 'WebSite' | 'ContactPage' | 'AboutPage' | 'CollectionPage' | 'FAQPage';
+  type: 'Organization' | 'WebSite' | 'ContactPage' | 'AboutPage' | 'CollectionPage';
   data?: any;
 }
 
@@ -15,37 +15,55 @@ export default function StructuredData({ type, data }: StructuredDataProps) {
           '@context': 'https://schema.org',
           '@type': 'Organization',
           name: 'Webble Studio',
+          legalName: 'Vady Solutions LLC',
           alternateName: 'Webble',
           url: baseUrl,
-          logo: `${baseUrl}/img/thumbnails/webble-thumbnail.jpg`,
+          logo: `${baseUrl}/img/webble-white-logo.svg`,
+          image: `${baseUrl}/img/thumbnails/webble-thumbnail.jpg`,
           description:
-            'Web design, social e advertising: Webble Studio trasforma idee in strategie digitali creative e ad alte prestazioni.',
+            'Webble Studio trasforma idee in campagne che si distinguono, dall\'idea ai risultati, senza perdere tempo. Web design, UI/UX, social media e advertising.',
           address: {
             '@type': 'PostalAddress',
-            addressCountry: 'IT',
-            addressLocality: 'Milano',
+            streetAddress: '16192 Coastal Hwy',
+            addressLocality: 'Lewes',
+            addressRegion: 'DE',
+            postalCode: '19958',
+            addressCountry: 'US',
           },
           contactPoint: {
             '@type': 'ContactPoint',
-            telephone: '+39-XXX-XXX-XXXX',
+            email: 'info@webblestudio.com',
             contactType: 'customer service',
             availableLanguage: ['Italian', 'English'],
           },
           sameAs: [
-            'https://www.instagram.com/webblestudio',
-            'https://www.linkedin.com/company/webble-studio',
-            'https://www.behance.net/webblestudio',
+            'https://instagram.com/studiowebble',
+            'https://www.linkedin.com/company/webblestudio/',
+            'https://www.tiktok.com/@webblestudio',
+            'https://www.youtube.com/@webblestudio',
+            'https://www.facebook.com/p/Webble-Studio-61566664251140/',
+            'https://x.com/webblestudio',
+            'https://www.threads.com/@studiowebble',
+            'https://www.behance.net/Webble',
+            'https://it.pinterest.com/webblestudio/',
           ],
-          foundingDate: '2024',
-          numberOfEmployees: '5-10',
-          industry: 'Web Design',
-          services: [
+          foundingDate: '2023',
+          aggregateRating: {
+            '@type': 'AggregateRating',
+            ratingValue: '5.0',
+            reviewCount: '12',
+          },
+          areaServed: ['IT', 'US', 'EU'],
+          knowsAbout: [
             'Web Design',
             'UI/UX Design',
             'Social Media Marketing',
             'Digital Advertising',
+            'Brand Identity',
             'Web Development',
+            'Project Management',
           ],
+          slogan: 'Scopri cosa significa essere unici',
         };
 
       case 'WebSite':
@@ -55,15 +73,17 @@ export default function StructuredData({ type, data }: StructuredDataProps) {
           name: 'Webble Studio',
           url: baseUrl,
           description:
-            'Web design, social e advertising: Webble Studio trasforma idee in strategie digitali creative e ad alte prestazioni.',
+            'Webble Studio trasforma idee in campagne che si distinguono, dall\'idea ai risultati, senza perdere tempo. Web design, UI/UX, social media e advertising.',
           publisher: {
             '@type': 'Organization',
             name: 'Webble Studio',
+            legalName: 'Vady Solutions LLC',
           },
-          potentialAction: {
-            '@type': 'SearchAction',
-            target: `${baseUrl}/search?q={search_term_string}`,
-            'query-input': 'required name=search_term_string',
+          inLanguage: ['it-IT', 'en-US'],
+          copyrightYear: 2023,
+          copyrightHolder: {
+            '@type': 'Organization',
+            name: 'Vady Solutions LLC',
           },
         };
 
@@ -74,11 +94,21 @@ export default function StructuredData({ type, data }: StructuredDataProps) {
           name: 'Contatti - Webble Studio',
           url: `${baseUrl}/contatti`,
           description:
-            'Contattaci per discutere il tuo progetto digitale. Webble Studio trasforma le tue idee in strategie digitali creative e ad alte prestazioni.',
+            'Contattaci per trasformare le tue idee in campagne che si distinguono. Webble Studio: dall\'idea ai risultati, senza perdere tempo.',
           mainEntity: {
             '@type': 'Organization',
             name: 'Webble Studio',
+            legalName: 'Vady Solutions LLC',
             url: baseUrl,
+            email: 'info@webblestudio.com',
+            address: {
+              '@type': 'PostalAddress',
+              streetAddress: '16192 Coastal Hwy',
+              addressLocality: 'Lewes',
+              addressRegion: 'DE',
+              postalCode: '19958',
+              addressCountry: 'US',
+            },
           },
           breadcrumb: {
             '@type': 'BreadcrumbList',
@@ -106,11 +136,48 @@ export default function StructuredData({ type, data }: StructuredDataProps) {
           name: 'Chi Siamo - Webble Studio',
           url: `${baseUrl}/chi-siamo`,
           description:
-            'Scopri il team di Webble Studio: creativi, designer e sviluppatori appassionati di web design, UI/UX e strategie digitali.',
+            'Scopri il team di Webble Studio: Vadim e Gabriele, fondatori e creative director. Trasformiamo idee in campagne che si distinguono.',
           mainEntity: {
             '@type': 'Organization',
             name: 'Webble Studio',
+            legalName: 'Vady Solutions LLC',
             url: baseUrl,
+            founder: [
+              {
+                '@type': 'Person',
+                name: 'Vadim Zaporojan',
+                jobTitle: 'Co-Founder & Creative Director',
+                sameAs: ['https://www.linkedin.com/in/vadimzaporojan/'],
+              },
+              {
+                '@type': 'Person',
+                name: 'Gabriele Consolo',
+                jobTitle: 'Co-Founder & Creative Director',
+                sameAs: ['https://www.linkedin.com/in/gabriele-consolo-12b32832b/'],
+              },
+            ],
+            employee: [
+              {
+                '@type': 'Person',
+                name: 'Matias Plaza',
+                jobTitle: 'SMM e Digital Strategist',
+              },
+              {
+                '@type': 'Person',
+                name: 'Victor Sirbu',
+                jobTitle: 'Fotografo e Videomaker',
+              },
+              {
+                '@type': 'Person',
+                name: 'Anselmo D. G. Vicente',
+                jobTitle: 'Full Stack Developer',
+              },
+              {
+                '@type': 'Person',
+                name: 'Imane Eshakhi',
+                jobTitle: 'Graphic e Motion Designer',
+              },
+            ],
           },
           breadcrumb: {
             '@type': 'BreadcrumbList',
@@ -138,11 +205,13 @@ export default function StructuredData({ type, data }: StructuredDataProps) {
           name: 'Portfolio - Webble Studio',
           url: `${baseUrl}/portfolio`,
           description:
-            'Scopri i nostri progetti di web design, UI/UX e strategie digitali. Portfolio creativo di Webble Studio con progetti innovativi e ad alte prestazioni.',
+            'Dove la creatività incontra la strategia. Esplora i progetti di Webble Studio: web design, UI/UX, social media e advertising che si distinguono.',
           mainEntity: {
             '@type': 'ItemList',
             name: 'Portfolio Webble Studio',
-            description: 'Raccolta dei progetti di Webble Studio',
+            description:
+              'Raccolta dei progetti di web design, UI/UX, social media e advertising realizzati da Webble Studio',
+            itemListElement: data?.projects || [],
           },
           breadcrumb: {
             '@type': 'BreadcrumbList',
@@ -161,54 +230,6 @@ export default function StructuredData({ type, data }: StructuredDataProps) {
               },
             ],
           },
-        };
-
-      case 'FAQPage':
-        return {
-          '@context': 'https://schema.org',
-          '@type': 'FAQPage',
-          mainEntity: [
-            {
-              '@type': 'Question',
-              name: 'Quanto costa un sito web?',
-              acceptedAnswer: {
-                '@type': 'Answer',
-                text: 'Il costo di un sito web dipende dalle esigenze specifiche del progetto. Offriamo soluzioni personalizzate per ogni budget, dal sito vetrina al portale complesso.',
-              },
-            },
-            {
-              '@type': 'Question',
-              name: 'Quanto tempo ci vuole per realizzare un sito web?',
-              acceptedAnswer: {
-                '@type': 'Answer',
-                text: 'I tempi di realizzazione variano da 2-4 settimane per un sito vetrina a 2-3 mesi per progetti complessi. Forniamo sempre una timeline dettagliata durante la consulenza.',
-              },
-            },
-            {
-              '@type': 'Question',
-              name: 'Fornite supporto dopo la consegna?',
-              acceptedAnswer: {
-                '@type': 'Answer',
-                text: 'Sì, offriamo supporto tecnico e aggiornamenti post-consegna. Includiamo anche formazione per la gestione autonoma del sito.',
-              },
-            },
-            {
-              '@type': 'Question',
-              name: 'Realizzate siti responsive?',
-              acceptedAnswer: {
-                '@type': 'Answer',
-                text: 'Assolutamente sì. Tutti i nostri siti sono responsive e ottimizzati per dispositivi mobili, tablet e desktop.',
-              },
-            },
-            {
-              '@type': 'Question',
-              name: 'Includete SEO nel servizio?',
-              acceptedAnswer: {
-                '@type': 'Answer',
-                text: 'Sì, l\'ottimizzazione SEO è inclusa in tutti i nostri progetti. Implementiamo best practices per migliorare la visibilità sui motori di ricerca.',
-              },
-            },
-          ],
         };
 
       default:

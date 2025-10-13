@@ -57,7 +57,6 @@ export default function ContattiLayout({ children }: { children: React.ReactNode
   return (
     <>
       <StructuredData type="ContactPage" />
-      <StructuredData type="FAQPage" />
       {children}
     </>
   );

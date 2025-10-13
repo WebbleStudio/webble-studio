@@ -34,8 +34,11 @@ export default function UnifiedDebugger() {
   const [cacheStats, setCacheStats] = useState<CacheInfo[]>([]);
   const callsEndRef = useRef<HTMLDivElement>(null);
 
-  // Update cache stats periodically
+  // Update cache stats periodically - SOLO se il debugger è aperto
   useEffect(() => {
+    // Non aggiornare se il debugger è minimizzato
+    if (isMinimized) return;
+
     const updateCacheStats = () => {
       const stats = apiCache.getStats();
       const cacheInfo: CacheInfo[] = stats.entries.map((entry) => {
@@ -54,9 +57,10 @@ export default function UnifiedDebugger() {
     };
 
     updateCacheStats();
-    const interval = setInterval(updateCacheStats, 2000);
+    // Aumentato da 2s a 5s per ridurre overhead
+    const interval = setInterval(updateCacheStats, 5000);
     return () => clearInterval(interval);
-  }, []);
+  }, [isMinimized]); // ✅ Dipende da isMinimized
 
   useEffect(() => {
     // Override fetch globale con tracking cache

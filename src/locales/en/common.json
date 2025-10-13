@@ -355,7 +355,8 @@
   "portfolio": {
     "hero": {
       "breadcrumb": "Home / Portfolio",
-      "title": "Where creativity meets strategy"
+      "title": "Where creativity meets strategy",
+      "description": "We transform ideas into campaigns that stand out, from idea to results, without wasting time."
     }
   },
   "cookies": {

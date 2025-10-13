@@ -16,6 +16,24 @@ export default function KeyPoints() {
   // Performance optimization - meno aggressiva
   const { shouldSkipAnimation } = usePerformance();
 
+  // Funzione di scroll smooth alla ServiceCategory Project Management
+  const scrollToServices = () => {
+    const projectManagementService = document.getElementById('service-project-management');
+    if (!projectManagementService) return;
+
+    // Calcola la posizione per centrare verticalmente la ServiceCategory
+    const serviceRect = projectManagementService.getBoundingClientRect();
+    const serviceCenter = serviceRect.top + serviceRect.height / 2;
+    const viewportCenter = window.innerHeight / 2;
+    const currentScrollY = window.scrollY;
+    const targetScrollY = currentScrollY + serviceCenter - viewportCenter;
+
+    window.scrollTo({
+      top: Math.max(0, targetScrollY),
+      behavior: 'smooth',
+    });
+  };
+
   // Tilt Card effects for each card - configurazioni ottimizzate per forma e dimensione
   const card1Effect = useTiltCard({ tiltFactor: 2.4, glareIntensity: 0.1 }); // Intensità mantenuta, solo dimensioni ridotte
   const card2Effect = useTiltCard({ tiltFactor: 2.4, glareIntensity: 0.1 }); // Intensità mantenuta, solo dimensioni ridotte
@@ -212,7 +230,17 @@ export default function KeyPoints() {
               onMouseMove={card4Effect.handleMouseMove}
               onMouseEnter={card4Effect.handleMouseEnter}
               onMouseLeave={card4Effect.handleMouseLeave}
-              className="w-1/2 h-[190px] sm:h-[220px] md:h-full bg-bg-card keypoint-border border-[0.5px] rounded-[20px] p-[20px] xl:p-[25px] 2xl:p-[30px] flex flex-col justify-between relative overflow-hidden keypoint-tilt-card"
+              onClick={scrollToServices}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  scrollToServices();
+                }
+              }}
+              tabIndex={0}
+              role="button"
+              aria-label="Vai alla sezione servizi"
+              className="w-1/2 h-[190px] sm:h-[220px] md:h-full bg-bg-card keypoint-border border-[0.5px] rounded-[20px] p-[20px] xl:p-[25px] 2xl:p-[30px] flex flex-col justify-between relative overflow-hidden keypoint-tilt-card cursor-pointer focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-black"
               style={{
                 willChange: 'transform',
                 transform: `perspective(1000px) rotateX(${card4Effect.tiltValues.x}deg) rotateY(${card4Effect.tiltValues.y}deg)`,

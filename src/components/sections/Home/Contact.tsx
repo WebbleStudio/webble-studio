@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { useApiCall, useTranslation } from '@/hooks';
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import AnimatedText from '@/components/ui/AnimatedText';
 
 interface FormData {
@@ -23,6 +24,7 @@ interface FormErrors {
 
 export default function Contact() {
   const { t } = useTranslation();
+  const { executeRecaptcha } = useGoogleReCaptcha();
   const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
@@ -114,16 +116,35 @@ export default function Contact() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (validateForm()) {
+    if (!validateForm()) {
+      return;
+    }
+
+    // Verifica che reCAPTCHA sia disponibile
+    if (!executeRecaptcha) {
+      console.error('reCAPTCHA non ancora disponibile');
+      return;
+    }
+
+    try {
+      // Genera il token reCAPTCHA
+      const recaptchaToken = await executeRecaptcha('contact_form');
+
+      // Invia il form con il token reCAPTCHA
       await submitForm(() =>
         fetch('/api/contact', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify(formData),
+          body: JSON.stringify({
+            ...formData,
+            recaptchaToken,
+          }),
         })
       );
+    } catch (error) {
+      console.error('Errore reCAPTCHA:', error);
     }
   };
 

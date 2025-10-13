@@ -299,17 +299,17 @@ export const projectAnimationVariants = {
     },
   },
 
-  // Ottimizzato con meno blur
+  // Ottimizzato SENZA BLUR per evitare problemi su Chromium/Brave
   h3: {
     initial: {
       opacity: 0,
       y: 12, // Ridotto da 15
-      filter: `blur(${ANIMATION_CONFIG.performance.maxBlur / 2}px)`, // Blur ridotto
+      scale: 0.97, // Scale invece di blur
     },
     animate: {
       opacity: 1,
       y: 0,
-      filter: 'blur(0px)',
+      scale: 1,
       transition: {
         duration: 0.4, // Ridotto da 0.5
         ease: ANIMATION_CONFIG.easing,
@@ -319,7 +319,7 @@ export const projectAnimationVariants = {
     exit: {
       opacity: 0,
       y: -8, // Ridotto da -10
-      filter: `blur(${ANIMATION_CONFIG.performance.maxBlur / 3}px)`,
+      scale: 0.98, // Scale invece di blur
       transition: {
         duration: 0.25, // Ridotto da 0.3
         ease: 'easeIn',

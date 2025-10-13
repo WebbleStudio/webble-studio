@@ -184,9 +184,9 @@ export const useAnimationManager = (): UseAnimationManagerReturn => {
     [animations]
   );
 
-  // Setup cleanup intervals
+  // Setup cleanup intervals - aumentato a 10s per ridurre overhead
   useEffect(() => {
-    cleanupIntervalRef.current = window.setInterval(cleanupAnimations, 5000); // Every 5s
+    cleanupIntervalRef.current = window.setInterval(cleanupAnimations, 10000); // Every 10s (ridotto da 5s)
 
     return () => {
       if (cleanupIntervalRef.current) {
@@ -195,11 +195,11 @@ export const useAnimationManager = (): UseAnimationManagerReturn => {
     };
   }, [cleanupAnimations]);
 
-  // Setup performance monitoring ridotto per performance
+  // Setup performance monitoring ridotto per performance - aumentato a 5s
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
-    const monitoringInterval = setInterval(checkPerformance, 3000); // Ridotto da 1s a 3s
+    const monitoringInterval = setInterval(checkPerformance, 5000); // Aumentato da 3s a 5s
 
     return () => {
       clearInterval(monitoringInterval);

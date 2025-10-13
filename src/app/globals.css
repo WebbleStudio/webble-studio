@@ -1,6 +1,9 @@
 /* Import performance optimizations */
 @import '../css/Performance.css';
 
+/* Import Lenis smooth scroll styles */
+@import '../css/LenisScroll.css';
+
 /* ========================================
    MOBILE FLICKER FIXES
    ======================================== */
@@ -207,6 +210,22 @@ body {
   transition:
     background-color 0.3s ease,
     color 0.3s ease;
+  /* Fix font rendering per Chromium/Brave */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Fix globale per tutti i testi - previene blur residuo dopo animazioni */
+h1, h2, h3, h4, h5, h6, p, span, div, a, button, label {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Forza rimozione blur per elementi animati dopo il completamento */
+[data-animation-complete="true"] {
+  filter: none !important;
+  will-change: auto !important;
 }
 
 /* Nascondi badge reCAPTCHA */

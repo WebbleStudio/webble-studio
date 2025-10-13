@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
+import type React from 'react';
 
 export function useServiceCategoryAnimation() {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -115,9 +116,14 @@ export function useServiceCategoryAnimation() {
       ease: [0.25, 0.46, 0.45, 0.94] as const,
     },
     style: {
-      willChange: 'transform, opacity', // GPU optimization
-      transformOrigin: 'left', // Aggiunto per risolvere conflitto
-    },
+      willChange: 'transform, opacity' as const,
+      transformOrigin: 'left' as const,
+      WebkitFontSmoothing: 'antialiased' as const,
+      MozOsxFontSmoothing: 'grayscale' as const,
+      backfaceVisibility: 'hidden' as const,
+      WebkitBackfaceVisibility: 'hidden' as const,
+      transform: 'translateZ(0)' as const,
+    } as React.CSSProperties,
   };
 
   const containerAnimationProps = {
@@ -143,28 +149,42 @@ export function useServiceCategoryAnimation() {
     animate: {
       y: isExpanded ? 0 : -15,
       opacity: isExpanded ? 1 : 0,
-      filter: isExpanded ? 'blur(0px)' : 'blur(8px)',
+      scale: isExpanded ? 1 : 0.98, // Scale invece di blur per evitare problemi su Chromium/Brave
     },
     transition: {
       delay: isExpanded ? 0.1 : 0,
       duration: 0.4,
       ease: [0.25, 0.46, 0.45, 0.94] as const,
     },
-    style: { willChange: 'transform, opacity, filter' }, // GPU optimization
+    style: { 
+      willChange: 'transform, opacity' as const,
+      WebkitFontSmoothing: 'antialiased' as const,
+      MozOsxFontSmoothing: 'grayscale' as const,
+      backfaceVisibility: 'hidden' as const,
+      WebkitBackfaceVisibility: 'hidden' as const,
+      transform: 'translateZ(0)' as const,
+    } as React.CSSProperties,
   };
 
   const paragraphAnimationProps = {
     animate: {
       y: isExpanded ? 0 : -15,
       opacity: isExpanded ? 0.6 : 0,
-      filter: isExpanded ? 'blur(0px)' : 'blur(8px)',
+      scale: isExpanded ? 1 : 0.98, // Scale invece di blur per evitare problemi su Chromium/Brave
     },
     transition: {
       delay: isExpanded ? 0.2 : 0.1,
       duration: 0.4,
       ease: [0.25, 0.46, 0.45, 0.94] as const,
     },
-    style: { willChange: 'transform, opacity, filter' }, // GPU optimization
+    style: { 
+      willChange: 'transform, opacity' as const,
+      WebkitFontSmoothing: 'antialiased' as const,
+      MozOsxFontSmoothing: 'grayscale' as const,
+      backfaceVisibility: 'hidden' as const,
+      WebkitBackfaceVisibility: 'hidden' as const,
+      transform: 'translateZ(0)' as const,
+    } as React.CSSProperties,
   };
 
   const rectanglesAnimationProps = {

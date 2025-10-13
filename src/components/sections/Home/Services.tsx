@@ -11,7 +11,7 @@ export default function Services() {
   const { getProjectsForCategory } = useServiceImages();
 
   return (
-    <section className="section-scroll h-auto w-full flex items-start mt-0 py-[75px]">
+    <section id="services-section" className="section-scroll h-auto w-full flex items-start mt-0 py-[75px]">
       <div className="w-full flex flex-col">
         <ServiceCategory
           number={t('services.service01.number')}

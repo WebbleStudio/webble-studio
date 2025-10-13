@@ -56,7 +56,8 @@ export const useHeroProjects = () => {
 
           return jsonData || [];
         },
-        5 * 60 * 1000 // Cache per 5 minuti
+        undefined, // TTL default
+        true // isAdmin = true per cache di 30 minuti
       );
 
       setHeroProjects(data);

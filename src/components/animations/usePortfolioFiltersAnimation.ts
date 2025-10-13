@@ -1,4 +1,5 @@
 import { useState, useCallback } from 'react';
+import type React from 'react';
 
 export function usePortfolioFiltersAnimation() {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -24,20 +25,18 @@ export function usePortfolioFiltersAnimation() {
     },
   };
 
-  // Animation properties per i singoli filtri con stagger effect
+  // Animation properties per i singoli filtri con stagger effect - SENZA BLUR per Chromium/Brave
   const getFilterAnimationProps = (index: number) => ({
     animate: {
       y: isExpanded ? 0 : 20,
       opacity: isExpanded ? 1 : 0,
-      scale: isExpanded ? 1 : 0.95,
-      filter: isExpanded ? 'blur(0px)' : 'blur(4px)',
+      scale: isExpanded ? 1 : 0.92, // Scale più pronunciato invece di blur
     },
     transition: {
       delay: isExpanded ? index * 0.08 : 0, // Stagger delay crescente
       duration: 0.5,
       ease: [0.34, 1.56, 0.64, 1] as const, // Elastic easing
       scale: { duration: 0.4 },
-      filter: { duration: 0.3 },
     },
     whileHover: {
       scale: 1.02,
@@ -55,8 +54,13 @@ export function usePortfolioFiltersAnimation() {
       },
     },
     style: {
-      willChange: 'transform, opacity, filter',
-    },
+      willChange: 'transform, opacity' as const,
+      WebkitFontSmoothing: 'antialiased' as const,
+      MozOsxFontSmoothing: 'grayscale' as const,
+      backfaceVisibility: 'hidden' as const,
+      WebkitBackfaceVisibility: 'hidden' as const,
+      transform: 'translateZ(0)' as const,
+    } as React.CSSProperties,
   });
 
   // Animation properties per il button con rotazione dell'icona

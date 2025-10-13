@@ -230,7 +230,7 @@ export default function ChiSiamoHero() {
               className="absolute inset-0"
               animate={{
                 scale: expandedPerson === 'vadim' ? 1.05 : 1,
-                filter: expandedPerson === 'vadim' ? 'blur(4px)' : 'blur(0px)',
+                opacity: expandedPerson === 'vadim' ? 0.7 : 1, // Opacity invece di blur per evitare problemi su Chromium/Brave
               }}
               transition={{
                 duration: 0.8,
@@ -346,7 +346,7 @@ export default function ChiSiamoHero() {
               className="absolute inset-0"
               animate={{
                 scale: expandedPerson === 'gabriele' ? 1.05 : 1,
-                filter: expandedPerson === 'gabriele' ? 'blur(4px)' : 'blur(0px)',
+                opacity: expandedPerson === 'gabriele' ? 0.7 : 1, // Opacity invece di blur per evitare problemi su Chromium/Brave
               }}
               transition={{
                 duration: 0.8,

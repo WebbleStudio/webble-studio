@@ -47,7 +47,7 @@ export default function ServiceCategory({
   } = useServiceCategoryAnimation();
 
   return (
-    <div className={`flex flex-col items-start ${className}`}>
+    <div id={categorySlug ? `service-${categorySlug}` : undefined} className={`flex flex-col items-start ${className}`}>
       {/* Header section - always visible */}
       <div className="w-full flex flex-col gap-4">
         <div className="w-full h-[1px] bg-line-fixed"></div>

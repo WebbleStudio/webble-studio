@@ -17,7 +17,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { name, email, phone, message, privacyConsent, marketingConsent } = body;
+    const { name, email, phone, message, privacyConsent, marketingConsent, recaptchaToken } = body;
 
     // Validation
     if (!name || !email || !message || !privacyConsent) {
@@ -30,6 +30,55 @@ export async function POST(request: NextRequest) {
     if (!isValidEmail(email)) {
       throw new ApplicationError(ErrorCode.VALIDATION_ERROR, 'Formato email non valido');
     }
+
+    // Validazione reCAPTCHA v3
+    if (!recaptchaToken) {
+      throw new ApplicationError(
+        ErrorCode.VALIDATION_ERROR,
+        'Token reCAPTCHA mancante'
+      );
+    }
+
+    // Verifica il token reCAPTCHA con Google
+    const recaptchaSecret = process.env.RECAPTCHA_SECRET_KEY;
+    if (!recaptchaSecret) {
+      console.error('RECAPTCHA_SECRET_KEY non configurata');
+      throw new ApplicationError(
+        ErrorCode.VALIDATION_ERROR,
+        'Configurazione reCAPTCHA mancante'
+      );
+    }
+
+    const recaptchaResponse = await fetch(
+      `https://www.google.com/recaptcha/api/siteverify`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: `secret=${recaptchaSecret}&response=${recaptchaToken}`,
+      }
+    );
+
+    const recaptchaData = await recaptchaResponse.json();
+
+    // Verifica che il punteggio sia sufficiente (0.5 è il threshold consigliato)
+    if (!recaptchaData.success || recaptchaData.score < 0.5) {
+      console.warn('reCAPTCHA fallita:', {
+        success: recaptchaData.success,
+        score: recaptchaData.score,
+        action: recaptchaData.action,
+      });
+      throw new ApplicationError(
+        ErrorCode.VALIDATION_ERROR,
+        'Verifica reCAPTCHA fallita. Per favore riprova.'
+      );
+    }
+
+    console.log('✅ reCAPTCHA verificata con successo:', {
+      score: recaptchaData.score,
+      action: recaptchaData.action,
+    });
 
     const contactData = {
       name: sanitizeInput(name),
