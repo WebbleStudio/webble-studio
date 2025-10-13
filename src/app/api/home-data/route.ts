@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabaseClient';
 
+// ISR Configuration: Revalidate ogni ora
+export const revalidate = 3600;
+export const runtime = 'edge';
+
 // GET: Endpoint aggregato per la home - ritorna tutti i dati in una chiamata
 export async function GET(request: NextRequest) {
   try {
@@ -73,7 +77,9 @@ export async function GET(request: NextRequest) {
     //   serviceCategories: enrichedServiceCategories.length,
     // });
 
-    // Cache Edge ottimizzata per Vercel - DISABILITATA per evitare problemi di cache
+    // Cache Edge ottimizzata per Vercel
+    // s-maxage: Cache lato Edge/CDN per 1 ora (3600s)
+    // stale-while-revalidate: Serve cache stale mentre rivalidata per 1 giorno (86400s)
     const cacheHeaders: Record<string, string> = forceRefresh
       ? {
           'Cache-Control': 'no-cache, no-store, must-revalidate',
@@ -83,10 +89,10 @@ export async function GET(request: NextRequest) {
           'Vercel-CDN-Cache-Control': 'no-cache',
         }
       : {
-          // Usa solo cache client-side (localStorage) per evitare problemi con revalidation
-          'Cache-Control': 'public, max-age=0, must-revalidate',
-          'CDN-Cache-Control': 'no-cache',
-          'Vercel-CDN-Cache-Control': 'no-cache',
+          // Browser: 5 min, Edge: 1 ora, rivalidazione in background per 1 giorno
+          'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400',
+          'CDN-Cache-Control': 'public, s-maxage=3600',
+          'Vercel-CDN-Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400',
         };
 
     return NextResponse.json(homeData, {

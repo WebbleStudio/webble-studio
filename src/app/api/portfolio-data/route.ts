@@ -1,6 +1,10 @@
 import { NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabaseClient';
 
+// ISR Configuration: Revalidate ogni ora
+export const revalidate = 3600;
+export const runtime = 'edge';
+
 // GET: Endpoint aggregato per portfolio - ritorna solo i progetti
 export async function GET() {
   try {
@@ -30,13 +34,12 @@ export async function GET() {
       projects: projects?.length || 0,
     });
 
-    // Cache Edge DISABILITATA per evitare problemi con revalidation
-    // Usa solo cache client-side (localStorage)
+    // Cache Edge ottimizzata: 1 ora cache, rivalidazione in background per 1 giorno
     return NextResponse.json(portfolioData, {
       headers: {
-        'Cache-Control': 'public, max-age=0, must-revalidate',
-        'CDN-Cache-Control': 'no-cache',
-        'Vercel-CDN-Cache-Control': 'no-cache',
+        'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400',
+        'CDN-Cache-Control': 'public, s-maxage=3600',
+        'Vercel-CDN-Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400',
       },
     });
   } catch (error) {
