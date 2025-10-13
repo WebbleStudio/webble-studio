@@ -9,7 +9,7 @@ import HomeContent from '@/components/sections/Home/HomeContent';
 // Force Node.js runtime (non Edge)
 export const runtime = 'nodejs';
 export const dynamic = 'force-static';
-export const revalidate = 3600; // ISR: revalidate ogni ora
+export const revalidate = 43200; // ISR: revalidate ogni 12 ore (43200s)
 
 export default async function Home() {
   // Server Action: fetch dati direttamente dal database
