@@ -6,7 +6,8 @@ import Filter from '@/components/ui/Filter';
 import FilterButton from '@/components/ui/FilterButton';
 import Project from '@/components/ui/Project';
 import { usePortfolioFiltersAnimation, usePortfolioProjectsAnimation } from '@/hooks';
-import { usePortfolioData, useProjectTranslation } from '@/hooks';
+import { useProjectTranslation } from '@/hooks';
+import type { Project as ProjectType } from '@/lib/serverActions';
 
 const baseMainFilters = ['All', 'Web Design'];
 const smResponsiveFilter = 'Branding';
@@ -14,7 +15,7 @@ const mdResponsiveFilter = 'Project Management';
 const remainingFilters = ['UI/UX', 'Social Media'];
 
 interface PortfolioProjectsProps {
-  // Rimosso layoutMode - ora completamente responsivo
+  projects: ProjectType[];
 }
 
 // Componente Scheletro
@@ -44,7 +45,7 @@ const ProjectSkeleton = ({ className = '' }: { className?: string }) => (
   </div>
 );
 
-export default function PortfolioProjects() {
+export default function PortfolioProjects({ projects }: PortfolioProjectsProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [activeFilters, setActiveFilters] = useState<string[]>(['All']);
 
@@ -65,7 +66,6 @@ export default function PortfolioProjects() {
     emptyStateAnimationProps,
   } = usePortfolioProjectsAnimation();
 
-  const { projects, loading, error } = usePortfolioData();
   const { getTranslatedTitle, getTranslatedDescription, currentLanguage } = useProjectTranslation();
 
   // I dati vengono caricati automaticamente dall'hook e/o da sessionStorage
@@ -469,25 +469,8 @@ export default function PortfolioProjects() {
 
         {/* Layout Preview */}
         <div className="w-full">
-          {/* Loading State */}
-          {loading && (
-            <div className="flex items-center justify-center py-12">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#F20352]"></div>
-              <span className="ml-3 text-text-primary-60">Caricamento progetti...</span>
-            </div>
-          )}
-
-          {/* Error State */}
-          {error && (
-            <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4 mb-6">
-              <p className="text-red-700 dark:text-red-200 text-center">
-                Errore nel caricamento dei progetti: {error}
-              </p>
-            </div>
-          )}
-
           {/* Content */}
-          {!loading && !error && (
+          {projects && projects.length > 0 && (
             <AnimatePresence mode="wait" key={`${animationKey}`}>
               <motion.div
                 key={`${animationKey}`}

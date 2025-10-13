@@ -16,7 +16,8 @@ interface OptimizedImageProps {
 
 /**
  * Optimized image component that wraps next/image with sensible defaults
- * Provides automatic optimization, lazy loading, and proper sizing
+ * Provides automatic optimization and proper sizing
+ * Loading eager di default per evitare lag nel portfolio
  */
 export default function OptimizedImage({
   src,
@@ -28,10 +29,10 @@ export default function OptimizedImage({
   fill = false,
   sizes,
   quality = 85,
-  loading,
+  loading = 'eager', // Default eager per evitare lag
 }: OptimizedImageProps) {
-  // Determina loading strategy: se priority=true, non usare loading='lazy'
-  const loadingStrategy = priority ? undefined : loading || 'lazy';
+  // Determina loading strategy: se priority=true o loading=eager, carica immediatamente
+  const loadingStrategy = priority ? undefined : loading;
 
   if (fill) {
     return (

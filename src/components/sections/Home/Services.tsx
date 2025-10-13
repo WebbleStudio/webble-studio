@@ -1,14 +1,24 @@
 'use client';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import ServiceCategory from '@/components/ui/ServiceCategory';
 import { useTranslation } from '@/hooks';
-import { useServiceImages } from '@/hooks';
+import type { EnrichedServiceCategory } from '@/lib/serverActions';
 
-export default function Services() {
+interface ServicesProps {
+  serviceCategories: EnrichedServiceCategory[];
+}
+
+export default function Services({ serviceCategories }: ServicesProps) {
   const { t } = useTranslation();
-  // Chiamata unica a useServiceImages per tutti i ServiceCategory
-  const { getProjectsForCategory } = useServiceImages();
+  
+  // Helper per ottenere progetti per categoria
+  const getProjectsForCategory = useMemo(() => {
+    return (categorySlug: string) => {
+      const category = serviceCategories.find((cat) => cat.slug === categorySlug);
+      return category?.projects || [];
+    };
+  }, [serviceCategories]);
 
   return (
     <section id="services-section" className="section-scroll h-auto w-full flex items-start mt-0 py-[75px]">

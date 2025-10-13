@@ -5,7 +5,7 @@ import ClientLayout from './ClientLayout';
 import GoogleAnalytics from '@/components/analytics/GoogleAnalytics';
 import PerformanceOptimizer from '@/components/analytics/PerformanceOptimizer';
 import StructuredData from '@/components/seo/StructuredData';
-import LenisScroll from '@/components/ui/LenisScroll';
+import LenisProvider from '@/components/ui/LenisProvider';
 import ReCaptchaProvider from '@/components/ui/ReCaptchaProvider';
 
 // Build absolute base URL from env for all environments (prod/preview/local)
@@ -165,7 +165,7 @@ export default function RootLayout({
         <StructuredData type="Organization" />
         <StructuredData type="WebSite" />
         <GoogleAnalytics />
-        <LenisScroll />
+        <LenisProvider />
         <ReCaptchaProvider>
           <PerformanceOptimizer>
             <ClientLayout>{children}</ClientLayout>

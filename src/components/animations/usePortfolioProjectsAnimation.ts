@@ -15,24 +15,23 @@ export function usePortfolioProjectsAnimation() {
     }, 100);
   }, []);
 
-  // Animation properties per il container dei progetti
+  // Animation properties DISABILITATE - nessuna animazione container
   const containerAnimationProps = {
     key: animationKey,
-    initial: { opacity: 0 },
+    initial: { opacity: 1 }, // Sempre visibile
     animate: { opacity: 1 },
-    exit: { opacity: 0 },
+    exit: { opacity: 1 },
     transition: {
-      duration: 0.3,
-      ease: [0.25, 0.46, 0.45, 0.94] as const,
+      duration: 0, // Nessuna transizione
     },
   };
 
-  // Animation properties per i singoli progetti con stagger effect ottimizzato
+  // Animation properties DISABILITATE - nessuna animazione per evitare lag
   const getProjectAnimationProps = (index: number) => ({
     initial: {
-      opacity: 0,
-      y: 15,
-      scale: 0.98,
+      opacity: 1, // Sempre visibile
+      y: 0,
+      scale: 1,
     },
     animate: {
       opacity: 1,
@@ -40,30 +39,24 @@ export function usePortfolioProjectsAnimation() {
       scale: 1,
     },
     exit: {
-      opacity: 0,
-      y: -5,
-      scale: 0.98,
+      opacity: 1, // Nessuna exit animation
+      y: 0,
+      scale: 1,
     },
     transition: {
-      duration: 0.3,
-      delay: index * 0.05, // Stagger delay ridotto
-      ease: [0.25, 0.46, 0.45, 0.94] as const,
+      duration: 0, // Nessuna transizione
+      delay: 0, // Nessun delay
     },
-    layout: false, // Disabilitato per performance
+    layout: false,
   });
 
-  // Animation properties per layout XL semplificato
+  // Animation properties DISABILITATE - nessuna animazione per evitare lag
   const getXLProjectAnimationProps = (rowIndex: number, positionIndex: number) => {
-    // Calcola delay basato sulla posizione nella griglia semplificata
-    const baseDelay = rowIndex * 0.1; // Delay per riga ridotto
-    const positionDelay = positionIndex * 0.03; // Delay per posizione ridotto
-    const totalDelay = baseDelay + positionDelay;
-
     return {
       initial: {
-        opacity: 0,
-        y: 20,
-        scale: 0.95,
+        opacity: 1, // Sempre visibile
+        y: 0,
+        scale: 1,
       },
       animate: {
         opacity: 1,
@@ -71,16 +64,15 @@ export function usePortfolioProjectsAnimation() {
         scale: 1,
       },
       exit: {
-        opacity: 0,
-        y: -10,
-        scale: 0.95,
+        opacity: 1, // Nessuna exit animation
+        y: 0,
+        scale: 1,
       },
       transition: {
-        duration: 0.3,
-        delay: totalDelay,
-        ease: [0.25, 0.46, 0.45, 0.94] as const, // Easing semplificato
+        duration: 0, // Nessuna transizione
+        delay: 0, // Nessun delay
       },
-      layout: false, // Disabilitato per performance
+      layout: false,
     };
   };
 

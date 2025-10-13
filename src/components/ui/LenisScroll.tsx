@@ -3,10 +3,20 @@
 import { useEffect, useRef } from 'react';
 import Lenis from 'lenis';
 
-export default function LenisScroll() {
+interface LenisScrollProps {
+  disabled?: boolean;
+}
+
+export default function LenisScroll({ disabled = false }: LenisScrollProps) {
   const lenisRef = useRef<Lenis | null>(null);
 
   useEffect(() => {
+    // Se disabilitato esplicitamente, non inizializzare
+    if (disabled) {
+      console.log('🚫 Lenis: Disabled by prop');
+      return;
+    }
+
     // Rileva se è un dispositivo touch
     const isTouchDevice = () => {
       return (
@@ -22,9 +32,15 @@ export default function LenisScroll() {
       return window.innerWidth < 768; // breakpoint MD di Tailwind
     };
 
-    // Non inizializzare Lenis su mobile o touch devices
-    if (isTouchDevice() || isMobile()) {
-      console.log('🚫 Lenis: Disabled on mobile/touch devices');
+    // Rileva se siamo in admin o portfolio
+    const isAdminOrPortfolio = () => {
+      const path = window.location.pathname;
+      return path.startsWith('/admin') || path.startsWith('/portfolio');
+    };
+
+    // Non inizializzare Lenis su mobile, touch devices, admin o portfolio
+    if (isTouchDevice() || isMobile() || isAdminOrPortfolio()) {
+      console.log('🚫 Lenis: Disabled on mobile/touch/admin/portfolio');
       return;
     }
 
@@ -54,13 +70,13 @@ export default function LenisScroll() {
 
     requestAnimationFrame(raf);
 
-    // Gestione resize per disabilitare Lenis se si passa a mobile
+    // Gestione resize per disabilitare Lenis se si passa a mobile/admin/portfolio
     const handleResize = () => {
-      if (isMobile() && lenisRef.current) {
-        console.log('🚫 Lenis: Destroying on resize to mobile');
+      if ((isMobile() || isAdminOrPortfolio()) && lenisRef.current) {
+        console.log('🚫 Lenis: Destroying on resize to mobile/admin/portfolio');
         lenisRef.current.destroy();
         lenisRef.current = null;
-      } else if (!isMobile() && !lenisRef.current && !isTouchDevice()) {
+      } else if (!isMobile() && !isAdminOrPortfolio() && !lenisRef.current && !isTouchDevice()) {
         console.log('✅ Lenis: Re-initializing on resize to desktop');
         // Re-inizializza Lenis se si torna a desktop
         window.location.reload(); // Reload per semplicità
@@ -78,7 +94,7 @@ export default function LenisScroll() {
         document.documentElement.classList.remove('lenis');
       }
     };
-  }, []);
+  }, [disabled]);
 
   return null; // Questo componente non renderizza nulla
 }
