@@ -5,7 +5,7 @@ import AdminHeader from '@/components/layout/AdminHeader';
 import Footer from '@/components/layout/Footer';
 import CookieBanner from '@/components/ui/CookieBanner';
 import CookieManagerButton from '@/components/ui/CookieManagerButton';
-import ApiDebugger from '@/components/debug/ApiDebugger';
+import UnifiedDebugger from '@/components/debug/UnifiedDebugger';
 import { useDarkMode, useCookieConsent, useCookieManager, usePageTracking } from '@/hooks';
 import { usePathname } from 'next/navigation';
 import { HeaderProvider, useHeader } from '@/contexts/HeaderContext';
@@ -77,8 +77,8 @@ function ClientLayoutContent({ children }: { children: React.ReactNode }) {
       {/* Cookie Manager Button - mostra su tutte le pagine */}
       <CookieManagerButton onOpenManager={openManager} />
 
-      {/* API Debugger - solo in development */}
-      {isDevelopment && <ApiDebugger />}
+      {/* Unified Debugger - solo in development */}
+      {isDevelopment && <UnifiedDebugger />}
     </>
   );
 }

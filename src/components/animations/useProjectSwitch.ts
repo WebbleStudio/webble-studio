@@ -18,6 +18,9 @@ export interface ProjectSlide {
   id: string;
   description: string;
   image: string;
+  // Traduzioni per le descrizioni
+  originalDescription?: string;
+  translatedDescription?: string;
 }
 
 export interface SingleProjectData {
@@ -27,6 +30,13 @@ export interface SingleProjectData {
   labels: string[];
   date: string;
   slides: ProjectSlide[];
+  // Dati originali del progetto per le traduzioni
+  originalProject?: {
+    title: string;
+    title_en?: string;
+    description: string;
+    description_en?: string;
+  };
 }
 
 export const useProjectSwitch = (projects: ProjectData[]) => {

@@ -6,6 +6,7 @@ export interface HeroProject {
   project_id: string;
   position: number;
   descriptions: string[];
+  descriptions_en: string[]; // Aggiungi traduzioni inglesi
   images: string[];
   background_image: string;
   project_date?: string;
@@ -26,6 +27,7 @@ export interface HeroProject {
 export interface HeroProjectConfig {
   projectId: string;
   descriptions: string[];
+  descriptions_en: string[]; // Aggiungi traduzioni inglesi
   images: string[];
   backgroundImage: string;
   projectDate?: string;

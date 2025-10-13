@@ -68,14 +68,20 @@ export function useProjects() {
         // Aggiorna lo stato locale immediatamente per UI responsiva
         setProjects(reorderedProjects);
 
-        // Invia nuovo ordine al server
-        const response = await fetch('/api/projects/reorder', {
-          method: 'PUT',
+        // Invia nuovo ordine al server tramite save-all
+        const response = await fetch('/api/projects/save-all', {
+          method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            projectIds: reorderedProjects.map((p) => p.id),
+            newProjects: [],
+            updates: [],
+            deletes: [],
+            reorder: reorderedProjects.map((p, index) => ({
+              id: p.id,
+              order_position: index,
+            })),
           }),
         });
 

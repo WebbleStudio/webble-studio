@@ -38,7 +38,7 @@ export function useHomeData() {
   const [error, setError] = useState<string | null>(null);
 
   const STORAGE_KEY = 'home-data-cache';
-  const STORAGE_TTL_MS = PERFORMANCE_CONFIG.CACHE_TTL_MS;
+  const STORAGE_TTL_MS = PERFORMANCE_CONFIG.CACHE_TTL_MS; // 3 giorni
 
   // Fetch tutti i dati home in una chiamata - con cache 3 giorni
   const fetchHomeData = useCallback(async (forceRefresh = false) => {
@@ -64,14 +64,14 @@ export function useHomeData() {
 
       setHomeData(data);
 
-      // Persist to sessionStorage for future navigations within tab
+      // Persist to localStorage (3 giorni)
       if (typeof window !== 'undefined') {
         try {
           const payload = {
             timestamp: Date.now(),
             data,
           };
-          sessionStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
         } catch {
           // Ignore storage errors (quota/disabled)
         }
@@ -87,10 +87,10 @@ export function useHomeData() {
 
   // Carica i dati automaticamente al mount - solo una volta
   useEffect(() => {
-    // Try sessionStorage first to avoid edge requests
+    // Try localStorage first to avoid edge requests
     if (typeof window !== 'undefined' && !window.location.search.includes('_t=')) {
       try {
-        const raw = sessionStorage.getItem(STORAGE_KEY);
+        const raw = localStorage.getItem(STORAGE_KEY);
         if (raw) {
           const parsed = JSON.parse(raw) as { timestamp: number; data: HomeData };
           const isFresh = Date.now() - parsed.timestamp < STORAGE_TTL_MS;

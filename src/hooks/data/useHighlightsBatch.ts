@@ -4,6 +4,7 @@ interface HighlightUpdate {
   id: string;
   project_id?: string;
   descriptions?: string[];
+  descriptions_en?: string[];
   images?: string[];
   background_image?: string;
   project_date?: string;

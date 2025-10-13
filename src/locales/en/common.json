@@ -299,6 +299,8 @@
       "no_projects_selected": "No projects selected",
       "descriptions_slides": "Descriptions and Slides",
       "slide": "Slide",
+      "slide_description_placeholder": "Slide {number} description",
+      "slide_description_placeholder_en": "Slide {number} description",
       "background_container": "Background Container",
       "upload_background": "Upload Background",
       "project_date": "Project Date",

@@ -299,6 +299,8 @@
       "no_projects_selected": "Nessun progetto selezionato",
       "descriptions_slides": "Descrizioni e Slide",
       "slide": "Slide",
+      "slide_description_placeholder": "Descrizione slide {number}",
+      "slide_description_placeholder_en": "Slide {number} description",
       "background_container": "Container Sfondo",
       "upload_background": "Carica Sfondo",
       "project_date": "Data Progetto",

@@ -228,6 +228,7 @@ export default function AdminPage() {
   const [localConfigs, setLocalConfigs] = useState<{
     [projectId: string]: {
       descriptions: string[];
+      descriptions_en: string[]; // Aggiungi traduzioni inglesi
       images: string[];
       backgroundImage: string;
       projectDate: string;
@@ -270,6 +271,7 @@ export default function AdminPage() {
     (acc, hp) => {
       acc[hp.project_id] = {
         descriptions: hp.descriptions,
+        descriptions_en: hp.descriptions_en || ['', '', ''],
         images: hp.images,
         backgroundImage: hp.background_image,
         projectDate: hp.project_date || '',
@@ -279,6 +281,7 @@ export default function AdminPage() {
     {} as {
       [projectId: string]: {
         descriptions: string[];
+        descriptions_en: string[];
         images: string[];
         backgroundImage: string;
         projectDate: string;
@@ -370,7 +373,7 @@ export default function AdminPage() {
     projects,
     localProjectsState.hasChanges,
     hasBatchChanges,
-    localProjectsState.projects.length,
+    // Rimosso localProjectsState.projects.length per evitare loop infinito
   ]);
 
   const handleDrag = (e: React.DragEvent) => {
@@ -504,99 +507,8 @@ export default function AdminPage() {
     setEditingProject(null);
   }, []);
 
-  // Salva tutti i progetti locali su Supabase
-  const saveAllLocalProjects = async () => {
-    if (newProjects.length === 0) return;
-
-    try {
-      // Carica prima tutte le immagini nel bucket
-      const projectsWithUploadedImages = await Promise.all(
-        newProjects.map(async (project) => {
-          // Verifica che image_url esista e non sia undefined
-          if (!project.image_url) {
-            console.error('Project missing image_url:', project.title);
-            throw new Error(`Project "${project.title}" has no image`);
-          }
-
-          // Se l'image_url è un base64, caricalo nel bucket
-          if (project.image_url.startsWith('data:image/')) {
-            try {
-              // Converti base64 in File
-              const response = await fetch(project.image_url);
-              const blob = await response.blob();
-              const file = new File([blob], `project-${Date.now()}.jpg`, { type: 'image/jpeg' });
-
-              // Upload dell'immagine
-              const formData = new FormData();
-              formData.append('file', file);
-
-              const uploadResponse = await fetch('/api/projects/upload-image', {
-                method: 'POST',
-                body: formData,
-              });
-
-              if (!uploadResponse.ok) {
-                throw new Error('Failed to upload image');
-              }
-
-              const uploadData = await uploadResponse.json();
-
-              return {
-                title: project.title,
-                title_en: project.title_en,
-                categories: project.categories,
-                description: project.description,
-                description_en: project.description_en,
-                link: project.link,
-                image_url: uploadData.url,
-                order_position: project.order_position,
-              };
-            } catch (uploadError) {
-              console.error('Error uploading image for project:', project.title, uploadError);
-              throw uploadError;
-            }
-          } else {
-            // Se è già un URL, usalo così com'è
-            return {
-              title: project.title,
-              categories: project.categories,
-              description: project.description,
-              link: project.link,
-              image_url: project.image_url,
-              order_position: project.order_position,
-            };
-          }
-        })
-      );
-
-      // Inserisci tutti i progetti in batch
-      const response = await fetch('/api/projects/batch', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ projects: projectsWithUploadedImages }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to save projects');
-      }
-
-      // Invalida la cache dei progetti
-      apiCache.invalidate(cacheKeys.projects());
-      apiCache.invalidate(cacheKeys.homeData());
-      apiCache.invalidate(cacheKeys.portfolioData());
-
-      // Svuota la lista dei progetti locali
-      setNewProjects([]);
-
-      // NON fare fetch qui - verrà fatto dal chiamante per evitare doppi fetch
-      console.log('All local projects saved successfully');
-    } catch (error) {
-      console.error('Failed to save local projects:', error);
-      setError('Errore nel salvare i progetti locali');
-    }
-  };
+  // NOTA: saveAllLocalProjects è stato rimosso
+  // Ora tutti i progetti vengono gestiti tramite save-all API
 
   // Salva tutte le modifiche ai progetti esistenti
   const saveAllProjectChanges = async () => {
@@ -660,6 +572,7 @@ export default function AdminPage() {
       heroProjects.forEach((hp) => {
         newLocalConfigs[hp.project_id] = {
           descriptions: [...hp.descriptions],
+          descriptions_en: [...(hp.descriptions_en || ['', '', ''])], // Inizializza traduzioni
           images: [...hp.images],
           backgroundImage: hp.background_image,
           projectDate: hp.project_date || '',
@@ -668,7 +581,7 @@ export default function AdminPage() {
       });
       setLocalConfigs(newLocalConfigs);
     }
-  }, [heroProjects, hasHighlightsBatchChanges, localConfigs]);
+  }, [heroProjects, hasHighlightsBatchChanges]);
 
   // Gestione Highlights
   const handleHighlightSelection = async (projectId: string) => {
@@ -683,6 +596,7 @@ export default function AdminPage() {
             return {
               projectId: id,
               descriptions: config.descriptions,
+              descriptions_en: config.descriptions_en,
               images: config.images,
               backgroundImage: config.backgroundImage,
             };
@@ -695,6 +609,7 @@ export default function AdminPage() {
           const newConfig: HeroProjectConfig = {
             projectId,
             descriptions: ['', '', ''], // 3 descrizioni per 3 slide
+            descriptions_en: ['', '', ''], // 3 traduzioni per 3 slide
             images: [project.image_url], // Inizia con l'immagine principale
             backgroundImage: project.image_url, // Usa l'immagine principale come sfondo di default
             projectDate: '', // Data vuota di default
@@ -705,6 +620,7 @@ export default function AdminPage() {
             return {
               projectId: id,
               descriptions: config.descriptions,
+              descriptions_en: config.descriptions_en,
               images: config.images,
               backgroundImage: config.backgroundImage,
               projectDate: config.projectDate,
@@ -718,6 +634,7 @@ export default function AdminPage() {
             ...prev,
             [projectId]: {
               descriptions: newConfig.descriptions,
+              descriptions_en: newConfig.descriptions_en,
               images: newConfig.images,
               backgroundImage: newConfig.backgroundImage,
               projectDate: newConfig.projectDate || '',
@@ -734,7 +651,7 @@ export default function AdminPage() {
   // Aggiorna le configurazioni locali (senza salvare)
   const updateLocalConfig = (
     projectId: string,
-    field: 'descriptions' | 'images' | 'backgroundImage' | 'projectDate',
+    field: 'descriptions' | 'descriptions_en' | 'images' | 'backgroundImage' | 'projectDate',
     value: any
   ) => {
     setLocalConfigs((prev) => {
@@ -742,6 +659,7 @@ export default function AdminPage() {
       const currentConfig = prev[projectId] ||
         highlightConfigs[projectId] || {
           descriptions: ['', '', ''],
+          descriptions_en: ['', '', ''],
           images: [],
           backgroundImage: '',
           projectDate: '',
@@ -761,6 +679,7 @@ export default function AdminPage() {
           id: heroProject.id,
           project_id: projectId,
           descriptions: updatedConfig.descriptions,
+          descriptions_en: updatedConfig.descriptions_en,
           images: updatedConfig.images,
           background_image: updatedConfig.backgroundImage,
           project_date: updatedConfig.projectDate,
@@ -1065,15 +984,7 @@ export default function AdminPage() {
         setInternalImageFile(null);
         setInternalImagePreview(null);
       }
-    }, [
-      editingProject?.id,
-      editingProject?.title,
-      editingProject?.title_en,
-      editingProject?.description,
-      editingProject?.description_en,
-      editingProject?.categories,
-      editingProject?.link,
-    ]); // Dipendenze specifiche
+    }, [editingProject?.id]); // Solo ID per evitare loop infiniti
 
     // Funzioni interne al modale
     const handleInternalCategoryToggle = (category: string) => {
@@ -1113,22 +1024,13 @@ export default function AdminPage() {
           updates.link = internalFormData.link;
         }
 
-        // Se c'è una nuova immagine, la carica prima
+        // Se c'è una nuova immagine, la converte in base64 per save-all
         if (internalImageFile) {
-          const formData = new FormData();
-          formData.append('file', internalImageFile);
-
-          const imageResponse = await fetch('/api/projects/upload-image', {
-            method: 'POST',
-            body: formData,
-          });
-
-          if (!imageResponse.ok) {
-            throw new Error('Failed to upload image');
-          }
-
-          const imageData = await imageResponse.json();
-          updates.image_url = imageData.url;
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            updates.image_file = e.target?.result as string;
+          };
+          reader.readAsDataURL(internalImageFile);
         }
 
         // BATCH UPDATE: Salva localmente invece di chiamare API subito
@@ -2274,6 +2176,7 @@ export default function AdminPage() {
                           // Usa i dati locali se disponibili, altrimenti quelli salvati
                           const currentConfig = localConfig || {
                             descriptions: config.descriptions,
+                            descriptions_en: config.descriptions_en || ['', '', ''],
                             images: config.images,
                             backgroundImage: config.backgroundImage,
                             hasChanges: false,
@@ -2344,6 +2247,42 @@ export default function AdminPage() {
                                           rows={2}
                                           placeholder={t(
                                             'admin.highlights.slide_description_placeholder',
+                                            { number: descIndex + 1 }
+                                          )}
+                                        />
+                                      </div>
+                                    ))}
+                                  </div>
+                                </div>
+
+                                {/* Descriptions EN */}
+                                <div>
+                                  <label className="block text-sm font-medium mb-3">
+                                    {t('admin.highlights.descriptions_slides')} (EN)
+                                  </label>
+                                  <div className="space-y-3">
+                                    {currentConfig.descriptions_en.map((desc, descIndex) => (
+                                      <div key={descIndex}>
+                                        <label className="block text-xs text-text-primary-60 mb-1">
+                                          {t('admin.highlights.slide')} {descIndex + 1} (EN)
+                                        </label>
+                                        <textarea
+                                          value={desc || ''}
+                                          onChange={(e) => {
+                                            const newDescriptions = [
+                                              ...currentConfig.descriptions_en,
+                                            ];
+                                            newDescriptions[descIndex] = e.target.value;
+                                            updateLocalConfig(
+                                              projectId,
+                                              'descriptions_en',
+                                              newDescriptions
+                                            );
+                                          }}
+                                          className="w-full px-3 py-2 bg-bg-primary border border-border-primary-20 rounded-lg text-text-primary text-sm focus:outline-none focus:border-[#F20352] transition-colors resize-none"
+                                          rows={2}
+                                          placeholder={t(
+                                            'admin.highlights.slide_description_placeholder_en',
                                             { number: descIndex + 1 }
                                           )}
                                         />

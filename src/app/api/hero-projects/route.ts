@@ -68,6 +68,7 @@ export async function POST(request: NextRequest) {
         project_id: hp.projectId,
         position: index + 1,
         descriptions: hp.descriptions || ['', '', ''],
+        descriptions_en: hp.descriptions_en || ['', '', ''], // Aggiungi traduzioni inglesi
         images: hp.images || [],
         background_image: hp.backgroundImage || '',
         project_date: hp.projectDate || '',

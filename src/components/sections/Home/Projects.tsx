@@ -8,6 +8,7 @@ import ProjectDescription from '../../ui/ProjectDescription';
 import OptimizedImage from '../../ui/OptimizedImage';
 import { usePerformance } from '@/hooks';
 import { useSlideSwitch, SingleProjectData } from '../../animations/useProjectSwitch';
+import { useProjectTranslation } from '@/hooks/core/useProjectTranslation';
 
 interface ProjectsProps {
   projectData: SingleProjectData;
@@ -22,7 +23,14 @@ export default function Projects({ projectData }: ProjectsProps) {
     goToPrevious,
   } = useSlideSwitch(projectData);
 
+  const { getTranslatedTitle, getTranslatedDescription, currentLanguage } = useProjectTranslation();
   const animations = projectAnimationVariants;
+
+  // Trigger re-render when language changes
+  useEffect(() => {
+    // This effect will run whenever currentLanguage changes
+    // forcing the component to re-render with new translations
+  }, [currentLanguage]);
 
   // Performance optimization hook
   const {
@@ -100,13 +108,17 @@ export default function Projects({ projectData }: ProjectsProps) {
             <div className="flex flex-col items-center" style={{ contain: 'layout style' }}>
               {/* Fixed Title */}
               <h2 className="text-white text-[48px] 2xl:text-[56px] font-figtree font-medium text-center relative w-[600px] 2xl:w-[750px]">
-                {project.title}
+                {project.originalProject ? getTranslatedTitle(project.originalProject) : project.title}
               </h2>
 
               {/* Animated Project Description */}
               <div className="w-[600px] 2xl:w-[750px] text-center mx-auto">
                 <ProjectDescription
-                  description={currentSlide.description}
+                  description={
+                    currentLanguage === 'en' && currentSlide.translatedDescription
+                      ? currentSlide.translatedDescription
+                      : currentSlide.description
+                  }
                   currentProjectId={project.id}
                 />
               </div>
@@ -157,7 +169,7 @@ export default function Projects({ projectData }: ProjectsProps) {
             {/* Right Column: Fixed H3 + Line + Arrow */}
             <div className="flex flex-col" style={{ contain: 'layout style' }}>
               <h3 className="text-white/30 text-lg font-light mb-2 text-right font-poppins">
-                {project.title}
+                {project.originalProject ? getTranslatedTitle(project.originalProject) : project.title}
               </h3>
               <div className="w-full h-px bg-white opacity-30 mb-5"></div>
               <div className="flex justify-end">
@@ -184,13 +196,17 @@ export default function Projects({ projectData }: ProjectsProps) {
           >
             {/* Fixed Title */}
             <h1 className="text-white text-[32px] xs:text-[36px] sm:text-[40px] md:text-[44px] lg:text-[48px] font-figtree font-medium text-center relative w-[300px] xs:w-[340px] sm:w-[380px] md:w-[500px] lg:w-[600px] mx-auto">
-              {project.title}
+              {project.originalProject ? getTranslatedTitle(project.originalProject) : project.title}
             </h1>
 
             {/* Animated Project Description */}
             <div className="w-[300px] xs:w-[340px] sm:w-[380px] md:w-[500px] lg:w-[600px] mx-auto text-center">
               <ProjectDescription
-                description={currentSlide.description}
+                description={
+                  currentLanguage === 'en' && currentSlide.translatedDescription
+                    ? currentSlide.translatedDescription
+                    : currentSlide.description
+                }
                 currentProjectId={project.id}
               />
             </div>
@@ -241,7 +257,7 @@ export default function Projects({ projectData }: ProjectsProps) {
                     {currentSlide.image && (
                       <img
                         src={currentSlide.image}
-                        alt={`${project.title} - Slide ${currentSlideIndex + 1}`}
+                        alt={`${project.originalProject ? getTranslatedTitle(project.originalProject) : project.title} - Slide ${currentSlideIndex + 1}`}
                         className="absolute inset-0 w-full h-full object-cover"
                         loading="lazy"
                       />

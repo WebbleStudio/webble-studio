@@ -124,14 +124,15 @@ export function useProjectsBatch() {
         reorder: reorder.length,
       });
 
-      // Chiamata batch API
-      const response = await fetch('/api/projects/batch-update', {
+      // Chiamata save-all API
+      const response = await fetch('/api/projects/save-all', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Cache-Control': 'no-cache',
         },
         body: JSON.stringify({
+          newProjects: [],
           updates,
           deletes,
           reorder,

@@ -54,11 +54,14 @@ const convertHeroProjectToSingleProject = (heroProject: EnrichedHeroProject): Si
     id: `slide-${index + 1}-${project.id}`,
     description: heroProject.descriptions[index] || 'Descrizione non configurata',
     image: slideImages[index % slideImages.length] || project.image_url,
+    // Aggiungi traduzioni per le descrizioni
+    originalDescription: heroProject.descriptions[index] || 'Descrizione non configurata',
+    translatedDescription: heroProject.descriptions_en?.[index] || project.description_en || project.description,
   }));
 
   return {
     id: project.id,
-    title: project.title,
+    title: project.title, // Il titolo verrà tradotto nel componente Projects
     backgroundImage: heroProject.background_image || project.image_url,
     labels: project.categories,
     date:
@@ -68,6 +71,13 @@ const convertHeroProjectToSingleProject = (heroProject: EnrichedHeroProject): Si
         year: 'numeric',
       }),
     slides,
+    // Dati originali del progetto per le traduzioni
+    originalProject: {
+      title: project.title,
+      title_en: project.title_en,
+      description: project.description,
+      description_en: project.description_en,
+    },
   };
 };
 
