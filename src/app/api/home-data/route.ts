@@ -7,7 +7,7 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const forceRefresh = searchParams.get('_t'); // Timestamp parameter for cache busting
 
-    console.log('🏠 Fetching aggregated home data...', forceRefresh ? '(force refresh)' : '');
+    // console.log('🏠 Fetching aggregated home data...', forceRefresh ? '(force refresh)' : '');
 
     // Esegui tutte le query in parallelo per performance
     const [projectsResult, heroProjectsResult, serviceCategoriesResult] = await Promise.all([
@@ -67,11 +67,11 @@ export async function GET(request: NextRequest) {
       },
     };
 
-    console.log('✅ Home data aggregated:', {
-      projects: projects.length,
-      heroProjects: enrichedHeroProjects.length,
-      serviceCategories: enrichedServiceCategories.length,
-    });
+    // console.log('✅ Home data aggregated:', {
+    //   projects: projects.length,
+    //   heroProjects: enrichedHeroProjects.length,
+    //   serviceCategories: enrichedServiceCategories.length,
+    // });
 
     // Cache Edge ottimizzata per Vercel
     const cacheHeaders: Record<string, string> = forceRefresh

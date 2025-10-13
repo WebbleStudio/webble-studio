@@ -105,14 +105,7 @@ export default function RootLayout({
           href="/img/radial2.png"
           type="image/png"
         />
-        {/* Preload font critici */}
-        <link
-          rel="preload"
-          href="/fonts/figtree-variable.woff2"
-          as="font"
-          type="font/woff2"
-          crossOrigin="anonymous"
-        />
+        {/* Fonts are loaded via @fontsource/figtree */}
       </head>
       <body className="antialiased">
         <StructuredData type="Organization" />

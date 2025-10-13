@@ -22,7 +22,7 @@ i18n
     resources,
     lng: 'it', // Lingua di default
     fallbackLng: 'it', // Fallback su italiano
-    debug: process.env.NODE_ENV === 'development',
+    debug: false, // Disabilita debug in produzione
 
     detection: {
       // Configurazione per la rilevazione della lingua

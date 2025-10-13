@@ -72,13 +72,10 @@ const convertHeroProjectToSingleProject = (heroProject: EnrichedHeroProject): Si
 };
 
 export default function Home() {
-  const { heroProjects, loading, fetchHomeData } = useHomeData();
+  const { heroProjects } = useHomeData();
   const [displayProjects, setDisplayProjects] = useState<SingleProjectData[]>([]);
 
-  // Carica tutti i dati home con una singola chiamata (cache 12 ore)
-  useEffect(() => {
-    fetchHomeData();
-  }, []); // ✅ Dipendenze vuote per evitare loop
+  // I dati vengono caricati automaticamente dall'hook e/o da sessionStorage
 
   // Aggiorna i progetti da mostrare quando cambiano hero projects
   useEffect(() => {

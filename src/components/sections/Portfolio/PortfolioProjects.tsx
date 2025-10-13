@@ -65,13 +65,10 @@ export default function PortfolioProjects() {
     emptyStateAnimationProps,
   } = usePortfolioProjectsAnimation();
 
-  const { projects, loading, error, fetchPortfolioData } = usePortfolioData();
+  const { projects, loading, error } = usePortfolioData();
   const { getTranslatedTitle, getTranslatedDescription, currentLanguage } = useProjectTranslation();
 
-  // Carica progetti con cache 12 ore - solo una volta
-  useEffect(() => {
-    fetchPortfolioData();
-  }, []); // ✅ Dipendenze vuote per evitare loop
+  // I dati vengono caricati automaticamente dall'hook e/o da sessionStorage
 
   // Trigger re-render when language changes
   useEffect(() => {

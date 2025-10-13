@@ -19,6 +19,9 @@ export function usePortfolioData() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const STORAGE_KEY = 'portfolio-data-cache';
+  const STORAGE_TTL_MS = PERFORMANCE_CONFIG.CACHE_TTL_MS;
+
   // Fetch dati portfolio in una chiamata - con cache 12 ore
   const fetchPortfolioData = useCallback(async (forceRefresh = false) => {
     setLoading(true);
@@ -46,6 +49,16 @@ export function usePortfolioData() {
       );
 
       setPortfolioData(data);
+
+      // Persist to sessionStorage
+      if (typeof window !== 'undefined') {
+        try {
+          const payload = { timestamp: Date.now(), data };
+          sessionStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+        } catch {
+          // ignore storage errors
+        }
+      }
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Unknown error occurred';
       setError(errorMessage);
@@ -57,6 +70,23 @@ export function usePortfolioData() {
 
   // Carica i dati automaticamente al mount - solo una volta
   useEffect(() => {
+    // Try sessionStorage first
+    if (typeof window !== 'undefined' && !window.location.search.includes('_t=')) {
+      try {
+        const raw = sessionStorage.getItem(STORAGE_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw) as { timestamp: number; data: PortfolioData };
+          const isFresh = Date.now() - parsed.timestamp < STORAGE_TTL_MS;
+          if (isFresh && parsed?.data) {
+            setPortfolioData(parsed.data);
+            return; // Skip network fetch
+          }
+        }
+      } catch {
+        // ignore parse errors
+      }
+    }
+
     fetchPortfolioData();
   }, []); // ✅ Dipendenze vuote per evitare loop
 
