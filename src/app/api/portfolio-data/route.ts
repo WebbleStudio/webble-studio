@@ -30,13 +30,13 @@ export async function GET() {
       projects: projects?.length || 0,
     });
 
-    // Cache Edge ottimizzata per Vercel
+    // Cache Edge DISABILITATA per evitare problemi con revalidation
+    // Usa solo cache client-side (localStorage)
     return NextResponse.json(portfolioData, {
       headers: {
-        'Cache-Control': 'public, s-maxage=86400, stale-while-revalidate=604800, max-age=3600',
-        'CDN-Cache-Control': 'public, s-maxage=86400',
-        'Vercel-CDN-Cache-Control': 'public, s-maxage=86400',
-        'Vercel-Cache-Control': 'public, s-maxage=86400',
+        'Cache-Control': 'public, max-age=0, must-revalidate',
+        'CDN-Cache-Control': 'no-cache',
+        'Vercel-CDN-Cache-Control': 'no-cache',
       },
     });
   } catch (error) {

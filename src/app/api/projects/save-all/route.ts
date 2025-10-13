@@ -186,9 +186,8 @@ export async function POST(request: NextRequest) {
 
     console.log('✅ Save All Results:', results);
 
-    // Revalida tutte le pagine e endpoint aggregati
-    // Invalida solo cache client-side (non revalida automaticamente le pagine)
-    // Le pagine verranno revalidate solo quando l'admin preme "Aggiorna sito"
+    // Le modifiche saranno visibili immediatamente perché le API non hanno cache server
+    // La cache client-side (localStorage) viene invalidata quando l'admin preme "Aggiorna sito"
 
     const success = results.errors.length === 0;
 

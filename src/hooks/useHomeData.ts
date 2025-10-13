@@ -107,6 +107,22 @@ export function useHomeData() {
     fetchHomeData();
   }, []); // ✅ Dipendenze vuote per evitare loop
 
+  // Listener per cache invalidation
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const handleCacheInvalidation = () => {
+      console.log('🔄 Cache invalidated, refreshing home data...');
+      fetchHomeData(true); // Force refresh
+    };
+
+    window.addEventListener('cache-invalidated', handleCacheInvalidation);
+    
+    return () => {
+      window.removeEventListener('cache-invalidated', handleCacheInvalidation);
+    };
+  }, [fetchHomeData]);
+
   return {
     homeData,
     projects: homeData.projects,

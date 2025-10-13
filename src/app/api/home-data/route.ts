@@ -73,7 +73,7 @@ export async function GET(request: NextRequest) {
     //   serviceCategories: enrichedServiceCategories.length,
     // });
 
-    // Cache Edge ottimizzata per Vercel
+    // Cache Edge ottimizzata per Vercel - DISABILITATA per evitare problemi di cache
     const cacheHeaders: Record<string, string> = forceRefresh
       ? {
           'Cache-Control': 'no-cache, no-store, must-revalidate',
@@ -83,10 +83,10 @@ export async function GET(request: NextRequest) {
           'Vercel-CDN-Cache-Control': 'no-cache',
         }
       : {
-          'Cache-Control': 'public, s-maxage=86400, stale-while-revalidate=604800, max-age=3600',
-          'CDN-Cache-Control': 'public, s-maxage=86400',
-          'Vercel-CDN-Cache-Control': 'public, s-maxage=86400',
-          'Vercel-Cache-Control': 'public, s-maxage=86400',
+          // Usa solo cache client-side (localStorage) per evitare problemi con revalidation
+          'Cache-Control': 'public, max-age=0, must-revalidate',
+          'CDN-Cache-Control': 'no-cache',
+          'Vercel-CDN-Cache-Control': 'no-cache',
         };
 
     return NextResponse.json(homeData, {

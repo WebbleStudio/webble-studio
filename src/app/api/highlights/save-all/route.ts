@@ -29,9 +29,11 @@ export async function POST(request: Request) {
       console.log(`✅ Updated ${highlightsUpdates.length} highlights`);
     }
 
-    // Invalida solo cache client-side (non revalida automaticamente le pagine)
+    // Invalida cache client-side
     apiCache.invalidate(cacheKeys.heroProjects());
     apiCache.invalidate(cacheKeys.homeData());
+
+    // Le modifiche saranno visibili immediatamente perché le API non hanno cache server
 
     console.log('🎉 All highlights changes saved successfully');
 

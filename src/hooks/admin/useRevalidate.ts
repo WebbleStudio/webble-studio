@@ -68,8 +68,31 @@ export function useRevalidate() {
       apiCache.invalidate(cacheKeys.serviceCategories());
       apiCache.invalidate(cacheKeys.homeData());
 
-      // 3. Revalida tutte le pagine
+      // 3. Invalida localStorage cache
+      if (typeof window !== 'undefined') {
+        try {
+          localStorage.removeItem('home-data-cache');
+          localStorage.removeItem('portfolio-data-cache');
+          console.log('✅ LocalStorage cache cleared');
+        } catch (error) {
+          console.warn('Failed to clear localStorage cache:', error);
+        }
+      }
+
+      // 4. Revalida tutte le pagine
       await revalidateAll();
+
+      // 5. Forza refresh delle pagine aperte (opzionale)
+      if (typeof window !== 'undefined') {
+        // Aggiungi un timestamp per forzare il refresh
+        const refreshTimestamp = Date.now();
+        window.localStorage.setItem('force-refresh', refreshTimestamp.toString());
+        
+        // Notifica le altre tab che devono refreshare
+        window.dispatchEvent(new CustomEvent('cache-invalidated', { 
+          detail: { timestamp: refreshTimestamp } 
+        }));
+      }
 
       console.log('✅ All caches invalidated and pages revalidated');
       return { success: true };
