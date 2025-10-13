@@ -27,6 +27,13 @@ export interface SingleProjectData {
   labels: string[];
   date: string;
   slides: ProjectSlide[];
+  // Dati originali del progetto per le traduzioni
+  originalProject?: {
+    title: string;
+    title_en?: string;
+    description: string;
+    description_en?: string;
+  };
 }
 
 export const useProjectSwitch = (projects: ProjectData[]) => {
