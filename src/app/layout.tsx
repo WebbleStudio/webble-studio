@@ -153,13 +153,6 @@ export default function RootLayout({
           type="font/woff2"
           crossOrigin="anonymous"
         />
-        {/* Preload favicon to avoid edge requests */}
-        <link
-          rel="preload"
-          href="/favicon.ico"
-          as="image"
-          type="image/x-icon"
-        />
       </head>
       <body className="antialiased">
         <StructuredData type="Organization" />
