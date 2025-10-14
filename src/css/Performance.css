@@ -16,10 +16,6 @@
 }
 
 /* Ottimizzazioni per immagini */
-img {
-  content-visibility: auto;
-  contain-intrinsic-size: 300px;
-}
 
 /* Ottimizzazioni per video */
 video {
@@ -36,19 +32,4 @@ video {
 /* Preload critico */
 .preload-critical {
   font-display: swap;
-}
-
-/* Lazy loading ottimizzato */
-.lazy-load {
-  content-visibility: auto;
-  contain-intrinsic-size: 300px;
-}
-
-/* Riduci complessità 3D */
-.performance-mode .spline-3d {
-  display: none !important;
-}
-
-.performance-mode .spline-fallback {
-  display: block !important;
 }

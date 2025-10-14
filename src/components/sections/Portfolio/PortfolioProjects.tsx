@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Filter from '@/components/ui/Filter';
 import FilterButton from '@/components/ui/FilterButton';
 import Project from '@/components/ui/Project';
-import { usePortfolioFiltersAnimation, usePortfolioProjectsAnimation } from '@/hooks';
+import { usePortfolioFiltersAnimation } from '@/hooks';
 import { useProjectTranslation } from '@/hooks';
 import type { Project as ProjectType } from '@/lib/serverActions';
 
@@ -57,15 +57,6 @@ export default function PortfolioProjects({ projects }: PortfolioProjectsProps) 
     buttonAnimationProps,
   } = usePortfolioFiltersAnimation();
 
-  const {
-    animationKey,
-    triggerFilterAnimation,
-    containerAnimationProps: projectsContainerProps,
-    getProjectAnimationProps,
-    getXLProjectAnimationProps,
-    emptyStateAnimationProps,
-  } = usePortfolioProjectsAnimation();
-
   const { getTranslatedTitle, getTranslatedDescription, currentLanguage } = useProjectTranslation();
 
   // I dati vengono caricati automaticamente dall'hook e/o da sessionStorage
@@ -95,10 +86,7 @@ export default function PortfolioProjects({ projects }: PortfolioProjectsProps) 
     });
   }, [projects, activeFilters]);
 
-  // Trigger animation quando cambiano i filtri
-  useEffect(() => {
-    triggerFilterAnimation();
-  }, [activeFilters, triggerFilterAnimation]);
+  // Le animazioni sono disabilitate per performance - nessun trigger necessario
 
   // Chiudi espansione quando si clicca fuori - ottimizzato
   useEffect(() => {
@@ -166,7 +154,7 @@ export default function PortfolioProjects({ projects }: PortfolioProjectsProps) 
     }
   }, []);
 
-  // Funzione per renderizzare il layout XL semplificato
+  // Funzione per renderizzare il layout XL semplificato - SENZA ANIMAZIONI
   const renderXLLayoutSimplified = React.useCallback(
     (projects: typeof filteredProjects) => {
       const rows = [];
@@ -179,12 +167,8 @@ export default function PortfolioProjects({ projects }: PortfolioProjectsProps) 
 
         rows.push(
           <div key={`row-${rowIndex}`} className="flex gap-10">
-            {rowProjects.map((project, index) => (
-              <motion.div
-                key={project.id}
-                className="w-1/3"
-                {...getXLProjectAnimationProps(rowIndex, index)}
-              >
+            {rowProjects.map((project) => (
+              <div key={project.id} className="w-1/3">
                 <Project
                   title={getTranslatedTitle(project)}
                   description={getTranslatedDescription(project)}
@@ -192,7 +176,7 @@ export default function PortfolioProjects({ projects }: PortfolioProjectsProps) 
                   hasLink={!!project.link}
                   onClick={project.link ? () => handleProjectClick(project) : undefined}
                 />
-              </motion.div>
+              </div>
             ))}
           </div>
         );
@@ -200,7 +184,7 @@ export default function PortfolioProjects({ projects }: PortfolioProjectsProps) 
 
       return rows;
     },
-    [getTranslatedTitle, getTranslatedDescription, handleProjectClick, getXLProjectAnimationProps]
+    [getTranslatedTitle, getTranslatedDescription, handleProjectClick]
   );
 
   // Layout personalizzato con pattern alternato - FIXATO per mostrare TUTTI i progetti
@@ -218,13 +202,9 @@ export default function PortfolioProjects({ projects }: PortfolioProjectsProps) 
         const rowProjects = projectsToShow.slice(projectIndex, projectIndex + 2);
         if (rowProjects.length > 0) {
           rows.push(
-            <div key={`row-${rowIndex}`} className="flex gap-6 mb-6">
-              {rowProjects.map((project, index) => (
-                <motion.div
-                  key={project.id}
-                  className="w-1/2"
-                  {...getProjectAnimationProps(projectIndex + index)}
-                >
+            <div key={`row-${rowIndex}`} className="flex gap-4 mb-6">
+              {rowProjects.map((project) => (
+                <div key={project.id} className="w-1/2">
                   <Project
                     title={getTranslatedTitle(project)}
                     description={getTranslatedDescription(project)}
@@ -232,7 +212,7 @@ export default function PortfolioProjects({ projects }: PortfolioProjectsProps) 
                     hasLink={!!project.link}
                     onClick={project.link ? () => handleProjectClick(project) : undefined}
                   />
-                </motion.div>
+                </div>
               ))}
             </div>
           );
@@ -244,12 +224,8 @@ export default function PortfolioProjects({ projects }: PortfolioProjectsProps) 
         if (rowProjects.length > 0) {
           rows.push(
             <div key={`row-${rowIndex}`} className="flex gap-4 mb-6">
-              {rowProjects.map((project, index) => (
-                <motion.div
-                  key={project.id}
-                  className="w-1/3"
-                  {...getProjectAnimationProps(projectIndex + index)}
-                >
+              {rowProjects.map((project) => (
+                <div key={project.id} className="w-1/3">
                   <Project
                     title={getTranslatedTitle(project)}
                     description={getTranslatedDescription(project)}
@@ -257,7 +233,7 @@ export default function PortfolioProjects({ projects }: PortfolioProjectsProps) 
                     hasLink={!!project.link}
                     onClick={project.link ? () => handleProjectClick(project) : undefined}
                   />
-                </motion.div>
+                </div>
               ))}
             </div>
           );
@@ -270,11 +246,7 @@ export default function PortfolioProjects({ projects }: PortfolioProjectsProps) 
           rows.push(
             <div key={`row-${rowIndex}`} className="flex gap-4 mb-6">
               {rowProjects.length >= 1 && (
-                <motion.div
-                  key={rowProjects[0].id}
-                  className="w-1/3"
-                  {...getProjectAnimationProps(projectIndex)}
-                >
+                <div key={rowProjects[0].id} className="w-1/3">
                   <Project
                     title={getTranslatedTitle(rowProjects[0])}
                     description={getTranslatedDescription(rowProjects[0])}
@@ -284,14 +256,10 @@ export default function PortfolioProjects({ projects }: PortfolioProjectsProps) 
                       rowProjects[0].link ? () => handleProjectClick(rowProjects[0]) : undefined
                     }
                   />
-                </motion.div>
+                </div>
               )}
               {rowProjects.length >= 2 && (
-                <motion.div
-                  key={rowProjects[1].id}
-                  className="w-2/3"
-                  {...getProjectAnimationProps(projectIndex + 1)}
-                >
+                <div key={rowProjects[1].id} className="w-2/3">
                   <Project
                     title={getTranslatedTitle(rowProjects[1])}
                     description={getTranslatedDescription(rowProjects[1])}
@@ -301,7 +269,7 @@ export default function PortfolioProjects({ projects }: PortfolioProjectsProps) 
                       rowProjects[1].link ? () => handleProjectClick(rowProjects[1]) : undefined
                     }
                   />
-                </motion.div>
+                </div>
               )}
             </div>
           );
@@ -311,15 +279,9 @@ export default function PortfolioProjects({ projects }: PortfolioProjectsProps) 
     }
 
     return rows;
-  }, [
-    filteredProjects,
-    getTranslatedTitle,
-    getTranslatedDescription,
-    handleProjectClick,
-    getProjectAnimationProps,
-  ]);
+  }, [filteredProjects, getTranslatedTitle, getTranslatedDescription, handleProjectClick]);
 
-  // Render layout responsivo automatico basato sui breakpoint - ottimizzato
+  // Render layout responsivo automatico basato sui breakpoint - COMPLETAMENTE STATICO
   const renderResponsiveLayout = React.useMemo(() => {
     const projectsToShow = filteredProjects;
 
@@ -327,8 +289,8 @@ export default function PortfolioProjects({ projects }: PortfolioProjectsProps) 
       <div>
         {/* Layout Mobile: < md (768px) - 1 progetto per riga */}
         <div className="block md:hidden space-y-6">
-          {projectsToShow.map((project, index) => (
-            <motion.div key={project.id} {...getProjectAnimationProps(index)}>
+          {projectsToShow.map((project) => (
+            <div key={project.id}>
               <Project
                 title={getTranslatedTitle(project)}
                 description={getTranslatedDescription(project)}
@@ -336,7 +298,7 @@ export default function PortfolioProjects({ projects }: PortfolioProjectsProps) 
                 hasLink={!!project.link}
                 onClick={project.link ? () => handleProjectClick(project) : undefined}
               />
-            </motion.div>
+            </div>
           ))}
         </div>
 
@@ -344,12 +306,8 @@ export default function PortfolioProjects({ projects }: PortfolioProjectsProps) 
         <div className="hidden md:block xl:hidden space-y-6">
           {Array.from({ length: Math.ceil(projectsToShow.length / 2) }).map((_, rowIndex) => (
             <div key={`row-${rowIndex}`} className="flex gap-6">
-              {projectsToShow.slice(rowIndex * 2, rowIndex * 2 + 2).map((project, index) => (
-                <motion.div
-                  key={project.id}
-                  className="w-1/2"
-                  {...getProjectAnimationProps(rowIndex * 2 + index)}
-                >
+              {projectsToShow.slice(rowIndex * 2, rowIndex * 2 + 2).map((project) => (
+                <div key={project.id} className="w-1/2">
                   <Project
                     title={getTranslatedTitle(project)}
                     description={getTranslatedDescription(project)}
@@ -357,7 +315,7 @@ export default function PortfolioProjects({ projects }: PortfolioProjectsProps) 
                     hasLink={!!project.link}
                     onClick={project.link ? () => handleProjectClick(project) : undefined}
                   />
-                </motion.div>
+                </div>
               ))}
             </div>
           ))}
@@ -367,14 +325,7 @@ export default function PortfolioProjects({ projects }: PortfolioProjectsProps) 
         <div className="hidden xl:block">{renderCustomLayout}</div>
       </div>
     );
-  }, [
-    filteredProjects,
-    getTranslatedTitle,
-    getTranslatedDescription,
-    handleProjectClick,
-    getProjectAnimationProps,
-    renderCustomLayout,
-  ]);
+  }, [filteredProjects, getTranslatedTitle, getTranslatedDescription, handleProjectClick, renderCustomLayout]);
 
   return (
     <section className="h-auto min-h-screen flex flex-col py-16">
@@ -469,25 +420,19 @@ export default function PortfolioProjects({ projects }: PortfolioProjectsProps) 
 
         {/* Layout Preview */}
         <div className="w-full">
-          {/* Content */}
-          {projects && projects.length > 0 && (
-            <AnimatePresence mode="wait" key={`${animationKey}`}>
-              <motion.div
-                key={`${animationKey}`}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.3 }}
-              >
-                {renderResponsiveLayout}
-              </motion.div>
-            </AnimatePresence>
-          )}
+          {/* Content - Rendering diretto senza animazioni per performance */}
+          {projects && projects.length > 0 && <div>{renderResponsiveLayout}</div>}
 
           {/* Messaggio se nessun progetto */}
           <AnimatePresence>
             {filteredProjects.length === 0 && (
-              <motion.div className="text-center py-12" {...emptyStateAnimationProps}>
+              <motion.div 
+                className="text-center py-12"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2 }}
+              >
                 <p className="text-text-primary-60 text-lg">
                   Nessun progetto trovato per i filtri selezionati
                 </p>

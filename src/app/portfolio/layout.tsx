@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import StructuredData from '@/components/seo/StructuredData';
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://webblestudio.com';
-const ogImageAbs = 'https://webblestudio.com/img/thumbnails/webble-thumbnail.jpg';
+const ogImageAbs = 'https://webblestudio.com/img/thumbnails/portfolio-thumb.png';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
         url: ogImageAbs,
         width: 1200,
         height: 630,
-        alt: 'Webble Studio - Portfolio',
+        alt: 'Webble Studio - Portfolio - Progetti di Web Design e UI/UX',
       },
     ],
     locale: 'it_IT',

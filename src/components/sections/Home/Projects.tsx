@@ -269,7 +269,7 @@ export default function Projects({ projectData }: ProjectsProps) {
                 <div className="absolute inset-0 flex items-center justify-between p-4 md:hidden">
                   {/* Left Arrow */}
                   <div
-                    className="cursor-pointer transition-opacity hover:opacity-70 bg-bg-overlay rounded-full p-2"
+                    className="cursor-pointer transition-opacity hover:opacity-70 bg-bg-overlay rounded-full p-2 select-none"
                     onClick={goToPrevious}
                   >
                     <OptimizedImage
@@ -283,7 +283,7 @@ export default function Projects({ projectData }: ProjectsProps) {
 
                   {/* Right Arrow */}
                   <div
-                    className="cursor-pointer transition-opacity hover:opacity-70 bg-bg-overlay rounded-full p-2"
+                    className="cursor-pointer transition-opacity hover:opacity-70 bg-bg-overlay rounded-full p-2 select-none"
                     onClick={goToNext}
                   >
                     <OptimizedImage
@@ -300,7 +300,7 @@ export default function Projects({ projectData }: ProjectsProps) {
               {/* Right Arrow - esterno (da 768px in su) */}
               <div className="hidden md:flex md:items-center ml-8">
                 <div
-                  className="cursor-pointer transition-opacity hover:opacity-70 bg-bg-overlay rounded-full p-3"
+                  className="cursor-pointer transition-opacity hover:opacity-70 bg-bg-overlay rounded-full p-3 select-none"
                   onClick={goToNext}
                 >
                   <OptimizedImage

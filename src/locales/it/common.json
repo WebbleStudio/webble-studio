@@ -85,7 +85,8 @@
     "success": "Messaggio inviato con successo! Ti contatteremo presto.",
     "hero": {
       "breadcrumb": "Home / Contatti",
-      "title": "Contattaci"
+      "title": "Contattaci",
+      "cta_button": "Prenota una call"
     },
     "section": {
       "subtitle": "/ Mettiamoci in contatto /",
@@ -356,7 +357,8 @@
     "hero": {
       "breadcrumb": "Home / Portfolio",
       "title": "Dove la creatività incontra la strategia",
-      "description": "Trasformiamo idee in campagne che si distinguono, dall'idea ai risultati, senza perdere tempo."
+      "description": "Trasformiamo idee in campagne che si distinguono, dall'idea ai risultati, senza perdere tempo.",
+      "cta_button": "Parla con Webble"
     }
   },
   "cookies": {

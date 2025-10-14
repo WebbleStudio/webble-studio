@@ -25,7 +25,7 @@ export default function ProjectArrow({
 
   return (
     <div
-      className={`cursor-pointer transition-opacity hover:opacity-70 bg-bg-overlay rounded-full ${padding} ${className}`}
+      className={`cursor-pointer transition-opacity hover:opacity-70 bg-bg-overlay rounded-full select-none ${padding} ${className}`}
       onClick={onClick}
     >
       <OptimizedImage

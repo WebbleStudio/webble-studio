@@ -3,8 +3,8 @@ import ChiSiamoHero from '@/components/sections/chi-siamo/hero';
 import Team from '@/components/sections/chi-siamo/Team';
 import Contact from '@/components/sections/Home/Contact';
 
-// Force Node.js runtime (non Edge)
-export const runtime = 'nodejs';
+// Pure Static - NO runtime, NO functions
+export const dynamic = 'error'; // Forza static, errore se prova dynamic
 
 export default function ChiSiamoPage() {
   return (

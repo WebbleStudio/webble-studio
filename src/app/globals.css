@@ -47,6 +47,25 @@
     opacity: 1;
   }
 
+  /* FORCE: Immagini portfolio sempre visibili - nessuna transizione */
+  img[loading='eager'] {
+    opacity: 1 !important;
+    transition: none !important;
+    animation: none !important;
+  }
+
+  /* Next.js Image: forza visibilità immediata */
+  img[decoding='async'] {
+    opacity: 1 !important;
+  }
+
+  /* Next.js Image wrapper: nessuna transizione */
+  span[style*="position: relative"] > img,
+  span[style*="display: block"] > img {
+    opacity: 1 !important;
+    transition: none !important;
+  }
+
   /* Prevent layout shifts */
   .aspect-video,
   .aspect-square {

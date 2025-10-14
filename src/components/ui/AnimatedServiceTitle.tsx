@@ -92,7 +92,7 @@ export default function AnimatedServiceTitle({
   return (
     <motion.h2
       ref={ref}
-      className={`text-text-primary-60 data-[expanded=true]:text-text-primary text-[43px] xs:text-[53px] md:text-[68px] xl:text-[78px] 2xl:text-[93px] cursor-pointer w-full leading-tight hover:text-text-primary ${className}`}
+      className={`text-text-primary-60 data-[expanded=true]:text-text-primary text-[43px] xs:text-[53px] md:text-[68px] xl:text-[78px] 2xl:text-[93px] cursor-pointer w-full leading-tight hover:text-text-primary select-none ${className}`}
       onClick={onClick}
       data-expanded={isExpanded}
       variants={containerVariants}

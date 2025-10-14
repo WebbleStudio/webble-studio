@@ -1,5 +1,4 @@
 import React from 'react';
-import AnimatedText from './AnimatedText';
 import OptimizedImage from './OptimizedImage';
 
 interface ProjectProps {
@@ -11,7 +10,8 @@ interface ProjectProps {
   onClick?: () => void;
 }
 
-const Project = React.memo(function Project({
+// Rendering COMPLETAMENTE statico - zero animazioni
+export default function Project({
   title,
   description,
   imageUrl,
@@ -25,21 +25,23 @@ const Project = React.memo(function Project({
       onClick={onClick}
     >
       {/* Immagine del progetto ottimizzata */}
-      <div className="relative w-full h-[230px] sm:h-[320px] lg:h-[360px] mb-4 rounded-lg overflow-hidden">
+      <div className="relative w-full h-[230px] sm:h-[320px] lg:h-[360px] mb-4 rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-800">
         {imageUrl ? (
-          <OptimizedImage
-            src={imageUrl}
-            alt={`${title} - Progetto web design di Webble Studio`}
-            fill
-            sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
-            className={`object-cover transition-transform duration-200 ${hasLink ? 'group-hover:scale-105' : ''}`}
-            loading="eager"
-            priority={false}
-          />
+          <div className={`relative w-full h-full transition-transform duration-500 ease-out ${hasLink ? 'group-hover:scale-105' : ''}`}>
+            <OptimizedImage
+              src={imageUrl}
+              alt={`${title} - Progetto web design di Webble Studio`}
+              fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
+              className="object-cover"
+              loading="eager"
+              priority={false}
+            />
+          </div>
         ) : (
           // Placeholder rettangolo rosso
           <div
-            className={`w-full h-full bg-red-500 flex items-center justify-center transition-transform duration-200 ${hasLink ? 'group-hover:scale-105' : ''}`}
+            className={`w-full h-full bg-red-500 flex items-center justify-center transition-transform duration-500 ease-out ${hasLink ? 'group-hover:scale-105' : ''}`}
           >
             <span className="text-white font-medium text-sm opacity-50">IMAGE</span>
           </div>
@@ -70,32 +72,22 @@ const Project = React.memo(function Project({
         )}
       </div>
 
-      {/* Informazioni progetto */}
+      {/* Informazioni progetto - Rendering statico senza animazioni */}
       <div className="flex flex-col mb-2">
-        <AnimatedText
-          as="h3"
+        <h3
           className={`font-medium text-[20px] lg:text-[18px] 2xl:text-[20px] transition-colors duration-200 ${
             hasLink
               ? 'text-black dark:text-white group-hover:text-[#F20352] dark:group-hover:text-[#F20352]'
               : 'text-black dark:text-white'
           }`}
-          duration={0.2}
-          animationType="light"
         >
           {title}
-        </AnimatedText>
+        </h3>
 
-        <AnimatedText
-          as="p"
-          className="text-black/60 dark:text-white/60 text-[14px] lg:text-[15px] 2xl:text-[16px] transition-colors duration-200 line-clamp-2"
-          duration={0.2}
-          animationType="light"
-        >
+        <p className="text-black/60 dark:text-white/60 text-[14px] lg:text-[15px] 2xl:text-[16px] transition-colors duration-200 line-clamp-2">
           {description}
-        </AnimatedText>
+        </p>
       </div>
     </div>
   );
-});
-
-export default Project;
+}

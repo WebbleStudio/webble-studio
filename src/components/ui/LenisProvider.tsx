@@ -6,8 +6,8 @@ import LenisScroll from './LenisScroll';
 export default function LenisProvider() {
   const pathname = usePathname();
   
-  // Disabilita Lenis per admin e portfolio
-  const isAdminOrPortfolio = pathname.startsWith('/admin') || pathname.startsWith('/portfolio');
+  // Disabilita Lenis solo per admin
+  const isAdmin = pathname.startsWith('/admin');
   
-  return <LenisScroll disabled={isAdminOrPortfolio} />;
+  return <LenisScroll disabled={isAdmin} />;
 }

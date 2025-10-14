@@ -85,7 +85,8 @@
     "success": "Message sent successfully! We will contact you soon.",
     "hero": {
       "breadcrumb": "Home / Contact",
-      "title": "Contact us"
+      "title": "Contact us",
+      "cta_button": "Book a call"
     },
     "section": {
       "subtitle": "/ Let's get in touch /",
@@ -354,9 +355,10 @@
   },
   "portfolio": {
     "hero": {
-      "breadcrumb": "Home / Portfolio",
+      "breadcrumb": "Home / Our Work",
       "title": "Where creativity meets strategy",
-      "description": "We transform ideas into campaigns that stand out, from idea to results, without wasting time."
+      "description": "We transform ideas into campaigns that stand out, from idea to results, without wasting time.",
+      "cta_button": "Talk to Webble"
     }
   },
   "cookies": {

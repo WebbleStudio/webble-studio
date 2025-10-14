@@ -53,7 +53,12 @@ export default function OptimizedImage({
           WebkitBackfaceVisibility: 'hidden',
           WebkitTransform: 'translateZ(0)',
           opacity: 1,
+          // transition: 'none', // Rimosso per permettere hover effects
+          animation: 'none', // FORCE: nessuna animazione
         }}
+        // Force immediate rendering
+        decoding="sync"
+        fetchPriority={priority ? 'high' : 'auto'}
       />
     );
   }
@@ -75,8 +80,13 @@ export default function OptimizedImage({
         transform: 'translateZ(0)',
         WebkitBackfaceVisibility: 'hidden',
         WebkitTransform: 'translateZ(0)',
-        opacity: 0.99,
+        opacity: 1,
+        // transition: 'none', // Rimosso per permettere hover effects
+        animation: 'none', // FORCE: nessuna animazione
       }}
+      // Force immediate rendering
+      decoding="sync"
+      fetchPriority={priority ? 'high' : 'auto'}
     />
   );
 }

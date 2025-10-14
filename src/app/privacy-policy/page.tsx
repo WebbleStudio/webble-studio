@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react';
 import { useTranslation } from '@/hooks';
 import Container from '@/components/layout/Container';
 
+// Pure Static - NO runtime, NO functions (client-side only)
+
 export default function PrivacyPolicyPage() {
   const { t } = useTranslation();
   const [activeSection, setActiveSection] = useState('controller');
