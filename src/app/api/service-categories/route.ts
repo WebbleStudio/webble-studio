@@ -3,8 +3,81 @@ import { supabase } from '@/lib/supabaseClient';
 import { revalidatePath } from 'next/cache';
 
 // GET - Recupera tutte le categorie di servizi
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
+    const { searchParams } = new URL(request.url);
+    const init = searchParams.get('init');
+
+    // Se init=true, inizializza le categorie se non esistono
+    if (init === 'true') {
+      // Prima verifica se le categorie esistono già
+      const { data: existingCategories, error: checkError } = await supabase
+        .from('service_categories')
+        .select('slug')
+        .limit(1);
+
+      if (checkError) {
+        console.error('Error checking existing categories:', checkError);
+        return NextResponse.json(
+          {
+            error: 'Database connection error. Please check if the service_categories table exists.',
+            details: checkError.message,
+          },
+          { status: 500 }
+        );
+      }
+
+      // Se non esistono categorie, inizializza
+      if (!existingCategories || existingCategories.length === 0) {
+        const serviceCategories = [
+          {
+            slug: 'ui-ux-design',
+            name: 'UI/UX Design',
+            images: [],
+          },
+          {
+            slug: 'project-management',
+            name: 'Project Management',
+            images: [],
+          },
+          {
+            slug: 'advertising',
+            name: 'Advertising & SMM',
+            images: [],
+          },
+          {
+            slug: 'social-media-design',
+            name: 'Developing Web/App',
+            images: [],
+          },
+        ];
+
+        const { data: initData, error: initError } = await supabase
+          .from('service_categories')
+          .upsert(serviceCategories, {
+            onConflict: 'slug',
+            ignoreDuplicates: false,
+          })
+          .select();
+
+        if (initError) {
+          console.error('Error initializing service categories:', initError);
+          return NextResponse.json(
+            {
+              error: 'Failed to initialize service categories',
+              details: initError.message,
+            },
+            { status: 500 }
+          );
+        }
+
+        return NextResponse.json({
+          message: 'Service categories initialized successfully',
+          data: initData,
+        });
+      }
+    }
+
     const { data, error } = await supabase
       .from('service_categories')
       .select('*')

@@ -45,10 +45,10 @@ export function useServiceCategories() {
       if (err instanceof Error && err.message.includes('Failed to fetch service categories')) {
         try {
           if (process.env.NODE_ENV === 'development') {
-          console.log('Attempting to initialize service categories...');
-        }
-          const initResponse = await fetch('/api/service-categories/init', {
-            method: 'POST',
+            console.log('Attempting to initialize service categories...');
+          }
+          const initResponse = await fetch('/api/service-categories?init=true', {
+            method: 'GET',
           });
 
           if (initResponse.ok) {

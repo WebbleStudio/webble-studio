@@ -696,7 +696,7 @@ export default function BookingForm({ isOpen, onClose }: BookingFormProps) {
                   }}
                   tabIndex={0}
                   aria-label={`Seleziona servizio ${service}`}
-                  aria-pressed={formData.services.includes(serviceTranslationMap[service])}
+                  aria-checked={formData.services.includes(serviceTranslationMap[service])}
                   role="checkbox"
                 >
                   {service}

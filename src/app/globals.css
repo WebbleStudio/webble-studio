@@ -29,9 +29,10 @@
   }
 }
 
-/* Reduce flicker on mobile devices */
+/* Reduce flicker on mobile devices - SOLO per pagine pubbliche */
 @media (max-width: 768px) {
-  img {
+  /* Escludi admin e pagine di autenticazione dalle ottimizzazioni aggressive */
+  body:not(.admin-page):not(.auth-page) img {
     will-change: auto;
     backface-visibility: hidden;
     transform: translateZ(0);
@@ -66,21 +67,57 @@
     transition: none !important;
   }
 
-  /* Prevent layout shifts */
-  .aspect-video,
-  .aspect-square {
+  /* Prevent layout shifts - SOLO per pagine pubbliche */
+  body:not(.admin-page):not(.auth-page) .aspect-video,
+  body:not(.admin-page):not(.auth-page) .aspect-square {
     contain: layout;
     will-change: auto;
     backface-visibility: hidden;
     transform: translateZ(0);
   }
 
-  /* Additional flicker prevention */
-  [data-lazy-load] {
+  /* Additional flicker prevention - SOLO per pagine pubbliche */
+  body:not(.admin-page):not(.auth-page) [data-lazy-load] {
     will-change: auto;
     backface-visibility: hidden;
     transform: translateZ(0);
   }
+}
+
+/* Admin Dashboard: Ottimizzazioni scroll performance */
+.admin-page {
+  /* Smooth scroll per admin */
+  overflow-y: auto;
+  scroll-behavior: smooth;
+}
+
+.admin-page img {
+  /* Disabilita ottimizzazioni aggressive che causano lag */
+  will-change: unset !important;
+  backface-visibility: visible !important;
+  transform: none !important;
+  -webkit-transform: none !important;
+  perspective: none !important;
+}
+
+/* Admin Project Grid: Performance ottimizzata */
+.admin-page [class*="grid"] {
+  /* Forza rendering stabile senza layer composition */
+  contain: content;
+  will-change: auto;
+}
+
+.admin-page [class*="grid"] > * {
+  /* Ogni card progetto: rendering stabile */
+  contain: layout style;
+  content-visibility: visible !important;
+}
+
+/* Prevenire scomparsa durante scroll */
+.admin-page img {
+  /* Override di tutte le ottimizzazioni aggressive */
+  content-visibility: visible !important;
+  contain-intrinsic-size: unset !important;
 }
 
 @tailwind base;

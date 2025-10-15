@@ -138,17 +138,26 @@ export default function Footer({ className = '' }: FooterProps) {
                 <div className="flex gap-[75px] xs:gap-[120px] sm:hidden md:flex md:justify-between min-[870px]:justify-start min-[870px]:gap-[70px] lg:justify-between lg:gap-0">
                   <ul className="flex flex-col gap-[10px]">
                     <li>
-                      <Link href="/" className="hover:text-[#F20352] transition-colors duration-200">
+                      <Link
+                        href="/"
+                        className="hover:text-[#F20352] transition-colors duration-200"
+                      >
                         <AnimatedText>{t('footer.navigation.home')}</AnimatedText>
                       </Link>
                     </li>
                     <li>
-                      <Link href="/chi-siamo" className="hover:text-[#F20352] transition-colors duration-200">
+                      <Link
+                        href="/chi-siamo"
+                        className="hover:text-[#F20352] transition-colors duration-200"
+                      >
                         <AnimatedText>{t('footer.navigation.about')}</AnimatedText>
                       </Link>
                     </li>
                     <li>
-                      <Link href="/portfolio" className="hover:text-[#F20352] transition-colors duration-200">
+                      <Link
+                        href="/portfolio"
+                        className="hover:text-[#F20352] transition-colors duration-200"
+                      >
                         <AnimatedText>{t('footer.navigation.portfolio')}</AnimatedText>
                       </Link>
                     </li>
@@ -166,7 +175,10 @@ export default function Footer({ className = '' }: FooterProps) {
                   </ul>
                   <ul className="hidden min-[870px]:flex min-[870px]:flex-col gap-[10px]">
                     <li>
-                      <Link href="/contatti" className="hover:text-[#F20352] transition-colors duration-200">
+                      <Link
+                        href="/contatti"
+                        className="hover:text-[#F20352] transition-colors duration-200"
+                      >
                         <AnimatedText>{t('footer.navigation.contacts')}</AnimatedText>
                       </Link>
                     </li>
@@ -185,22 +197,34 @@ export default function Footer({ className = '' }: FooterProps) {
                     </Link>
                   </li>
                   <li>
-                    <Link href="/chi-siamo" className="hover:text-[#F20352] transition-colors duration-200">
+                    <Link
+                      href="/chi-siamo"
+                      className="hover:text-[#F20352] transition-colors duration-200"
+                    >
                       <AnimatedText>{t('footer.navigation.about')}</AnimatedText>
                     </Link>
                   </li>
                   <li>
-                    <Link href="/portfolio" className="hover:text-[#F20352] transition-colors duration-200">
+                    <Link
+                      href="/portfolio"
+                      className="hover:text-[#F20352] transition-colors duration-200"
+                    >
                       <AnimatedText>{t('footer.navigation.portfolio')}</AnimatedText>
                     </Link>
                   </li>
                   <li>
-                    <Link href="/privacy-policy" className="hover:text-[#F20352] transition-colors duration-200">
+                    <Link
+                      href="/privacy-policy"
+                      className="hover:text-[#F20352] transition-colors duration-200"
+                    >
                       <AnimatedText>Privacy Policy</AnimatedText>
                     </Link>
                   </li>
                   <li>
-                    <Link href="/cookie-policy" className="hover:text-[#F20352] transition-colors duration-200">
+                    <Link
+                      href="/cookie-policy"
+                      className="hover:text-[#F20352] transition-colors duration-200"
+                    >
                       <AnimatedText>Cookie Policy</AnimatedText>
                     </Link>
                   </li>

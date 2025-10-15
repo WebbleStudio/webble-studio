@@ -27,7 +27,9 @@ export default function Project({
       {/* Immagine del progetto ottimizzata */}
       <div className="relative w-full h-[230px] sm:h-[320px] lg:h-[360px] mb-4 rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-800">
         {imageUrl ? (
-          <div className={`relative w-full h-full transition-transform duration-500 ease-out ${hasLink ? 'group-hover:scale-105' : ''}`}>
+          <div
+            className={`relative w-full h-full transition-transform duration-500 ease-out ${hasLink ? 'group-hover:scale-105' : ''}`}
+          >
             <OptimizedImage
               src={imageUrl}
               alt={`${title} - Progetto web design di Webble Studio`}

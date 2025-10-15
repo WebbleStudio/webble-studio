@@ -33,32 +33,23 @@ export async function POST(request: NextRequest) {
 
     // Validazione reCAPTCHA v3
     if (!recaptchaToken) {
-      throw new ApplicationError(
-        ErrorCode.VALIDATION_ERROR,
-        'Token reCAPTCHA mancante'
-      );
+      throw new ApplicationError(ErrorCode.VALIDATION_ERROR, 'Token reCAPTCHA mancante');
     }
 
     // Verifica il token reCAPTCHA con Google
     const recaptchaSecret = process.env.RECAPTCHA_SECRET_KEY;
     if (!recaptchaSecret) {
       console.error('RECAPTCHA_SECRET_KEY non configurata');
-      throw new ApplicationError(
-        ErrorCode.VALIDATION_ERROR,
-        'Configurazione reCAPTCHA mancante'
-      );
+      throw new ApplicationError(ErrorCode.VALIDATION_ERROR, 'Configurazione reCAPTCHA mancante');
     }
 
-    const recaptchaResponse = await fetch(
-      `https://www.google.com/recaptcha/api/siteverify`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: `secret=${recaptchaSecret}&response=${recaptchaToken}`,
-      }
-    );
+    const recaptchaResponse = await fetch(`https://www.google.com/recaptcha/api/siteverify`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: `secret=${recaptchaSecret}&response=${recaptchaToken}`,
+    });
 
     const recaptchaData = await recaptchaResponse.json();
 

@@ -159,7 +159,9 @@ export default function HeroWithButton({
                         top: isButtonHovered ? '-80%' : '20%',
                         left: isButtonHovered ? '-30%' : '20%',
                         zIndex: isButtonHovered ? 2 : -5,
-                        filter: isButtonHovered ? 'drop-shadow(0 0 10px rgba(255,255,255,0.8))' : 'drop-shadow(0 0 0 rgba(255,255,255,0.8))',
+                        filter: isButtonHovered
+                          ? 'drop-shadow(0 0 10px rgba(255,255,255,0.8))'
+                          : 'drop-shadow(0 0 0 rgba(255,255,255,0.8))',
                       }}
                     >
                       <svg
@@ -181,7 +183,9 @@ export default function HeroWithButton({
                         top: isButtonHovered ? '-25%' : '45%',
                         left: isButtonHovered ? '10%' : '45%',
                         zIndex: isButtonHovered ? 2 : -5,
-                        filter: isButtonHovered ? 'drop-shadow(0 0 10px rgba(255,255,255,0.8))' : 'drop-shadow(0 0 0 rgba(255,255,255,0.8))',
+                        filter: isButtonHovered
+                          ? 'drop-shadow(0 0 10px rgba(255,255,255,0.8))'
+                          : 'drop-shadow(0 0 0 rgba(255,255,255,0.8))',
                       }}
                     >
                       <svg
@@ -203,7 +207,9 @@ export default function HeroWithButton({
                         top: isButtonHovered ? '55%' : '40%',
                         left: isButtonHovered ? '25%' : '40%',
                         zIndex: isButtonHovered ? 2 : -5,
-                        filter: isButtonHovered ? 'drop-shadow(0 0 10px rgba(255,255,255,0.8))' : 'drop-shadow(0 0 0 rgba(255,255,255,0.8))',
+                        filter: isButtonHovered
+                          ? 'drop-shadow(0 0 10px rgba(255,255,255,0.8))'
+                          : 'drop-shadow(0 0 0 rgba(255,255,255,0.8))',
                       }}
                     >
                       <svg
@@ -225,7 +231,9 @@ export default function HeroWithButton({
                         top: isButtonHovered ? '30%' : '20%',
                         left: isButtonHovered ? '80%' : '40%',
                         zIndex: isButtonHovered ? 2 : -5,
-                        filter: isButtonHovered ? 'drop-shadow(0 0 10px rgba(255,255,255,0.8))' : 'drop-shadow(0 0 0 rgba(255,255,255,0.8))',
+                        filter: isButtonHovered
+                          ? 'drop-shadow(0 0 10px rgba(255,255,255,0.8))'
+                          : 'drop-shadow(0 0 0 rgba(255,255,255,0.8))',
                       }}
                     >
                       <svg
@@ -247,7 +255,9 @@ export default function HeroWithButton({
                         top: isButtonHovered ? '25%' : '25%',
                         left: isButtonHovered ? '115%' : '45%',
                         zIndex: isButtonHovered ? 2 : -5,
-                        filter: isButtonHovered ? 'drop-shadow(0 0 10px rgba(255,255,255,0.8))' : 'drop-shadow(0 0 0 rgba(255,255,255,0.8))',
+                        filter: isButtonHovered
+                          ? 'drop-shadow(0 0 10px rgba(255,255,255,0.8))'
+                          : 'drop-shadow(0 0 0 rgba(255,255,255,0.8))',
                       }}
                     >
                       <svg
@@ -269,7 +279,9 @@ export default function HeroWithButton({
                         top: isButtonHovered ? '5%' : '5%',
                         left: isButtonHovered ? '60%' : '50%',
                         zIndex: isButtonHovered ? 2 : -5,
-                        filter: isButtonHovered ? 'drop-shadow(0 0 10px rgba(255,255,255,0.8))' : 'drop-shadow(0 0 0 rgba(255,255,255,0.8))',
+                        filter: isButtonHovered
+                          ? 'drop-shadow(0 0 10px rgba(255,255,255,0.8))'
+                          : 'drop-shadow(0 0 0 rgba(255,255,255,0.8))',
                       }}
                     >
                       <svg
@@ -287,9 +299,8 @@ export default function HeroWithButton({
           </div>
         </div>
       </div>
-      
+
       <BookingForm isOpen={isFormOpen} onClose={handleCloseForm} />
     </div>
   );
 }
-

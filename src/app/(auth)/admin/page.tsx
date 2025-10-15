@@ -12,6 +12,7 @@ import { signOut, useSession } from 'next-auth/react';
 import ServiceImageManager from '@/components/admin/ServiceImageManager';
 import BookingManager from '@/components/admin/BookingManager';
 import SaveAllButton from '@/components/admin/SaveAllButton';
+import SessionWarning from '@/components/admin/SessionWarning';
 import { apiCache, cacheKeys } from '@/lib/apiCache';
 import { useProjectsBatch } from '@/hooks';
 import { useHighlightsBatch } from '@/hooks';
@@ -138,6 +139,14 @@ function SortableProject({
 export default function AdminPage() {
   const { t } = useTranslation();
   const { data: session } = useSession();
+
+  // Aggiungi classe admin-page al body per disabilitare ottimizzazioni CSS aggressive
+  useEffect(() => {
+    document.body.classList.add('admin-page');
+    return () => {
+      document.body.classList.remove('admin-page');
+    };
+  }, []);
   const {
     projects,
     loading,
@@ -2660,6 +2669,9 @@ export default function AdminPage() {
             }}
           />
         )}
+
+        {/* Session Warning */}
+        <SessionWarning />
       </div>
     </ProtectedRoute>
   );

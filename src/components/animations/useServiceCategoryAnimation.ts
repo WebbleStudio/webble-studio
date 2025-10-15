@@ -156,7 +156,7 @@ export function useServiceCategoryAnimation() {
       duration: 0.4,
       ease: [0.25, 0.46, 0.45, 0.94] as const,
     },
-    style: { 
+    style: {
       willChange: 'transform, opacity' as const,
       WebkitFontSmoothing: 'antialiased' as const,
       MozOsxFontSmoothing: 'grayscale' as const,
@@ -177,7 +177,7 @@ export function useServiceCategoryAnimation() {
       duration: 0.4,
       ease: [0.25, 0.46, 0.45, 0.94] as const,
     },
-    style: { 
+    style: {
       willChange: 'transform, opacity' as const,
       WebkitFontSmoothing: 'antialiased' as const,
       MozOsxFontSmoothing: 'grayscale' as const,

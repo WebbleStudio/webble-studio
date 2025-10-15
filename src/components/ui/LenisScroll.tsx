@@ -98,4 +98,3 @@ export default function LenisScroll({ disabled = false }: LenisScrollProps) {
 
   return null; // Questo componente non renderizza nulla
 }
-

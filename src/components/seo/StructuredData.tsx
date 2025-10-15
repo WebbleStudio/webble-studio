@@ -21,7 +21,7 @@ export default function StructuredData({ type, data }: StructuredDataProps) {
           logo: `${baseUrl}/img/webble-white-logo.svg`,
           image: `${baseUrl}/img/thumbnails/webble-thumbnail.jpg`,
           description:
-            'Webble Studio trasforma idee in campagne che si distinguono, dall\'idea ai risultati, senza perdere tempo. Web design, UI/UX, social media e advertising.',
+            "Webble Studio trasforma idee in campagne che si distinguono, dall'idea ai risultati, senza perdere tempo. Web design, UI/UX, social media e advertising.",
           address: {
             '@type': 'PostalAddress',
             streetAddress: '16192 Coastal Hwy',
@@ -73,7 +73,7 @@ export default function StructuredData({ type, data }: StructuredDataProps) {
           name: 'Webble Studio',
           url: baseUrl,
           description:
-            'Webble Studio trasforma idee in campagne che si distinguono, dall\'idea ai risultati, senza perdere tempo. Web design, UI/UX, social media e advertising.',
+            "Webble Studio trasforma idee in campagne che si distinguono, dall'idea ai risultati, senza perdere tempo. Web design, UI/UX, social media e advertising.",
           publisher: {
             '@type': 'Organization',
             name: 'Webble Studio',
@@ -94,7 +94,7 @@ export default function StructuredData({ type, data }: StructuredDataProps) {
           name: 'Contatti - Webble Studio',
           url: `${baseUrl}/contatti`,
           description:
-            'Contattaci per trasformare le tue idee in campagne che si distinguono. Webble Studio: dall\'idea ai risultati, senza perdere tempo.',
+            "Contattaci per trasformare le tue idee in campagne che si distinguono. Webble Studio: dall'idea ai risultati, senza perdere tempo.",
           mainEntity: {
             '@type': 'Organization',
             name: 'Webble Studio',

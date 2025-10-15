@@ -87,11 +87,13 @@ export function useRevalidate() {
         // Aggiungi un timestamp per forzare il refresh
         const refreshTimestamp = Date.now();
         window.localStorage.setItem('force-refresh', refreshTimestamp.toString());
-        
+
         // Notifica le altre tab che devono refreshare
-        window.dispatchEvent(new CustomEvent('cache-invalidated', { 
-          detail: { timestamp: refreshTimestamp } 
-        }));
+        window.dispatchEvent(
+          new CustomEvent('cache-invalidated', {
+            detail: { timestamp: refreshTimestamp },
+          })
+        );
       }
 
       console.log('✅ All caches invalidated and pages revalidated');

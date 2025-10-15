@@ -12,7 +12,7 @@ import { getPortfolioData } from '@/lib/serverActions';
 // Force Node.js runtime (non Edge)
 export const runtime = 'nodejs';
 export const dynamic = 'force-static';
-export const revalidate = 43200; // ISR: revalidate ogni 12 ore (43200s)
+export const revalidate = 86400; // ISR: revalidate ogni 24 ore (86400s)
 
 export default async function PortfolioPage() {
   // Server Action: fetch dati direttamente dal database

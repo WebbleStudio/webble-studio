@@ -108,7 +108,9 @@ export default function Projects({ projectData }: ProjectsProps) {
             <div className="flex flex-col items-center" style={{ contain: 'layout style' }}>
               {/* Fixed Title */}
               <h2 className="text-white text-[48px] 2xl:text-[56px] font-figtree font-medium text-center relative w-[600px] 2xl:w-[750px]">
-                {project.originalProject ? getTranslatedTitle(project.originalProject) : project.title}
+                {project.originalProject
+                  ? getTranslatedTitle(project.originalProject)
+                  : project.title}
               </h2>
 
               {/* Animated Project Description */}
@@ -169,7 +171,9 @@ export default function Projects({ projectData }: ProjectsProps) {
             {/* Right Column: Fixed H3 + Line + Arrow */}
             <div className="flex flex-col" style={{ contain: 'layout style' }}>
               <h3 className="text-white/30 text-lg font-light mb-2 text-right font-poppins">
-                {project.originalProject ? getTranslatedTitle(project.originalProject) : project.title}
+                {project.originalProject
+                  ? getTranslatedTitle(project.originalProject)
+                  : project.title}
               </h3>
               <div className="w-full h-px bg-white opacity-30 mb-5"></div>
               <div className="flex justify-end">
@@ -196,7 +200,9 @@ export default function Projects({ projectData }: ProjectsProps) {
           >
             {/* Fixed Title */}
             <h1 className="text-white text-[32px] xs:text-[36px] sm:text-[40px] md:text-[44px] lg:text-[48px] font-figtree font-medium text-center relative w-[300px] xs:w-[340px] sm:w-[380px] md:w-[500px] lg:w-[600px] mx-auto">
-              {project.originalProject ? getTranslatedTitle(project.originalProject) : project.title}
+              {project.originalProject
+                ? getTranslatedTitle(project.originalProject)
+                : project.title}
             </h1>
 
             {/* Animated Project Description */}

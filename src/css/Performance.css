@@ -17,10 +17,16 @@
 
 /* Ottimizzazioni per immagini */
 
-/* Ottimizzazioni per video */
-video {
+/* Ottimizzazioni per video - SOLO per pagine pubbliche */
+body:not(.admin-page):not(.auth-page) video {
   content-visibility: auto;
   contain-intrinsic-size: 300px;
+}
+
+/* Admin: disabilita content-visibility per evitare scomparsa elementi */
+.admin-page video {
+  content-visibility: visible !important;
+  contain-intrinsic-size: unset !important;
 }
 
 /* Ottimizzazioni per animazioni */

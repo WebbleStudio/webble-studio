@@ -7,19 +7,20 @@ import HeroWithButton from '@/components/ui/HeroWithButton';
 export default function Hero() {
   const { t, currentLanguage } = useTranslation();
 
-  const titleContent = currentLanguage === 'en' ? (
-    <>
-      Contact now
-      <br />
-      <span className="font-semibold">Webble Studio</span>
-    </>
-  ) : (
-    <>
-      Contatta ora
-      <br />
-      <span className="font-semibold">Webble Studio</span>
-    </>
-  );
+  const titleContent =
+    currentLanguage === 'en' ? (
+      <>
+        Contact now
+        <br />
+        <span className="font-semibold">Webble Studio</span>
+      </>
+    ) : (
+      <>
+        Contatta ora
+        <br />
+        <span className="font-semibold">Webble Studio</span>
+      </>
+    );
 
   return (
     <HeroWithButton

@@ -18,6 +18,14 @@ export default function LoginPage() {
   // Inizializza il theme system
   useDarkMode();
 
+  // Aggiungi classe auth-page al body per disabilitare ottimizzazioni CSS aggressive
+  useEffect(() => {
+    document.body.classList.add('auth-page');
+    return () => {
+      document.body.classList.remove('auth-page');
+    };
+  }, []);
+
   // Gestisci il redirect se l'utente è già loggato
   useEffect(() => {
     if (status === 'authenticated' && session) {

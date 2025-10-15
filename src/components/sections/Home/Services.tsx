@@ -11,7 +11,7 @@ interface ServicesProps {
 
 export default function Services({ serviceCategories }: ServicesProps) {
   const { t } = useTranslation();
-  
+
   // Helper per ottenere progetti per categoria
   const getProjectsForCategory = useMemo(() => {
     return (categorySlug: string) => {
@@ -21,7 +21,10 @@ export default function Services({ serviceCategories }: ServicesProps) {
   }, [serviceCategories]);
 
   return (
-    <section id="services-section" className="section-scroll h-auto w-full flex items-start mt-0 py-[75px]">
+    <section
+      id="services-section"
+      className="section-scroll h-auto w-full flex items-start mt-0 py-[75px]"
+    >
       <div className="w-full flex flex-col">
         <ServiceCategory
           number={t('services.service01.number')}

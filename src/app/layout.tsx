@@ -89,55 +89,14 @@ export default function RootLayout({
     <html lang="it" className={fontVariables}>
       <head>
         {/* Preload immagini critiche per migliorare LCP */}
-        <link
-          rel="preload"
-          as="image"
-          href="/img/thumbnails/webble-thumbnail.jpg"
-          type="image/jpeg"
-        />
-        <link
-          rel="preload"
-          as="image"
-          href="/img/radial.png"
-          type="image/png"
-        />
-        <link
-          rel="preload"
-          as="image"
-          href="/img/radial2.png"
-          type="image/png"
-        />
+        {/* webble-thumbnail.jpg: usata solo per Open Graph, non critica per LCP */}
+        {/* radial.png e radial2.png: background images, non critiche per LCP */}
         {/* Preload critical static images to avoid edge requests */}
-        <link
-          rel="preload"
-          as="image"
-          href="/img/webble-white-logo.svg"
-          type="image/svg+xml"
-        />
-        <link
-          rel="preload"
-          as="image"
-          href="/img/webble-3d.webp"
-          type="image/webp"
-        />
-        <link
-          rel="preload"
-          as="image"
-          href="/img/hero-desktop-proj.png"
-          type="image/png"
-        />
-        <link
-          rel="preload"
-          as="image"
-          href="/img/bubble-background.jpg"
-          type="image/jpeg"
-        />
-        <link
-          rel="preload"
-          as="image"
-          href="/icons/diagonal-arrow.svg"
-          type="image/svg+xml"
-        />
+        <link rel="preload" as="image" href="/img/webble-white-logo.svg" type="image/svg+xml" />
+        {/* webble-3d.webp: usata in KeyPoints, non critica per LCP */}
+        {/* hero-desktop-proj.png: usata in Hero2 bottom, non critica per LCP */}
+        {/* bubble-background.jpg: usata in Payoff, non critica per LCP */}
+        <link rel="preload" as="image" href="/icons/diagonal-arrow.svg" type="image/svg+xml" />
         {/* Preload fonts to avoid edge requests */}
         <link
           rel="preload"

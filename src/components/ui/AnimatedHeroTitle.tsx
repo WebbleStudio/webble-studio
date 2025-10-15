@@ -27,19 +27,19 @@ export default function AnimatedHeroTitle({
 
     return () => clearTimeout(timer);
   }, [delay]);
-  
+
   // Cleanup effect: Forza rimozione blur dopo animazione (FALLBACK per Chromium/Brave)
   useEffect(() => {
     if (!isVisible) {
       setIsAnimationComplete(false);
       return;
     }
-    
+
     // Clear previous timeout
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
     }
-    
+
     // Fallback: forza rimozione blur dopo animazione completa + buffer
     timeoutRef.current = setTimeout(() => {
       if (elementRef.current) {
@@ -48,7 +48,7 @@ export default function AnimatedHeroTitle({
         setIsAnimationComplete(true);
       }
     }, 700); // 600ms animation + 100ms buffer
-    
+
     return () => {
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);

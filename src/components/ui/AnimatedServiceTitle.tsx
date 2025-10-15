@@ -22,19 +22,19 @@ export default function AnimatedServiceTitle({
   const { ref, isVisible } = useServiceTitleScrollAnimation(index);
   const [isAnimationComplete, setIsAnimationComplete] = useState(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
-  
+
   // Cleanup effect: Forza rimozione blur dopo animazione (FALLBACK per Chromium/Brave)
   useEffect(() => {
     if (!isVisible) {
       setIsAnimationComplete(false);
       return;
     }
-    
+
     // Clear previous timeout
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
     }
-    
+
     // Fallback: forza rimozione blur dopo animazione completa + buffer
     timeoutRef.current = setTimeout(() => {
       if (ref.current) {
@@ -43,7 +43,7 @@ export default function AnimatedServiceTitle({
         setIsAnimationComplete(true);
       }
     }, 500); // 400ms animation + 100ms buffer
-    
+
     return () => {
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);

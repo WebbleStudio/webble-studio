@@ -423,6 +423,50 @@
             "data_text": "Usage data, Various types of data as specified in the service privacy policy",
             "description_title": "Description",
             "description_text": "Vercel is a hosting and backend service provided by Vercel Inc. that allows the website to function properly and ensures the necessary performance for navigation."
+          },
+          "cloudflare": {
+            "name": "Cloudflare",
+            "provider": "Provider: Cloudflare, Inc.",
+            "status": "Always Active",
+            "purpose_title": "Purpose",
+            "purpose_text": "Traffic optimization and distribution",
+            "data_title": "Personal Data Collected",
+            "data_text": "Usage data, IP address, traffic data and communications between browser and application",
+            "description_title": "Description",
+            "description_text": "Cloudflare is a traffic optimization and distribution service provided by Cloudflare Inc. The integration methods of Cloudflare involve filtering all traffic of this Application, i.e., the communications between this Application and the User's browser, also allowing the collection of statistical data on it.",
+            "privacy_title": "Privacy",
+            "privacy_text": "For more information on Cloudflare privacy:",
+            "privacy_link": "Cloudflare Privacy Policy"
+          },
+          "recaptcha": {
+            "name": "Google reCAPTCHA",
+            "provider": "Provider: Google LLC",
+            "status": "Always Active",
+            "purpose_title": "Purpose",
+            "purpose_text": "Spam and bot protection",
+            "data_title": "Personal Data Collected",
+            "data_text": "Interaction data, IP address, browser data, user behavior on the site",
+            "description_title": "Description",
+            "description_text": "Google reCAPTCHA is a spam protection service provided by Google LLC. The use of the reCAPTCHA system is subject to Google's privacy policy and terms of use.",
+            "privacy_title": "Privacy",
+            "privacy_text": "To learn about Google's use of Data, see their",
+            "privacy_link1": "partner policy",
+            "privacy_and": "and their",
+            "privacy_link2": "Business Data page"
+          },
+          "youtube": {
+            "name": "YouTube Video Widget",
+            "provider": "Provider: Google LLC",
+            "status": "Always Active",
+            "purpose_title": "Purpose",
+            "purpose_text": "Display of content from external platforms",
+            "data_title": "Personal Data Collected",
+            "data_text": "Cookies and usage data, device information, viewing preferences",
+            "description_title": "Description",
+            "description_text": "YouTube is a video content viewing service managed by Google LLC that allows this Application to integrate such content within its pages.",
+            "privacy_title": "Privacy",
+            "privacy_text": "For more information on YouTube privacy:",
+            "privacy_link": "YouTube Privacy Policy"
           }
         },
         "marketing_section": {

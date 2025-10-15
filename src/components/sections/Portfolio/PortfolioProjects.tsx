@@ -325,7 +325,13 @@ export default function PortfolioProjects({ projects }: PortfolioProjectsProps) 
         <div className="hidden xl:block">{renderCustomLayout}</div>
       </div>
     );
-  }, [filteredProjects, getTranslatedTitle, getTranslatedDescription, handleProjectClick, renderCustomLayout]);
+  }, [
+    filteredProjects,
+    getTranslatedTitle,
+    getTranslatedDescription,
+    handleProjectClick,
+    renderCustomLayout,
+  ]);
 
   return (
     <section className="h-auto min-h-screen flex flex-col py-16">
@@ -426,7 +432,7 @@ export default function PortfolioProjects({ projects }: PortfolioProjectsProps) 
           {/* Messaggio se nessun progetto */}
           <AnimatePresence>
             {filteredProjects.length === 0 && (
-              <motion.div 
+              <motion.div
                 className="text-center py-12"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}

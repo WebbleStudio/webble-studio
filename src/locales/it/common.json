@@ -423,6 +423,50 @@
             "data_text": "Dati di utilizzo, Varie tipologie di dati secondo quanto specificato dalla privacy policy del servizio",
             "description_title": "Descrizione",
             "description_text": "Vercel è un servizio di hosting e backend fornito da Vercel Inc. che permette al sito web di funzionare correttamente e garantisce le prestazioni necessarie per la navigazione."
+          },
+          "cloudflare": {
+            "name": "Cloudflare",
+            "provider": "Provider: Cloudflare, Inc.",
+            "status": "Sempre Attivi",
+            "purpose_title": "Finalità",
+            "purpose_text": "Ottimizzazione e distribuzione del traffico",
+            "data_title": "Dati Personali Raccolti",
+            "data_text": "Dati di utilizzo, indirizzo IP, dati di traffico e comunicazioni tra browser e applicazione",
+            "description_title": "Descrizione",
+            "description_text": "Cloudflare è un servizio di ottimizzazione e distribuzione del traffico fornito da Cloudflare Inc. Le modalità di integrazione di Cloudflare prevedono che questo filtri tutto il traffico di questa Applicazione, ossia le comunicazioni fra questa Applicazione ed il browser dell'Utente, permettendo anche la raccolta di dati statistici su di esso.",
+            "privacy_title": "Privacy",
+            "privacy_text": "Per maggiori informazioni sulla privacy di Cloudflare:",
+            "privacy_link": "Cloudflare Privacy Policy"
+          },
+          "recaptcha": {
+            "name": "Google reCAPTCHA",
+            "provider": "Provider: Google LLC",
+            "status": "Sempre Attivi",
+            "purpose_title": "Finalità",
+            "purpose_text": "Protezione da spam e bot",
+            "data_title": "Dati Personali Raccolti",
+            "data_text": "Dati di interazione, indirizzo IP, dati del browser, comportamento dell'utente sul sito",
+            "description_title": "Descrizione",
+            "description_text": "Google reCAPTCHA è un servizio di protezione dallo spam fornito da Google LLC. L'utilizzo del sistema reCAPTCHA è soggetto alla privacy policy e ai termini di utilizzo di Google.",
+            "privacy_title": "Privacy",
+            "privacy_text": "Per conoscere l'utilizzo dei Dati da parte di Google, consulta la loro",
+            "privacy_link1": "partner policy",
+            "privacy_and": "e la loro pagina dei",
+            "privacy_link2": "Dati Commerciali"
+          },
+          "youtube": {
+            "name": "YouTube Video Widget",
+            "provider": "Provider: Google LLC",
+            "status": "Sempre Attivi",
+            "purpose_title": "Finalità",
+            "purpose_text": "Visualizzazione di contenuti da piattaforme esterne",
+            "data_title": "Dati Personali Raccolti",
+            "data_text": "Cookie e dati di utilizzo, informazioni sul dispositivo, preferenze di visualizzazione",
+            "description_title": "Descrizione",
+            "description_text": "YouTube è un servizio di visualizzazione di contenuti video gestito da Google LLC che permette a questa Applicazione di integrare tali contenuti all'interno delle proprie pagine.",
+            "privacy_title": "Privacy",
+            "privacy_text": "Per maggiori informazioni sulla privacy di YouTube:",
+            "privacy_link": "YouTube Privacy Policy"
           }
         },
         "marketing_section": {

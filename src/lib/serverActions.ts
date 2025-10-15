@@ -279,11 +279,11 @@ export const getPortfolioData = unstable_cache(
 export async function revalidateTags(tags: string[]) {
   'use server';
   const { revalidateTag } = await import('next/cache');
-  
+
   for (const tag of tags) {
     revalidateTag(tag);
   }
-  
+
   console.log('✅ Revalidated tags:', tags);
 }
 
@@ -299,7 +299,6 @@ export async function revalidateAll() {
     'home-data',
     'portfolio-data',
   ]);
-  
+
   console.log('✅ Revalidated all data');
 }
-

@@ -166,47 +166,248 @@ export default function CookiePolicyPage() {
                   {t('cookies.policy.sections.functional.description')}
                 </p>
 
-                <div className="border border-gray-200 dark:border-[rgba(250,250,250,0.1)] rounded-xl p-6 bg-white dark:bg-[rgba(250,250,250,0.02)]">
-                  <div className="flex items-start justify-between mb-4">
-                    <div>
-                      <h3 className="text-xl font-semibold text-gray-900 dark:text-[#fafafa]">
-                        {t('cookies.policy.sections.functional.vercel.name')}
-                      </h3>
-                      <p className="text-sm text-gray-500 dark:text-[#fafafa]/60 mt-1">
-                        {t('cookies.policy.sections.functional.vercel.provider')}
-                      </p>
+                <div className="space-y-6">
+                  {/* Vercel */}
+                  <div className="border border-gray-200 dark:border-[rgba(250,250,250,0.1)] rounded-xl p-6 bg-white dark:bg-[rgba(250,250,250,0.02)]">
+                    <div className="flex items-start justify-between mb-4">
+                      <div>
+                        <h3 className="text-xl font-semibold text-gray-900 dark:text-[#fafafa]">
+                          {t('cookies.policy.sections.functional.vercel.name')}
+                        </h3>
+                        <p className="text-sm text-gray-500 dark:text-[#fafafa]/60 mt-1">
+                          {t('cookies.policy.sections.functional.vercel.provider')}
+                        </p>
+                      </div>
+                      <span className="px-3 py-1 bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-400 text-xs rounded-full font-medium">
+                        {t('cookies.policy.sections.functional.vercel.status')}
+                      </span>
                     </div>
-                    <span className="px-3 py-1 bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-400 text-xs rounded-full font-medium">
-                      {t('cookies.policy.sections.functional.vercel.status')}
-                    </span>
+
+                    <div className="space-y-4">
+                      <div>
+                        <h4 className="text-sm font-semibold text-gray-900 dark:text-[#fafafa] mb-2">
+                          {t('cookies.policy.sections.functional.vercel.purpose_title')}
+                        </h4>
+                        <p className="text-sm text-gray-600 dark:text-[#fafafa]/80">
+                          {t('cookies.policy.sections.functional.vercel.purpose_text')}
+                        </p>
+                      </div>
+
+                      <div>
+                        <h4 className="text-sm font-semibold text-gray-900 dark:text-[#fafafa] mb-2">
+                          {t('cookies.policy.sections.functional.vercel.data_title')}
+                        </h4>
+                        <p className="text-sm text-gray-600 dark:text-[#fafafa]/80">
+                          {t('cookies.policy.sections.functional.vercel.data_text')}
+                        </p>
+                      </div>
+
+                      <div>
+                        <h4 className="text-sm font-semibold text-gray-900 dark:text-[#fafafa] mb-2">
+                          {t('cookies.policy.sections.functional.vercel.description_title')}
+                        </h4>
+                        <p className="text-sm text-gray-600 dark:text-[#fafafa]/80">
+                          {t('cookies.policy.sections.functional.vercel.description_text')}
+                        </p>
+                      </div>
+                    </div>
                   </div>
 
-                  <div className="space-y-4">
-                    <div>
-                      <h4 className="text-sm font-semibold text-gray-900 dark:text-[#fafafa] mb-2">
-                        {t('cookies.policy.sections.functional.vercel.purpose_title')}
-                      </h4>
-                      <p className="text-sm text-gray-600 dark:text-[#fafafa]/80">
-                        {t('cookies.policy.sections.functional.vercel.purpose_text')}
-                      </p>
+                  {/* Cloudflare */}
+                  <div className="border border-gray-200 dark:border-[rgba(250,250,250,0.1)] rounded-xl p-6 bg-white dark:bg-[rgba(250,250,250,0.02)]">
+                    <div className="flex items-start justify-between mb-4">
+                      <div>
+                        <h3 className="text-xl font-semibold text-gray-900 dark:text-[#fafafa]">
+                          {t('cookies.policy.sections.functional.cloudflare.name')}
+                        </h3>
+                        <p className="text-sm text-gray-500 dark:text-[#fafafa]/60 mt-1">
+                          {t('cookies.policy.sections.functional.cloudflare.provider')}
+                        </p>
+                      </div>
+                      <span className="px-3 py-1 bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-400 text-xs rounded-full font-medium">
+                        {t('cookies.policy.sections.functional.cloudflare.status')}
+                      </span>
                     </div>
 
-                    <div>
-                      <h4 className="text-sm font-semibold text-gray-900 dark:text-[#fafafa] mb-2">
-                        {t('cookies.policy.sections.functional.vercel.data_title')}
-                      </h4>
-                      <p className="text-sm text-gray-600 dark:text-[#fafafa]/80">
-                        {t('cookies.policy.sections.functional.vercel.data_text')}
-                      </p>
+                    <div className="space-y-4">
+                      <div>
+                        <h4 className="text-sm font-semibold text-gray-900 dark:text-[#fafafa] mb-2">
+                          {t('cookies.policy.sections.functional.cloudflare.purpose_title')}
+                        </h4>
+                        <p className="text-sm text-gray-600 dark:text-[#fafafa]/80">
+                          {t('cookies.policy.sections.functional.cloudflare.purpose_text')}
+                        </p>
+                      </div>
+
+                      <div>
+                        <h4 className="text-sm font-semibold text-gray-900 dark:text-[#fafafa] mb-2">
+                          {t('cookies.policy.sections.functional.cloudflare.data_title')}
+                        </h4>
+                        <p className="text-sm text-gray-600 dark:text-[#fafafa]/80">
+                          {t('cookies.policy.sections.functional.cloudflare.data_text')}
+                        </p>
+                      </div>
+
+                      <div>
+                        <h4 className="text-sm font-semibold text-gray-900 dark:text-[#fafafa] mb-2">
+                          {t('cookies.policy.sections.functional.cloudflare.description_title')}
+                        </h4>
+                        <p className="text-sm text-gray-600 dark:text-[#fafafa]/80">
+                          {t('cookies.policy.sections.functional.cloudflare.description_text')}
+                        </p>
+                      </div>
+
+                      <div>
+                        <h4 className="text-sm font-semibold text-gray-900 dark:text-[#fafafa] mb-2">
+                          {t('cookies.policy.sections.functional.cloudflare.privacy_title')}
+                        </h4>
+                        <p className="text-sm text-gray-600 dark:text-[#fafafa]/80">
+                          {t('cookies.policy.sections.functional.cloudflare.privacy_text')}{' '}
+                          <a
+                            href="https://www.cloudflare.com/privacypolicy/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-[#F20352] hover:underline"
+                          >
+                            {t('cookies.policy.sections.functional.cloudflare.privacy_link')}
+                          </a>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Google reCAPTCHA */}
+                  <div className="border border-gray-200 dark:border-[rgba(250,250,250,0.1)] rounded-xl p-6 bg-white dark:bg-[rgba(250,250,250,0.02)]">
+                    <div className="flex items-start justify-between mb-4">
+                      <div>
+                        <h3 className="text-xl font-semibold text-gray-900 dark:text-[#fafafa]">
+                          {t('cookies.policy.sections.functional.recaptcha.name')}
+                        </h3>
+                        <p className="text-sm text-gray-500 dark:text-[#fafafa]/60 mt-1">
+                          {t('cookies.policy.sections.functional.recaptcha.provider')}
+                        </p>
+                      </div>
+                      <span className="px-3 py-1 bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-400 text-xs rounded-full font-medium">
+                        {t('cookies.policy.sections.functional.recaptcha.status')}
+                      </span>
                     </div>
 
-                    <div>
-                      <h4 className="text-sm font-semibold text-gray-900 dark:text-[#fafafa] mb-2">
-                        {t('cookies.policy.sections.functional.vercel.description_title')}
-                      </h4>
-                      <p className="text-sm text-gray-600 dark:text-[#fafafa]/80">
-                        {t('cookies.policy.sections.functional.vercel.description_text')}
-                      </p>
+                    <div className="space-y-4">
+                      <div>
+                        <h4 className="text-sm font-semibold text-gray-900 dark:text-[#fafafa] mb-2">
+                          {t('cookies.policy.sections.functional.recaptcha.purpose_title')}
+                        </h4>
+                        <p className="text-sm text-gray-600 dark:text-[#fafafa]/80">
+                          {t('cookies.policy.sections.functional.recaptcha.purpose_text')}
+                        </p>
+                      </div>
+
+                      <div>
+                        <h4 className="text-sm font-semibold text-gray-900 dark:text-[#fafafa] mb-2">
+                          {t('cookies.policy.sections.functional.recaptcha.data_title')}
+                        </h4>
+                        <p className="text-sm text-gray-600 dark:text-[#fafafa]/80">
+                          {t('cookies.policy.sections.functional.recaptcha.data_text')}
+                        </p>
+                      </div>
+
+                      <div>
+                        <h4 className="text-sm font-semibold text-gray-900 dark:text-[#fafafa] mb-2">
+                          {t('cookies.policy.sections.functional.recaptcha.description_title')}
+                        </h4>
+                        <p className="text-sm text-gray-600 dark:text-[#fafafa]/80">
+                          {t('cookies.policy.sections.functional.recaptcha.description_text')}
+                        </p>
+                      </div>
+
+                      <div>
+                        <h4 className="text-sm font-semibold text-gray-900 dark:text-[#fafafa] mb-2">
+                          {t('cookies.policy.sections.functional.recaptcha.privacy_title')}
+                        </h4>
+                        <p className="text-sm text-gray-600 dark:text-[#fafafa]/80">
+                          {t('cookies.policy.sections.functional.recaptcha.privacy_text')}{' '}
+                          <a
+                            href="https://policies.google.com/technologies/partner-sites"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-[#F20352] hover:underline"
+                          >
+                            {t('cookies.policy.sections.functional.recaptcha.privacy_link1')}
+                          </a>{' '}
+                          {t('cookies.policy.sections.functional.recaptcha.privacy_and')}{' '}
+                          <a
+                            href="https://business.safety.google/privacy/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-[#F20352] hover:underline"
+                          >
+                            {t('cookies.policy.sections.functional.recaptcha.privacy_link2')}
+                          </a>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* YouTube Video Widget */}
+                  <div className="border border-gray-200 dark:border-[rgba(250,250,250,0.1)] rounded-xl p-6 bg-white dark:bg-[rgba(250,250,250,0.02)]">
+                    <div className="flex items-start justify-between mb-4">
+                      <div>
+                        <h3 className="text-xl font-semibold text-gray-900 dark:text-[#fafafa]">
+                          {t('cookies.policy.sections.functional.youtube.name')}
+                        </h3>
+                        <p className="text-sm text-gray-500 dark:text-[#fafafa]/60 mt-1">
+                          {t('cookies.policy.sections.functional.youtube.provider')}
+                        </p>
+                      </div>
+                      <span className="px-3 py-1 bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-400 text-xs rounded-full font-medium">
+                        {t('cookies.policy.sections.functional.youtube.status')}
+                      </span>
+                    </div>
+
+                    <div className="space-y-4">
+                      <div>
+                        <h4 className="text-sm font-semibold text-gray-900 dark:text-[#fafafa] mb-2">
+                          {t('cookies.policy.sections.functional.youtube.purpose_title')}
+                        </h4>
+                        <p className="text-sm text-gray-600 dark:text-[#fafafa]/80">
+                          {t('cookies.policy.sections.functional.youtube.purpose_text')}
+                        </p>
+                      </div>
+
+                      <div>
+                        <h4 className="text-sm font-semibold text-gray-900 dark:text-[#fafafa] mb-2">
+                          {t('cookies.policy.sections.functional.youtube.data_title')}
+                        </h4>
+                        <p className="text-sm text-gray-600 dark:text-[#fafafa]/80">
+                          {t('cookies.policy.sections.functional.youtube.data_text')}
+                        </p>
+                      </div>
+
+                      <div>
+                        <h4 className="text-sm font-semibold text-gray-900 dark:text-[#fafafa] mb-2">
+                          {t('cookies.policy.sections.functional.youtube.description_title')}
+                        </h4>
+                        <p className="text-sm text-gray-600 dark:text-[#fafafa]/80">
+                          {t('cookies.policy.sections.functional.youtube.description_text')}
+                        </p>
+                      </div>
+
+                      <div>
+                        <h4 className="text-sm font-semibold text-gray-900 dark:text-[#fafafa] mb-2">
+                          {t('cookies.policy.sections.functional.youtube.privacy_title')}
+                        </h4>
+                        <p className="text-sm text-gray-600 dark:text-[#fafafa]/80">
+                          {t('cookies.policy.sections.functional.youtube.privacy_text')}{' '}
+                          <a
+                            href="https://policies.google.com/privacy"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-[#F20352] hover:underline"
+                          >
+                            {t('cookies.policy.sections.functional.youtube.privacy_link')}
+                          </a>
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>

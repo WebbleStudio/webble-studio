@@ -48,16 +48,16 @@ export default function AnimatedText({
   // Performance optimization hook
   const { shouldDisableBlur, shouldUseGPUAcceleration, shouldSkipAnimation, getAnimationDuration } =
     usePerformance();
-  
+
   // Cleanup effect: Forza rimozione blur dopo animazione (FALLBACK per Chromium/Brave)
   useEffect(() => {
     setIsAnimationComplete(false);
-    
+
     // Clear previous timeout
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
     }
-    
+
     // Fallback: forza rimozione blur dopo il completamento dell'animazione + buffer
     const animationDuration = getAnimationDuration(duration * 1000);
     timeoutRef.current = setTimeout(() => {
@@ -68,7 +68,7 @@ export default function AnimatedText({
         setIsAnimationComplete(true);
       }
     }, animationDuration + 100); // Buffer di 100ms
-    
+
     return () => {
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
@@ -137,18 +137,19 @@ export default function AnimatedText({
     MozOsxFontSmoothing: 'grayscale' as const,
     transform: 'translateZ(0)',
     // Dopo animazione completata, rimuovi willChange
-    ...(shouldUseGPUAcceleration && !isAnimationComplete && {
-      willChange: 'transform, opacity',
-      backfaceVisibility: 'hidden' as const,
-      WebkitBackfaceVisibility: 'hidden' as const,
-    }),
+    ...(shouldUseGPUAcceleration &&
+      !isAnimationComplete && {
+        willChange: 'transform, opacity',
+        backfaceVisibility: 'hidden' as const,
+        WebkitBackfaceVisibility: 'hidden' as const,
+      }),
     // Forza rimozione blur se animazione completa
     ...(isAnimationComplete && {
       filter: 'none',
       willChange: 'auto',
     }),
   };
-  
+
   // Handler per completamento animazione
   const handleAnimationComplete = () => {
     setIsAnimationComplete(true);

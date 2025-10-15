@@ -16,7 +16,12 @@ class ApiCache {
    * Ottiene i dati dalla cache o esegue il fetcher
    * Previene chiamate simultanee duplicate (deduplication)
    */
-  async get<T>(key: string, fetcher: () => Promise<T>, ttl: number = this.defaultTTL, isAdmin: boolean = false): Promise<T> {
+  async get<T>(
+    key: string,
+    fetcher: () => Promise<T>,
+    ttl: number = this.defaultTTL,
+    isAdmin: boolean = false
+  ): Promise<T> {
     // Usa TTL più lungo per admin
     const effectiveTTL = isAdmin ? this.adminTTL : ttl;
     const cached = this.cache.get(key);
@@ -105,6 +110,8 @@ export const cacheKeys = {
   projects: () => 'projects',
   heroProjects: () => 'hero-projects',
   serviceCategories: () => 'service-categories',
+  services: () => 'services',
+  highlights: () => 'highlights',
   homeData: () => 'home-data', // Endpoint aggregato home
   portfolioData: () => 'portfolio-data', // Endpoint aggregato portfolio
   project: (id: string) => `project-${id}`,
