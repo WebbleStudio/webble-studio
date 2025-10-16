@@ -148,6 +148,8 @@ export const getServiceCategories = unstable_cache(
   async (): Promise<EnrichedServiceCategory[]> => {
     try {
       // Fetch service categories e projects in parallelo
+      // Per operazioni pubbliche (lettura), usa client anonimo
+      // Le policy RLS permettono SELECT pubblico
       const [categoriesResult, projectsResult] = await Promise.all([
         supabase.from('service_categories').select('*').order('created_at', { ascending: true }),
         supabase.from('projects').select('*'),

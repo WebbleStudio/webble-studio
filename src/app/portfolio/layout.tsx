@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import StructuredData from '@/components/seo/StructuredData';
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://webblestudio.com';
-const ogImageAbs = 'https://webblestudio.com/img/thumbnails/portfolio-thumb.png';
+const ogImageAbs = 'https://webblestudio.com/img/thumbnails/portfolio-thumbnail.png';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

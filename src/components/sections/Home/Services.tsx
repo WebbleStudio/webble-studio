@@ -23,7 +23,7 @@ export default function Services({ serviceCategories }: ServicesProps) {
   return (
     <section
       id="services-section"
-      className="section-scroll h-auto w-full flex items-start mt-0 py-[75px]"
+      className="section-scroll h-auto w-full flex items-start mt-0 pt-[75px] pb-[75px] md:pb-[120px] lg:pb-[150px] xl:pb-[200px] 2xl:pb-[250px]"
     >
       <div className="w-full flex flex-col">
         <ServiceCategory

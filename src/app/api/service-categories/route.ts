@@ -91,6 +91,8 @@ export async function GET(request: NextRequest) {
       }
     }
 
+    // Per operazioni pubbliche (lettura), usa client anonimo
+    // Le policy RLS permettono SELECT pubblico
     const { data, error } = await supabase
       .from('service_categories')
       .select('*')
@@ -131,7 +133,11 @@ export async function PUT(request: NextRequest) {
       return NextResponse.json({ error: 'Maximum 3 images allowed per category' }, { status: 400 });
     }
 
-    const { data, error } = await supabase
+    // Per operazioni admin (aggiornamento), usa admin client
+    // Il client admin bypassa RLS, garantendo che l'update funzioni sempre
+    const client = supabaseAdmin || supabase;
+
+    const { data, error } = await client
       .from('service_categories')
       .update({
         images,

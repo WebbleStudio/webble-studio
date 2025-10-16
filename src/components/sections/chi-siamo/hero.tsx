@@ -11,6 +11,7 @@ export default function ChiSiamoHero() {
   const [expandedPerson, setExpandedPerson] = useState<string | null>(null);
   const [showCV, setShowCV] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [isXL, setIsXL] = useState(false);
   const [isZoomed, setIsZoomed] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isTouchDevice, setIsTouchDevice] = useState(false);
@@ -18,21 +19,22 @@ export default function ChiSiamoHero() {
   const { hideHeader, showHeader } = useHeader();
   const { t } = useTranslation();
 
-  // Rileva se è mobile e se è un dispositivo touch
+  // Rileva se è mobile, XL e se è un dispositivo touch
   React.useEffect(() => {
-    const checkMobile = () => {
+    const checkScreenSize = () => {
       setIsMobile(window.innerWidth < 768);
+      setIsXL(window.innerWidth >= 1280);
     };
 
     const checkTouchDevice = () => {
       setIsTouchDevice('ontouchstart' in window || navigator.maxTouchPoints > 0);
     };
 
-    checkMobile();
+    checkScreenSize();
     checkTouchDevice();
-    window.addEventListener('resize', checkMobile);
+    window.addEventListener('resize', checkScreenSize);
 
-    return () => window.removeEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkScreenSize);
   }, []);
 
   // Gestione tasto ESC per accessibilità
@@ -180,8 +182,8 @@ export default function ChiSiamoHero() {
   };
 
   return (
-    <section className="w-full flex flex-col md:flex-row relative overflow-hidden">
-      <div className="w-full mx-auto pt-[90px] px-[15px] pb-[15px] md:px-[25px] md:pb-[25px] md:pt-[100px] bg-[#0b0b0b] rounded-b-[32px] border border-[#f4f4f4]/10">
+    <section className="w-full flex flex-col md:flex-row relative overflow-hidden 2xl:px-[5px]">
+      <div className="w-full max-w-[1890px] mx-auto pt-[90px] px-[15px] pb-[15px] md:px-[25px] md:pb-[25px] md:pt-[100px] bg-[#0b0b0b] rounded-b-[32px] border border-[#f4f4f4]/10">
         <div className="flex flex-col md:flex-row gap-[15px] md:gap-[25px]">
           {/* Container Vadim */}
           <motion.div
@@ -202,7 +204,7 @@ export default function ChiSiamoHero() {
                   : expandedPerson === 'gabriele'
                     ? '0vh'
                     : '35vh'
-                : '70vh',
+                : isXL ? '60vh' : '70vh',
               width: isMobile
                 ? '100%'
                 : expandedPerson === 'vadim'
@@ -318,7 +320,7 @@ export default function ChiSiamoHero() {
                   : expandedPerson === 'vadim'
                     ? '0vh'
                     : '35vh'
-                : '70vh',
+                : isXL ? '60vh' : '70vh',
               width: isMobile
                 ? '100%'
                 : expandedPerson === 'gabriele'
@@ -354,7 +356,7 @@ export default function ChiSiamoHero() {
               }}
             >
               <OptimizedImage
-                src="/img/gabriele.png"
+                src="/img/gabriele.jpg"
                 alt="Gabriele"
                 fill
                 sizes="(max-width: 768px) 100vw, 50vw"

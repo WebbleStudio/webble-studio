@@ -285,8 +285,8 @@ export default function Header() {
               >
                 <Link href="/" onClick={handleLinkClick}>
                   <div
-                    className={`text-4xl md:text-5xl font-figtree text-auto-inverse cursor-pointer hover:text-[#F20352] transition-colors duration-200 ${
-                      isActivePage('/') ? 'font-medium' : 'font-light'
+                    className={`text-4xl md:text-5xl font-figtree cursor-pointer hover:text-[#F20352] transition-colors duration-200 ${
+                      isActivePage('/') ? 'font-medium text-[#F20352]' : 'font-light text-auto-inverse'
                     }`}
                   >
                     {t('menu.home')}
@@ -312,8 +312,8 @@ export default function Header() {
               >
                 <Link href="/chi-siamo" onClick={handleLinkClick}>
                   <div
-                    className={`text-4xl md:text-5xl font-figtree text-auto-inverse cursor-pointer hover:text-[#F20352] transition-colors duration-200 ${
-                      isActivePage('/chi-siamo') ? 'font-medium' : 'font-light'
+                    className={`text-4xl md:text-5xl font-figtree cursor-pointer hover:text-[#F20352] transition-colors duration-200 ${
+                      isActivePage('/chi-siamo') ? 'font-medium text-[#F20352]' : 'font-light text-auto-inverse'
                     }`}
                   >
                     {t('menu.about')}
@@ -339,8 +339,8 @@ export default function Header() {
               >
                 <Link href="/portfolio" onClick={handleLinkClick}>
                   <div
-                    className={`text-4xl md:text-5xl font-figtree text-auto-inverse cursor-pointer hover:text-[#F20352] transition-colors duration-200 ${
-                      isActivePage('/portfolio') ? 'font-medium' : 'font-light'
+                    className={`text-4xl md:text-5xl font-figtree cursor-pointer hover:text-[#F20352] transition-colors duration-200 ${
+                      isActivePage('/portfolio') ? 'font-medium text-[#F20352]' : 'font-light text-auto-inverse'
                     }`}
                   >
                     {t('menu.portfolio')}
@@ -369,8 +369,8 @@ export default function Header() {
                     handleLinkClick();
                     handleContactClick();
                   }}
-                  className={`text-4xl md:text-5xl font-figtree text-auto-inverse cursor-pointer hover:text-[#F20352] transition-colors duration-200 ${
-                    isActivePage('/contatti') ? 'font-medium' : 'font-light'
+                  className={`text-4xl md:text-5xl font-figtree cursor-pointer hover:text-[#F20352] transition-colors duration-200 ${
+                    isActivePage('/contatti') ? 'font-medium text-[#F20352]' : 'font-light text-auto-inverse'
                   }`}
                 >
                   {t('menu.contact')}

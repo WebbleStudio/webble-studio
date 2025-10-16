@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { supabase } from '@/lib/supabaseClient';
+import { supabase, supabaseAdmin } from '@/lib/supabaseClient';
 import { Resend } from 'resend';
 import ContactEmail from '@/components/email/ContactEmail';
 import ContactAdminEmail from '@/components/email/ContactAdminEmail';
@@ -81,7 +81,11 @@ export async function POST(request: NextRequest) {
     };
 
     try {
-      const { data, error } = await supabase
+      // Usa admin client se disponibile, altrimenti fallback su client anonimo
+      // Il client admin bypassa RLS, garantendo che l'insert funzioni sempre
+      const client = supabaseAdmin || supabase;
+
+      const { data, error } = await client
         .from('contacts')
         .insert([contactData])
         .select('id')
