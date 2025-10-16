@@ -241,6 +241,7 @@ export default function AdminPage() {
       images: string[];
       backgroundImage: string;
       projectDate: string;
+      homeFilters: string[]; // Filtri da mostrare in home (max 3)
       hasChanges: boolean;
     };
   }>({});
@@ -284,6 +285,7 @@ export default function AdminPage() {
         images: hp.images,
         backgroundImage: hp.background_image,
         projectDate: hp.project_date || '',
+        homeFilters: hp.home_filters || [],
       };
       return acc;
     },
@@ -292,6 +294,7 @@ export default function AdminPage() {
         descriptions: string[];
         descriptions_en: string[];
         images: string[];
+        homeFilters: string[];
         backgroundImage: string;
         projectDate: string;
       };
@@ -660,7 +663,7 @@ export default function AdminPage() {
   // Aggiorna le configurazioni locali (senza salvare)
   const updateLocalConfig = (
     projectId: string,
-    field: 'descriptions' | 'descriptions_en' | 'images' | 'backgroundImage' | 'projectDate',
+    field: 'descriptions' | 'descriptions_en' | 'images' | 'backgroundImage' | 'projectDate' | 'homeFilters',
     value: any
   ) => {
     setLocalConfigs((prev) => {
@@ -672,6 +675,7 @@ export default function AdminPage() {
           images: [],
           backgroundImage: '',
           projectDate: '',
+          homeFilters: [],
           hasChanges: false,
         };
 
@@ -692,6 +696,7 @@ export default function AdminPage() {
           images: updatedConfig.images,
           background_image: updatedConfig.backgroundImage,
           project_date: updatedConfig.projectDate,
+          home_filters: updatedConfig.homeFilters,
         };
         markHighlightAsModified(updateData);
       }
@@ -2188,6 +2193,8 @@ export default function AdminPage() {
                             descriptions_en: config.descriptions_en || ['', '', ''],
                             images: config.images,
                             backgroundImage: config.backgroundImage,
+                            projectDate: config.projectDate || '',
+                            homeFilters: config.homeFilters || [],
                             hasChanges: false,
                           };
 
@@ -2299,7 +2306,95 @@ export default function AdminPage() {
                                     ))}
                                   </div>
                                 </div>
+                              </div>
 
+                              {/* Home Filters Selection */}
+                              <div className="mt-6">
+                                <label className="block text-sm font-medium mb-3">
+                                  Filtri da mostrare in Home (max 3)
+                                </label>
+                                <p className="text-xs text-text-primary-60 mb-3">
+                                  Seleziona massimo 3 categorie da mostrare sotto il progetto in home page
+                                </p>
+                                <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                                  {project.categories.map((category) => {
+                                    const homeFilters = currentConfig.homeFilters || [];
+                                    const isSelected = homeFilters.includes(category);
+                                    const canSelect = homeFilters.length < 3 || isSelected;
+                                    
+                                    return (
+                                      <button
+                                        key={category}
+                                        onClick={() => {
+                                          const homeFilters = currentConfig.homeFilters || [];
+                                          if (isSelected) {
+                                            // Rimuovi il filtro
+                                            updateLocalConfig(
+                                              projectId,
+                                              'homeFilters',
+                                              homeFilters.filter((f) => f !== category)
+                                            );
+                                          } else if (canSelect) {
+                                            // Aggiungi il filtro
+                                            updateLocalConfig(
+                                              projectId,
+                                              'homeFilters',
+                                              [...homeFilters, category]
+                                            );
+                                          }
+                                        }}
+                                        disabled={!canSelect}
+                                        className={`p-2 rounded-lg border-2 transition-all duration-300 text-left text-sm ${
+                                          isSelected
+                                            ? 'border-[#F20352] bg-[#F20352]/5 text-[#F20352]'
+                                            : canSelect
+                                              ? 'border-neutral-200 dark:border-neutral-700 hover:border-[#F20352]/50 text-black dark:text-white'
+                                              : 'border-neutral-200 dark:border-neutral-700 text-neutral-400 dark:text-neutral-600 cursor-not-allowed opacity-50'
+                                        }`}
+                                      >
+                                        <div className="flex items-center gap-2">
+                                          <div
+                                            className={`w-3 h-3 rounded border-2 flex items-center justify-center flex-shrink-0 ${
+                                              isSelected
+                                                ? 'border-[#F20352] bg-[#F20352]'
+                                                : 'border-neutral-200 dark:border-neutral-700'
+                                            }`}
+                                          >
+                                            {isSelected && (
+                                              <svg
+                                                className="w-2 h-2 text-white"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                viewBox="0 0 24 24"
+                                              >
+                                                <path
+                                                  strokeLinecap="round"
+                                                  strokeLinejoin="round"
+                                                  strokeWidth={3}
+                                                  d="M5 13l4 4L19 7"
+                                                />
+                                              </svg>
+                                            )}
+                                          </div>
+                                          <span className="font-medium truncate">{category}</span>
+                                        </div>
+                                      </button>
+                                    );
+                                  })}
+                                </div>
+                                {(currentConfig.homeFilters || []).length > 0 && (
+                                  <div className="mt-3 p-3 bg-[#F20352]/5 rounded-lg">
+                                    <p className="text-sm text-[#F20352] font-medium">
+                                      {(currentConfig.homeFilters || []).length}/3 filtri selezionati
+                                    </p>
+                                    <p className="text-xs text-neutral-600 dark:text-neutral-400 mt-1">
+                                      Questi filtri saranno mostrati sotto il progetto in home page
+                                    </p>
+                                  </div>
+                                )}
+                              </div>
+
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
                                 {/* Background Image */}
                                 <div>
                                   <label className="block text-sm font-medium mb-3">

@@ -72,6 +72,7 @@ export async function POST(request: NextRequest) {
         images: hp.images || [],
         background_image: hp.backgroundImage || '',
         project_date: hp.projectDate || '',
+        home_filters: hp.homeFilters || null, // Filtri da mostrare in home (max 3)
       };
 
       const { data: insertData, error: insertError } = await supabase

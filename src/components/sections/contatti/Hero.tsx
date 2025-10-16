@@ -27,7 +27,7 @@ export default function Hero() {
       breadcrumb={t('contact.hero.breadcrumb')}
       title={titleContent}
       buttonText={t('contact.hero.cta_button')}
-      backgroundImage="/img/hero-projects.jpg"
+      backgroundImage="/img/contact-background.jpg"
       showButton={true}
       language={currentLanguage}
     />

@@ -33,6 +33,11 @@ export default function EmailPreview() {
   const [selectedEmail, setSelectedEmail] = useState('contact-client');
   const [viewMode, setViewMode] = useState<'desktop' | 'mobile'>('desktop');
   const [emailClient, setEmailClient] = useState<'gmail' | 'outlook' | 'apple'>('gmail');
+  const [isSending, setIsSending] = useState(false);
+  const [sendStatus, setSendStatus] = useState<{
+    type: 'success' | 'error' | null;
+    message: string;
+  }>({ type: null, message: '' });
 
   const emails = {
     'contact-client': {
@@ -51,6 +56,51 @@ export default function EmailPreview() {
       title: 'Email Admin - Prenotazione',
       component: <BookingAdminEmail {...sampleBookingData} />,
     },
+  };
+
+  const handleSendTestEmail = async () => {
+    setIsSending(true);
+    setSendStatus({ type: null, message: '' });
+
+    try {
+      const data = selectedEmail.includes('contact') ? sampleContactData : sampleBookingData;
+
+      const response = await fetch('/api/test-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          emailType: selectedEmail,
+          data,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        setSendStatus({
+          type: 'success',
+          message: `✅ ${result.message}`,
+        });
+      } else {
+        setSendStatus({
+          type: 'error',
+          message: `❌ ${result.error || 'Errore durante l\'invio'}`,
+        });
+      }
+    } catch (error) {
+      setSendStatus({
+        type: 'error',
+        message: `❌ Errore di rete: ${error instanceof Error ? error.message : 'Unknown error'}`,
+      });
+    } finally {
+      setIsSending(false);
+      // Auto-hide message after 5 seconds
+      setTimeout(() => {
+        setSendStatus({ type: null, message: '' });
+      }, 5000);
+    }
   };
 
   return (
@@ -173,6 +223,60 @@ export default function EmailPreview() {
                 <option value="apple">Apple Mail</option>
               </select>
             </div>
+          </div>
+
+          {/* Send Test Email Button */}
+          <div className="mb-6">
+            <button
+              onClick={handleSendTestEmail}
+              disabled={isSending}
+              className={`w-full md:w-auto px-6 py-3 rounded-lg font-semibold text-white transition-all duration-200 ${
+                isSending
+                  ? 'bg-gray-400 cursor-not-allowed'
+                  : 'bg-gradient-to-r from-pink-600 to-red-600 hover:from-pink-700 hover:to-red-700 shadow-lg hover:shadow-xl'
+              }`}
+            >
+              {isSending ? (
+                <span className="flex items-center justify-center">
+                  <svg
+                    className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
+                  </svg>
+                  Invio in corso...
+                </span>
+              ) : (
+                <span>📧 Invia Email di Test a webblestudio.com@gmail.com</span>
+              )}
+            </button>
+
+            {/* Status Message */}
+            {sendStatus.type && (
+              <div
+                className={`mt-4 p-4 rounded-lg ${
+                  sendStatus.type === 'success'
+                    ? 'bg-green-100 text-green-800 border border-green-300'
+                    : 'bg-red-100 text-red-800 border border-red-300'
+                }`}
+              >
+                {sendStatus.message}
+              </div>
+            )}
           </div>
 
           {/* Preview Container */}

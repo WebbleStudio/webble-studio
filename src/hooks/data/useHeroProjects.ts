@@ -10,6 +10,7 @@ export interface HeroProject {
   images: string[];
   background_image: string;
   project_date?: string;
+  home_filters?: string[]; // Filtri da mostrare in home (max 3)
   created_at: string;
   updated_at: string;
   projects?: {
@@ -31,6 +32,7 @@ export interface HeroProjectConfig {
   images: string[];
   backgroundImage: string;
   projectDate?: string;
+  homeFilters?: string[]; // Filtri da mostrare in home (max 3)
 }
 
 export const useHeroProjects = () => {

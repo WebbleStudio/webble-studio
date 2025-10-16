@@ -68,7 +68,9 @@ const convertHeroProjectToSingleProject = (heroProject: EnrichedHeroProject): Si
     id: project.id,
     title: project.title,
     backgroundImage: heroProject.background_image || project.image_url,
-    labels: project.categories,
+    labels: heroProject.home_filters && heroProject.home_filters.length > 0 
+      ? heroProject.home_filters.slice(0, 3) // Usa home_filters se disponibili (max 3)
+      : project.categories.slice(0, 3), // Fallback alle prime 3 categorie
     date:
       heroProject.project_date ||
       new Date(heroProject.created_at).toLocaleDateString('it-IT', {

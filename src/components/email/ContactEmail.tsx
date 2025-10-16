@@ -10,346 +10,442 @@ interface ContactEmailProps {
 export default function ContactEmail({ name, email, phone, message }: ContactEmailProps) {
   return (
     <div
+      className="mobile-container"
       style={{
-        fontFamily: "'Figtree', Arial, sans-serif",
+        fontFamily: 'Arial, sans-serif',
         maxWidth: '600px',
         margin: '0 auto',
-        padding: '0',
-        backgroundColor: '#f4f4f4',
-        lineHeight: '1.6',
+        backgroundColor: '#050505',
+        borderRadius: '12px',
+        overflow: 'hidden',
+        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+        padding: '0px',
+        textAlign: 'center',
+        colorScheme: 'light',
+        color: '#fafafa',
       }}
+      data-color-scheme="light"
+      data-ogsc="light"
     >
-      {/* Header con Logo */}
+      {/* Preview text for Gmail - hidden but helps with truncation */}
       <div
         style={{
-          backgroundColor: '#0B0B0B',
-          padding: '40px 40px 30px 40px',
+          display: 'none',
+          fontSize: '0',
+          lineHeight: '0',
+          maxHeight: '0',
+          overflow: 'hidden',
+        }}
+      >
+        Grazie per averci contattato! Abbiamo ricevuto il tuo messaggio e ti risponderemo al più presto.
+      </div>
+
+      {/* Envelope */}
+      <div
+        style={{
+          marginBottom: '10px',
+          textAlign: 'center',
+          width: '100%',
+          overflow: 'hidden',
+        }}
+      >
+        <img
+          src={`https://webblestudio.com/img/mail/envelope.png?v=${Date.now()}`}
+          alt="Email"
+          width="100%"
+          height="auto"
+          style={{
+            width: '100%',
+            height: 'auto',
+            display: 'block',
+            marginTop: '20px',
+            marginBottom: '0',
+            marginLeft: 'auto',
+            marginRight: 'auto',
+            border: 'none',
+          }}
+        />
+      </div>
+
+      {/* Content Section - Full Width */}
+      <div
+        style={{
+          width: '100%',
+          backgroundColor: '#050505',
+          padding: '20px 0',
           textAlign: 'center',
         }}
       >
-        {/* Immagine profilo */}
-        <div
-          style={{
-            width: '80px',
-            height: '80px',
-            borderRadius: '50%',
-            background: 'linear-gradient(135deg, #f4f4f4 0%, #e5e5e5 100%)',
-            margin: '0 auto 20px auto',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontSize: '28px',
-            fontWeight: 'bold',
-            color: '#0b0b0b',
-            border: '3px solid #f4f4f4',
-            boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
-          }}
-        >
-          <span
-            style={{
-              background: 'linear-gradient(135deg, #0b0b0b 0%, #333 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-            }}
-          >
-            WS
-          </span>
-        </div>
-
         <h1
           style={{
-            color: '#f4f4f4',
-            fontSize: '32px',
-            margin: '0 0 8px 0',
-            fontWeight: '600',
-            letterSpacing: '-0.5px',
+            color: '#fafafa',
+            fontSize: '28px',
+            fontWeight: 'normal',
+            margin: '0 auto 10px auto',
+            fontFamily: 'Arial, Helvetica, sans-serif',
+            display: 'block',
+            width: '100%',
+            textAlign: 'center',
           }}
         >
-          Webble Studio
+          <span style={{ fontFamily: 'Arial, Helvetica, sans-serif', fontWeight: 'normal' }}>
+            Ciao{' '}
+          </span>
+          <span style={{ fontFamily: 'Arial, Helvetica, sans-serif', fontWeight: 'bold' }}>
+            {name}
+          </span>
         </h1>
+
         <p
           style={{
-            color: '#f4f4f4',
+            color: '#fafafa',
+            opacity: '0.6',
             fontSize: '16px',
-            margin: '0',
-            opacity: '0.8',
+            lineHeight: '1.6',
+            margin: '0 auto',
+            fontFamily: 'Arial, Helvetica, sans-serif',
+            fontWeight: 'normal',
+            maxWidth: '390px',
+            display: 'block',
+            textAlign: 'center',
+            padding: '0 20px',
           }}
         >
-          Progettiamo esperienze che lasciano il segno
+          Grazie per aver scelto Webble Studio!
+          <br />
+          Abbiamo ricevuto il tuo messaggio e siamo entusiasti di trasformare la tua visione in
+          realtà digitale.
         </p>
       </div>
 
-      {/* Contenuto principale */}
-      <div style={{ padding: '40px' }}>
-        {/* Saluto personalizzato */}
-        <div style={{ marginBottom: '32px' }}>
-          <h2
-            style={{
-              color: '#0b0b0b',
-              fontSize: '28px',
-              margin: '0 0 16px 0',
-              fontWeight: '600',
-            }}
-          >
-            Ciao {name}! 👋
-          </h2>
-          <p
-            style={{
-              fontSize: '18px',
-              lineHeight: '1.7',
-              color: '#333',
-              margin: '0',
-            }}
-          >
-            Grazie per aver scelto <strong>Webble Studio</strong>! Abbiamo ricevuto la tua richiesta
-            e siamo entusiasti di trasformare la tua visione in realtà digitale.
-          </p>
-        </div>
-
-        {/* Box dettagli richiesta */}
+      {/* Main Container Section */}
+      <div
+        style={{
+          width: '100%',
+          backgroundColor: '#050505',
+          padding: '20px',
+          textAlign: 'center',
+          boxSizing: 'border-box',
+        }}
+      >
+        {/* Message Container */}
         <div
           style={{
-            backgroundColor: 'white',
-            padding: '32px',
-            borderRadius: '12px',
-            margin: '32px 0',
-            border: '1px solid #e5e5e5',
-            boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
+            width: '100%',
+            border: '1px solid rgba(250, 250, 250, 0.20)',
+            borderRadius: '16px',
+            backgroundColor: 'transparent',
+            margin: '0 auto',
+            boxSizing: 'border-box',
+            padding: '20px',
           }}
         >
-          <h3
+          <h2
             style={{
+              color: '#fafafa',
+              fontSize: '18px',
+              fontWeight: '500',
               margin: '0 0 20px 0',
-              color: '#0b0b0b',
-              fontSize: '20px',
-              fontWeight: '600',
+              fontFamily: 'Arial, Helvetica, sans-serif',
+              textAlign: 'center',
             }}
           >
-            📝 Dettagli della tua richiesta
-          </h3>
+            Il tuo messaggio:
+          </h2>
 
+          {/* Message text container */}
           <div
             style={{
-              backgroundColor: '#f8f9fa',
-              padding: '20px',
-              borderRadius: '8px',
-              borderLeft: '4px solid #0b0b0b',
-              marginBottom: '24px',
+              width: '100%',
+              minHeight: '80px',
+              border: '1px solid rgba(250, 250, 250, 0.20)',
+              borderRadius: '12px',
+              backgroundColor: 'rgba(217, 217, 217, 0.05)',
+              margin: '10px 0',
+              boxSizing: 'border-box',
+              padding: '15px',
             }}
           >
             <p
               style={{
-                fontStyle: 'italic',
-                color: '#555',
-                fontSize: '16px',
-                lineHeight: '1.6',
+                color: '#fafafa',
+                fontSize: '14px',
+                fontWeight: '400',
                 margin: '0',
+                fontFamily: 'Arial, Helvetica, sans-serif',
+                textAlign: 'left',
+                lineHeight: '1.6',
+                opacity: '0.9',
               }}
             >
               {message}
             </p>
           </div>
-
-          <div
-            style={{
-              display: 'grid',
-              gap: '12px',
-            }}
-          >
-            <div
-              style={{
-                padding: '12px 16px',
-                backgroundColor: '#f4f4f4',
-                borderRadius: '6px',
-                fontSize: '15px',
-              }}
-            >
-              <strong style={{ color: '#0b0b0b' }}>📧 Email:</strong>
-              <span style={{ marginLeft: '8px', color: '#666' }}>{email}</span>
-            </div>
-            <div
-              style={{
-                padding: '12px 16px',
-                backgroundColor: '#f4f4f4',
-                borderRadius: '6px',
-                fontSize: '15px',
-              }}
-            >
-              <strong style={{ color: '#0b0b0b' }}>📱 Telefono:</strong>
-              <span style={{ marginLeft: '8px', color: '#666' }}>{phone}</span>
-            </div>
-          </div>
         </div>
 
-        {/* Cosa succede ora */}
+        {/* Personal Data Container */}
         <div
           style={{
-            backgroundColor: '#f0f9ff',
-            padding: '28px',
-            borderRadius: '12px',
-            border: '1px solid #0ea5e9',
-            marginBottom: '32px',
+            width: '100%',
+            border: '1px solid rgba(250, 250, 250, 0.20)',
+            borderRadius: '16px',
+            backgroundColor: 'transparent',
+            margin: '20px auto 0 auto',
+            boxSizing: 'border-box',
+            padding: '20px',
           }}
         >
-          <h3
+          <h2
             style={{
-              color: '#0b0b0b',
-              fontSize: '20px',
-              margin: '0 0 16px 0',
-              fontWeight: '600',
-            }}
-          >
-            🚀 I prossimi passi
-          </h3>
-          <div style={{ color: '#374151' }}>
-            <p style={{ margin: '0 0 12px 0', fontSize: '16px' }}>
-              <strong>Entro 24 ore</strong> il nostro team ti contatterà per:
-            </p>
-            <ul style={{ margin: '0', paddingLeft: '20px', fontSize: '15px' }}>
-              <li style={{ marginBottom: '8px' }}>Analizzare in dettaglio il tuo progetto</li>
-              <li style={{ marginBottom: '8px' }}>Definire la strategia migliore</li>
-              <li style={{ marginBottom: '8px' }}>Prepararti un preventivo personalizzato</li>
-              <li style={{ marginBottom: '0' }}>Pianificare i tempi di realizzazione</li>
-            </ul>
-          </div>
-        </div>
-
-        {/* Servizi highlight */}
-        <div style={{ marginBottom: '32px' }}>
-          <h3
-            style={{
-              color: '#0b0b0b',
+              color: '#fafafa',
               fontSize: '18px',
+              fontWeight: '500',
               margin: '0 0 20px 0',
-              fontWeight: '600',
+              fontFamily: 'Arial, Helvetica, sans-serif',
+              textAlign: 'center',
             }}
           >
-            💡 I nostri servizi
-          </h3>
-          <div
-            style={{
-              display: 'grid',
-              gap: '12px',
-              fontSize: '14px',
-            }}
-          >
-            {[
-              '🎨 UI/UX Design',
-              '⚡ Sviluppo Web',
-              '📱 App Mobile',
-              '🚀 E-commerce',
-              '📊 Analytics & SEO',
-            ].map((service, index) => (
-              <div
-                key={index}
+            Dati personali:
+          </h2>
+
+          {/* Two 100% width containers */}
+          <div style={{ width: '100%' }}>
+            <div
+              style={{
+                width: '100%',
+                height: '50px',
+                border: '1px solid rgba(250, 250, 250, 0.20)',
+                borderRadius: '12px',
+                backgroundColor: 'rgba(217, 217, 217, 0.05)',
+                boxSizing: 'border-box',
+                padding: '15px',
+                lineHeight: '20px',
+                marginBottom: '10px',
+              }}
+            >
+              <h3
                 style={{
-                  padding: '12px 16px',
-                  backgroundColor: 'white',
-                  borderRadius: '6px',
-                  border: '1px solid #e5e5e5',
+                  color: '#fafafa',
+                  fontSize: '14px',
+                  fontWeight: '500',
+                  margin: '0',
+                  fontFamily: 'Arial, Helvetica, sans-serif',
+                  textAlign: 'left',
                 }}
               >
-                {service}
-              </div>
-            ))}
+                {email}
+              </h3>
+            </div>
+            <div
+              style={{
+                width: '100%',
+                height: '50px',
+                border: '1px solid rgba(250, 250, 250, 0.20)',
+                borderRadius: '12px',
+                backgroundColor: 'rgba(217, 217, 217, 0.05)',
+                boxSizing: 'border-box',
+                padding: '15px',
+                lineHeight: '20px',
+              }}
+            >
+              <h3
+                style={{
+                  color: '#fafafa',
+                  fontSize: '14px',
+                  fontWeight: '500',
+                  margin: '0',
+                  fontFamily: 'Arial, Helvetica, sans-serif',
+                  textAlign: 'left',
+                }}
+              >
+                {phone}
+              </h3>
+            </div>
           </div>
         </div>
 
-        {/* CTA */}
-        <div style={{ textAlign: 'center', margin: '40px 0' }}>
-          <a
-            href="https://webble.studio"
-            style={{
-              backgroundColor: '#0b0b0b',
-              color: 'white',
-              padding: '16px 32px',
-              textDecoration: 'none',
-              borderRadius: '8px',
-              display: 'inline-block',
-              fontWeight: '600',
-              fontSize: '16px',
-              transition: 'background-color 0.3s',
-            }}
-          >
-            🌐 Scopri il nostro portfolio
-          </a>
-        </div>
-
-        {/* Contatti */}
+        {/* Next Steps Container */}
         <div
           style={{
-            textAlign: 'center',
-            padding: '24px',
-            backgroundColor: 'white',
-            borderRadius: '8px',
-            border: '1px solid #e5e5e5',
+            width: '100%',
+            border: '1px solid rgba(250, 250, 250, 0.20)',
+            borderRadius: '16px',
+            backgroundColor: 'transparent',
+            margin: '20px auto 0 auto',
+            boxSizing: 'border-box',
+            padding: '20px',
           }}
         >
-          <h4
+          <div style={{ width: '100%', textAlign: 'center', marginBottom: '20px' }}>
+            <h2
+              style={{
+                color: '#fafafa',
+                fontSize: '18px',
+                fontWeight: '500',
+                margin: '0',
+                fontFamily: 'Arial, Helvetica, sans-serif',
+                textAlign: 'center',
+              }}
+            >
+              I prossimi passi!
+            </h2>
+          </div>
+
+          <h3
             style={{
-              color: '#0b0b0b',
-              margin: '0 0 16px 0',
-              fontSize: '16px',
-              fontWeight: '600',
+              color: '#fafafa',
+              fontSize: '14px',
+              fontWeight: '500',
+              margin: '0 0 15px 0',
+              fontFamily: 'Arial, Helvetica, sans-serif',
+              textAlign: 'left',
+            }}
+          >
+            <span style={{ opacity: '1' }}>Entro 24 ore</span>{' '}
+            <span style={{ opacity: '0.6' }}>il nostro team ti contatterà per:</span>
+          </h3>
+
+          <div style={{ textAlign: 'left' }}>
+            <div style={{ marginBottom: '8px', overflow: 'hidden' }}>
+              <span
+                style={{ color: '#fafafa', marginRight: '8px', fontSize: '16px', float: 'left' }}
+              >
+                •
+              </span>
+              <span
+                style={{
+                  color: '#fafafa',
+                  fontSize: '14px',
+                  lineHeight: '1.6',
+                  fontFamily: 'Arial, Helvetica, sans-serif',
+                }}
+              >
+                Analizzare in dettaglio il tuo progetto
+              </span>
+            </div>
+            <div style={{ marginBottom: '8px', overflow: 'hidden' }}>
+              <span
+                style={{ color: '#fafafa', marginRight: '8px', fontSize: '16px', float: 'left' }}
+              >
+                •
+              </span>
+              <span
+                style={{
+                  color: '#fafafa',
+                  fontSize: '14px',
+                  lineHeight: '1.6',
+                  fontFamily: 'Arial, Helvetica, sans-serif',
+                }}
+              >
+                Definire la strategia migliore
+              </span>
+            </div>
+            <div style={{ marginBottom: '8px', overflow: 'hidden' }}>
+              <span
+                style={{ color: '#fafafa', marginRight: '8px', fontSize: '16px', float: 'left' }}
+              >
+                •
+              </span>
+              <span
+                style={{
+                  color: '#fafafa',
+                  fontSize: '14px',
+                  lineHeight: '1.6',
+                  fontFamily: 'Arial, Helvetica, sans-serif',
+                }}
+              >
+                Prepararti un preventivo personalizzato
+              </span>
+            </div>
+            <div style={{ marginBottom: '8px', overflow: 'hidden' }}>
+              <span
+                style={{ color: '#fafafa', marginRight: '8px', fontSize: '16px', float: 'left' }}
+              >
+                •
+              </span>
+              <span
+                style={{
+                  color: '#fafafa',
+                  fontSize: '14px',
+                  lineHeight: '1.6',
+                  fontFamily: 'Arial, Helvetica, sans-serif',
+                }}
+              >
+                Pianificare i tempi di realizzazione
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Footer Section */}
+        <div
+          style={{
+            width: '100%',
+            backgroundColor: '#050505',
+            padding: '80px 20px 10px 20px',
+            textAlign: 'center',
+            boxSizing: 'border-box',
+          }}
+        >
+          <p
+            style={{
+              color: 'rgba(250, 250, 250, 0.60)',
+              fontSize: '14px',
+              fontWeight: 'normal',
+              margin: '0 0 4px 0',
+              fontFamily: 'Arial, Helvetica, sans-serif',
+              textAlign: 'center',
             }}
           >
             Hai domande? Siamo qui per te!
-          </h4>
+          </p>
+
           <p
             style={{
-              margin: '0 0 12px 0',
+              color: '#fafafa',
               fontSize: '14px',
-              color: '#666',
+              fontWeight: 'normal',
+              margin: '0 0 4px 0',
+              fontFamily: 'Arial, Helvetica, sans-serif',
+              textAlign: 'center',
+              textDecoration: 'underline',
             }}
           >
-            📧{' '}
             <a
-              href="mailto:webblestudio.com@gmail.com"
-              style={{ color: '#0b0b0b', textDecoration: 'none' }}
+              href="https://webblestudio.com/contatti"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                color: '#fafafa',
+                textDecoration: 'underline',
+                textDecorationColor: '#fafafa',
+              }}
             >
-              webblestudio.com@gmail.com
+              webblestudio.com/contatti
             </a>
           </p>
+
           <p
             style={{
-              margin: '0',
+              color: '#fafafa',
               fontSize: '14px',
-              color: '#666',
+              fontWeight: 'normal',
+              margin: '0',
+              fontFamily: 'Arial, Helvetica, sans-serif',
+              textAlign: 'center',
             }}
           >
-            📱 +39 123 456 7890
+            <a
+              href="tel:+393534248308"
+              style={{
+                color: '#fafafa',
+                textDecoration: 'none',
+              }}
+            >
+              +39 353 424 8308
+            </a>
           </p>
         </div>
-      </div>
-
-      {/* Footer */}
-      <div
-        style={{
-          backgroundColor: '#f8f9fa',
-          padding: '30px 40px',
-          textAlign: 'center',
-          borderTop: '1px solid #e5e5e5',
-        }}
-      >
-        <p
-          style={{
-            fontSize: '12px',
-            color: '#6b7280',
-            margin: '0 0 8px 0',
-          }}
-        >
-          © 2024 Webble Studio - Tutti i diritti riservati
-        </p>
-        <p
-          style={{
-            fontSize: '11px',
-            color: '#9ca3af',
-            margin: '0',
-          }}
-        >
-          Questa email è stata inviata perché hai compilato il nostro form di contatto.
-        </p>
       </div>
     </div>
   );

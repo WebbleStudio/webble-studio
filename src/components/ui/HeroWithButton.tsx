@@ -38,20 +38,20 @@ export default function HeroWithButton({
 
   return (
     <div className="w-full 2xl:px-[5px]">
-      <div className="pt-[90px] bg-[#0b0b0b] w-full 2xl:max-w-[1890px] mx-auto px-[15px] md:px-[30px] pb-[15px] md:pb-[30px] rounded-b-[20px] border border-[#f4f4f4]/10">
+      <div className="pt-[90px] bg-[#0b0b0b] w-full 2xl:max-w-[1890px] mx-auto px-[15px] md:px-[30px] pb-[15px] md:pb-[30px] rounded-b-[20px] md:rounded-b-[35px] border-b border-l border-r border-[#f4f4f4]/10">
         <div className="relative">
           <div
-            className={`w-full h-auto min-h-[210px] md:min-h-[260px] lg:min-h-[310px] bg-cover bg-left bg-no-repeat rounded-[20px] bg-black flex items-center justify-start px-6 py-8 relative overflow-hidden group ${className}`}
+            className={`w-full h-auto min-h-[210px] md:min-h-[260px] lg:min-h-[310px] bg-cover bg-left bg-no-repeat rounded-[16px] bg-black flex items-center justify-start px-6 py-8 relative overflow-hidden group ${className}`}
           >
             {/* Background Image statica */}
             <div
-              className="absolute inset-0 rounded-[20px] bg-cover bg-left bg-no-repeat"
+              className="absolute inset-0 rounded-[16px] bg-cover bg-left bg-no-repeat"
               style={{ backgroundImage: `url(${backgroundImage}?v=1)` }}
             />
 
             {/* Gradient overlay from black to transparent */}
             <div
-              className="absolute inset-0 rounded-[20px] pointer-events-none z-[1]"
+              className="absolute inset-0 rounded-[16px] pointer-events-none z-[1]"
               style={{
                 background:
                   'linear-gradient(to right, rgba(11, 11, 11, 0.6) 0%, rgba(11, 11, 11, 0.4) 30%, rgba(11, 11, 11, 0.2) 60%, transparent 100%)',

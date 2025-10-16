@@ -17,7 +17,7 @@ export default function Footer({ className = '' }: FooterProps) {
   return (
     <footer className="w-full mx-auto mt-[30px]">
       <Container>
-        <div className="w-full bg-auto h-auto rounded-t-[25px] p-[25px] lg:p-[40px] text-auto flex flex-col md:flex-row gap-[40px] md:h-[340px] lg:h-[470px] border border-black border-opacity-20 dark:border-[#fafafa] dark:border-opacity-20">
+        <div className="w-full bg-[#ebebeb] dark:bg-[#161616] h-auto rounded-t-[25px] p-[25px] lg:p-[40px] text-auto flex flex-col md:flex-row gap-[40px] md:h-[340px] lg:h-[470px] border border-black border-opacity-20 dark:border-[#fafafa] dark:border-opacity-20">
           <div className="flex flex-col gap-[20px] md:w-1/2 lg:w-2/5">
             <div className="flex flex-col min-[550px]:flex-row min-[550px]:justify-between md:flex-col lg:flex-col gap-[20px] md:h-full">
               <div className="flex flex-col gap-[20px]">

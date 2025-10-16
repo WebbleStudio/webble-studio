@@ -35,6 +35,7 @@ export interface HeroProject {
   descriptions: string[];
   descriptions_en?: string[];
   project_date?: string;
+  home_filters?: string[]; // Filtri da mostrare in home (max 3)
   created_at: string;
   updated_at?: string;
 }

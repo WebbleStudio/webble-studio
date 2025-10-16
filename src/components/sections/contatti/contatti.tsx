@@ -1,56 +1,95 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import OptimizedImage from '@/components/ui/OptimizedImage';
 
 export default function Contatti() {
+  const [isWideScreen, setIsWideScreen] = useState(false);
+
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsWideScreen(window.innerWidth >= 550);
+    };
+
+    checkScreenSize();
+    window.addEventListener('resize', checkScreenSize);
+
+    return () => window.removeEventListener('resize', checkScreenSize);
+  }, []);
+
   return (
     <div className="pt-14">
       <div>
         <div className="text-left">
-          <h3 className="text-[20px] font-figtree font-semibold text-[#0b0b0b] dark:text-[#f4f4f4] mb-4">
-            Cellulare
-          </h3>
-          <div className="flex gap-6">
+          <div className="flex flex-col md:flex-row gap-3">
+            {/* Vadim */}
             <a
               href="tel:+393534248308"
-              className="mb-4 pr-6 border-r border-[#0b0b0b]/20 dark:border-[#f4f4f4]/20"
+              className="flex items-center gap-5 p-3 lg:p-4 lg:min-h-[100px] rounded-3xl bg-[#0b0b0b]/5 dark:bg-[#f4f4f4]/5 border border-[#0b0b0b]/10 dark:border-[#f4f4f4]/10 group hover:shadow-md transition-all duration-300 md:w-1/2"
             >
-              <h3 className="text-[15px] font-figtree font-bold text-[#0b0b0b] dark:text-[#f4f4f4]">
-                Vadim <span className="text-[14px] font-medium">* Founder</span>
-              </h3>
-              <p className="text-[15px] font-figtree font-light text-[#0b0b0b] dark:text-[#f4f4f4]">
-                +39 353 424 8308
-              </p>
+              <div className="relative w-16 h-16 lg:w-20 lg:h-20 flex-shrink-0 rounded-xl overflow-hidden">
+                <OptimizedImage
+                  src="/img/vadim.png"
+                  alt="Vadim"
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-300"
+                />
+              </div>
+              <div>
+                <h3 className="text-[16px] md:text-[17px] lg:text-[19px] font-figtree font-bold text-[#0b0b0b] dark:text-[#f4f4f4]">
+                  Vadim <span className="text-[15px] md:text-[16px] lg:text-[18px] font-medium">* Founder</span>
+                </h3>
+                <p className="text-[16px] md:text-[17px] lg:text-[19px] font-figtree font-light text-[#0b0b0b] dark:text-[#f4f4f4]">
+                  +39 353 424 8308
+                </p>
+              </div>
             </a>
-            <a href="tel:+393290015646" className="mb-4">
-              <h3 className="text-[15px] font-figtree font-bold text-[#0b0b0b] dark:text-[#f4f4f4]">
-                Gabriele <span className="text-[14px] font-medium">* Founder</span>
-              </h3>
-              <p className="text-[15px] font-figtree font-light text-[#0b0b0b] dark:text-[#f4f4f4]">
-                +39 329 001 5646
-              </p>
+
+            {/* Gabriele */}
+            <a
+              href="tel:+393290015646"
+              className="flex items-center gap-5 p-3 lg:p-4 lg:min-h-[100px] rounded-3xl bg-[#0b0b0b]/5 dark:bg-[#f4f4f4]/5 border border-[#0b0b0b]/10 dark:border-[#f4f4f4]/10 group hover:shadow-md transition-all duration-300 md:w-1/2"
+            >
+              <div className="relative w-16 h-16 lg:w-20 lg:h-20 flex-shrink-0 rounded-xl overflow-hidden">
+                <OptimizedImage
+                  src="/img/gabriele.png"
+                  alt="Gabriele"
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-300"
+                />
+              </div>
+              <div>
+                <h3 className="text-[16px] md:text-[17px] lg:text-[19px] font-figtree font-bold text-[#0b0b0b] dark:text-[#f4f4f4]">
+                  Gabriele <span className="text-[15px] md:text-[16px] lg:text-[18px] font-medium">* Founder</span>
+                </h3>
+                <p className="text-[16px] md:text-[17px] lg:text-[19px] font-figtree font-light text-[#0b0b0b] dark:text-[#f4f4f4]">
+                  +39 329 001 5646
+                </p>
+              </div>
             </a>
           </div>
         </div>
 
-        <div className="text-left mt-12">
-          <h3 className="text-[20px] font-figtree font-semibold text-[#0b0b0b] dark:text-[#f4f4f4] mb-4">
-            Email
-          </h3>
-          <a
-            href="mailto:webblestudio.com@gmail.com"
-            className="text-[18px] font-figtree font-light text-[#0b0b0b] dark:text-[#f4f4f4] hover:opacity-80 transition-opacity"
-          >
-            webblestudio.com@gmail.com
-          </a>
+        <div className="mt-3">
+          <div className="p-4 lg:p-5 lg:min-h-[130px] rounded-3xl bg-[#0b0b0b]/5 dark:bg-[#f4f4f4]/5 border border-[#0b0b0b]/10 dark:border-[#f4f4f4]/10 lg:flex lg:flex-col lg:justify-between">
+            <h3 className="text-[20px] md:text-[21px] lg:text-[22px] font-figtree font-semibold text-[#0b0b0b] dark:text-[#f4f4f4] mb-4">
+              Email
+            </h3>
+            <a
+              href="mailto:webblestudio.com@gmail.com"
+              className="text-[18px] md:text-[19px] lg:text-[22px] font-figtree font-light text-[#0b0b0b] dark:text-[#f4f4f4] hover:opacity-80 transition-opacity"
+            >
+              webblestudio.com@gmail.com
+            </a>
+          </div>
         </div>
 
-        <div className="text-left mt-12">
-          <h3 className="text-[20px] font-figtree font-semibold text-[#0b0b0b] dark:text-[#f4f4f4] mb-4">
-            Social Network
-          </h3>
-          <div className="flex flex-wrap gap-6 gap-y-3">
+        <div className="mt-3">
+          <div className="p-4 lg:p-5 lg:min-h-[130px] rounded-3xl bg-[#0b0b0b]/5 dark:bg-[#f4f4f4]/5 border border-[#0b0b0b]/10 dark:border-[#f4f4f4]/10 lg:flex lg:flex-col lg:justify-between">
+            <h3 className="text-[20px] md:text-[21px] lg:text-[22px] font-figtree font-semibold text-[#0b0b0b] dark:text-[#f4f4f4] mb-6">
+              Social Network
+            </h3>
+            <div className={`flex gap-6 ${isWideScreen ? 'flex-nowrap' : 'flex-wrap gap-y-3'}`}>
             <a
               href="https://instagram.com/studiowebble"
               target="_blank"
@@ -156,8 +195,8 @@ export default function Contatti() {
                 className="w-6 h-6 hidden dark:block"
               />
             </a>
-            {/* Forza il wrap dopo Facebook */}
-            <div className="w-full"></div>
+            {/* Forza il wrap dopo Facebook su schermi piccoli */}
+            {!isWideScreen && <div className="w-full"></div>}
             <a
               href="https://x.com/webblestudio"
               target="_blank"
@@ -263,6 +302,7 @@ export default function Contatti() {
                 className="w-6 h-6 hidden dark:block"
               />
             </a>
+            </div>
           </div>
         </div>
       </div>
