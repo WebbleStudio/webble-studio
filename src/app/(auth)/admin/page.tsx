@@ -588,6 +588,7 @@ export default function AdminPage() {
           images: [...hp.images],
           backgroundImage: hp.background_image,
           projectDate: hp.project_date || '',
+          homeFilters: hp.home_filters || [],
           hasChanges: false,
         };
       });
