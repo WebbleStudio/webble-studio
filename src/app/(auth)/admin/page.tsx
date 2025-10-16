@@ -651,6 +651,7 @@ export default function AdminPage() {
               images: newConfig.images,
               backgroundImage: newConfig.backgroundImage,
               projectDate: newConfig.projectDate || '',
+              homeFilters: newConfig.homeFilters || [],
               hasChanges: false,
             },
           }));
