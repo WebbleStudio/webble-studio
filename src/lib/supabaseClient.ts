@@ -97,6 +97,37 @@ export interface Database {
           contact_method?: string;
         };
       };
+      contacts: {
+        Row: {
+          id: string;
+          name: string;
+          email: string;
+          phone: string | null;
+          message: string;
+          privacy_consent: boolean;
+          marketing_consent: boolean;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          name: string;
+          email: string;
+          phone?: string | null;
+          message: string;
+          privacy_consent: boolean;
+          marketing_consent: boolean;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          name?: string;
+          email?: string;
+          phone?: string | null;
+          message?: string;
+          privacy_consent?: boolean;
+          marketing_consent?: boolean;
+        };
+      };
     };
   };
 }

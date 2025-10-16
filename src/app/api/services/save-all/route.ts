@@ -1,9 +1,27 @@
 import { NextResponse } from 'next/server';
-import { supabase } from '@/lib/supabaseClient';
+import { supabaseAdmin } from '@/lib/supabaseClient';
 import { apiCache, cacheKeys } from '@/lib/apiCache';
+import { auth } from '@/lib/auth';
 
 export async function POST(request: Request) {
   try {
+    // Verifica autenticazione admin
+    const session = await auth();
+    if (!session || !session.user || session.user.role !== 'admin') {
+      return NextResponse.json(
+        { error: 'Accesso non autorizzato', success: false },
+        { status: 401 }
+      );
+    }
+
+    // Verifica che supabaseAdmin sia configurato
+    if (!supabaseAdmin) {
+      return NextResponse.json(
+        { error: 'Service role key non configurata', success: false },
+        { status: 500 }
+      );
+    }
+
     const body = await request.json();
     const { servicesUpdates = [] } = body;
 
@@ -18,7 +36,7 @@ export async function POST(request: Request) {
       for (const update of servicesUpdates) {
         const { id, ...updateData } = update;
 
-        const { error } = await supabase.from('service_categories').update(updateData).eq('id', id);
+        const { error } = await supabaseAdmin.from('service_categories').update(updateData).eq('id', id);
 
         if (error) {
           console.error('Error updating service:', error);

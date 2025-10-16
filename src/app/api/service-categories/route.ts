@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { supabase } from '@/lib/supabaseClient';
+import { supabase, supabaseAdmin } from '@/lib/supabaseClient';
 import { revalidatePath } from 'next/cache';
 
 // GET - Recupera tutte le categorie di servizi
@@ -10,8 +10,11 @@ export async function GET(request: NextRequest) {
 
     // Se init=true, inizializza le categorie se non esistono
     if (init === 'true') {
+      // Per inizializzazione, usa supabaseAdmin se disponibile
+      const dbClient = supabaseAdmin || supabase;
+      
       // Prima verifica se le categorie esistono già
-      const { data: existingCategories, error: checkError } = await supabase
+      const { data: existingCategories, error: checkError } = await dbClient
         .from('service_categories')
         .select('slug')
         .limit(1);
@@ -29,6 +32,16 @@ export async function GET(request: NextRequest) {
 
       // Se non esistono categorie, inizializza
       if (!existingCategories || existingCategories.length === 0) {
+        // Verifica che abbiamo i permessi per inizializzare
+        if (!supabaseAdmin) {
+          return NextResponse.json(
+            {
+              error: 'Initialization requires admin privileges. Service role key not configured.',
+            },
+            { status: 403 }
+          );
+        }
+
         const serviceCategories = [
           {
             slug: 'ui-ux-design',
@@ -52,7 +65,7 @@ export async function GET(request: NextRequest) {
           },
         ];
 
-        const { data: initData, error: initError } = await supabase
+        const { data: initData, error: initError } = await supabaseAdmin
           .from('service_categories')
           .upsert(serviceCategories, {
             onConflict: 'slug',
