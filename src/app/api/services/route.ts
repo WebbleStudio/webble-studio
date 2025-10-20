@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
         description_en,
         images: images || [],
         slug,
-      } as any)
+      })
       .select()
       .single();
 
@@ -83,7 +83,7 @@ export async function PUT(request: NextRequest) {
 
     const { data, error } = await supabase
       .from('services')
-      .update(updateData as any)
+      .update(updateData)
       .eq('id', id)
       .select()
       .single();

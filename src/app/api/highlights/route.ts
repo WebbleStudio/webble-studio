@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
         images: images || [],
         background_image,
         project_date,
-      } as any)
+      })
       .select()
       .single();
 
@@ -81,8 +81,8 @@ export async function PUT(request: NextRequest) {
     if (background_image !== undefined) updateData.background_image = background_image;
     if (project_date !== undefined) updateData.project_date = project_date;
 
-    const { data, error } = await (supabase
-      .from('highlights') as any)
+    const { data, error } = await supabase
+      .from('highlights')
       .update(updateData)
       .eq('id', id)
       .select()

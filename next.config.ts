@@ -6,7 +6,6 @@ const nextConfig: NextConfig = {
     optimizePackageImports: ['framer-motion'],
   },
 
-
   // Image optimization - DISABILITATA per ridurre Edge Requests
   images: {
     unoptimized: true, // Disabilita ottimizzazione Next.js

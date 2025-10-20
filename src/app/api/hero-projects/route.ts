@@ -60,7 +60,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Inserisci i nuovi hero projects uno alla volta per evitare conflitti
-    const insertedData: any[] = [];
+    const insertedData = [];
 
     for (let index = 0; index < heroProjects.length; index++) {
       const hp = heroProjects[index];
@@ -77,7 +77,7 @@ export async function POST(request: NextRequest) {
 
       const { data: insertData, error: insertError } = await supabase
         .from('hero-projects')
-        .insert(heroProjectData as any)
+        .insert([heroProjectData])
         .select()
         .single();
 
