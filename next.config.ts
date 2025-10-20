@@ -6,10 +6,6 @@ const nextConfig: NextConfig = {
     optimizePackageImports: ['framer-motion'],
   },
 
-  // Temporarily skip type checking during build (Supabase type issues)
-  typescript: {
-    ignoreBuildErrors: true,
-  },
 
   // Image optimization - DISABILITATA per ridurre Edge Requests
   images: {
