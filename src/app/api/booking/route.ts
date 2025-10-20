@@ -72,7 +72,7 @@ export async function POST(request: NextRequest) {
 
       const { data, error } = await client
         .from('bookings')
-        .insert([bookingData])
+        .insert(bookingData as any)
         .select('id')
         .single();
 

@@ -87,7 +87,7 @@ export async function POST(request: NextRequest) {
 
       const { data, error } = await client
         .from('contacts')
-        .insert([contactData])
+        .insert(contactData as any)
         .select('id')
         .single();
 

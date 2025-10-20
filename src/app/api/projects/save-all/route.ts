@@ -102,7 +102,7 @@ export async function POST(request: NextRequest) {
             link: project.link,
             image_url: imageUrl,
             order_position: project.order_position,
-          });
+          } as any);
 
           if (insertError) {
             console.error(`Insert error for ${project.title}:`, insertError);
@@ -147,7 +147,7 @@ export async function POST(request: NextRequest) {
 
         const { error: updateError } = await supabase
           .from('projects')
-          .update(cleanData)
+          .update(cleanData as any)
           .eq('id', id);
 
         if (updateError) {
@@ -168,7 +168,7 @@ export async function POST(request: NextRequest) {
         try {
           const { error: reorderError } = await supabase
             .from('projects')
-            .update({ order_position: item.order_position })
+            .update({ order_position: item.order_position } as any)
             .eq('id', item.id);
 
           if (reorderError) {

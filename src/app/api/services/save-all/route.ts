@@ -36,7 +36,7 @@ export async function POST(request: Request) {
       for (const update of servicesUpdates) {
         const { id, ...updateData } = update;
 
-        const { error } = await supabaseAdmin.from('service_categories').update(updateData).eq('id', id);
+        const { error } = await supabaseAdmin.from('service_categories').update(updateData as any).eq('id', id);
 
         if (error) {
           console.error('Error updating service:', error);

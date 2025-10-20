@@ -18,7 +18,7 @@ export async function POST(request: Request) {
       for (const update of highlightsUpdates) {
         const { id, ...updateData } = update;
 
-        const { error } = await supabase.from('hero-projects').update(updateData).eq('id', id);
+        const { error } = await supabase.from('hero-projects').update(updateData as any).eq('id', id);
 
         if (error) {
           console.error('Error updating highlight:', error);

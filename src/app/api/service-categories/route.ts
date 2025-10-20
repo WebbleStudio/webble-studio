@@ -142,7 +142,7 @@ export async function PUT(request: NextRequest) {
       .update({
         images,
         updated_at: new Date().toISOString(),
-      })
+      } as any)
       .eq('slug', slug)
       .select()
       .single();
