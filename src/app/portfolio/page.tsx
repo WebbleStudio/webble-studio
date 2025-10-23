@@ -25,7 +25,8 @@ import { getPortfolioData } from '@/lib/serverActions';
 
 // Force Node.js runtime (non Edge)
 export const runtime = 'nodejs';
-export const dynamic = 'force-static';
+// Rimuoviamo force-static per permettere SSR con fallback
+// export const dynamic = 'force-static';
 export const revalidate = 3600; // ISR: revalidate ogni ora (3600s) - più frequente per aggiornamenti veloci
 
 export default async function PortfolioPage() {
@@ -38,8 +39,19 @@ export default async function PortfolioPage() {
       {/* Hero: Server Component - rendering statico */}
       <Hero />
       
-      {/* Portfolio Projects: Hybrid Component */}
+      {/* SEO Content: Contenuto statico sempre visibile per Google */}
       <Container>
+        <div className="sr-only">
+          <h1>Portfolio Webble Studio - Progetti di Web Design e UI/UX</h1>
+          <p>
+            Scopri i nostri progetti di web design, UI/UX e strategie digitali. Portfolio creativo di Webble Studio con progetti innovativi e ad alte prestazioni. Case study e lavori realizzati per clienti in Italia e nel mondo.
+          </p>
+          <p>
+            Esplora i nostri lavori di: web design Milano, portfolio creativo, progetti digitali, case study web design, UI/UX design, agenzia digitale portfolio, progetti web innovativi.
+          </p>
+        </div>
+        
+        {/* Portfolio Projects: Hybrid Component */}
         {/* 
           PortfolioProjectsWrapper è un Client Component che riceve
           i progetti già renderizzati dal server. Google vede tutto

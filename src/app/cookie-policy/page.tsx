@@ -130,9 +130,6 @@ export default function CookiePolicyPage() {
                     {t('cookies.policy.sections.contacts.address')}
                   </p>
                   <p>
-                    <strong>{t('cookies.policy.sections.data_controller.ein')}</strong> 32-0774843
-                  </p>
-                  <p>
                     <strong>{t('cookies.policy.sections.data_controller.email')}</strong>{' '}
                     <a
                       href="mailto:webblestudio.com@gmail.com"

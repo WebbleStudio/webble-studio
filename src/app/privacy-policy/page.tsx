@@ -133,10 +133,6 @@ export default function PrivacyPolicyPage() {
                     {t('cookies.privacy.controller.address_val')}
                   </p>
                   <p>
-                    <strong>{t('cookies.privacy.controller.ein')}</strong>{' '}
-                    {t('cookies.privacy.controller.ein_val')}
-                  </p>
-                  <p>
                     <strong>{t('cookies.privacy.controller.email')}</strong>{' '}
                     <a
                       href="mailto:webblestudio.com@gmail.com"
