@@ -8,7 +8,6 @@ import HomeContent from '@/components/sections/Home/HomeContent';
 
 // Force Node.js runtime (non Edge)
 export const runtime = 'nodejs';
-export const dynamic = 'force-static';
 export const revalidate = 86400; // ISR: revalidate ogni 24 ore (86400s)
 
 export default async function Home() {

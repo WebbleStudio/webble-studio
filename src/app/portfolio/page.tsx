@@ -25,7 +25,6 @@ import { getPortfolioData } from '@/lib/serverActions';
 
 // Force Node.js runtime (non Edge)
 export const runtime = 'nodejs';
-export const dynamic = 'force-static';
 export const revalidate = 3600; // ISR: revalidate ogni ora (3600s) - più frequente per aggiornamenti veloci
 
 export default async function PortfolioPage() {
