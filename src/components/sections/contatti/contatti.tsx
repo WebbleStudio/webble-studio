@@ -52,7 +52,7 @@ export default function Contatti() {
             >
               <div className="relative w-16 h-16 lg:w-20 lg:h-20 flex-shrink-0 rounded-xl overflow-hidden">
                 <OptimizedImage
-                  src="/img/gabriele.png"
+                  src="/img/gabriele.jpg"
                   alt="Gabriele"
                   fill
                   className="object-cover group-hover:scale-105 transition-transform duration-300"
