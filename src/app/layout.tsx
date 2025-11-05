@@ -13,7 +13,7 @@ const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL ||
   (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000');
 // Force absolute OG/Twitter image to primary domain to avoid preview/redirect content-type issues
-const ogImageAbs = 'https://webblestudio.com/img/thumbnails/webble-thumbnail.jpg';
+const ogImageAbs = 'https://www.webblestudio.com/img/thumbnails/webble-thumbnail.jpg';
 
 export const viewport = {
   width: 'device-width',

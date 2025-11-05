@@ -21,8 +21,8 @@ Disallow: /api/
 Crawl-delay: 1
 
 # Sitemap
-Sitemap: https://webblestudio.com/sitemap.xml
+Sitemap: https://www.webblestudio.com/sitemap.xml
 
 # Host preferito
-Host: webblestudio.com
+Host: www.webblestudio.com
 
