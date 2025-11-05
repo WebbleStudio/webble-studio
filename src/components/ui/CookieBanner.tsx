@@ -204,7 +204,7 @@ export default function CookieBanner({
                   </div>
                   <button
                     onClick={handleAccept}
-                    className="w-full sm:w-auto px-6 py-3 rounded-[12px] font-medium bg-[#F20352] hover:bg-[#d90247] text-white transition-all duration-200 ease-out"
+                    className="w-full sm:w-auto px-6 py-3 rounded-[12px] font-medium bg-[#0b0b0b] dark:bg-[#f4f4f4] text-[#f4f4f4] dark:text-[#0b0b0b] hover:opacity-90 transition-all duration-200 ease-out"
                   >
                     {t('cookies.banner.accept_all')}
                   </button>
@@ -334,7 +334,7 @@ export default function CookieBanner({
                 </button>
                 <button
                   onClick={handleSavePreferences}
-                  className="w-full sm:w-auto px-6 py-3 rounded-[12px] font-medium bg-[#F20352] hover:bg-[#d90247] text-white transition-all duration-200 ease-out"
+                  className="w-full sm:w-auto px-6 py-3 rounded-[12px] font-medium bg-[#0b0b0b] dark:bg-[#f4f4f4] text-[#f4f4f4] dark:text-[#0b0b0b] hover:opacity-90 transition-all duration-200 ease-out"
                 >
                   {t('cookies.modal.buttons.save_preferences')}
                 </button>

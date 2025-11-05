@@ -13,10 +13,6 @@ Disallow: /admin
 Disallow: /login
 Disallow: /api/
 
-# Permetti indicizzazione delle pagine legali (importanti per SEO)
-# Allow: /privacy-policy
-# Allow: /cookie-policy
-
 # Crawl delay per evitare sovraccarico
 Crawl-delay: 1
 
@@ -25,4 +21,3 @@ Sitemap: https://www.webblestudio.com/sitemap.xml
 
 # Host preferito
 Host: www.webblestudio.com
-

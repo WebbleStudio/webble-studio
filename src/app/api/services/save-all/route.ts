@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabaseClient';
 import { apiCache, cacheKeys } from '@/lib/apiCache';
 import { auth } from '@/lib/auth';
+import { revalidatePath } from 'next/cache';
 
 export async function POST(request: Request) {
   try {
@@ -47,19 +48,38 @@ export async function POST(request: Request) {
       console.log(`✅ Updated ${servicesUpdates.length} services`);
     }
 
-    // Invalida solo cache client-side (non revalida automaticamente le pagine)
+    // Invalida cache client-side
     apiCache.invalidate(cacheKeys.serviceCategories());
     apiCache.invalidate(cacheKeys.homeData());
 
+    // Revalidazione automatica - Invalida cache delle pagine che mostrano services (homepage)
+    try {
+      console.log('🔄 Auto-revalidating paths after services changes...');
+      revalidatePath('/', 'page');
+      revalidatePath('/', 'layout');
+      console.log('✅ Auto-revalidation completed');
+    } catch (revalidateError) {
+      console.error('⚠️ Auto-revalidation failed (non-critical):', revalidateError);
+    }
+
     console.log('🎉 All services changes saved successfully');
 
-    return NextResponse.json({
-      success: true,
-      message: 'All services changes saved successfully',
-      summary: {
-        servicesUpdated: servicesUpdates.length,
+    return NextResponse.json(
+      {
+        success: true,
+        message: 'All services changes saved successfully',
+        summary: {
+          servicesUpdated: servicesUpdates.length,
+        },
       },
-    });
+      {
+        headers: {
+          'Cache-Control': 'no-store, no-cache, must-revalidate',
+          Pragma: 'no-cache',
+          Expires: '0',
+        },
+      }
+    );
   } catch (error) {
     console.error('❌ Error in services save-all:', error);
 

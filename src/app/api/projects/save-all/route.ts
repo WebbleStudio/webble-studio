@@ -64,7 +64,7 @@ export async function POST(request: NextRequest) {
               // Converti base64 in blob
               const response = await fetch(project.image_file);
               const blob = await response.blob();
-              const filename = `project-${Date.now()}-${Math.random().toString(36).substr(2, 9)}.jpg`;
+              const filename = `projects/project-${Date.now()}-${Math.random().toString(36).substr(2, 9)}.jpg`;
 
               // Upload nel bucket Supabase
               const { data: uploadData, error: uploadError } = await supabase.storage
@@ -120,14 +120,64 @@ export async function POST(request: NextRequest) {
     // 2. ELIMINAZIONI
     if (deletes.length > 0) {
       try {
-        const { error: deleteError } = await supabase.from('projects').delete().in('id', deletes);
+        // Prima recupera i progetti per ottenere gli URL delle immagini
+        const { data: projectsToDelete, error: fetchError } = await supabase
+          .from('projects')
+          .select('id, image_url')
+          .in('id', deletes);
 
-        if (deleteError) {
-          console.error('Delete error:', deleteError);
-          results.errors.push(`Delete failed: ${deleteError.message}`);
+        if (fetchError) {
+          console.error('Error fetching projects to delete:', fetchError);
+          results.errors.push(`Failed to fetch projects: ${fetchError.message}`);
         } else {
-          results.deleted = deletes.length;
-          console.log(`✅ Deleted ${deletes.length} projects`);
+          // Elimina le immagini dallo storage
+          for (const project of projectsToDelete || []) {
+            if (project.image_url) {
+              try {
+                // Estrai il path dall'URL
+                // URL format: https://xxx.supabase.co/storage/v1/object/public/projects/projects/project-xxx.jpg
+                // Path da estrarre: projects/project-xxx.jpg
+                const url = new URL(project.image_url);
+                const pathParts = url.pathname.split('/');
+                const storageIndex = pathParts.indexOf('public');
+                if (storageIndex !== -1 && storageIndex < pathParts.length - 1) {
+                  // Prendi tutto dopo 'public/' e rimuovi il bucket name 'projects'
+                  const fullPath = pathParts.slice(storageIndex + 1).join('/');
+                  // Il path completo include già 'projects/', quindi usiamolo direttamente
+                  const filePath = fullPath;
+
+                  // Elimina il file dallo storage
+                  const { error: deleteImageError } = await supabase.storage
+                    .from('projects')
+                    .remove([filePath]);
+
+                  if (deleteImageError) {
+                    console.error(`Error deleting image for project ${project.id}:`, deleteImageError);
+                    // Non blocchiamo l'eliminazione del progetto se l'immagine non viene trovata
+                    if (!deleteImageError.message.includes('not found')) {
+                      results.errors.push(`Image deletion failed for project ${project.id}: ${deleteImageError.message}`);
+                    }
+                  } else {
+                    console.log(`✅ Deleted image for project ${project.id}`);
+                  }
+                }
+              } catch (imageError) {
+                console.error(`Error processing image deletion for project ${project.id}:`, imageError);
+                // Continua anche se c'è un errore con l'immagine
+              }
+            }
+          }
+
+          // Ora elimina i record dal database
+          const { error: deleteError } = await supabase.from('projects').delete().in('id', deletes);
+
+          if (deleteError) {
+            console.error('Delete error:', deleteError);
+            results.errors.push(`Delete failed: ${deleteError.message}`);
+          } else {
+            results.deleted = deletes.length;
+            console.log(`✅ Deleted ${deletes.length} projects`);
+          }
         }
       } catch (error) {
         console.error('Delete exception:', error);
@@ -139,6 +189,48 @@ export async function POST(request: NextRequest) {
     for (const update of updates) {
       try {
         const { id, ...updateData } = update;
+
+        // Se c'è un cambio di immagine (image_url è presente), elimina la vecchia
+        if (updateData.image_url) {
+          try {
+            // Recupera il progetto corrente per ottenere la vecchia immagine
+            const { data: currentProject, error: fetchError } = await supabase
+              .from('projects')
+              .select('image_url')
+              .eq('id', id)
+              .single();
+
+            if (!fetchError && currentProject?.image_url) {
+              // Estrai il path dell'immagine vecchia
+              try {
+                const url = new URL(currentProject.image_url);
+                const pathParts = url.pathname.split('/');
+                const storageIndex = pathParts.indexOf('public');
+                
+                if (storageIndex !== -1 && storageIndex < pathParts.length - 1) {
+                  const oldImagePath = pathParts.slice(storageIndex + 1).join('/');
+                  
+                  // Elimina l'immagine vecchia
+                  const { error: deleteOldImageError } = await supabase.storage
+                    .from('projects')
+                    .remove([oldImagePath]);
+
+                  if (deleteOldImageError && !deleteOldImageError.message.includes('not found')) {
+                    console.error(`Error deleting old image for project ${id}:`, deleteOldImageError);
+                  } else {
+                    console.log(`✅ Deleted old image for project ${id}`);
+                  }
+                }
+              } catch (imageError) {
+                console.error(`Error processing old image deletion for ${id}:`, imageError);
+                // Continua anche se c'è un errore con l'eliminazione dell'immagine vecchia
+              }
+            }
+          } catch (error) {
+            console.error(`Error handling image replacement for ${id}:`, error);
+            // Continua anche se c'è un errore
+          }
+        }
 
         // Rimuovi campi undefined
         const cleanData = Object.fromEntries(
@@ -186,6 +278,19 @@ export async function POST(request: NextRequest) {
 
     console.log('✅ Save All Results:', results);
 
+    // 5. REVALIDAZIONE AUTOMATICA - Invalida cache delle pagine che mostrano progetti
+    try {
+      console.log('🔄 Auto-revalidating paths after project changes...');
+      revalidatePath('/portfolio', 'page');
+      revalidatePath('/portfolio', 'layout');
+      revalidatePath('/', 'page');
+      revalidatePath('/', 'layout');
+      console.log('✅ Auto-revalidation completed');
+    } catch (revalidateError) {
+      console.error('⚠️ Auto-revalidation failed (non-critical):', revalidateError);
+      // Non bloccare la risposta se la revalidazione fallisce
+    }
+
     // Le modifiche saranno visibili immediatamente perché le API non hanno cache server
     // La cache client-side (localStorage) viene invalidata quando l'admin preme "Aggiorna sito"
 
@@ -203,6 +308,8 @@ export async function POST(request: NextRequest) {
         status: success ? 200 : 207,
         headers: {
           'Cache-Control': 'no-store, no-cache, must-revalidate',
+          Pragma: 'no-cache',
+          Expires: '0',
         },
       }
     );
