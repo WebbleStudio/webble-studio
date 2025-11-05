@@ -55,14 +55,14 @@
     "service03": {
       "number": "03",
       "title": "Advertising & SMM",
-      "labels": ["Advertising", "Marketing", "Campaigns"],
-      "paragraph": "We create advertising campaigns that capture attention and convert audiences into loyal customers."
+      "labels": ["Advertising", "Marketing", "Socials"],
+      "paragraph": "We manage advertising campaigns to amplify your online presence and turn engagement into concrete results."
     },
     "service04": {
       "number": "04",
       "title": "Developing Web/App",
-      "labels": ["Social Media", "Content Design", "Branding"],
-      "paragraph": "We design social content that tells your brand story and engages your community."
+      "labels": ["Web Development", "App Development", "API Integration"],
+      "paragraph": "We develop websites using modern technologies to ensure a smooth user experience."
     }
   },
   "payoff": {

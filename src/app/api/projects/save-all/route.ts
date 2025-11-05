@@ -136,15 +136,26 @@ export async function POST(request: NextRequest) {
               try {
                 // Estrai il path dall'URL
                 // URL format: https://xxx.supabase.co/storage/v1/object/public/projects/projects/project-xxx.jpg
-                // Path da estrarre: projects/project-xxx.jpg
+                // Path da estrarre: projects/project-xxx.jpg (senza il primo 'projects/' perché il bucket è già specificato)
                 const url = new URL(project.image_url);
-                const pathParts = url.pathname.split('/');
+                const pathParts = url.pathname.split('/').filter(p => p); // Rimuovi stringhe vuote
                 const storageIndex = pathParts.indexOf('public');
+                
                 if (storageIndex !== -1 && storageIndex < pathParts.length - 1) {
-                  // Prendi tutto dopo 'public/' e rimuovi il bucket name 'projects'
+                  // Prendi tutto dopo 'public/'
                   const fullPath = pathParts.slice(storageIndex + 1).join('/');
-                  // Il path completo include già 'projects/', quindi usiamolo direttamente
-                  const filePath = fullPath;
+                  
+                  // Se il path inizia con 'projects/', rimuovilo perché il bucket è già specificato in from('projects')
+                  let filePath = fullPath;
+                  if (filePath.startsWith('projects/')) {
+                    filePath = filePath.substring('projects/'.length);
+                  }
+                  
+                  console.log(`🗑️ Attempting to delete image for project ${project.id}:`, {
+                    originalUrl: project.image_url,
+                    extractedPath: filePath,
+                    fullPath: fullPath
+                  });
 
                   // Elimina il file dallo storage
                   const { error: deleteImageError } = await supabase.storage
@@ -152,19 +163,23 @@ export async function POST(request: NextRequest) {
                     .remove([filePath]);
 
                   if (deleteImageError) {
-                    console.error(`Error deleting image for project ${project.id}:`, deleteImageError);
+                    console.error(`❌ Error deleting image for project ${project.id}:`, deleteImageError);
                     // Non blocchiamo l'eliminazione del progetto se l'immagine non viene trovata
                     if (!deleteImageError.message.includes('not found')) {
                       results.errors.push(`Image deletion failed for project ${project.id}: ${deleteImageError.message}`);
                     }
                   } else {
-                    console.log(`✅ Deleted image for project ${project.id}`);
+                    console.log(`✅ Deleted image for project ${project.id}: ${filePath}`);
                   }
+                } else {
+                  console.warn(`⚠️ Could not extract path from URL for project ${project.id}:`, project.image_url);
                 }
               } catch (imageError) {
-                console.error(`Error processing image deletion for project ${project.id}:`, imageError);
+                console.error(`❌ Error processing image deletion for project ${project.id}:`, imageError);
                 // Continua anche se c'è un errore con l'immagine
               }
+            } else {
+              console.log(`ℹ️ Project ${project.id} has no image_url to delete`);
             }
           }
 
@@ -204,11 +219,19 @@ export async function POST(request: NextRequest) {
               // Estrai il path dell'immagine vecchia
               try {
                 const url = new URL(currentProject.image_url);
-                const pathParts = url.pathname.split('/');
+                const pathParts = url.pathname.split('/').filter(p => p); // Rimuovi stringhe vuote
                 const storageIndex = pathParts.indexOf('public');
                 
                 if (storageIndex !== -1 && storageIndex < pathParts.length - 1) {
-                  const oldImagePath = pathParts.slice(storageIndex + 1).join('/');
+                  const fullPath = pathParts.slice(storageIndex + 1).join('/');
+                  
+                  // Se il path inizia con 'projects/', rimuovilo perché il bucket è già specificato
+                  let oldImagePath = fullPath;
+                  if (oldImagePath.startsWith('projects/')) {
+                    oldImagePath = oldImagePath.substring('projects/'.length);
+                  }
+                  
+                  console.log(`🔄 Replacing image for project ${id}, deleting old:`, oldImagePath);
                   
                   // Elimina l'immagine vecchia
                   const { error: deleteOldImageError } = await supabase.storage
@@ -216,13 +239,13 @@ export async function POST(request: NextRequest) {
                     .remove([oldImagePath]);
 
                   if (deleteOldImageError && !deleteOldImageError.message.includes('not found')) {
-                    console.error(`Error deleting old image for project ${id}:`, deleteOldImageError);
+                    console.error(`❌ Error deleting old image for project ${id}:`, deleteOldImageError);
                   } else {
-                    console.log(`✅ Deleted old image for project ${id}`);
+                    console.log(`✅ Deleted old image for project ${id}: ${oldImagePath}`);
                   }
                 }
               } catch (imageError) {
-                console.error(`Error processing old image deletion for ${id}:`, imageError);
+                console.error(`❌ Error processing old image deletion for ${id}:`, imageError);
                 // Continua anche se c'è un errore con l'eliminazione dell'immagine vecchia
               }
             }

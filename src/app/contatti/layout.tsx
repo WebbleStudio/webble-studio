@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: 'Contatti',
   description:
-    'Contattaci per discutere il tuo progetto digitale. Webble Studio trasforma le tue idee in strategie digitali creative e ad alte prestazioni. Richiedi un preventivo gratuito.',
+    'Contatta Webble Studio per il tuo progetto digitale. Agenzia web design Milano specializzata in strategie digitali creative e ad alte prestazioni. Prenota una call gratuita con i nostri founder. Siamo sempre pronti a rispondere alle tue domande.',
   keywords: [
     'contatti webble studio',
     'richiedi preventivo web design',
@@ -20,9 +20,9 @@ export const metadata: Metadata = {
     'agenzia digitale contatti',
   ],
   openGraph: {
-    title: 'Contatti',
+    title: 'Contatti - Webble Studio | Richiedi un Preventivo Gratuito',
     description:
-      'Contattaci per discutere il tuo progetto digitale. Webble Studio trasforma le tue idee in strategie digitali creative e ad alte prestazioni. Richiedi un preventivo gratuito.',
+      'Contatta Webble Studio per il tuo progetto digitale. Agenzia web design Milano specializzata in strategie digitali creative e ad alte prestazioni. Prenota una call gratuita con i nostri founder. Siamo sempre pronti a rispondere alle tue domande.',
     type: 'website',
     url: `${siteUrl}/contatti`,
     siteName: 'Webble Studio',
@@ -38,9 +38,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Contatti - Webble Studio',
+    title: 'Contatti - Webble Studio | Richiedi un Preventivo Gratuito',
     description:
-      'Contattaci per discutere il tuo progetto digitale. Webble Studio trasforma le tue idee in strategie digitali creative e ad alte prestazioni. Richiedi un preventivo gratuito.',
+      'Contatta Webble Studio per il tuo progetto digitale. Agenzia web design Milano specializzata in strategie digitali creative e ad alte prestazioni. Prenota una call gratuita con i nostri founder. Siamo sempre pronti a rispondere alle tue domande.',
     images: [ogImageAbs],
     creator: '@webblestudio',
   },

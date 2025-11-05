@@ -55,14 +55,14 @@
     "service03": {
       "number": "03",
       "title": "Advertising & SMM",
-      "labels": ["Advertising", "Marketing", "Campagne"],
-      "paragraph": "Creiamo campagne pubblicitarie che catturano l'attenzione e convertono il pubblico in clienti fedeli."
+      "labels": ["Advertising", "Marketing", "Socials"],
+      "paragraph": "Gestiamo campagne pubblicitarie per amplificare la tua presenza online e trasformare l'engagement in risultati concreti."
     },
     "service04": {
       "number": "04",
       "title": "Developing Web/App",
-      "labels": ["Social Media", "Content Design", "Branding"],
-      "paragraph": "Progettiamo contenuti social che raccontano la storia del tuo brand e coinvolgono la tua community."
+      "labels": ["Sviluppo Web", "App Development", "Integrazione API"],
+      "paragraph": "Sviluppiamo siti web e applicazioni con tecnologie moderne per garantire un'esperienza utente fluida."
     }
   },
   "payoff": {

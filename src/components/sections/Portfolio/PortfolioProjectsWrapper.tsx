@@ -6,6 +6,7 @@ import Filter from '@/components/ui/Filter';
 import FilterButton from '@/components/ui/FilterButton';
 import Project from '@/components/ui/Project';
 import { usePortfolioFiltersAnimation } from '@/hooks';
+import { useProjectTranslation } from '@/hooks';
 import type { Project as ProjectType } from '@/lib/serverActions';
 
 const baseMainFilters = ['All', 'Web Design'];
@@ -32,6 +33,14 @@ export default function PortfolioProjectsWrapper({ projects }: PortfolioProjects
     getFilterAnimationProps,
     buttonAnimationProps,
   } = usePortfolioFiltersAnimation();
+
+  const { getTranslatedTitle, getTranslatedDescription, currentLanguage } = useProjectTranslation();
+
+  // Trigger re-render when language changes
+  useEffect(() => {
+    // This effect will run whenever currentLanguage changes
+    // forcing the component to re-render with new translations
+  }, [currentLanguage]);
 
   // Filtra i progetti in base ai filtri attivi
   const filteredProjects = useMemo(() => {
@@ -131,8 +140,8 @@ export default function PortfolioProjectsWrapper({ projects }: PortfolioProjects
               {rowProjects.map((project) => (
                 <div key={project.id} className="w-1/2">
                   <Project
-                    title={project.title}
-                    description={project.description}
+                    title={getTranslatedTitle(project)}
+                    description={getTranslatedDescription(project)}
                     imageUrl={project.image_url}
                     hasLink={!!project.link}
                     onClick={project.link ? () => handleProjectClick(project) : undefined}
@@ -152,8 +161,8 @@ export default function PortfolioProjectsWrapper({ projects }: PortfolioProjects
               {rowProjects.map((project) => (
                 <div key={project.id} className="w-1/3">
                   <Project
-                    title={project.title}
-                    description={project.description}
+                    title={getTranslatedTitle(project)}
+                    description={getTranslatedDescription(project)}
                     imageUrl={project.image_url}
                     hasLink={!!project.link}
                     onClick={project.link ? () => handleProjectClick(project) : undefined}
@@ -173,8 +182,8 @@ export default function PortfolioProjectsWrapper({ projects }: PortfolioProjects
               {rowProjects.length >= 1 && (
                 <div key={rowProjects[0].id} className="w-1/3">
                   <Project
-                    title={rowProjects[0].title}
-                    description={rowProjects[0].description}
+                    title={getTranslatedTitle(rowProjects[0])}
+                    description={getTranslatedDescription(rowProjects[0])}
                     imageUrl={rowProjects[0].image_url}
                     hasLink={!!rowProjects[0].link}
                     onClick={
@@ -186,8 +195,8 @@ export default function PortfolioProjectsWrapper({ projects }: PortfolioProjects
               {rowProjects.length >= 2 && (
                 <div key={rowProjects[1].id} className="w-2/3">
                   <Project
-                    title={rowProjects[1].title}
-                    description={rowProjects[1].description}
+                    title={getTranslatedTitle(rowProjects[1])}
+                    description={getTranslatedDescription(rowProjects[1])}
                     imageUrl={rowProjects[1].image_url}
                     hasLink={!!rowProjects[1].link}
                     onClick={
@@ -204,7 +213,7 @@ export default function PortfolioProjectsWrapper({ projects }: PortfolioProjects
     }
 
     return rows;
-  }, [filteredProjects, handleProjectClick]);
+  }, [filteredProjects, handleProjectClick, getTranslatedTitle, getTranslatedDescription]);
 
   // Render layout responsivo
   const renderResponsiveLayout = useMemo(() => {
@@ -217,8 +226,8 @@ export default function PortfolioProjectsWrapper({ projects }: PortfolioProjects
           {projectsToShow.map((project) => (
             <div key={project.id}>
               <Project
-                title={project.title}
-                description={project.description}
+                title={getTranslatedTitle(project)}
+                description={getTranslatedDescription(project)}
                 imageUrl={project.image_url}
                 hasLink={!!project.link}
                 onClick={project.link ? () => handleProjectClick(project) : undefined}
@@ -234,8 +243,8 @@ export default function PortfolioProjectsWrapper({ projects }: PortfolioProjects
               {projectsToShow.slice(rowIndex * 2, rowIndex * 2 + 2).map((project) => (
                 <div key={project.id} className="w-1/2">
                   <Project
-                    title={project.title}
-                    description={project.description}
+                    title={getTranslatedTitle(project)}
+                    description={getTranslatedDescription(project)}
                     imageUrl={project.image_url}
                     hasLink={!!project.link}
                     onClick={project.link ? () => handleProjectClick(project) : undefined}
@@ -250,7 +259,7 @@ export default function PortfolioProjectsWrapper({ projects }: PortfolioProjects
         <div className="hidden xl:block">{renderCustomLayout}</div>
       </div>
     );
-  }, [filteredProjects, handleProjectClick, renderCustomLayout]);
+  }, [filteredProjects, handleProjectClick, renderCustomLayout, getTranslatedTitle, getTranslatedDescription]);
 
   return (
     <section className="h-auto min-h-screen flex flex-col py-16">
