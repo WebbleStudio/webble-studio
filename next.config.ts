@@ -42,23 +42,6 @@ const nextConfig: NextConfig = {
   // Powering optimizations
   poweredByHeader: false,
 
-  async redirects() {
-    return [
-      {
-        // Redirect webblestudio.com -> www.webblestudio.com (301 permanente per SEO)
-        source: '/:path*',
-        has: [
-          {
-            type: 'host',
-            value: 'webblestudio.com',
-          },
-        ],
-        destination: 'https://www.webblestudio.com/:path*',
-        permanent: true,
-      },
-    ];
-  },
-
   // Headers for security and performance
   async headers() {
     return [
