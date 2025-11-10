@@ -94,9 +94,9 @@ export default function RootLayout({
         {/* Preload critical static images to avoid edge requests */}
         <link rel="preload" as="image" href="/img/webble-white-logo.svg" type="image/svg+xml" />
         {/* webble-3d.webp: usata in KeyPoints, non critica per LCP */}
-        {/* Hero images: CRITICHE per LCP - preload per migliorare performance */}
-        <link rel="preload" as="image" href="/img/hero-desktop-proj.png" type="image/png" media="(min-width: 768px)" />
-        <link rel="preload" as="image" href="/img/hero-mobile-proj.png" type="image/png" media="(max-width: 767px)" />
+        {/* Hero images: CRITICHE per LCP - preload per migliorare performance - WebP ottimizzate */}
+        <link rel="preload" as="image" href="/img/hero-desktop-proj.webp" type="image/webp" media="(min-width: 768px)" />
+        <link rel="preload" as="image" href="/img/hero-mobile-proj.webp" type="image/webp" media="(max-width: 767px)" />
         {/* bubble-background.jpg: usata in Payoff, non critica per LCP */}
         <link rel="preload" as="image" href="/icons/diagonal-arrow.svg" type="image/svg+xml" />
         {/* Preload fonts to avoid edge requests */}

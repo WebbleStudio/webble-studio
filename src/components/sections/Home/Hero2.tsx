@@ -175,7 +175,7 @@ export default function Hero2() {
 
         {/* Mobile Image */}
         <OptimizedImage
-          src="/img/hero-mobile-proj.png"
+          src="/img/hero-mobile-proj.webp"
           alt="Hero Mobile Projects"
           width={800}
           height={600}
@@ -284,7 +284,7 @@ export default function Hero2() {
         {/* BOTTOM 50% - Image Section */}
         <div className="md:h-1/2 flex items-end justify-center">
           <OptimizedImage
-            src="/img/hero-desktop-proj.png"
+            src="/img/hero-desktop-proj.webp"
             alt="Hero Desktop Projects"
             width={1920}
             height={1080}
