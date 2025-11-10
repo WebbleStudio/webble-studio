@@ -20,12 +20,12 @@
   transition: opacity 0s;
 }
 
-/* Dark background - ::after */
+/* Dark background - ::after - WebP optimized */
 .payoff-bg-transition::after {
   content: '';
   position: absolute;
   inset: 0;
-  background-image: url('/img/bubble-background-dark.png');
+  background-image: url('/img/bubble-background-dark.webp');
   background-size: inherit;
   background-position: inherit;
   background-repeat: inherit;

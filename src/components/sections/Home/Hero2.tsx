@@ -121,7 +121,7 @@ export default function Hero2() {
         <div
           className="absolute top-[100px] sm:top-[100px] left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[500px] h-auto sm:w-[600px] opacity-20 pointer-events-none"
           style={{
-            backgroundImage: 'url(/img/radial.png)',
+            backgroundImage: 'url(/img/radial.webp)',
             backgroundSize: 'contain',
             backgroundRepeat: 'no-repeat',
             backgroundPosition: 'center',
@@ -188,11 +188,11 @@ export default function Hero2() {
       <div className="hidden md:flex md:flex-col md:h-full md:w-full relative z-10">
         {/* TOP 50% - Content Section */}
         <div className="md:h-1/2 flex items-center justify-center relative px-[30px] xl:px-20">
-          {/* Background Image - radial2.png */}
+          {/* Background Image - radial2.webp optimized */}
           <div
             className="absolute left-1/2 top-1/2 w-[780px] lg:w-[1100px] h-auto opacity-20 pointer-events-none"
             style={{
-              backgroundImage: 'url(/img/radial2.png)',
+              backgroundImage: 'url(/img/radial2.webp)',
               backgroundSize: 'contain',
               backgroundRepeat: 'no-repeat',
               backgroundPosition: 'center',
