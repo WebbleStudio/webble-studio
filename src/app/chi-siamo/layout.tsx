@@ -6,7 +6,7 @@ const ogImageAbs = 'https://www.webblestudio.com/img/thumbnails/chi-siamo-thumbn
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: 'Chi Siamo',
+  title: 'Chi siamo',
   description:
     'Scopri il team di Webble Studio: creativi, designer e sviluppatori appassionati di web design, UI/UX e strategie digitali. Conosci la nostra storia e la nostra mission.',
   keywords: [

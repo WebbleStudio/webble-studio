@@ -13,12 +13,18 @@ export default function Hero2() {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [particlesInit, setParticlesInit] = useState(false);
 
+  // Delay particles initialization to improve LCP - load after critical content
   useEffect(() => {
-    initParticlesEngine(async (engine) => {
-      await loadSlim(engine);
-    }).then(() => {
-      setParticlesInit(true);
-    });
+    // Delay particles to not block LCP rendering
+    const timer = setTimeout(() => {
+      initParticlesEngine(async (engine) => {
+        await loadSlim(engine);
+      }).then(() => {
+        setParticlesInit(true);
+      });
+    }, 1000); // Load particles 1s after page load to prioritize LCP
+
+    return () => clearTimeout(timer);
   }, []);
 
   const handleOpenForm = () => {
@@ -174,6 +180,7 @@ export default function Hero2() {
           width={800}
           height={600}
           className="w-full h-auto object-cover"
+          priority={true}
         />
       </div>
 
@@ -282,6 +289,7 @@ export default function Hero2() {
             width={1920}
             height={1080}
             className="w-full h-full object-contain object-bottom"
+            priority={true}
           />
         </div>
       </div>
