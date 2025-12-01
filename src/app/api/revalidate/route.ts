@@ -51,7 +51,7 @@ export async function POST(request: NextRequest) {
         const errorMessage = error instanceof Error ? error.message : 'Unknown error';
         console.error(`❌ Error revalidating path ${path}:`, errorMessage);
         failedPaths.push({ path, error: errorMessage });
-      }
+    }
     }
 
     // Se tutte le revalidazioni falliscono, restituisci un errore

@@ -43,6 +43,18 @@ const nextConfig: NextConfig = {
   // Powering optimizations
   poweredByHeader: false,
 
+  // Redirect trailing slashes to non-trailing for SEO consistency
+  // This prevents duplicate content issues (e.g., /contatti/ vs /contatti)
+  async redirects() {
+    return [
+      {
+        source: '/:path+/',
+        destination: '/:path+',
+        permanent: true, // 301 redirect
+      },
+    ];
+  },
+
   // Headers for security and performance
   async headers() {
     return [

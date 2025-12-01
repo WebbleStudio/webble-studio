@@ -184,14 +184,14 @@ export async function POST(request: NextRequest) {
           }
 
           // Ora elimina i record dal database
-          const { error: deleteError } = await supabase.from('projects').delete().in('id', deletes);
+        const { error: deleteError } = await supabase.from('projects').delete().in('id', deletes);
 
-          if (deleteError) {
-            console.error('Delete error:', deleteError);
-            results.errors.push(`Delete failed: ${deleteError.message}`);
-          } else {
-            results.deleted = deletes.length;
-            console.log(`✅ Deleted ${deletes.length} projects`);
+        if (deleteError) {
+          console.error('Delete error:', deleteError);
+          results.errors.push(`Delete failed: ${deleteError.message}`);
+        } else {
+          results.deleted = deletes.length;
+          console.log(`✅ Deleted ${deletes.length} projects`);
           }
         }
       } catch (error) {

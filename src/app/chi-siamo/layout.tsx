@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import StructuredData from '@/components/seo/StructuredData';
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://webblestudio.com';
+// Force absolute canonical URL - always use production domain for SEO
+const siteUrl = 'https://webblestudio.com';
 const ogImageAbs = 'https://webblestudio.com/img/thumbnails/chi-siamo-thumbnail.png';
 
 export const metadata: Metadata = {

@@ -73,13 +73,13 @@ export function useRevalidate() {
       let cacheResponse: Response;
       try {
         cacheResponse = await fetch('/api/revalidate', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
             'Cache-Control': 'no-cache, no-store, must-revalidate',
             Pragma: 'no-cache',
-          },
-          body: JSON.stringify({
+        },
+        body: JSON.stringify({
             paths: [
               '/',
               '/portfolio',
@@ -90,10 +90,10 @@ export function useRevalidate() {
               '/chi-siamo/layout',
               '/contatti/layout',
             ],
-            invalidateCache: true,
-          }),
+          invalidateCache: true,
+        }),
           signal: controller.signal,
-        });
+      });
         clearTimeout(timeoutId);
         console.log('✅ Fetch completed, status:', cacheResponse.status);
       } catch (fetchError) {

@@ -17,11 +17,11 @@ export default function Hero2() {
   useEffect(() => {
     // Delay particles to not block LCP rendering
     const timer = setTimeout(() => {
-      initParticlesEngine(async (engine) => {
-        await loadSlim(engine);
-      }).then(() => {
-        setParticlesInit(true);
-      });
+    initParticlesEngine(async (engine) => {
+      await loadSlim(engine);
+    }).then(() => {
+      setParticlesInit(true);
+    });
     }, 1000); // Load particles 1s after page load to prioritize LCP
 
     return () => clearTimeout(timer);

@@ -50,11 +50,11 @@ export async function POST(request: Request) {
 
     return NextResponse.json(
       {
-        success: true,
-        message: 'All highlights changes saved successfully',
-        summary: {
-          highlightsUpdated: highlightsUpdates.length,
-        },
+      success: true,
+      message: 'All highlights changes saved successfully',
+      summary: {
+        highlightsUpdated: highlightsUpdates.length,
+      },
       },
       {
         headers: {

@@ -66,11 +66,11 @@ export async function POST(request: Request) {
 
     return NextResponse.json(
       {
-        success: true,
-        message: 'All services changes saved successfully',
-        summary: {
-          servicesUpdated: servicesUpdates.length,
-        },
+      success: true,
+      message: 'All services changes saved successfully',
+      summary: {
+        servicesUpdated: servicesUpdates.length,
+      },
       },
       {
         headers: {
