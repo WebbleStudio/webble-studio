@@ -1,0 +1,150 @@
+{
+  "meta": {
+    "siteName": "Webble Studio"
+  },
+  "nav": {
+    "home": "Home",
+    "about": "About us",
+    "ourWork": "Our work",
+    "services": "Services",
+    "contact": "Contact",
+    "contactCta": "Book a call"
+  },
+  "home": {
+    "title": "Webble Studio — Design & Web Development",
+    "description": "We craft extraordinary digital experiences. Custom web design and development tailored to your brand.",
+    "headline": "Design that converts. Code that performs.",
+    "subheadline": "Crafted interfaces and solid development for measurable results and growth.",
+    "cta": "Explore our services",
+    "ctaSecondary": "Book a call",
+    "og": {
+      "title": "Webble Studio — Design & Web Development",
+      "description": "We craft extraordinary digital experiences. Custom web design and development tailored to your brand."
+    }
+  },
+  "problems": {
+    "headline": "WE ELIMINATE PROBLEMS",
+    "labels": ["Slowness", "Confusion", "Invisibility", "Bounces"]
+  },
+  "process": {
+    "eyebrow": "(PROCESS)",
+    "headline": "HOW WE WORK",
+    "subheadline": "From brief to launch, every phase is handled with care and method.",
+    "steps": [
+      {
+        "step": "01",
+        "title": "Discovery",
+        "description": "We analyse your goals, your market and your brand to build a solid strategy."
+      },
+      {
+        "step": "02",
+        "title": "Design",
+        "description": "We craft the user experience and visual identity of your digital product."
+      },
+      {
+        "step": "03",
+        "title": "Development",
+        "description": "We build the product with modern technologies, optimised for performance and SEO."
+      },
+      {
+        "step": "04",
+        "title": "Launch",
+        "description": "We publish, monitor and support your project over time."
+      }
+    ]
+  },
+  "payoff": {
+    "eyebrow": "(Our payoff)",
+    "headline": "DISCOVER\nWHAT IT MEANS\nTO BE UNIQUE",
+    "body": "We craft digital experiences for companies that work"
+  },
+  "counter": {
+    "count": "100",
+    "label": "COMPLETED PROJECTS",
+    "body": "Projects delivered to this day and counting."
+  },
+  "testimonials": {
+    "headline": "WHAT THEY SAY ABOUT US"
+  },
+  "faqs": {
+    "eyebrow": "FAQ",
+    "headline": "FREQUENTLY ASKED QUESTIONS",
+    "moreQuestions": "More questions?",
+    "contactLabel": "Contact us",
+    "items": [
+      {
+        "question": "What happens after I contact you?",
+        "answer": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+      },
+      {
+        "question": "How long does a project take?",
+        "answer": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+      },
+      {
+        "question": "How do you handle feedback and revisions?",
+        "answer": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+      },
+      {
+        "question": "What technologies do you use?",
+        "answer": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+      },
+      {
+        "question": "Do you offer maintenance after launch?",
+        "answer": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+      }
+    ]
+  },
+  "cta": {
+    "eyebrow": "CONTACT US",
+    "headline": "CTA TO BE DECIDED",
+    "body": "We craft digital experiences that work for companies.",
+    "buttonLabel": "Book a call"
+  },
+  "homeServices": {
+    "image": "/img/homepage/placeholder.png",
+    "items": [
+      { "label": "WEB DESIGN" },
+      { "label": "BRANDING" },
+      { "label": "MARKETING" },
+      { "label": "DEVELOPING WEB/APP" }
+    ]
+  },
+  "footer": {
+    "title": "START A PROJECT",
+    "nav": {
+      "home": "Home",
+      "about": "About",
+      "portfolio": "Portfolio",
+      "contact": "Contact"
+    },
+    "followLabel": "Follow us",
+    "contactLabel": "Contact us",
+    "email": "webblestudio.com@gmail.com",
+    "backToTop": "Back to top"
+  },
+  "services": {
+    "slug": "services",
+    "title": "Services — Webble Studio",
+    "description": "Discover Webble Studio services: UI/UX design, web development, technical SEO and more.",
+    "headline": "Our Services",
+    "subheadline": "From concept to launch, we deliver complete digital solutions for your business.",
+    "list": [
+      {
+        "name": "UI/UX Design",
+        "description": "Intuitive and visually compelling interfaces designed to maximize conversion."
+      },
+      {
+        "name": "Web Development",
+        "description": "High-performance web applications built with Next.js, TypeScript and modern technologies."
+      },
+      {
+        "name": "Technical SEO",
+        "description": "Complete technical optimization to scale in search engines with sustainable strategies."
+      }
+    ],
+    "og": {
+      "title": "Services — Webble Studio",
+      "description": "Discover Webble Studio services: UI/UX design, web development, technical SEO and more."
+    }
+  }
+}

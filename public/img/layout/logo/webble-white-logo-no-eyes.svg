@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Livello_1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 483.7 349.9">
+  <!-- Generator: Adobe Illustrator 29.6.1, SVG Export Plug-In . SVG Version: 2.1.1 Build 9)  -->
+  <defs>
+    <style>
+      .st0 {
+        display: none;
+        fill: #0b0b0b;
+      }
+
+      .st1 {
+        fill: #e2dedc;
+      }
+    </style>
+  </defs>
+  <rect class="st0" x="-718.2" y="-365.1" width="1920" height="1080"/>
+  <rect class="st1" x="140.6" y="-78" width="67.5" height="67.5"/>
+  <rect class="st1" x="343" y="-78" width="67.5" height="67.5"/>
+  <polygon class="st1" points="478 141.2 478 343.6 73.2 343.6 73.2 276.1 208.1 276.1 208.1 141.2 73.2 141.2 73.2 276.1 5.7 276.1 5.7 6.3 73.2 6.3 73.2 73.7 208.1 73.7 208.1 6.3 275.6 6.3 275.6 73.7 410.5 73.7 410.5 141.2 275.6 141.2 275.6 276.1 410.5 276.1 410.5 141.2 478 141.2"/>
+</svg>
