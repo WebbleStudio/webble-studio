@@ -22,6 +22,23 @@
       "description": "We craft extraordinary digital experiences. Custom web design and development tailored to your brand."
     }
   },
+  "ourWork": {
+    "headline": "Our work",
+    "projects": [
+      {
+        "name": "Mavimatt",
+        "description": "Custom identities built for users and designed to grow your business."
+      },
+      {
+        "name": "Holdupagency",
+        "description": "A website that tells the story of a creative agency through bold and memorable design."
+      },
+      {
+        "name": "X2M Creative",
+        "description": "A B2B digital platform engineered for peak performance and streamlined operations."
+      }
+    ]
+  },
   "problems": {
     "headline": "WE ELIMINATE PROBLEMS",
     "labels": ["Slowness", "Confusion", "Invisibility", "Bounces"]

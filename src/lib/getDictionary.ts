@@ -35,6 +35,13 @@ export interface Dictionary {
       description: string;
     };
   };
+  ourWork: {
+    headline: string;
+    projects: {
+      name: string;
+      description: string;
+    }[];
+  };
   problems: {
     headline: string;
     labels: string[];

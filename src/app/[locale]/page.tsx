@@ -8,6 +8,7 @@ import Payoff from "@/components/sections/Payoff";
 import Container from "@/components/layout/Container";
 import Spacer from "@/components/layout/Spacer";
 import Process from "@/components/sections/Process";
+import OurWork from "@/components/sections/OurWork";
 import Problems from "@/components/sections/Problems";
 import Services from "@/components/sections/Services";
 import Counter from "@/components/sections/Counter";
@@ -51,6 +52,8 @@ export default async function HomePage({ params }: HomePageProps) {
         <Payoff dict={dict.payoff} />
         <Spacer />
         <Process dict={dict.process} />
+        <Spacer />
+        <OurWork dict={dict.ourWork} />
         <Spacer />
         <Problems dict={dict.problems} />
         <Spacer />

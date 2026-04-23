@@ -22,6 +22,23 @@
       "description": "Creiamo esperienze digitali straordinarie. Design e sviluppo web su misura per il tuo brand."
     }
   },
+  "ourWork": {
+    "headline": "I nostri lavori",
+    "projects": [
+      {
+        "name": "Mavimatt",
+        "description": "Creiamo identità personalizzate, ottimizzate per l'utente e pensate per far crescere il tuo business."
+      },
+      {
+        "name": "Holdupagency",
+        "description": "Un sito che racconta la visione di un'agenzia creativa attraverso un design audace e memorabile."
+      },
+      {
+        "name": "X2M Creative",
+        "description": "Piattaforma digitale B2B progettata per massimizzare le performance e semplificare i processi."
+      }
+    ]
+  },
   "problems": {
     "headline": "ELIMINIAMO I PROBLEMI",
     "labels": ["Lentezza", "Confusione", "Invisibilità", "Abbandoni"]
