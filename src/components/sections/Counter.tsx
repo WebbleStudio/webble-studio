@@ -13,7 +13,7 @@ export default function Counter({ dict }: CounterProps) {
       <h2 className="font-hero text-foreground/60 text-[20px] tracking-[-2px] uppercase sm:text-[52px] md:text-[40px]">
         <span className="text-foreground">{dict.count}</span> {dict.label}
       </h2>
-      <p className="max-w-[160px]">{dict.body}</p>
+      <p className="xs:max-w-[230px] max-w-[160px]">{dict.body}</p>
     </section>
   );
 }

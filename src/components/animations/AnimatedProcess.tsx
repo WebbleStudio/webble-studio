@@ -130,7 +130,7 @@ export default function AnimatedProcess({ steps }: AnimatedProcessProps) {
           }}
         >
           <div className="flex h-20 flex-none items-center">
-            <div className="border-foreground/10 flex aspect-square h-8 w-8 items-center justify-center border p-1.5">
+            <div className="border-foreground/10 flex aspect-square h-8 w-8 items-center justify-center border p-1.5 xs:h-10 xs:w-10">
               <img
                 src="/img/layout/logo/webble-white-logo.svg"
                 alt=""

@@ -8,7 +8,7 @@ interface FaqsProps {
 export default function Faqs({ dict }: FaqsProps) {
   return (
     <section aria-label="FAQ" className="mx-auto w-full max-w-[1300px] 2xl:max-w-[1650px]">
-      <p className="text-accent font-medium uppercase">{dict.eyebrow}</p>
+      <p className="text-accent text-[14px] font-medium uppercase">{dict.eyebrow}</p>
       <h2 className="font-hero text-foreground mt-2 text-[20px] tracking-[-2px] uppercase sm:text-[52px] md:text-[40px]">
         {dict.headline}
       </h2>

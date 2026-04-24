@@ -11,7 +11,7 @@ export default function Cta({ dict }: CtaProps) {
       className="relative flex w-full max-w-[1300px] flex-col items-center justify-center overflow-hidden bg-cover bg-center bg-no-repeat px-6 py-24 text-center md:px-8 md:py-32 2xl:max-w-[1650px]"
       style={{ backgroundImage: "url('/img/homepage/cta/background.png')" }}
     >
-      <p className="text-accent font-medium uppercase">{dict.eyebrow}</p>
+      <p className="text-accent text-[14px] font-medium uppercase">{dict.eyebrow}</p>
       <h2 className="font-hero text-foreground mt-2 text-[20px] tracking-[-2px] uppercase sm:text-[52px] md:text-[40px]">
         {dict.headline}
       </h2>

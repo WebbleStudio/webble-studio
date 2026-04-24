@@ -79,7 +79,7 @@ export default function AnimatedServicesList({
                 ({String(i + 1).padStart(2, "0")})
               </span>
               <h3
-                className={`font-hero flex-1 text-[20px] font-semibold tracking-[-2px] uppercase transition-colors duration-500 sm:text-[52px] md:text-[40px] ${litColor}`}
+                className={`font-hero flex-1 text-[20px] font-semibold tracking-[-2px] uppercase transition-colors duration-500 xs:text-[28px] sm:text-[52px] md:text-[40px] ${litColor}`}
                 style={{
                   lineHeight: 1.35,
                   marginTop: "-0.175em",
@@ -107,7 +107,7 @@ export default function AnimatedServicesList({
           <img
             src={image}
             alt=""
-            className="h-16 w-[110px] object-cover sm:h-20 sm:w-[140px] md:h-28 md:w-[190px]"
+            className="h-16 w-[110px] object-cover xs:h-20 xs:w-[140px] sm:h-24 sm:w-[165px] md:h-28 md:w-[190px]"
           />
         </div>
       )}

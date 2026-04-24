@@ -26,10 +26,10 @@ export default function ReviewCard({
           elements share the same height. */}
       <div className="border-foreground/10 mt-6 flex items-center justify-between gap-4 border-t pt-6">
         <div className="flex items-center gap-4">
-          <img src={authorImageSrc} alt="" className="h-[30px] w-[30px] shrink-0 object-cover" />
+          <img src={authorImageSrc} alt="" className="h-[30px] w-[30px] shrink-0 object-cover xs:h-[38px] xs:w-[38px]" />
           <div className="flex flex-col">
-            <span className="text-foreground text-xs leading-4">{authorName}</span>
-            <span className="text-foreground/60 text-[10px] leading-[14px]">{authorRole}</span>
+            <span className="text-foreground text-xs leading-4 xs:text-sm xs:leading-5">{authorName}</span>
+            <span className="text-foreground/60 text-[10px] leading-[14px] xs:text-xs xs:leading-4">{authorRole}</span>
           </div>
         </div>
 
@@ -37,7 +37,7 @@ export default function ReviewCard({
           src={companyLogoSrc}
           alt=""
           aria-hidden="true"
-          className="h-[30px] w-auto shrink-0 object-contain"
+          className="h-[30px] w-auto shrink-0 object-contain xs:h-[38px]"
         />
       </div>
     </article>

@@ -25,13 +25,11 @@ export default function Hero({ dict }: HeroProps) {
       <AnimatedHeroImages />
 
       {/* Central text — server rendered, z-10 stays above images */}
-      <div className="relative z-10 flex flex-col items-center gap-6 px-6 text-center">
-        <h1 className="font-hero w-full text-[18px] tracking-[-2px] uppercase sm:text-[52px] md:w-[800px] md:text-[40px]">
+      <div className="relative z-10 flex flex-col items-center gap-6 text-center">
+        <h1 className="font-hero xs:text-[22px] xs:max-w-[320px] w-full max-w-[270px] text-[18px] tracking-[-2px] uppercase sm:text-[52px] md:max-w-[800px] md:text-[40px]">
           {dict.headline}
         </h1>
-        <p className="max-w-[390px]">
-          {dict.subheadline}
-        </p>
+        <p className="xs:max-w-[320px] max-w-[250px]">{dict.subheadline}</p>
         <div className="flex w-full max-w-[390px] flex-col items-stretch gap-3">
           <a
             href="#"
