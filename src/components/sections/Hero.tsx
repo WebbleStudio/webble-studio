@@ -1,5 +1,4 @@
 import type { Dictionary } from "@/lib/getDictionary";
-import AnimatedHeroImages from "@/components/animations/AnimatedHeroImages";
 import ParticlesCanvas from "@/components/animations/ParticlesCanvas";
 
 interface HeroProps {
@@ -21,19 +20,16 @@ export default function Hero({ dict }: HeroProps) {
         aria-hidden="true"
       />
 
-      {/* Floating project images — client only, purely decorative */}
-      <AnimatedHeroImages />
-
-      {/* Central text — server rendered, z-10 stays above images */}
-      <div className="relative z-10 flex flex-col items-center gap-6 text-center">
-        <h1 className="font-hero xs:text-[22px] xs:max-w-[320px] w-full max-w-[270px] text-[18px] tracking-[-2px] uppercase sm:text-[52px] md:max-w-[800px] md:text-[40px]">
+      {/* Central text — server rendered, z-10 stays above particles */}
+      <div className="relative z-10 flex flex-col items-center gap-6 text-center md:gap-8 2xl:gap-10">
+        <h1 className="font-hero xs:text-[22px] xs:max-w-[320px] w-full max-w-[270px] text-[18px] tracking-[-2px] uppercase sm:max-w-[400px] sm:text-[26px] md:max-w-[800px] md:text-[34px] lg:text-[38px] 2xl:max-w-[1000px] 2xl:text-[48px]">
           {dict.headline}
         </h1>
-        <p className="xs:max-w-[320px] max-w-[250px]">{dict.subheadline}</p>
-        <div className="flex w-full max-w-[390px] flex-col items-stretch gap-3">
+        <p className="xs:max-w-[320px] max-w-[250px] md:max-w-full">{dict.subheadline}</p>
+        <div className="flex w-full max-w-[390px] flex-col items-stretch gap-3 md:w-auto md:max-w-none md:flex-row md:items-center">
           <a
             href="#"
-            className="text-foreground flex w-full items-center justify-center gap-2 bg-[#121212] px-5 py-4 font-sans text-sm font-medium"
+            className="text-foreground border-foreground/20 flex w-full items-center justify-center gap-3 border bg-[#121212] px-5 py-4 font-sans text-sm font-medium md:w-auto md:px-10 2xl:text-base"
           >
             <img
               src="/icons/facetime-icon-white.svg"
@@ -46,7 +42,7 @@ export default function Hero({ dict }: HeroProps) {
           </a>
           <a
             href="#"
-            className="text-foreground flex w-full items-center justify-center gap-2 border border-[#121212] px-5 py-4 font-sans text-sm font-medium"
+            className="text-foreground border-foreground/20 flex w-full items-center justify-center gap-3 border px-5 py-4 font-sans text-sm font-medium md:w-auto md:px-8 2xl:text-base"
           >
             <img
               src="/img/homepage/problems/layers-icon.svg"
@@ -56,7 +52,8 @@ export default function Hero({ dict }: HeroProps) {
               height={16}
               style={{ filter: "brightness(0) invert(1)" }}
             />
-            {dict.cta}
+            <span className="md:hidden">{dict.cta}</span>
+            <span className="hidden md:inline">{dict.ctaShort}</span>
           </a>
         </div>
       </div>

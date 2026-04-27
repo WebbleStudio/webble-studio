@@ -72,14 +72,14 @@ export default function AnimatedServicesList({
           const isActive = i === active;
           const litColor = isActive ? "text-foreground" : "text-foreground/60";
           return (
-            <li key={i} className="flex items-start gap-3 py-4 md:gap-6 md:py-5">
+            <li key={i} className="flex items-start gap-3 py-4 sm:py-6 md:gap-6 md:py-7 lg:py-9">
               <span
                 className={`pt-1 font-sans text-xs transition-colors duration-500 md:pt-3 md:text-sm ${litColor}`}
               >
                 ({String(i + 1).padStart(2, "0")})
               </span>
               <h3
-                className={`font-hero flex-1 text-[20px] font-semibold tracking-[-2px] uppercase transition-colors duration-500 xs:text-[28px] sm:text-[52px] md:text-[40px] ${litColor}`}
+                className={`font-hero flex-1 text-[20px] font-semibold tracking-[-2px] uppercase transition-colors duration-500 xs:text-[28px] md:text-[34px] lg:text-[42px] 2xl:text-[54px] ${litColor}`}
                 style={{
                   lineHeight: 1.35,
                   marginTop: "-0.175em",
@@ -107,7 +107,7 @@ export default function AnimatedServicesList({
           <img
             src={image}
             alt=""
-            className="h-16 w-[110px] object-cover xs:h-20 xs:w-[140px] sm:h-24 sm:w-[165px] md:h-28 md:w-[190px]"
+            className="h-16 w-[110px] object-cover xs:h-20 xs:w-[140px] sm:h-28 sm:w-[195px] md:h-40 md:w-[270px] lg:h-64 lg:w-[420px] 2xl:h-80 2xl:w-[520px]"
           />
         </div>
       )}

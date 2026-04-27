@@ -88,20 +88,18 @@ export default function AnimatedFaqItem({
   }, [isOpen]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <div className="bg-[#121212]">
+    <div className="border border-foreground/20 bg-[#121212]">
       <button
         type="button"
         onClick={() => setIsOpen((v) => !v)}
         aria-expanded={isOpen}
         className="flex w-full cursor-pointer items-center justify-between gap-8 p-6 text-left"
       >
-        <span className="text-foreground text-[14px] font-medium xs:text-[16px]">
+        <span className="text-foreground text-left text-[14px] font-medium xs:text-[16px] md:text-[18px]">
           {question}
         </span>
         <svg
           ref={chevronRef}
-          width="20"
-          height="20"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -109,7 +107,7 @@ export default function AnimatedFaqItem({
           strokeLinecap="round"
           strokeLinejoin="round"
           aria-hidden="true"
-          className="text-accent shrink-0"
+          className="text-accent h-5 w-5 shrink-0 md:h-6 md:w-6"
           style={{ rotate: defaultOpen ? "90deg" : "0deg" }}
         >
           <polyline points="9 18 15 12 9 6" />
@@ -121,7 +119,7 @@ export default function AnimatedFaqItem({
         className="overflow-hidden"
         style={{ height: defaultOpen ? "auto" : 0 }}
       >
-        <p ref={answerRef} className="px-6 pb-6 text-[14px]">
+        <p ref={answerRef} className="px-6 pb-6 text-left text-[14px] sm:max-w-[75%] sm:pr-0 md:text-[16px]">
           {answer}
         </p>
       </div>

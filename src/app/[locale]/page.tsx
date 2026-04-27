@@ -50,7 +50,7 @@ export default async function HomePage({ params }: HomePageProps) {
       <Hero dict={dict.home} />
       <Container>
         <Payoff dict={dict.payoff} />
-        <Spacer />
+        <Spacer className="h-50 md:h-0" />
         <Process dict={dict.process} />
         <Spacer />
         <OurWork dict={dict.ourWork} />
@@ -58,9 +58,9 @@ export default async function HomePage({ params }: HomePageProps) {
         <Problems dict={dict.problems} />
         <Spacer />
         <Services dict={dict.homeServices} />
-        <Spacer />
+        <Spacer className="h-50 md:h-0" />
         <Counter dict={dict.counter} />
-        <Spacer />
+        <Spacer className="h-50 md:h-0" />
       </Container>
       <Testimonials dict={dict.testimonials} />
       <Spacer />

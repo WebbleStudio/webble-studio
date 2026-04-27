@@ -29,6 +29,7 @@ export interface Dictionary {
     headline: string;
     subheadline: string;
     cta: string;
+    ctaShort: string;
     ctaSecondary: string;
     og: {
       title: string;
@@ -64,6 +65,12 @@ export interface Dictionary {
   };
   testimonials: {
     headline: string;
+    reviews: {
+      quote: string;
+      authorName: string;
+      authorRole: string;
+      href?: string;
+    }[];
   };
   faqs: {
     eyebrow: string;

@@ -2,6 +2,8 @@
 
 import { useEffect, useRef } from "react";
 
+const MD = 768; // below this width the eyes animate on scroll; above, they stay still
+
 /**
  * Scroll-driven version of the header logo animation.
  *
@@ -48,19 +50,41 @@ export default function AnimatedFooterLogo() {
 
     const update = () => {
       rafId = null;
-      const rect = anchor.getBoundingClientRect();
       const viewportH =
         window.innerHeight || document.documentElement.clientHeight;
-      // progress 0 when anchor.top is at viewport center.
-      // progress 1 after anchor.top has travelled another 20% of viewport up.
-      const startOffset = viewportH * 0.5;
-      const travel = viewportH * 0.2;
-      const raw = (viewportH - startOffset - rect.top) / travel;
+      const docEl = document.documentElement;
+      const scrollY = window.scrollY || docEl.scrollTop;
+      const footerTopY =
+        anchor.getBoundingClientRect().top + scrollY;
+      const maxScroll = docEl.scrollHeight - viewportH;
+      const isDesktop = window.innerWidth >= MD;
+
+      let scrollStart: number;
+      let scrollEnd: number;
+      if (isDesktop) {
+        // On desktop the animation is confined to the final 100px of the
+        // page's scroll range — eyes complete their shift right as the
+        // user reaches the very bottom of the page.
+        scrollEnd = maxScroll;
+        scrollStart = maxScroll - 200;
+      } else {
+        // On mobile the animation spreads over ~1 viewport of scroll,
+        // ending when the footer's top edge reaches the top of the
+        // viewport (clamped to maxScroll so we never aim past the end).
+        scrollEnd = Math.min(footerTopY, maxScroll);
+        scrollStart = scrollEnd - viewportH;
+      }
+
+      const raw =
+        scrollEnd > scrollStart
+          ? (scrollY - scrollStart) / (scrollEnd - scrollStart)
+          : 1;
       const progress = Math.max(0, Math.min(1, raw));
-      // Eyes travel from (0, 0) at progress 0
-      // to (-13, +13) at progress 1.
-      const x = 0 + (-13 - 0) * progress;
-      const y = 0 + (13 - 0) * progress;
+      // Desktop logo is larger so the eyes need a bigger offset (~double).
+      const endX = isDesktop ? -29 : -13;
+      const endY = isDesktop ? 29 : 13;
+      const x = endX * progress;
+      const y = endY * progress;
       eyes.style.transform = `translate(${x}px, ${y}px)`;
     };
 

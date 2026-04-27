@@ -16,6 +16,7 @@
     "headline": "Design che converte. Codice che performa.",
     "subheadline": "Interfacce curate e sviluppo solido per risultati misurabili e crescita continua.",
     "cta": "Scopri i nostri servizi",
+    "ctaShort": "I nostri servizi",
     "ctaSecondary": "Prenota una call",
     "og": {
       "title": "Webble Studio — Design & Sviluppo Web",
@@ -30,7 +31,7 @@
         "description": "Creiamo identità personalizzate, ottimizzate per l'utente e pensate per far crescere il tuo business."
       },
       {
-        "name": "Holdupagency",
+        "name": "Holdup Agency",
         "description": "Un sito che racconta la visione di un'agenzia creativa attraverso un design audace e memorabile."
       },
       {
@@ -81,7 +82,15 @@
     "body": "Progetti consegnati fino a oggi e in aumento."
   },
   "testimonials": {
-    "headline": "COSA DICONO DI NOI"
+    "headline": "COSA DICONO DI NOI",
+    "reviews": [
+      {
+        "quote": "Ho avuto il piacere di collaborare con Webble Studio e non posso che consigliarli. Sono stati bravissimi nel supportarmi in ogni fase del progetto, sempre disponibili e super comprensivi rispetto alle mie richieste grafiche.",
+        "authorName": "X2Marco",
+        "authorRole": "Youtuber",
+        "href": "https://share.google/zznslgwKW7BiHnAl7"
+      }
+    ]
   },
   "faqs": {
     "eyebrow": "FAQ",
@@ -127,7 +136,7 @@
     ]
   },
   "footer": {
-    "title": "INIZIA UN PROGETTO",
+    "title": "INIZIA UN\nPROGETTO",
     "nav": {
       "home": "Home",
       "about": "Chi siamo",

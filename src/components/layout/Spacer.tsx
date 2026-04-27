@@ -6,7 +6,7 @@ interface SpacerProps {
   className?: string;
 }
 
-const DEFAULT_CLASS = "h-50 md:h-32";
+const DEFAULT_CLASS = "h-50 md:h-100";
 
 export default function Spacer({ className }: SpacerProps) {
   return <div aria-hidden="true" className={className ?? DEFAULT_CLASS} />;

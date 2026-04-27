@@ -17,14 +17,14 @@ export default function Header({ locale, dict }: HeaderProps) {
 
   return (
     <AnimatedHeader>
-      <div className="relative mx-auto flex h-[75px] w-full max-w-[1300px] items-center justify-between px-6 md:px-8 2xl:max-w-[1650px]">
+        <div className="relative mx-auto flex h-[75px] w-full max-w-[1300px] items-center justify-between px-6 md:px-8 2xl:h-[90px] 2xl:max-w-[1650px]">
         {/* Desktop nav — hidden below md */}
         <nav className="hidden items-center gap-12 md:flex">
           {navLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}
-              className="font-ui text-foreground hover:text-accent text-sm font-medium transition-colors"
+              className="font-ui text-foreground hover:text-accent text-sm font-medium transition-colors 2xl:text-base"
             >
               {link.label}
             </a>
@@ -39,7 +39,7 @@ export default function Header({ locale, dict }: HeaderProps) {
         {/* Desktop CTA — hidden below md */}
         <a
           href={`/${locale}/contact`}
-          className="hidden items-center gap-2 bg-accent px-5 py-2.5 font-sans text-sm font-medium text-foreground md:flex"
+          className="hidden items-center gap-2 bg-accent px-5 py-2.5 font-sans text-sm font-medium text-foreground md:flex 2xl:px-8 2xl:py-4 2xl:text-base"
         >
           <img src="/icons/facetime-icon-white.svg" alt="" aria-hidden="true" width={15} height={15} />
           {dict.nav.contactCta}
