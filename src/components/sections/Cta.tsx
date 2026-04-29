@@ -1,4 +1,5 @@
 import type { Dictionary } from "@/lib/getDictionary";
+import BookingButton from "@/components/ui/BookingButton";
 
 interface CtaProps {
   dict: Dictionary["cta"];
@@ -16,19 +17,12 @@ export default function Cta({ dict }: CtaProps) {
         {dict.headline}
       </h2>
       <p className="xs:max-w-[250px] max-w-[200px] md:max-w-full">{dict.body}</p>
-      <a
-        href="#contact"
+      <BookingButton
+        label={dict.buttonLabel}
+        iconSrc="/icons/facetime-icon-white.svg"
+        iconSize={16}
         className="bg-accent text-foreground inline-flex items-center gap-3 px-8 py-4 font-sans text-sm font-medium"
-      >
-        <img
-          src="/icons/facetime-icon-white.svg"
-          alt=""
-          aria-hidden="true"
-          width={16}
-          height={16}
-        />
-        {dict.buttonLabel}
-      </a>
+      />
     </section>
   );
 }

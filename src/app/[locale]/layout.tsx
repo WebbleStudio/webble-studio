@@ -1,9 +1,7 @@
 import type { ReactNode } from "react";
 import { notFound } from "next/navigation";
 import { locales, localeConfig, isValidLocale } from "@/lib/locales";
-import { getDictionary } from "@/lib/getDictionary";
-import Header from "@/components/layout/Header";
-import Footer from "@/components/layout/Footer";
+import { BookingProvider } from "@/context/BookingContext";
 
 interface LocaleLayoutProps {
   children: ReactNode;
@@ -21,11 +19,10 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
     notFound();
   }
 
-  const dict = await getDictionary(locale);
   const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://webble.studio";
 
   return (
-    <>
+    <BookingProvider locale={locale}>
       {/* Hreflang links injected once per locale layout render */}
       {locales.map((loc) => (
         <link
@@ -36,12 +33,7 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
         />
       ))}
       <link rel="alternate" hrefLang="x-default" href={`${BASE_URL}/it`} />
-
-      <Header locale={locale} dict={dict} />
-
-      <main>{children}</main>
-
-      <Footer locale={locale} dict={dict} />
-    </>
+      {children}
+    </BookingProvider>
   );
 }

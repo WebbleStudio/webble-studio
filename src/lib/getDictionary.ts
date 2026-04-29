@@ -104,6 +104,34 @@ export interface Dictionary {
     email: string;
     backToTop: string;
   };
+  booking: {
+    headline: string;
+    headlineAccent: string;
+    stepType: string;
+    stepDate: string;
+    stepSlot: string;
+    stepForm: string;
+    stepConfirm: string;
+    duration: string;
+    noSlots: string;
+    nameLabel: string;
+    namePlaceholder: string;
+    emailLabel: string;
+    emailPlaceholder: string;
+    messageLabel: string;
+    messagePlaceholder: string;
+    confirm: string;
+    submit: string;
+    back: string;
+    close: string;
+    confirmed: string;
+    meetLink: string;
+    contactEmail: string;
+    contactLabel: string;
+    loading: string;
+    slotTaken: string;
+    error: string;
+  };
   services: {
     slug: string;
     title: string;
