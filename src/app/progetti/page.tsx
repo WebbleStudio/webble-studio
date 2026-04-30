@@ -1,13 +1,12 @@
 /**
- * Progetti Page - Server-Side Redirect to Portfolio
- * Pagina SEO-ottimizzata che redirige immediatamente a /portfolio
- * Il redirect avviene lato server, senza flash di contenuto
+ * Progetti Page - Redirect permanente a /portfolio
+ * Il redirect principale avviene in next.config.ts (308 a livello CDN).
+ * Questo componente serve da fallback nel caso il redirect config non venga applicato.
  */
 
-import { redirect } from 'next/navigation';
+import { redirect, RedirectType } from 'next/navigation';
 
 export default function ProgettiPage() {
-  // Redirect immediato lato server - nessun flash di contenuto
-  redirect('/portfolio');
+  redirect('/portfolio', RedirectType.permanent);
 }
 

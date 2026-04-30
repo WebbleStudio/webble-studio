@@ -47,6 +47,13 @@ const nextConfig: NextConfig = {
   // This prevents duplicate content issues (e.g., /contatti/ vs /contatti)
   async redirects() {
     return [
+      // /progetti è un alias di /portfolio — redirect permanente per SEO
+      {
+        source: '/progetti',
+        destination: '/portfolio',
+        permanent: true, // 308 redirect — passa link equity a /portfolio
+      },
+      // Rimuove trailing slash per evitare contenuti duplicati
       {
         source: '/:path+/',
         destination: '/:path+',

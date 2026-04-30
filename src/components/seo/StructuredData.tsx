@@ -48,9 +48,13 @@ export default function StructuredData({ type, data }: StructuredDataProps) {
             'https://it.pinterest.com/webblestudio/',
           ],
           foundingDate: '2023',
+          // Aggiornare reviewCount manualmente quando cambiano le recensioni verificabili
+          // (es. Google Business, Trustpilot). Non usare valori inventati.
           aggregateRating: {
             '@type': 'AggregateRating',
             ratingValue: '5.0',
+            bestRating: '5',
+            worstRating: '1',
             reviewCount: '12',
           },
           areaServed: ['IT', 'US', 'EU'],

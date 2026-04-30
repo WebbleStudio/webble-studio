@@ -1,11 +1,13 @@
-'use client';
+import type { Metadata } from 'next';
+import AuthSessionProvider from './AuthSessionProvider';
 
-import { SessionProvider } from 'next-auth/react';
+export const metadata: Metadata = {
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <SessionProvider refetchInterval={0} refetchOnWindowFocus={false} refetchWhenOffline={false}>
-      {children}
-    </SessionProvider>
-  );
+  return <AuthSessionProvider>{children}</AuthSessionProvider>;
 }
