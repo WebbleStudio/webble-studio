@@ -4,9 +4,9 @@
  * Questo componente serve da fallback nel caso il redirect config non venga applicato.
  */
 
-import { redirect, RedirectType } from 'next/navigation';
+import { permanentRedirect } from 'next/navigation';
 
 export default function ProgettiPage() {
-  redirect('/portfolio', RedirectType.permanent);
+  permanentRedirect('/portfolio');
 }
 
