@@ -1,0 +1,265 @@
+@import "tailwindcss";
+
+:root {
+  --background: #020303;
+  --foreground: #ffffff;
+  --accent: #ff5c00;
+
+  /* Brand palette */
+  --color-fire: #ff5c00;
+  --color-bone: #efedec;
+  --color-black: #020303;
+  --color-coal: #0a0a0a;
+  /* Figma tokens (Sanjaya design system) */
+  --color-shark: #1a1a1d;
+  --color-silver: #a8a8a8;
+}
+
+@theme {
+  --breakpoint-xs: 390px;
+  --breakpoint-sm: 480px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1300px;
+  --breakpoint-2xl: 1920px;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-accent: var(--accent);
+  --color-fire: var(--color-fire);
+  --color-bone: var(--color-bone);
+  --color-black: var(--color-black);
+  --color-coal: var(--color-coal);
+  --color-shark: var(--color-shark);
+  --color-silver: var(--color-silver);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-mohave);
+  --font-hero: var(--font-grtsk-giga);
+  --font-ui: var(--font-figtree);
+  --animate-marquee: marquee 107s linear infinite;
+}
+
+@keyframes marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+
+@keyframes our-work-fade {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-our-work-fade {
+  animation: our-work-fade 350ms ease-out both;
+}
+
+@layer utilities {
+  .font-ui {
+    font-family: var(--font-figtree), sans-serif;
+  }
+  .font-pixel {
+    font-family: var(--font-pixelify), sans-serif;
+  }
+  .font-hero {
+    font-family: var(--font-grtsk-giga), sans-serif;
+  }
+  .bg-grain {
+    background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='250' height='250'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='250' height='250' filter='url(%23g)'/></svg>");
+    background-repeat: repeat;
+  }
+
+  /* ==========================================================================
+   *  Typography utilities — match the Figma design tokens 1:1.
+   *  Family / size / weight / line-height / letter-spacing all derived from
+   *  the Sanjaya design tokens (Geist + Geist Mono only).
+   *
+   *  Mobile sizes use a comfortable downscale; the `md:` step locks in the
+   *  Figma desktop value.
+   * ========================================================================== */
+
+  /* H1 — hero headline (Geist 56px / 1.0 / -0.05em) */
+  .text-fig-h1 {
+    font-family: var(--font-geist-sans), sans-serif;
+    font-weight: 400;
+    font-size: 36px;
+    line-height: 1;
+    letter-spacing: -0.05em;
+  }
+  @media (min-width: 480px) {
+    .text-fig-h1 {
+      font-size: 44px;
+    }
+  }
+  @media (min-width: 768px) {
+    .text-fig-h1 {
+      font-size: 56px;
+    }
+  }
+
+  /* H2 — section headline (Geist 48px / 1.0 / -0.05em) */
+  .text-fig-h2 {
+    font-family: var(--font-geist-sans), sans-serif;
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 1;
+    letter-spacing: -0.05em;
+  }
+  @media (min-width: 480px) {
+    .text-fig-h2 {
+      font-size: 40px;
+    }
+  }
+  @media (min-width: 768px) {
+    .text-fig-h2 {
+      font-size: 48px;
+    }
+  }
+
+  /* H3 — case study title / large stat (Geist 38px / 1.2 / -0.05em) */
+  .text-fig-h3 {
+    font-family: var(--font-geist-sans), sans-serif;
+    font-weight: 400;
+    font-size: 28px;
+    line-height: 1.2;
+    letter-spacing: -0.05em;
+  }
+  @media (min-width: 480px) {
+    .text-fig-h3 {
+      font-size: 32px;
+    }
+  }
+  @media (min-width: 768px) {
+    .text-fig-h3 {
+      font-size: 38px;
+    }
+  }
+
+  /* H4 — card title / step title (Geist 24px / 1.2 / -0.05em) */
+  .text-fig-h4 {
+    font-family: var(--font-geist-sans), sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 1.2;
+    letter-spacing: -0.05em;
+  }
+  @media (min-width: 768px) {
+    .text-fig-h4 {
+      font-size: 24px;
+    }
+  }
+
+  /* H5 — subtitle / card label / founder name (Geist 18px / 1.2 / -0.04em) */
+  .text-fig-h5 {
+    font-family: var(--font-geist-sans), sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.2;
+    letter-spacing: -0.04em;
+  }
+  @media (min-width: 768px) {
+    .text-fig-h5 {
+      font-size: 18px;
+    }
+  }
+
+  /* Subtitle — body, looser leading (Geist 18px / 1.4 / -0.04em) */
+  .text-fig-subtitle {
+    font-family: var(--font-geist-sans), sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.4;
+    letter-spacing: -0.04em;
+  }
+  @media (min-width: 768px) {
+    .text-fig-subtitle {
+      font-size: 18px;
+    }
+  }
+
+  /* Body — paragraph copy (Geist 16px / 1.4 / -0.02em) */
+  .text-fig-body {
+    font-family: var(--font-geist-sans), sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.4;
+    letter-spacing: -0.02em;
+  }
+  @media (min-width: 768px) {
+    .text-fig-body {
+      font-size: 16px;
+    }
+  }
+
+  /* Link / button (Geist Medium 14px / 1.0 / -0.02em) */
+  .text-fig-link {
+    font-family: var(--font-geist-sans), sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  /* Eyebrow — small caps mono regular (Geist Mono 12px / 1.2 / 0.08em) */
+  .text-fig-eyebrow {
+    font-family: var(--font-geist-mono), monospace;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 1.2;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* Chip — small caps mono medium (Geist Mono 12px Medium / 1.0 / 0.08em) */
+  .text-fig-chip {
+    font-family: var(--font-geist-mono), monospace;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 1;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #020303;
+    --foreground: #e2dedc;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+@layer base {
+  p {
+    font-family: var(--font-geist-sans), sans-serif;
+    font-size: 14px;
+    color: color-mix(in srgb, var(--foreground) 60%, transparent);
+  }
+  @media (min-width: 390px) {
+    p {
+      font-size: 16px;
+    }
+  }
+  @media (min-width: 1920px) {
+    p {
+      font-size: 18px;
+    }
+  }
+}
