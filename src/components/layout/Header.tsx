@@ -10,15 +10,16 @@ interface HeaderProps {
 }
 
 export default function Header({ locale, dict }: HeaderProps) {
+  const portfolioSlug = locale === "it" ? "i-nostri-lavori" : "our-work";
   const navLinks = [
     { label: dict.nav.home, href: `/${locale}` },
     { label: dict.nav.about, href: `/${locale}/about` },
-    { label: dict.nav.ourWork, href: `/${locale}/our-work` },
+    { label: dict.nav.ourWork, href: `/${locale}/${portfolioSlug}` },
   ];
 
   return (
     <AnimatedHeader>
-      <div className="relative mx-auto flex h-[75px] w-full max-w-[1300px] items-center justify-between px-6 md:px-8 2xl:h-[90px] 2xl:max-w-[1650px]">
+      <div className="relative mx-auto flex h-[75px] w-full max-w-[1140px] items-center justify-between px-6 md:px-8 2xl:h-[90px] 2xl:max-w-[1340px]">
         {/* Desktop nav — hidden below md */}
         <nav className="hidden items-center gap-12 md:flex">
           {navLinks.map((link) => (

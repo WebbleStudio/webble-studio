@@ -106,7 +106,7 @@ function TypingDots() {
       {[0, 1, 2].map((i) => (
         <span
           key={i}
-          className="bg-foreground block h-[6px] w-[6px] rounded-full"
+          className="bg-foreground block h-[6px] w-[6px]"
           style={{ animation: `chatDotWave 1.3s ease-in-out ${i * 0.18}s infinite` }}
         />
       ))}
@@ -414,7 +414,7 @@ export default function FloatingChatWidget() {
 
           <div className="flex items-center gap-3">
             <span className="text-foreground/50 flex items-center gap-1.5 font-sans text-[11px]">
-              <span className="h-1.5 w-1.5 rounded-full bg-green-500" />
+              <span className="h-1.5 w-1.5 bg-green-500" />
               Online
             </span>
             <button

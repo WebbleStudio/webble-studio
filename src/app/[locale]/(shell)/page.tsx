@@ -4,14 +4,13 @@ import { isValidLocale, locales } from "@/lib/locales";
 import { getDictionary } from "@/lib/getDictionary";
 import { generatePageMetadata } from "@/lib/metadata";
 import Hero from "@/components/sections/Hero";
-import Payoff from "@/components/sections/Payoff";
-import Container from "@/components/layout/Container";
-import Spacer from "@/components/layout/Spacer";
-import Process from "@/components/sections/Process";
-import OurWork from "@/components/sections/OurWork";
-import Problems from "@/components/sections/Problems";
+import CompanyLogos from "@/components/sections/CompanyLogos";
+import Bottlenecks from "@/components/sections/Bottlenecks";
+import CaseStudies from "@/components/sections/CaseStudies";
+import ImpactStats from "@/components/sections/ImpactStats";
+import HowItWorks from "@/components/sections/HowItWorks";
 import Services from "@/components/sections/Services";
-import Counter from "@/components/sections/Counter";
+import WhyUs from "@/components/sections/WhyUs";
 import Testimonials from "@/components/sections/Testimonials";
 import Faqs from "@/components/sections/Faqs";
 import Cta from "@/components/sections/Cta";
@@ -47,28 +46,47 @@ export default async function HomePage({ params }: HomePageProps) {
 
   return (
     <>
-      <Hero dict={dict.home} />
-      <Container>
-        <Payoff dict={dict.payoff} />
-        <Spacer className="h-50 md:h-0" />
-        <Process dict={dict.process} />
-        <Spacer />
-        <OurWork dict={dict.ourWork} />
-        <Spacer />
-        <Problems dict={dict.problems} />
-        <Spacer />
-        <Services dict={dict.homeServices} />
-        <Spacer className="h-50 md:h-0" />
-        <Counter dict={dict.counter} />
-        <Spacer className="h-50 md:h-0" />
-      </Container>
+      <Hero hero={dict.home.hero} />
+
+      <CompanyLogos dict={dict.companies} />
+
+      <div aria-hidden="true" className="h-[10vh]" />
+      <Bottlenecks dict={dict.bottlenecks} />
+
+      <div aria-hidden="true" className="h-[15vh]" />
+      <CaseStudies dict={dict.caseStudies} />
+
+      {/* Wider gap on desktop so the stacking deck has fully scrolled out
+          of the viewport before the stats grid enters — otherwise the two
+          sections briefly share viewport space while the deck unsticks. */}
+      <div aria-hidden="true" className="h-[40vh] lg:h-[65vh]" />
+      <ImpactStats dict={dict.impactStats} />
+
+      <SectionGap />
+      <HowItWorks dict={dict.process} />
+
+      <SectionGap />
+      <Services dict={dict.homeServices} />
+
+      <SectionGap />
+      <WhyUs dict={dict.whyUs} />
+
+      <SectionGap />
       <Testimonials dict={dict.testimonials} />
-      <Spacer />
-      <Container>
-        <Faqs dict={dict.faqs} />
-        <Spacer />
-      </Container>
+
+      <SectionGap />
+      <Faqs dict={dict.faqs} />
+
+      <SectionGap />
       <Cta dict={dict.cta} />
     </>
   );
+}
+
+/**
+ * Vertical rhythm between sections — denser on mobile, more breathing room on
+ * desktop, matching the proportions in the Figma reference.
+ */
+function SectionGap() {
+  return <div aria-hidden="true" className="h-[40vh]" />;
 }

@@ -3,6 +3,7 @@ import { headers } from "next/headers";
 import { Geist, Geist_Mono, Mohave, Figtree, Pixelify_Sans } from "next/font/google";
 import localFont from "next/font/local";
 import { defaultLocale, isValidLocale } from "@/lib/locales";
+import GrainOverlay from "@/components/ui/GrainOverlay";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -63,7 +64,10 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
       className={`${geistSans.variable} ${geistMono.variable} ${mohave.variable} ${figtree.variable} ${pixelifySans.variable} ${grtskGiga.variable}`}
       suppressHydrationWarning
     >
-      <body className="font-sans antialiased">{children}</body>
+      <body className="font-sans antialiased">
+        <GrainOverlay />
+        {children}
+      </body>
     </html>
   );
 }

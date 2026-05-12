@@ -36,7 +36,7 @@ export default function BookingAdminEmail({
                 width="100%"
                 cellPadding="0"
                 cellSpacing="0"
-                style={{ maxWidth: 560, backgroundColor: "#1a1a1c", borderRadius: 8, overflow: "hidden" }}
+                style={{ maxWidth: 560, backgroundColor: "#1a1a1c", overflow: "hidden" }}
               >
                 {/* Accent stripe */}
                 <tr>
@@ -59,7 +59,7 @@ export default function BookingAdminEmail({
                 {/* Details */}
                 <tr>
                   <td style={{ padding: "24px 40px 0" }}>
-                    <table width="100%" cellPadding="0" cellSpacing="0" style={{ backgroundColor: "#111113", borderRadius: 6 }}>
+                    <table width="100%" cellPadding="0" cellSpacing="0" style={{ backgroundColor: "#111113" }}>
                       {[
                         ["Nome", name],
                         ["Email", clientEmail],
@@ -112,7 +112,6 @@ export default function BookingAdminEmail({
                               fontWeight: 700,
                               textDecoration: "none",
                               padding: "12px 24px",
-                              borderRadius: 4,
                               textTransform: "uppercase",
                               letterSpacing: 1,
                             }}
@@ -131,7 +130,6 @@ export default function BookingAdminEmail({
                               fontWeight: 700,
                               textDecoration: "none",
                               padding: "12px 24px",
-                              borderRadius: 4,
                               textTransform: "uppercase",
                               letterSpacing: 1,
                             }}

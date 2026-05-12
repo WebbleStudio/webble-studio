@@ -129,8 +129,8 @@ export default function AnimatedBookingModal({ children }: AnimatedBookingModalP
           "md:border md:border-foreground/15 md:shadow-2xl md:overflow-hidden",
           // 2xl: centered bar from bottom (no transform — GSAP owns transform)
           "2xl:left-0 2xl:right-0 2xl:top-auto 2xl:mx-auto",
-          "2xl:bottom-8 2xl:w-[calc(100%-4rem)] 2xl:max-w-[1300px] 2xl:h-[44vh]",
-          "2xl:rounded-[14px] 2xl:shadow-[0_-20px_60px_rgba(0,0,0,0.2)]",
+          "2xl:bottom-8 2xl:w-[calc(100%-4rem)] 2xl:max-w-[1140px] 2xl:h-[44vh]",
+          "2xl: 2xl:shadow-[0_-20px_60px_rgba(0,0,0,0.2)]",
         ].join(" ")}
         role="dialog"
         aria-modal="true"

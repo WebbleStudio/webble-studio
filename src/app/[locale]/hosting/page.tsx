@@ -104,7 +104,7 @@ export default async function HostingPage({ params }: HostingPageProps) {
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <div className="flex flex-1 items-center justify-center px-6 py-16 md:px-8">
-        <div className="mx-auto w-full max-w-[1300px] 2xl:max-w-[1650px]">
+        <div className="mx-auto w-full max-w-[1140px] 2xl:max-w-[1340px]">
           <div className="flex flex-col items-center gap-16 lg:flex-row lg:items-center lg:gap-12">
             {/* ── Left ──────────────────────────────────────────────── */}
             <div className="flex flex-1 justify-center">

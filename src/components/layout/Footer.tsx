@@ -41,7 +41,7 @@ export default function Footer({ locale, dict }: FooterProps) {
     <footer className="border-foreground/20 mt-24 w-full border-t md:mt-32">
       {/* Top row — separator spans full viewport width, content stays in max-w */}
       <div className="border-foreground/20 w-full border-b">
-        <div className="mx-auto flex w-full max-w-[1300px] items-center justify-between gap-6 px-6 py-6 md:px-8 md:py-8 2xl:max-w-[1650px]">
+        <div className="mx-auto flex w-full max-w-[1140px] items-center justify-between gap-6 px-6 py-6 md:px-8 md:py-8 2xl:max-w-[1340px]">
           <h2 className="font-hero text-foreground text-[24px] leading-[1] tracking-[-2px] uppercase md:text-[48px] md:font-semibold">
             {dict.footer.title.split("\n").map((line, i, arr) => (
               <span key={i}>
@@ -66,7 +66,7 @@ export default function Footer({ locale, dict }: FooterProps) {
         </div>
       </div>
 
-      <div className="mx-auto w-full max-w-[1300px] px-6 md:px-8 2xl:max-w-[1650px]">
+      <div className="mx-auto w-full max-w-[1140px] px-6 md:px-8 2xl:max-w-[1340px]">
         {/* Main grid: logo | nav | socials — boxed.
             Padding is applied per-cell so the orange box fills its own cell
             flush against the outer border, while nav and socials get breathing room. */}

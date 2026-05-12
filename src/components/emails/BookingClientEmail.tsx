@@ -34,7 +34,7 @@ export default function BookingClientEmail({
                 width="100%"
                 cellPadding="0"
                 cellSpacing="0"
-                style={{ maxWidth: 560, backgroundColor: "#1a1a1c", borderRadius: 8, overflow: "hidden" }}
+                style={{ maxWidth: 560, backgroundColor: "#1a1a1c", overflow: "hidden" }}
               >
                 {/* Accent stripe */}
                 <tr>
@@ -61,7 +61,7 @@ export default function BookingClientEmail({
                       width="100%"
                       cellPadding="0"
                       cellSpacing="0"
-                      style={{ backgroundColor: "#111113", borderRadius: 6, overflow: "hidden" }}
+                      style={{ backgroundColor: "#111113", overflow: "hidden" }}
                     >
                       <tr>
                         <td style={{ padding: "20px 24px", borderBottom: "1px solid #2a2a2e" }} colSpan={2}>
@@ -96,7 +96,6 @@ export default function BookingClientEmail({
                         fontWeight: 700,
                         textDecoration: "none",
                         padding: "14px 32px",
-                        borderRadius: 4,
                       }}
                     >
                       Unisciti alla Google Meet
@@ -111,7 +110,7 @@ export default function BookingClientEmail({
                       width="100%"
                       cellPadding="0"
                       cellSpacing="0"
-                      style={{ backgroundColor: "#111113", borderRadius: 6 }}
+                      style={{ backgroundColor: "#111113" }}
                     >
                       <tr>
                         <td style={{ padding: "20px 24px" }}>

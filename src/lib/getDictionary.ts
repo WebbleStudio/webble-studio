@@ -5,10 +5,78 @@ export interface ServiceItem {
   description: string;
 }
 
+export interface FounderCard {
+  name: string;
+  role: string;
+  ctaLabel: string;
+  image: string;
+}
+
 export interface ProcessStep {
   step: string;
   title: string;
   description: string;
+  image: string;
+}
+
+export interface CaseStudy {
+  index: string;
+  year: string;
+  category: string;
+  brand: string;
+  image: string;
+  title: string;
+  description: string;
+  stats: { value: string; label: string }[];
+}
+
+export interface HomeService {
+  index: string;
+  title: string;
+  description: string;
+  image: string;
+  points: string[];
+}
+
+export type WhyUsKind = "check" | "warn" | "cross";
+
+export interface WhyUsRow {
+  label: string;
+  values: { kind: WhyUsKind; text: string }[];
+}
+
+export interface TestimonialReview {
+  brand: string;
+  quote: string;
+  authorName: string;
+  authorRole: string;
+  image: string;
+}
+
+export interface BottleneckItem {
+  title: string;
+  description: string;
+}
+
+export interface ImpactStat {
+  value: string;
+  suffix: string;
+  label: string;
+  description: string;
+}
+
+export interface AboutSplit {
+  eyebrow: string;
+  headline: string;
+  body: string;
+  image: string;
+  imageAlt: string;
+}
+
+export interface TeamMember {
+  name: string;
+  role: string;
+  image: string;
 }
 
 export interface Dictionary {
@@ -26,70 +94,137 @@ export interface Dictionary {
   home: {
     title: string;
     description: string;
-    headline: string;
-    subheadline: string;
-    cta: string;
-    ctaShort: string;
-    ctaSecondary: string;
     og: {
       title: string;
       description: string;
     };
+    hero: {
+      services: { label: string }[];
+      subheadline: string;
+      chipLabel: string;
+      headline: string;
+      primaryCta: string;
+      secondaryCta: string;
+      founder: FounderCard;
+    };
   };
-  ourWork: {
-    headline: string;
-    projects: {
-      name: string;
+  about: {
+    title: string;
+    description: string;
+    og: {
+      title: string;
       description: string;
-    }[];
+    };
+    hero: {
+      services: { label: string }[];
+      subheadline: string;
+      chipLabel: string;
+      headline: string;
+      primaryCta: string;
+      secondaryCta: string;
+      founder: FounderCard;
+    };
+    story: AboutSplit;
+    mission: AboutSplit;
+    team: {
+      eyebrow: string;
+      headline: string;
+      body: string;
+      members: TeamMember[];
+    };
   };
-  problems: {
+  contact: {
+    title: string;
+    description: string;
+    og: {
+      title: string;
+      description: string;
+    };
+    eyebrow: string;
     headline: string;
-    labels: string[];
+    subtitle: string;
+    form: {
+      fullNameLabel: string;
+      fullNamePlaceholder: string;
+      emailLabel: string;
+      emailPlaceholder: string;
+      companyLabel: string;
+      companyPlaceholder: string;
+      budgetLabel: string;
+      budgetPlaceholder: string;
+      budgetOptions: string[];
+      messageLabel: string;
+      messagePlaceholder: string;
+      submit: string;
+      sending: string;
+      termsPrefix: string;
+      termsLink: string;
+      termsAnd: string;
+      privacyLink: string;
+      successHeadline: string;
+      successBody: string;
+      errorRequired: string;
+      errorEmail: string;
+      errorGeneric: string;
+    };
+  };
+  companies: {
+    eyebrow: string;
+    logos: { name: string; src: string }[];
+  };
+  caseStudies: {
+    eyebrow: string;
+    headline: string;
+    body: string;
+    ctaLabel: string;
+    allCtaLabel: string;
+    items: CaseStudy[];
+  };
+  bottlenecks: {
+    eyebrow: string;
+    headline: string;
+    body: string;
+    items: BottleneckItem[];
+  };
+  impactStats: {
+    items: ImpactStat[];
   };
   process: {
     eyebrow: string;
     headline: string;
-    subheadline: string;
+    body: string;
     steps: ProcessStep[];
   };
-  payoff: {
+  homeServices: {
     eyebrow: string;
     headline: string;
     body: string;
+    items: HomeService[];
   };
-  counter: {
-    count: string;
-    label: string;
+  whyUs: {
+    eyebrow: string;
+    headline: string;
     body: string;
+    brandLabel: string;
+    columns: string[];
+    rows: WhyUsRow[];
   };
   testimonials: {
+    eyebrow: string;
     headline: string;
-    reviews: {
-      quote: string;
-      authorName: string;
-      authorRole: string;
-      href?: string;
-    }[];
+    ctaLabel: string;
+    reviews: TestimonialReview[];
   };
   faqs: {
     eyebrow: string;
     headline: string;
-    moreQuestions: string;
-    contactLabel: string;
+    founder: FounderCard;
     items: { question: string; answer: string }[];
   };
   cta: {
     eyebrow: string;
-    headline: string;
     body: string;
-    buttonLabel: string;
-  };
-  homeServices: {
-    image: string;
-    items: {
-      label: string;
-    }[];
+    ctaLabel: string;
   };
   footer: {
     title: string;
@@ -142,6 +277,42 @@ export interface Dictionary {
     og: {
       title: string;
       description: string;
+    };
+  };
+  portfolio: {
+    slug: string;
+    title: string;
+    description: string;
+    og: {
+      title: string;
+      description: string;
+    };
+    hero: {
+      eyebrow: string;
+      headline: string;
+    };
+    projects: {
+      eyebrow: string;
+      items: {
+        name: string;
+        category: string;
+        image?: string;
+        tags?: string[];
+        slug?: string;
+      }[];
+    };
+  };
+  project: {
+    labels: {
+      client: string;
+      industry: string;
+      services: string;
+      location: string;
+      about: string;
+      challengeAndSolution: string;
+      challenge: string;
+      solution: string;
+      process: string;
     };
   };
 }

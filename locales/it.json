@@ -13,127 +13,451 @@
   "home": {
     "title": "Webble Studio — Design & Sviluppo Web",
     "description": "Creiamo esperienze digitali straordinarie. Design e sviluppo web su misura per il tuo brand.",
-    "headline": "Design che converte. Codice che performa.",
-    "subheadline": "Interfacce curate e sviluppo solido per risultati misurabili e crescita continua.",
-    "cta": "Scopri i nostri servizi",
-    "ctaShort": "I nostri servizi",
-    "ctaSecondary": "Prenota una call",
     "og": {
       "title": "Webble Studio — Design & Sviluppo Web",
       "description": "Creiamo esperienze digitali straordinarie. Design e sviluppo web su misura per il tuo brand."
+    },
+    "hero": {
+      "services": [
+        { "label": "Web Design" },
+        { "label": "Sviluppo Web" },
+        { "label": "Branding" }
+      ],
+      "subheadline": "Progettiamo esperienze digitali che portano chiarezza, precisione e crescita misurabile al modo in cui il tuo brand comunica.",
+      "chipLabel": "Abbiamo realizzato 100+ prodotti digitali",
+      "headline": "Design che converte. Codice che performa.",
+      "primaryCta": "Prenota una call",
+      "secondaryCta": "I nostri servizi",
+      "founder": {
+        "name": "Parla con Gabriele",
+        "role": "Co-founder di Webble",
+        "ctaLabel": "Prenota call di 15 min",
+        "image": "/img/homepage/founder/gabriele.png"
+      }
     }
   },
-  "ourWork": {
-    "headline": "I nostri lavori",
-    "projects": [
+  "about": {
+    "title": "Chi siamo — Webble Studio",
+    "description": "Siamo Webble Studio: uno studio di design e sviluppo che trasforma idee complesse in prodotti digitali raffinati e performanti.",
+    "og": {
+      "title": "Chi siamo — Webble Studio",
+      "description": "Siamo Webble Studio: uno studio di design e sviluppo che trasforma idee complesse in prodotti digitali raffinati e performanti."
+    },
+    "hero": {
+      "services": [
+        { "label": "Studio creativo" },
+        { "label": "Design & sviluppo" },
+        { "label": "Brand digitali" }
+      ],
+      "subheadline": "Siamo un piccolo studio ossessionato dal dettaglio, dalla performance e dal modo in cui un brand comunica online.",
+      "chipLabel": "Chi siamo",
+      "headline": "Persone, non template. Prodotti, non pixel.",
+      "primaryCta": "Prenota una call",
+      "secondaryCta": "Conosci il team",
+      "founder": {
+        "name": "Parla con Gabriele",
+        "role": "Co-founder di Webble",
+        "ctaLabel": "Prenota call di 15 min",
+        "image": "/img/homepage/founder/gabriele.png"
+      }
+    },
+    "story": {
+      "eyebrow": "La nostra storia",
+      "headline": "Nati per costruire prodotti digitali che durano",
+      "body": "Webble Studio nasce dall'idea che il web possa essere un posto migliore: più veloce, più chiaro, più curato. Da anni progettiamo siti e prodotti digitali per founder, agenzie e team interni che vogliono crescere senza scendere a compromessi sulla qualità.",
+      "image": "/img/homepage/placeholder.png",
+      "imageAlt": "Lo studio Webble al lavoro"
+    },
+    "mission": {
+      "eyebrow": "La nostra missione",
+      "headline": "Design che converte. Codice che dura. Persone che ci tengono.",
+      "body": "Crediamo che ogni progetto meriti la stessa cura, indipendentemente dalla scala. Lavoriamo come un'estensione del tuo team: ascoltiamo, proponiamo, costruiamo. Niente template, niente scorciatoie — solo prodotti pensati per durare e per scalare con il tuo business.",
+      "image": "/img/homepage/placeholder.png",
+      "imageAlt": "Sessione di design dello studio"
+    },
+    "team": {
+      "eyebrow": "Il nostro team",
+      "headline": "Le persone dietro Webble",
+      "body": "Designer, sviluppatori e strateghi che condividono un'unica ossessione: costruire cose belle che funzionano davvero.",
+      "members": [
+        { "name": "Membro 01", "role": "Co-founder & Design Lead", "image": "/img/homepage/placeholder.png" },
+        { "name": "Membro 02", "role": "Co-founder & Tech Lead", "image": "/img/homepage/placeholder.png" },
+        { "name": "Membro 03", "role": "Senior Designer", "image": "/img/homepage/placeholder.png" },
+        { "name": "Membro 04", "role": "Frontend Engineer", "image": "/img/homepage/placeholder.png" },
+        { "name": "Membro 05", "role": "Backend Engineer", "image": "/img/homepage/placeholder.png" },
+        { "name": "Membro 06", "role": "Brand Strategist", "image": "/img/homepage/placeholder.png" },
+        { "name": "Membro 07", "role": "Motion Designer", "image": "/img/homepage/placeholder.png" },
+        { "name": "Membro 08", "role": "Project Manager", "image": "/img/homepage/placeholder.png" },
+        { "name": "Membro 09", "role": "SEO Specialist", "image": "/img/homepage/placeholder.png" }
+      ]
+    }
+  },
+  "contact": {
+    "title": "Contatti — Webble Studio",
+    "description": "Parliamo del tuo prossimo progetto. Compila il form e ti rispondiamo entro 24 ore.",
+    "og": {
+      "title": "Contatti — Webble Studio",
+      "description": "Parliamo del tuo prossimo progetto. Compila il form e ti rispondiamo entro 24 ore."
+    },
+    "eyebrow": "Contattaci",
+    "headline": "Parliamo del tuo prossimo progetto",
+    "subtitle": "Raccontaci qualcosa del tuo business e di cosa vuoi automatizzare. Il nostro team analizza il tuo messaggio e ti ricontatta in tempi rapidi.",
+    "form": {
+      "fullNameLabel": "Nome e cognome",
+      "fullNamePlaceholder": "Inserisci nome e cognome",
+      "emailLabel": "Email",
+      "emailPlaceholder": "Inserisci la tua email",
+      "companyLabel": "Azienda",
+      "companyPlaceholder": "Inserisci nome azienda",
+      "budgetLabel": "Budget",
+      "budgetPlaceholder": "Seleziona un range di budget",
+      "budgetOptions": [
+        "Meno di €5.000",
+        "€5.000 – €10.000",
+        "€10.000 – €25.000",
+        "€25.000 – €50.000",
+        "Oltre €50.000"
+      ],
+      "messageLabel": "Messaggio",
+      "messagePlaceholder": "Raccontaci come possiamo aiutarti…",
+      "submit": "Invia",
+      "sending": "Invio in corso…",
+      "termsPrefix": "Inviando accetti i nostri",
+      "termsLink": "Termini di Servizio",
+      "termsAnd": "e la",
+      "privacyLink": "Privacy Policy",
+      "successHeadline": "Grazie, abbiamo ricevuto il tuo messaggio.",
+      "successBody": "Ti rispondiamo via email entro 24 ore lavorative.",
+      "errorRequired": "Compila tutti i campi obbligatori.",
+      "errorEmail": "Inserisci un'email valida.",
+      "errorGeneric": "Qualcosa è andato storto. Riprova."
+    }
+  },
+  "companies": {
+    "eyebrow": "Aziende che si fidano di noi",
+    "logos": [
+      { "name": "Mavimatt", "src": "/img/homepage/company-logos/mavimatt-logo.svg" },
+      { "name": "Holdup Agency", "src": "/img/homepage/company-logos/holdupagency-logo.svg" },
+      { "name": "X2M Creative", "src": "/img/homepage/company-logos/x2m-logo.svg" },
+      { "name": "Erre Effe", "src": "/img/homepage/company-logos/erre-effe-logo.svg" },
+      { "name": "Giacchi Automobili", "src": "/img/homepage/company-logos/giacchi-automobili.svg" },
+      { "name": "Mavimatt", "src": "/img/homepage/company-logos/mavimatt-logo.svg" },
+      { "name": "Holdup Agency", "src": "/img/homepage/company-logos/holdupagency-logo.svg" },
+      { "name": "X2M Creative", "src": "/img/homepage/company-logos/x2m-logo.svg" },
+      { "name": "Erre Effe", "src": "/img/homepage/company-logos/erre-effe-logo.svg" },
+      { "name": "Giacchi Automobili", "src": "/img/homepage/company-logos/giacchi-automobili.svg" }
+    ]
+  },
+  "bottlenecks": {
+    "eyebrow": "Problemi",
+    "headline": "I colli di bottiglia che frenano il tuo sito",
+    "body": "Identifichiamo le criticità del tuo prodotto digitale e le trasformiamo in punti di forza, prima ancora di mettere mano al design.",
+    "items": [
       {
-        "name": "Mavimatt",
-        "description": "Creiamo identità personalizzate, ottimizzate per l'utente e pensate per far crescere il tuo business."
+        "title": "Sito lento e poco performante",
+        "description": "Tempi di caricamento e Core Web Vitals che penalizzano SEO ed esperienza utente, facendo perdere traffico e conversioni."
       },
       {
-        "name": "Holdup Agency",
-        "description": "Un sito che racconta la visione di un'agenzia creativa attraverso un design audace e memorabile."
+        "title": "Design datato che non converte",
+        "description": "Estetica e flussi UX che non riflettono il valore reale del brand e fermano i visitatori prima del checkout."
       },
       {
-        "name": "X2M Creative",
-        "description": "Piattaforma digitale B2B progettata per massimizzare le performance e semplificare i processi."
+        "title": "Funnel disconnessi e lead persi",
+        "description": "Form, CRM ed email marketing che non parlano tra loro: i lead arrivano e si fermano lì."
+      },
+      {
+        "title": "SEO trascurata",
+        "description": "Pagine che Google non capisce a fondo e che quindi non posiziona dove meriterebbero."
       }
     ]
   },
-  "problems": {
-    "headline": "ELIMINIAMO I PROBLEMI",
-    "labels": ["Lentezza", "Confusione", "Invisibilità", "Abbandoni"]
+  "caseStudies": {
+    "eyebrow": "I nostri lavori",
+    "headline": "Strutturato. Progettato. Consegnato.",
+    "body": "Una selezione di progetti: design e sviluppo per SaaS, e-commerce e brand creativi.",
+    "ctaLabel": "Vedi case study",
+    "allCtaLabel": "Vedi tutti i case study",
+    "items": [
+      {
+        "index": "001",
+        "year": "2026",
+        "category": "E-commerce",
+        "brand": "Mavimatt",
+        "image": "/img/homepage/placeholder.png",
+        "title": "Scaliamo lo store digitale di Mavimatt con un design su misura",
+        "description": "Abbiamo ricostruito lo storefront di Mavimatt con un design system custom, flussi prodotto automatizzati e un checkout pensato per convertire.",
+        "stats": [
+          { "value": "+38%", "label": "Tasso di conversione" },
+          { "value": "2.4x", "label": "Acquisti ripetuti" }
+        ]
+      },
+      {
+        "index": "002",
+        "year": "2025",
+        "category": "Agenzia",
+        "brand": "Holdup Agency",
+        "image": "/img/homepage/placeholder.png",
+        "title": "Un sito audace per lanciare un'agenzia creativa",
+        "description": "Dalla brand voice al motion, abbiamo costruito il sito editoriale di Holdup che trasforma la curiosità in lead qualificati.",
+        "stats": [
+          { "value": "62%", "label": "Caricamento più rapido" },
+          { "value": "3x", "label": "Lead in entrata" }
+        ]
+      },
+      {
+        "index": "003",
+        "year": "2025",
+        "category": "B2B SaaS",
+        "brand": "X2M Creative",
+        "image": "/img/homepage/placeholder.png",
+        "title": "Una piattaforma B2B costruita per scalare con chiarezza",
+        "description": "Abbiamo lanciato il sito marketing e la dashboard di X2M con un design system raffinato e un'architettura performance-first.",
+        "stats": [
+          { "value": "40%", "label": "Consegna più veloce" },
+          { "value": "18+", "label": "Mercati attivi" }
+        ]
+      }
+    ]
+  },
+  "impactStats": {
+    "items": [
+      {
+        "value": "150",
+        "suffix": "+",
+        "label": "Progetti completati",
+        "description": "Dall'identità di brand ai sistemi web complessi, abbiamo consegnato oltre centocinquanta progetti per founder, agenzie e team prodotto."
+      },
+      {
+        "value": "56",
+        "suffix": "%",
+        "label": "Tempo risparmiato",
+        "description": "Automazioni e flussi su misura tagliano di oltre la metà il tempo che il tuo team passa su attività ripetitive."
+      },
+      {
+        "value": "4",
+        "suffix": "x",
+        "label": "Efficienza dei processi",
+        "description": "Pipeline operative riprogettate da zero per moltiplicare la velocità di consegna senza aumentare il team."
+      },
+      {
+        "value": "81",
+        "suffix": "%",
+        "label": "Meno lavoro manuale",
+        "description": "Strumenti integrati e dashboard chiare lasciano alle persone solo le decisioni che davvero contano."
+      }
+    ]
   },
   "process": {
-    "eyebrow": "(PROCESSO)",
-    "headline": "COME LAVORIAMO",
-    "subheadline": "Dal brief al lancio, ogni fase è curata con attenzione e metodo.",
+    "eyebrow": "Come lavoriamo",
+    "headline": "Un approccio semplice e strutturato a ogni progetto",
+    "body": "Progettiamo e sviluppiamo prodotti digitali raffinati, performanti sotto carico e pronti a crescere con il tuo business.",
     "steps": [
       {
         "step": "01",
-        "title": "Scoperta",
-        "description": "Analizziamo i tuoi obiettivi, il mercato e il brand per costruire una strategia solida."
+        "title": "Discovery & Strategia",
+        "description": "Mappiamo obiettivi, audience e brand per definire una direzione chiara e focalizzata.",
+        "image": "/img/homepage/come-lavoriamo/step-placeholder.png"
       },
       {
         "step": "02",
-        "title": "Design",
-        "description": "Progettiamo l'esperienza utente e l'identità visiva del tuo prodotto digitale."
+        "title": "Design & Sviluppo",
+        "description": "Costruiamo l'interfaccia e rilasciamo un prodotto veloce, accessibile e scalabile.",
+        "image": "/img/homepage/come-lavoriamo/step-placeholder.png"
       },
       {
         "step": "03",
-        "title": "Sviluppo",
-        "description": "Costruiamo il prodotto con tecnologie moderne, ottimizzato per performance e SEO."
-      },
-      {
-        "step": "04",
-        "title": "Lancio",
-        "description": "Pubblichiamo, monitoriamo e supportiamo il tuo progetto nel tempo."
+        "title": "Lancio & Crescita",
+        "description": "Misuriamo, iteriamo e continuiamo a ottimizzare mentre il business cresce.",
+        "image": "/img/homepage/come-lavoriamo/step-placeholder.png"
       }
     ]
   },
-  "payoff": {
-    "eyebrow": "(Il nostro motto)",
-    "headline": "SCOPRI IL SIGNIFICATO\nDI ESSERE UNICI",
-    "body": "Progettiamo esperienze digitali per aziende che funzionano"
+  "homeServices": {
+    "eyebrow": "Servizi",
+    "headline": "Pensati per semplificare ogni lancio",
+    "body": "Progettiamo sistemi intelligenti che semplificano il modo in cui rilasci prodotti, fai crescere i ricavi e connetti i tuoi strumenti in un ecosistema coeso.",
+    "items": [
+      {
+        "index": "01",
+        "title": "Web Design",
+        "description": "Interfacce raffinate che convertono.",
+        "image": "/img/homepage/placeholder.png",
+        "points": [
+          "UI / UX design",
+          "Design system",
+          "Web design brand-driven",
+          "Ottimizzazione delle conversioni"
+        ]
+      },
+      {
+        "index": "02",
+        "title": "Sviluppo Web",
+        "description": "Siti e applicazioni performance-first.",
+        "image": "/img/homepage/placeholder.png",
+        "points": [
+          "Sviluppo Next.js / React",
+          "Integrazione headless CMS",
+          "Piattaforme e-commerce",
+          "Web app personalizzate"
+        ]
+      },
+      {
+        "index": "03",
+        "title": "Branding & Identità",
+        "description": "Sistemi visivi che scalano.",
+        "image": "/img/homepage/placeholder.png",
+        "points": [
+          "Strategia di brand",
+          "Identità visiva e logo",
+          "Brand guidelines",
+          "Sistemi editoriali"
+        ]
+      },
+      {
+        "index": "04",
+        "title": "SEO & Ottimizzazione",
+        "description": "Connetti, raffina e scala il tuo stack.",
+        "image": "/img/homepage/placeholder.png",
+        "points": [
+          "Audit SEO tecnico",
+          "Tuning Core Web Vitals",
+          "Analytics e tracciamento",
+          "Monitoraggio performance"
+        ]
+      }
+    ]
   },
-  "counter": {
-    "count": "100",
-    "label": "PROGETTI COMPLETATI",
-    "body": "Progetti consegnati fino a oggi e in aumento."
+  "whyUs": {
+    "eyebrow": "Perché noi",
+    "headline": "Costruito per un impatto reale sul business",
+    "body": "La maggior parte degli studi parla solo di design. Noi costruiamo sistemi che riducono il lavoro manuale, migliorano la chiarezza e scalano con le tue operazioni.",
+    "brandLabel": "Webble",
+    "columns": ["Webble Studio", "Altre agenzie", "Team interno"],
+    "rows": [
+      {
+        "label": "Approccio",
+        "values": [
+          { "kind": "check", "text": "Strategia + design first" },
+          { "kind": "warn", "text": "Approccio template-first" },
+          { "kind": "warn", "text": "Dipende dalla persona" }
+        ]
+      },
+      {
+        "label": "Workflow",
+        "values": [
+          { "kind": "check", "text": "Su misura per le tue operazioni" },
+          { "kind": "cross", "text": "In gran parte template" },
+          { "kind": "check", "text": "Se l'expertise esiste già" }
+        ]
+      },
+      {
+        "label": "Velocità",
+        "values": [
+          { "kind": "check", "text": "Settimane, non mesi" },
+          { "kind": "warn", "text": "Spesso in ritardo" },
+          { "kind": "cross", "text": "Hiring & onboarding" }
+        ]
+      },
+      {
+        "label": "Ottimizzazione",
+        "values": [
+          { "kind": "check", "text": "Miglioramento continuo" },
+          { "kind": "warn", "text": "Setup e via" },
+          { "kind": "warn", "text": "Limitato dal tempo" }
+        ]
+      },
+      {
+        "label": "Costo / efficienza",
+        "values": [
+          { "kind": "check", "text": "Costi di progetto chiari" },
+          { "kind": "warn", "text": "Scope creep ricorrente" },
+          { "kind": "cross", "text": "Stipendio + costi fissi" }
+        ]
+      }
+    ]
   },
   "testimonials": {
-    "headline": "COSA DICONO DI NOI",
+    "eyebrow": "Testimonial",
+    "headline": "Cosa dicono di noi",
+    "ctaLabel": "Prenota una call",
     "reviews": [
       {
-        "quote": "Ho avuto il piacere di collaborare con Webble Studio e non posso che consigliarli. Sono stati bravissimi nel supportarmi in ogni fase del progetto, sempre disponibili e super comprensivi rispetto alle mie richieste grafiche.",
-        "authorName": "X2Marco",
-        "authorRole": "Youtuber",
-        "href": "https://share.google/zznslgwKW7BiHnAl7"
+        "brand": "Mavimatt",
+        "quote": "Webble ha trasformato un processo confuso in un sistema chiaro e scalabile. Le attività che richiedevano ore di lavoro manuale ora girano in automatico e il team può concentrarsi su ciò che conta davvero.",
+        "authorName": "Cristina Tamburi",
+        "authorRole": "Founder di Mavimatt",
+        "image": "/img/homepage/placeholder.png"
+      },
+      {
+        "brand": "Holdup Agency",
+        "quote": "Lavorare con Webble ha cambiato completamente il modo in cui presentiamo il nostro lavoro. Quello che sembrava caotico ora è organizzato, veloce e molto più semplice da seguire per tutto il team.",
+        "authorName": "Simone Tedjo",
+        "authorRole": "Founder di Holdup",
+        "image": "/img/homepage/placeholder.png"
+      },
+      {
+        "brand": "X2M Creative",
+        "quote": "Webble Studio ci ha aiutato a scalare l'intera presenza digitale. Quello che richiedeva un team di cinque persone ora è gestito da un sistema solido. Lavoro eccellente.",
+        "authorName": "Marco Ricci",
+        "authorRole": "Founder di X2M",
+        "image": "/img/homepage/placeholder.png"
+      },
+      {
+        "brand": "Studio Argo",
+        "quote": "Lavorare con Webble è stato come avere un partner tecnico interno: hanno capito subito cosa serviva, hanno proposto soluzioni concrete e ci hanno consegnato un prodotto solido in metà del tempo previsto.",
+        "authorName": "Giulia Conti",
+        "authorRole": "Co-founder di Studio Argo",
+        "image": "/img/homepage/placeholder.png"
+      },
+      {
+        "brand": "Pixel Forge",
+        "quote": "Codice pulito, attenzione ai dettagli e una comunicazione che ti fa sentire sempre dentro il progetto. Webble è ormai il primo nome che facciamo quando dobbiamo affidare un sito complesso.",
+        "authorName": "Davide Marini",
+        "authorRole": "Founder di Pixel Forge",
+        "image": "/img/homepage/placeholder.png"
       }
     ]
   },
   "faqs": {
-    "eyebrow": "FAQ",
-    "headline": "DOMANDE FREQUENTI",
-    "moreQuestions": "Altre domande?",
-    "contactLabel": "Contattaci",
+    "eyebrow": "Frequently asked questions",
+    "headline": "Hai domande?\nDai un'occhiata\nalle FAQ",
+    "founder": {
+      "name": "Parla con Gabriele",
+      "role": "Co-founder di Webble",
+      "ctaLabel": "Prenota call di 15 min",
+      "image": "/img/homepage/founder/gabriele.png"
+    },
     "items": [
       {
-        "question": "Cosa succederà dopo avervi contattati?",
-        "answer": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+        "question": "Cosa fa concretamente Webble Studio?",
+        "answer": "Webble Studio è uno studio di design e sviluppo. Aiutiamo i brand a costruire siti curati e prodotti digitali, automatizzare flussi di marketing e connettere i loro strumenti in un sistema unico e scalabile."
       },
       {
-        "question": "Quanto tempo serve per realizzare un progetto?",
-        "answer": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+        "question": "Con che tipo di aziende lavorate?",
+        "answer": "Da founder early-stage a brand strutturati e altre agenzie. Ogni volta che serve un sito raffinato, un redesign di prodotto o un workflow digitale più intelligente, possiamo aiutarti."
       },
       {
-        "question": "Come gestite i feedback e le revisioni?",
-        "answer": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+        "question": "Sostituite gli strumenti che già usiamo?",
+        "answer": "No. Ci integriamo con gli strumenti che già usi (CMS, e-commerce, analytics, marketing) e li facciamo lavorare insieme come un unico sistema coeso."
       },
       {
-        "question": "Quali tecnologie usate per lo sviluppo?",
-        "answer": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+        "question": "Quanto tempo serve per partire?",
+        "answer": "La maggior parte dei progetti viene rilasciata in 4–8 settimane, in base allo scope. Condividiamo una roadmap chiara con milestone fin dal giorno uno."
       },
       {
-        "question": "Offrite manutenzione dopo il lancio?",
-        "answer": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+        "question": "Offrite supporto continuativo?",
+        "answer": "Sì. Ogni progetto include supporto post-lancio e proponiamo pacchetti di ottimizzazione per continuare a far evolvere il prodotto nel tempo."
+      },
+      {
+        "question": "Come iniziamo a lavorare insieme?",
+        "answer": "Prenota una call introduttiva di 15 minuti. Definiamo insieme le tue esigenze, ti condividiamo un piano chiaro e partiamo nel giro di pochi giorni."
       }
     ]
   },
   "cta": {
-    "eyebrow": "CONTATTACI",
-    "headline": "CTA DA DECIDERE",
-    "body": "Progettiamo esperienze digitali che funzionano. per aziende.",
-    "buttonLabel": "Prenota una call"
-  },
-  "homeServices": {
-    "image": "/img/homepage/placeholder.png",
-    "items": [
-      { "label": "WEB DESIGN" },
-      { "label": "BRANDING" },
-      { "label": "MARKETING" },
-      { "label": "SVILUPPO WEB/APP" }
-    ]
+    "eyebrow": "Iniziamo",
+    "body": "Raccontaci il tuo progetto. Ti aiutiamo a capire cosa migliorare, cosa automatizzare e dove trovare nuova crescita.",
+    "ctaLabel": "Richiedi una consulenza gratuita"
   },
   "footer": {
     "title": "INIZIA UN\nPROGETTO",
@@ -199,6 +523,58 @@
     "og": {
       "title": "Servizi — Webble Studio",
       "description": "Scopri i servizi di Webble Studio: design UI/UX, sviluppo web, SEO tecnico e molto altro."
+    }
+  },
+  "portfolio": {
+    "slug": "i-nostri-lavori",
+    "title": "I nostri lavori — Webble Studio",
+    "description": "Esplora i progetti di Webble Studio: siti web, branding e prodotti digitali pensati per crescere.",
+    "og": {
+      "title": "I nostri lavori — Webble Studio",
+      "description": "Esplora i progetti di Webble Studio: siti web, branding e prodotti digitali pensati per crescere."
+    },
+    "hero": {
+      "eyebrow": "Portfolio",
+      "headline": "Lavori che parlano da soli."
+    },
+    "projects": {
+      "eyebrow": "Tutti i progetti",
+      "items": [
+        {
+          "name": "Mavimatt",
+          "category": "Brand identity",
+          "slug": "mavimatt",
+          "tags": ["Brand identity", "Visual identity", "Printed media"],
+          "image": "/img/homepage/placeholder.png"
+        },
+        {
+          "name": "Holdup Agency",
+          "category": "Web design",
+          "slug": "holdup-agency",
+          "tags": ["Web design", "Sviluppo web", "Brand identity"],
+          "image": "/img/homepage/placeholder.png"
+        },
+        {
+          "name": "X2M Creative",
+          "category": "UX/UI",
+          "slug": "x2m-creative",
+          "tags": ["Web design", "Sviluppo web", "UX/UI"],
+          "image": "/img/homepage/placeholder.png"
+        }
+      ]
+    }
+  },
+  "project": {
+    "labels": {
+      "client": "Cliente",
+      "industry": "Settore",
+      "services": "Servizi",
+      "location": "Location",
+      "about": "Sul progetto",
+      "challengeAndSolution": "Sfida & Soluzione",
+      "challenge": "La sfida",
+      "solution": "La soluzione",
+      "process": "Il processo"
     }
   }
 }

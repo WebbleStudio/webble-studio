@@ -2,8 +2,17 @@
 
 :root {
   --background: #020303;
-  --foreground: #e2dedc;
+  --foreground: #ffffff;
   --accent: #ff5c00;
+
+  /* Brand palette */
+  --color-fire: #ff5c00;
+  --color-bone: #efedec;
+  --color-black: #020303;
+  --color-coal: #0a0a0a;
+  /* Brand surface tokens */
+  --color-shark: #0c0d0e;
+  --color-silver: #a8a8a8;
 }
 
 @theme {
@@ -19,6 +28,12 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-accent: var(--accent);
+  --color-fire: var(--color-fire);
+  --color-bone: var(--color-bone);
+  --color-black: var(--color-black);
+  --color-coal: var(--color-coal);
+  --color-shark: var(--color-shark);
+  --color-silver: var(--color-silver);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --font-display: var(--font-mohave);
@@ -35,6 +50,7 @@
     transform: translate3d(-50%, 0, 0);
   }
 }
+
 
 @keyframes our-work-fade {
   from {
@@ -65,6 +81,166 @@
     background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='250' height='250'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='250' height='250' filter='url(%23g)'/></svg>");
     background-repeat: repeat;
   }
+
+  /* Hide native scrollbar while keeping the element scrollable. */
+  .no-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* ==========================================================================
+   *  Typography utilities — Webble Studio design tokens.
+   *  Family / size / weight / line-height / letter-spacing pulled from the
+   *  internal type system (Geist + Geist Mono only).
+   *
+   *  Mobile sizes use a comfortable downscale; the `md:` step locks in the
+   *  desktop value.
+   * ========================================================================== */
+
+  /* H1 — hero headline (Geist 56px / 1.0 / -0.05em) */
+  .text-fig-h1 {
+    font-family: var(--font-geist-sans), sans-serif;
+    font-weight: 400;
+    font-size: 36px;
+    line-height: 1;
+    letter-spacing: -0.05em;
+  }
+  @media (min-width: 480px) {
+    .text-fig-h1 {
+      font-size: 44px;
+    }
+  }
+  @media (min-width: 768px) {
+    .text-fig-h1 {
+      font-size: 56px;
+    }
+  }
+
+  /* H2 — section headline (Geist 48px / 1.0 / -0.05em) */
+  .text-fig-h2 {
+    font-family: var(--font-geist-sans), sans-serif;
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 1;
+    letter-spacing: -0.05em;
+  }
+  @media (min-width: 480px) {
+    .text-fig-h2 {
+      font-size: 40px;
+    }
+  }
+  @media (min-width: 768px) {
+    .text-fig-h2 {
+      font-size: 48px;
+    }
+  }
+
+  /* H3 — case study title / large stat (Geist 38px / 1.2 / -0.05em) */
+  .text-fig-h3 {
+    font-family: var(--font-geist-sans), sans-serif;
+    font-weight: 400;
+    font-size: 28px;
+    line-height: 1.2;
+    letter-spacing: -0.05em;
+  }
+  @media (min-width: 480px) {
+    .text-fig-h3 {
+      font-size: 32px;
+    }
+  }
+  @media (min-width: 768px) {
+    .text-fig-h3 {
+      font-size: 38px;
+    }
+  }
+
+  /* H4 — card title / step title (Geist 24px / 1.2 / -0.05em) */
+  .text-fig-h4 {
+    font-family: var(--font-geist-sans), sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 1.2;
+    letter-spacing: -0.05em;
+  }
+  @media (min-width: 768px) {
+    .text-fig-h4 {
+      font-size: 24px;
+    }
+  }
+
+  /* H5 — subtitle / card label / founder name (Geist 18px / 1.2 / -0.04em) */
+  .text-fig-h5 {
+    font-family: var(--font-geist-sans), sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.2;
+    letter-spacing: -0.04em;
+  }
+  @media (min-width: 768px) {
+    .text-fig-h5 {
+      font-size: 18px;
+    }
+  }
+
+  /* Subtitle — body, looser leading (Geist 18px / 1.4 / -0.04em) */
+  .text-fig-subtitle {
+    font-family: var(--font-geist-sans), sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.4;
+    letter-spacing: -0.04em;
+  }
+  @media (min-width: 768px) {
+    .text-fig-subtitle {
+      font-size: 18px;
+    }
+  }
+
+  /* Body — paragraph copy (Geist 16px / 1.4 / -0.02em) */
+  .text-fig-body {
+    font-family: var(--font-geist-sans), sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.4;
+    letter-spacing: -0.02em;
+  }
+  @media (min-width: 768px) {
+    .text-fig-body {
+      font-size: 16px;
+    }
+  }
+
+  /* Link / button (Geist Medium 14px / 1.0 / -0.02em) */
+  .text-fig-link {
+    font-family: var(--font-geist-sans), sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  /* Eyebrow — small caps mono regular (Geist Mono 12px / 1.2 / 0.08em) */
+  .text-fig-eyebrow {
+    font-family: var(--font-geist-mono), monospace;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 1.2;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* Chip — small caps mono medium (Geist Mono 12px Medium / 1.0 / 0.08em) */
+  .text-fig-chip {
+    font-family: var(--font-geist-mono), monospace;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 1;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
 }
 
 @media (prefers-color-scheme: dark) {
@@ -77,6 +253,30 @@
 body {
   background: var(--background);
   color: var(--foreground);
+  overflow-x: clip;
+}
+
+/* Lenis smooth scroll — recommended reset.
+   Without `scroll-behavior: auto !important` Lenis fights with the
+   browser's native smooth scroll on anchor jumps. Iframes get
+   `pointer-events: none` so wheel events pass through to Lenis instead
+   of being captured by embedded content.
+   See: https://github.com/darkroomengineering/lenis */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
 }
 
 @layer base {
